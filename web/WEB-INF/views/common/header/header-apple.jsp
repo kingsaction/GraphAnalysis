@@ -2,8 +2,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>导航条</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/utils/materialize/css/materialize.min.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/utils/common/css/header/head.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/utils/jquery/jquery-3.1.0.min.js"></script>
 </head>
@@ -14,11 +17,11 @@
 			<li class="logo">
 				<img src="${pageContext.request.contextPath}/img/main/icon.png" alt="Logo" />
 			</li>
-			<li><a href="#">Home</a></li>
-			<li><a href="#" >投资咨询</a></li>
-			<li><a href="#">培训课程</a></li>
-			<li><a href="#" >在线体验</a></li>
-			<li><a href="#" >about</a></li>
+			<li><a href="#">首页</a></li>
+			<li><a href="#" >链接1</a></li>
+			<li><a href="#">增加链接2</a></li>
+			<li><a href="#" >增加链接3</a></li>
+			<li><a href="#" >关于我们</a></li>
 			<li class="search">
 				<a class="search_pic"></a>
 			</li>
@@ -50,6 +53,17 @@
 		</div>
 	</div>
 </div>
+<div class="content">
+  <div class="row">
+    <div class="col s2" style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">hello</div>
+    <div class="col s8" style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">你好</div>
+    <div class="col s2" style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">Byebye</div>
+  </div>
+</div>
+
+<div class="footer">  <!-- footer部分 -->
+
+</div>
 <script>
 $(function(){
 	/*搜索*/
@@ -69,9 +83,5 @@ $(function(){
 });
 </script>
 
-<div style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">
-<p> 主体内容</p>
-
-</div>
 </body>
 </html>

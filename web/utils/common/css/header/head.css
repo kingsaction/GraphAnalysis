@@ -20,6 +20,7 @@ img{
 	outline: none;
 	border:none;
 }
+
 body{
 	width: 100%;
 	min-width: 1200px;
@@ -30,7 +31,7 @@ body{
 .header{
 	width: 100%;
 	height:50px;
-	background: #333333;
+	background: #000000;
 	min-width: 1200px;
 	font-size: 14px;
 }
@@ -52,9 +53,22 @@ body{
 .headernav li{
 	float: left;
 	line-height: 50px;
-	margin:0 10px;
+	margin:0 14px;   /*当导航条中的链接字数改变时，会导致最后一个下拉菜单不在中间，需要调整该样式*/
 }
 .headernav li a{
+	color: #fff;
+	padding:0 10px;
+	margin:0 12px;
+	transition: 0.6s;
+	-webkit-transition: 0.6s;
+	-o-transition: 0.6s;
+	-ms-transition: 0.6s;
+	-moz-transition: 0.6s;
+	cursor: pointer;
+
+}
+
+.headernav li img{
 	color: #fff;
 	padding:0 10px;
 	margin:0 12px;
@@ -78,7 +92,6 @@ body{
 .headernav .logo img{
 	width:50px;
 	height: 30px;
-
 }
 .headernav .logo .w1{
 	width:105px;
@@ -89,9 +102,11 @@ body{
 .headernav li.xz a{
 	color: #747474;
 }
+
 .headernav li a:hover{
 	color: #747474;
 } 
+
 .headernav .search,
 .headernav .list,
 .headernav .close{

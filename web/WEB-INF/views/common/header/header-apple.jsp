@@ -55,9 +55,9 @@
 </div>
 <div class="content">
   <div class="row">
-    <div class="col s2" style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">hello</div>
-    <div class="col s8" style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">你好</div>
-    <div class="col s2" style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">Byebye</div>
+    <div class="col s3" style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">hello</div>
+    <div class="col s6 box" style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">你好</div>
+    <div class="col s3" style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">Byebye</div>
   </div>
 </div>
 

@@ -43,7 +43,7 @@
 			<ul>
 				<li>
 					<img src="${pageContext.request.contextPath}/img/header/huiyuan1.png" alt="">
-					<a href="login.html">登录</a>
+					<a href="${pageContext.request.contextPath }/sign_in">登录</a>
 				</li>
 				<li>
 					<img src="${pageContext.request.contextPath}/img/header//huiyuan1.png" alt="">

@@ -52,7 +52,7 @@
               </div>
            </div>
            
-           <div class="col s5">   <!-- 整个box的右半部分 -->
+           <div class="col s5 line">   <!-- 整个box的右半部分 -->
                <div class="section right" >
                 <h5>使用自己的Uniplore账户来享用其他Uniplore的服务，例如</h5>
                </div>

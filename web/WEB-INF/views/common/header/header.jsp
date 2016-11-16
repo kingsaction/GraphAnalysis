@@ -4,7 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>导航条</title>
+<link rel="Shortcut Icon" href="${pageContext.request.contextPath}/img/main/icon.png" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/utils/materialize/css/materialize.min.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/common/header/head.css">

@@ -1,4 +1,4 @@
-### <center>**基于js.cytoscape的图分析软件实现**</center>
+### **基于js.cytoscape的图分析软件实现**
 ***
 
 #### **概述**

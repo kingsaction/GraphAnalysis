@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<mvc:annotation-driven>
+		<!-- 消息转换器,解决@ResponseBody注解返回中文乱码问题 -->
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 配置拦截器组，只放行允许公开访问的URL -->
+<!-- 	 <mvc:interceptors> 
+	  配置拦截器，并且拦截器可以配置多个，在拦截的过程中，顺序去执行拦截器中的内容 
+	 <mvc:interceptor> 
+		    /**拦截任意的路径，拦截器可以配置多个 
+		    <mvc:mapping path="/**"/>
+		     指定拦截器所在的类  
+		    <bean class="com.uniplore.ms.action.interceptor.LoginInterceptor"></bean> 
+		</mvc:interceptor> 
+     </mvc:interceptors> 
+ -->
+
+	<!-- 配置自动扫描的包 -->
+	<context:component-scan base-package="com.uniplore.graph" />
+
+	<mvc:annotation-driven />
+
+	<!-- 配置视图解析器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+</beans>

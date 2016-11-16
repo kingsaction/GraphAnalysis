@@ -31,7 +31,7 @@ body{
 .header{
 	width: 100%;
 	height:50px;
-	background: #000000;
+	background: #333333;
 	min-width: 1200px;
 	font-size: 14px;
 }
@@ -123,16 +123,16 @@ body{
 	-o-transition: 0.6s;
 	-ms-transition: 0.6s;
 	-moz-transition: 0.6s;
-	background: url(../../../../img/header/search.png) no-repeat;
+	background: url(../../../img/header/search.png) no-repeat;
 }
 .headernav .search a:hover{
-	background: url(../../../../img/header/search1.png) no-repeat;
+	background: url(../../../img/header/search1.png) no-repeat;
 }
 .headernav .list a{
-	background: url(../../../../img/header/list.png) no-repeat;
+	background: url(../../../img/header/list.png) no-repeat;
 }
 .headernav .list a:hover{
-	background: url(../../../../img/header/list1.png) no-repeat;
+	background: url(../../../img/header/list1.png) no-repeat;
 }
 /* 搜素框 */
 .search_main{
@@ -153,14 +153,14 @@ body{
 	-o-transition: 0.6s;
 	-ms-transition: 0.6s;
 	-moz-transition: 0.6s;
-	background: url(../../../../img/header/search.png) no-repeat center center;
+	background: url(../../../img/header/search.png) no-repeat center center;
 	float: left;
 	border:none;
 	outline: none;
 	cursor: pointer;
 }
 .search_main .search_btn:hover{
-	background: url(../../../../img/header/search1.png) no-repeat center center;
+	background: url(../../../img/header/search1.png) no-repeat center center;
 }
 .search_main input.search_text{
 	height: 100%;
@@ -169,20 +169,20 @@ body{
 	color: #fff;
 }
 .search_main .close_btn{
-	background: url(../../../../img/header/close.png) no-repeat center center;
+	background: url(../../../img/header/close.png) no-repeat center center;
 	position: absolute;
 	top:0;
 	right: -198px;
 }
 .search_main .close_btn:hover{
-	background: url(../../../../img/header/close1.png) no-repeat center center;
+	background: url(../../../img/header/close1.png) no-repeat center center;
 }
 /*会员登录 */
 .member{
 	display: none;
 	width: 200px;
 	height: 130px;
-	background: url(../../../../img/header/huiyuan.png) no-repeat;
+	background: url(../../../img/header/huiyuan.png) no-repeat;
 	background-size: 100% 100%;
 	position: absolute;
 	right:39px;
@@ -216,10 +216,4 @@ body{
 }
 .member ul li a:hover{
 	text-decoration: underline;
-}
-
-.box{
-	background:#000;
-	width:100%;
-	height:100%;
 }

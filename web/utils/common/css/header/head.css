@@ -1,0 +1,204 @@
+*{
+	margin:0;
+	padding:0;
+
+}
+ul{
+	list-style: none;
+}
+
+a{
+	text-decoration: none;
+}
+input{
+	border:none;
+	outline:none;
+	font-family: "微软雅黑";
+	font-weight: 100;
+}
+img{
+	outline: none;
+	border:none;
+}
+body{
+	width: 100%;
+	min-width: 1200px;
+	font-family: "微软雅黑";
+}
+
+/*公共头部样式*/
+.header{
+	width: 100%;
+	height:50px;
+	background: #333333;
+	min-width: 1200px;
+	font-size: 14px;
+}
+.headerinner{
+	width: 1200px;
+	height: 100%;
+	padding:0 50px;
+	margin:0 auto;
+	box-sizing:border-box;
+	position: relative;
+
+
+}
+/* 导航部分 */
+.headernav{
+	width: 100%;
+	overflow: hidden;
+}
+.headernav li{
+	float: left;
+	line-height: 50px;
+	margin:0 10px;
+}
+.headernav li a{
+	color: #fff;
+	padding:0 10px;
+	margin:0 12px;
+	transition: 0.6s;
+	-webkit-transition: 0.6s;
+	-o-transition: 0.6s;
+	-ms-transition: 0.6s;
+	-moz-transition: 0.6s;
+	cursor: pointer;
+
+}
+.headernav .logo{
+	width: 200px;
+	height:100%;
+	margin-right: 20px;
+	padding-top: 10px;
+	box-sizing: border-box;
+	line-height: 28px;
+}
+
+.headernav .logo img{
+	width:50px;
+	height: 30px;
+
+}
+.headernav .logo .w1{
+	width:105px;
+	height: 30px;
+	line-height: 30px;
+	margin-left: 15px;
+}
+.headernav li.xz a{
+	color: #747474;
+}
+.headernav li a:hover{
+	color: #747474;
+} 
+.headernav .search,
+.headernav .list,
+.headernav .close{
+	height: 50px;
+}
+.headernav .search a,
+.headernav .list a,
+.headernav .close a{
+	width:18px;
+	height: 18px;
+	margin:16px 30px 0 30px;
+	transition: 0.6s;
+	-webkit-transition: 0.6s;
+	-o-transition: 0.6s;
+	-ms-transition: 0.6s;
+	-moz-transition: 0.6s;
+	background: url(../../../../img/header/search.png) no-repeat;
+}
+.headernav .search a:hover{
+	background: url(../../../../img/header/search1.png) no-repeat;
+}
+.headernav .list a{
+	background: url(../../../../img/header/list.png) no-repeat;
+}
+.headernav .list a:hover{
+	background: url(../../../../img/header/list1.png) no-repeat;
+}
+/* 搜素框 */
+.search_main{
+	position: absolute;
+	left:15%;
+	top:0;
+	width: 50%;
+	height: 100%;
+	background: #333333;
+	display: none;
+}
+.search_main .search_btn,
+.search_main .close_btn{
+	width: 50px;
+	height: 50px;
+	transition: 0.6s;
+	-webkit-transition: 0.6s;
+	-o-transition: 0.6s;
+	-ms-transition: 0.6s;
+	-moz-transition: 0.6s;
+	background: url(../../../../img/header/search.png) no-repeat center center;
+	float: left;
+	border:none;
+	outline: none;
+	cursor: pointer;
+}
+.search_main .search_btn:hover{
+	background: url(../../../../img/header/search1.png) no-repeat center center;
+}
+.search_main input.search_text{
+	height: 100%;
+	width: 90%;
+	background: #333333;
+	color: #fff;
+}
+.search_main .close_btn{
+	background: url(../../../../img/header/close.png) no-repeat center center;
+	position: absolute;
+	top:0;
+	right: -198px;
+}
+.search_main .close_btn:hover{
+	background: url(../../../../img/header/close1.png) no-repeat center center;
+}
+/*会员登录 */
+.member{
+	display: none;
+	width: 200px;
+	height: 130px;
+	background: url(../../../../img/header/huiyuan.png) no-repeat;
+	background-size: 100% 100%;
+	position: absolute;
+	right:39px;
+	top:40px;
+	z-index: 1000;
+}
+.member p{
+	width:84%;
+	margin:10px 8%;
+	line-height: 40px;
+	border-bottom: 1px solid #b3b3b3;
+	color: #7d7c81;
+	text-align: center;
+	font-size: 18px;
+}
+.member ul{
+	width:84%;
+	margin:0px 8%;
+}
+.member ul li{
+	line-height: 25px;
+	font-size: 12px;
+}
+.member ul li img{
+	width: 16px;
+	height: 16px;
+	margin-right: 5px;
+}
+.member ul li a{
+	color:#460085 ;
+}
+.member ul li a:hover{
+	text-decoration: underline;
+}

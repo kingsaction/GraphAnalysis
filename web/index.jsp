@@ -21,6 +21,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    
+    <form action="${pageContext.request.contextPath }/test">
+       <button>提交</button>
+    </form>
   </body>
 </html>

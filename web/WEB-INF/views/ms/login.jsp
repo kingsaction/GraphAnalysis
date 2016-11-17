@@ -5,6 +5,7 @@
 <html>
   <head>
      <link rel="stylesheet" href="${pageContext.request.contextPath }/css/ms/login.css">
+     <script type="text/javascript" src="${pageContext.request.contextPath}/utils/jquery/jquery-3.1.0.min.js"></script>
      <script type="text/javascript" src="${pageContext.request.contextPath }/utils/materialize/js/materialize.min.js"></script>
      <title>登录</title>
   </head>  

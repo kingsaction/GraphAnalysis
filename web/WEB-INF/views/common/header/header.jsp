@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<meta charset="UTF-8">
-<link rel="Shortcut Icon" href="${pageContext.request.contextPath}/img/main/icon.png" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/utils/materialize/css/materialize.min.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/common/header/head.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/utils/jquery/jquery-3.1.0.min.js"></script>
+    <meta charset="UTF-8">
+	<link rel="Shortcut Icon" href="${pageContext.request.contextPath}/img/main/icon.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/utils/materialize/css/materialize.min.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/common/header/head.css">
+	<script type="text/javascript" src="${pageContext.request.contextPath}/utils/jquery/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/utils/materialize/js/materialize.min.js"></script>
 </head>
 <body>
 <div class="row">

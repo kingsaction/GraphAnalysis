@@ -20,7 +20,7 @@
    <div class="row">
      <div class="col s3">
        <ul>
-        <li><img src="${pageContext.request.contextPath }/img/main/icon.png"></li>
+        <li><a href="${pageContext.request.contextPath }/index.jsp"><img src="${pageContext.request.contextPath }/img/main/icon.png"></a></li>
        </ul>
      </div>
      <div class="col s9">

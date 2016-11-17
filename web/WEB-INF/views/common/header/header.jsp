@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/common/header/head.css">
 	<script type="text/javascript" src="${pageContext.request.contextPath}/utils/jquery/jquery-3.1.0.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/utils/materialize/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/utils/font-Awesome/css/font-awesome.min.css">
 </head>
 <body>
 <div class="row">

@@ -23,7 +23,7 @@ html{
 }
 
 .box2 ul li a{
-	font-size: 18px;
+	font-size: 15px;
 	float: left;
 	padding: 8px;  /*统一填充8px*/
 	color: #808080;
@@ -40,7 +40,7 @@ html{
 }
 
 .box3 ul li{
-	font-size: 18px;
+	font-size: 15px;
 	padding: 8px;
 	float: left;
 	color:#fff;
@@ -57,6 +57,7 @@ html{
 }
 
 .box3 ul li a:hover{
+	font-size: 18px;
 	color: #fff;
 	text-decoration: none;
 	

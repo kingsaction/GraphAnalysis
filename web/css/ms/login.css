@@ -69,7 +69,8 @@ body, input, textarea, button, legend {
     adding-left: 5px; 
     height: 350px;
 }
-
-.bg{
-	background: url(../img/ms/background.png);
+body{  /*设置背景图片*/
+	background-image: url(../../img/ms/background.png);
+	background-repeat: repeat;
+	padding-top: -10px;
 }

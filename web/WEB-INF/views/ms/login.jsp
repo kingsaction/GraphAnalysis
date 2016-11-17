@@ -7,10 +7,13 @@
      <link rel="stylesheet" href="${pageContext.request.contextPath }/css/ms/login.css">
      <script type="text/javascript" src="${pageContext.request.contextPath }/utils/materialize/js/materialize.min.js"></script>
      <title>登录</title>
-  </head>
-     <div class="row">
-       <div class="col s3"></div>
-       <div class="col s6">
+  </head>  
+  <body>
+  <div class="row bg">
+    <div class="col s3"></div>
+    <div class="col s6">
+       <div class="row">
+       <div class="col s12">
          <div class="box-shadow-big">
            <h1>请登录</h1>
            <!-- <div class="divider"></div> -->
@@ -60,10 +63,10 @@
                   <div class="col s2"></div>
                   <div class="col s8">
                   <ul class="myul">
-                    <li>可以定义自己的数据源</li>
-                    <li>可以保存自己的数据源信息</li>
-                    <li>可以定义只属于自己的图</li>
-                    <li>可以保存只能自己查看的图</li>
+                    <li>专属数据源</li>
+                    <li>保存数据源信息</li>
+                    <li>专属自己的图</li>
+                    <li>保存只能自己查看的图</li>
                   </ul> 
                   </div>
                   <div class="col s2"></div>
@@ -82,9 +85,10 @@
          </div>
          
        </div> 
-       <div class="col s3"></div>
+       
      </div>
-  <body>
-    
+    </div>
+    <div class="col s3"></div>
+  </div>
   </body>
 </html>

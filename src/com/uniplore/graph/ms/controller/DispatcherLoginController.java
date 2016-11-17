@@ -4,9 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class Test {
-	@RequestMapping(value="/test")
-	public String test(){
-		return "common/header/header-apple";
+@RequestMapping(value="/")
+public class DispatcherLoginController {
+
+	@RequestMapping(value="/sign_in")
+	public String dispatcherLogin(){
+		return "ms/login";
 	}
 }

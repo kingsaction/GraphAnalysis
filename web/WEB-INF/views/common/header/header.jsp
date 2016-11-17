@@ -62,12 +62,14 @@
     </div>
   <div class="col s3 box3">
     <div class="row">
-      <div class="col s6">
+      <div class="col s4">
+      </div>
+      <div class="col s4">
          <ul>
 	      <li><a href="${pageContext.request.contextPath }/sign_in">登录</a></li>
          </ul>
       </div>
-      <div class="col s6">
+      <div class="col s4">
       </div>
     </div>
      

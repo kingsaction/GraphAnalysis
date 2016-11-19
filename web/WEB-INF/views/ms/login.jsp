@@ -65,10 +65,10 @@
                   <div class="col s2"></div>
                   <div class="col s8">
                   <ul class="myul">
-                    <li>专属数据源</li>
                     <li>保存数据源信息</li>
-                    <li>专属自己的图</li>
-                    <li>保存只能自己查看的图</li>
+                    <li>保存图</li>
+                    <li>保存分析结果</li>
+                    <li>资源隔离</li>
                   </ul> 
                   </div>
                   <div class="col s2"></div>

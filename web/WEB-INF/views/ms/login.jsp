@@ -20,7 +20,7 @@
            <h1>请登录</h1>
            <!-- <div class="divider"></div> -->
            <div class="row top">       <!-- 在其中包含另外一个模块，该模块放置一个表单 -->
-           <div class="col s1 left"></div>   <!-- 占位用，在实际中不使用 -->
+           <div class="col s1 left"></div>   <!-- 占位用 -->
            <div class="col s5">  <!-- 整个box的左半部分 -->
               <div class="section">
                 <h5>登陆 Uniplore</h5>

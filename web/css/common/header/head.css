@@ -3,37 +3,49 @@
 html{
 	font-family: GillSans, Calibri, Trebuchet, sans-serif;
 }
+.content{
+	display: block;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+}
+ul{
+	list-style: outside none none;
+}
 .box1{
 	background: #050505;
 	width: 100%;
-	height: 70px;
+	height: 100px;
+	margin-right: 0px;
 }
 
 .box2{
 	background:#050505;
 	width: 100%;
-	height: 70px;
+	height: 100px;
 	text-align: center;
+	line-height: 80px;
+	margin: 0px;
 }
 
 .box3{
 	background: #050505;
 	width: 100%;
-	height: 70px;
+	height: 100px;
 }
 
 .box2 ul li a{
 	font-size: 15px;
 	float: left;
-	padding: 8px;  /*统一填充8px*/
 	color: #808080;
 	cursor:pointer;
+	text-align: center;
+	line-height: 80px;
 }
 
 .box2 ul li a:hover{
-	font-size: 18px;
+	font-size: 15px;
 	float: left;
-	padding: 8px;  /*统一填充8px*/
 	color:#fff;
 	cursor:pointer;
 	text-decoration: none;
@@ -41,24 +53,39 @@ html{
 
 .box3 ul li{
 	font-size: 15px;
-	padding: 8px;
 	float: left;
 	color:#fff;
 }
 
-.box2 ul li img{
-	float:left;   
-	width: 35px;
+.box2 ul li a img{
+	float:left; 
+	width: 50px;
+	margin-top: 8px;
 	height: inherit;
 	cursor:pointer;
+	text-align: center;
+	line-height: 90px;
 }
 .box3 ul li a {
 	color: #808080;
 }
 
 .box3 ul li a:hover{
-	font-size: 18px;
+	font-size: 15px;
 	color: #fff;
 	text-decoration: none;
 	
+}
+
+.last{
+	margin-right: 15px;
+	float: right;
+}
+
+.first a{
+	padding: 0 40px;
+}
+
+.logo-header a{
+	padding-right:200px;
 }

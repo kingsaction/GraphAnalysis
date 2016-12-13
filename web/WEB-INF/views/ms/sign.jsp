@@ -52,7 +52,7 @@
                    
                   <div class="row">
                     <div class="col s12">
-                       验证码
+                       <img src="#" width="100%" height="50px"/>
                     </div>
                   </div>
                   

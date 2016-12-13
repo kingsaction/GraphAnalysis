@@ -1,0 +1,19 @@
+.box-sign-10{
+	width: 100%;
+	height: 700px;
+	border-redius: 5px;
+	border: 2px solid #ccc;
+	margin-top:50px;
+	box-shadow: 0 0 10px #c0c0c0;
+	margin-buttom: 0px;
+}
+
+.button-self{
+	width: 100%; 
+}
+
+body{  /*设置背景图片*/
+	background-image: url(../../img/ms/background.png);
+	background-repeat: repeat;
+	padding-top: -10px;
+}

@@ -12,8 +12,8 @@
   </head>  
   <body>
   <div class="row bg">
-    <div class="col s3"></div>
-    <div class="col s6">
+    <div class="col s3"></div>   <!-- 导航条的左侧部分占整个屏幕的三份 -->
+    <div class="col s6">  <!-- 主要内容部分占6份 -->
        <div class="row">
        <div class="col s12">
          <div class="box-shadow-big">
@@ -29,7 +29,7 @@
 		                <div class="row left">
 					        <div class="input-field col s12">
 					           <input id="username"  type="text" class="validate">
-					           <label for="username">用户名</label>
+					           <label for="username">用户名或邮箱</label>
 					        </div>
 		                </div>
 		                
@@ -77,7 +77,7 @@
                 <div class="row">
                   <div class="col s12">
                     <div class="section" >
-                     <a href="#">没有账户？立即创建一个</a>
+                     <a href="${pageContext.request.contextPath }/sign_up">没有账户？立即创建一个</a>
                   </div>
                </div>
            </div>

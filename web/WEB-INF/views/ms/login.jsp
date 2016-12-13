@@ -49,7 +49,7 @@
                      <a href="#">忘记密码?</a>
                   </div>
                   <div class="col s6">
-                     <button class="btn waves-effect waves-light" type="submit" name="action">登录
+                     <button class="btn waves-effect waves-light button-self" type="submit" name="action">登录
                        <i class="mdi-content-send right"></i>
                      </button>
                   </div>

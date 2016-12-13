@@ -17,3 +17,16 @@ body{  /*设置背景图片*/
 	background-repeat: repeat;
 	padding-top: -10px;
 }
+
+.sign-bg-10-small{
+	height: 60px;  /*注册页面最下面一个box-shadow的高度*/
+	border-redius: 5px;
+	border: 2px solid #ccc;
+	margin-top: 0px;
+	box-shadow: 0 0 10px #c0c0c0;
+	margin-buttom: 0px;
+}
+
+.sign-bg-10-small a:hover{
+	text-decoration: underline;
+}

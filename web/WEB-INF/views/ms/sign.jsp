@@ -14,7 +14,7 @@
        <div class="row">
          <div class="col s1"></div>
          <div class="col s2"></div>
-         <div class="col s9">
+         <div class="col s9">  <!-- s9开始 -->
            <div class="row">
              <div class="col s1"></div> 
              <div class="col s10 box-sign-10">
@@ -74,10 +74,42 @@
                </div>
              </div>
              <div class="col s1"></div>
-           </div>
-         </div>
+           </div>  
+         </div>  <!-- s9结束 -->
        </div>
-     </div>
+       
+       <div class="row">
+         <div class="col s1"></div>
+         <div class="col s2"></div>
+         <div class="col s9">
+           <div class="row">
+             <div class="col s1"></div>
+             <div class="col s10 sign-bg-10-small">
+                <div class="row">
+                  <div class="col s2"></div>
+                  <div class="col s8">
+                    <div class="row">
+                    <div class="col s2"></div>
+                    <div class="col s8">
+                      <div class="row"></div>
+                      <div class="row">
+                        <a href="${pageContext.request.contextPath }/sign_in">已经有账号?直接登录</a>
+                      </div>
+                    </div>
+                      <div class="col s2"></div>
+                    </div>
+                  </div>
+                  <div class="col s2"></div>
+                </div>
+             </div>
+             <div class="col s1"></div>
+           </div>  <!-- row结束 -->
+         </div>
+           
+       </div>   <!-- row结束 -->
+          
+     </div>  
+     
      <div class="col s1"></div>
      <div class="col s3"></div>
    </div>

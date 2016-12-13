@@ -65,8 +65,8 @@
                    
                   <div class="row">
                     <div class="col s12">
-                      <button class="btn waves-effect waves-light button-self" type="submit" name="action">注册
-                      <i class="mdi-content-send right"></i>
+                      <button class="btn waves-effect waves-light button-self" type="submit" name="action">
+                        注册
                       </button>
                     </div>
                   </div>

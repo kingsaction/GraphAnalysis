@@ -57,7 +57,7 @@
                     <div class="col s8">
                       <div id="embed-captcha"></div> 
                       <p id="wait" class="show">正在加载验证码</p>
-                      <p id="notice" class="hide">请先拖动验证码到指定位置</p>
+                      <p id="notice" class="hide">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请先拖动验证码到指定位置</p>
                     </div>
                     <div class="col s2"></div>
                   </div>

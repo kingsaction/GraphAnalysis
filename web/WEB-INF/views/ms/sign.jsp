@@ -51,16 +51,17 @@
                    </div>
                    
                   <div class="row">
-                    <div class="col s12">
+                     <div class="input-field col s8">
+                       <input id="validate_code" type="text" class="validate">
+                       <label for="validate_code">Validate Code</label>
+                     </div>
+                    <div class="col s4">
                        <img src="#" width="100%" height="50px"/>
                     </div>
                   </div>
                   
                   <div class="row">
-                    <div class="input-field col s12">
-                       <input id="validate_code" type="text" class="validate">
-                       <label for="validate_code">Validate Code</label>
-                     </div>
+                    
                   </div>
                    
                   <div class="row">

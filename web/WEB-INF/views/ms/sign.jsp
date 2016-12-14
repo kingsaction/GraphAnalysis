@@ -24,7 +24,7 @@
                  <div class="col s12"></div>
                </div>
                <div class="row">
-                 <form class="col s12" id="loginForm" action="success.jsp">
+                 <form class="col s12" id="loginForm" action="success.jsp" method="post">
                    <div class="row">
                      <div class="input-field col s12">
                        <input id="email" type="email" class="validate">
@@ -152,7 +152,11 @@
      function doSubmit(){
        //表单数据js检查
        //提交表单
-       document.getElementById("loginForm").submit();
+      var validate = captchaObj.getValidate();  //获取滑块校验码的状态，如果没有正确的托动滑块到指定的位置，则其状态为false，否则为true
+       if(validate == true){  
+         document.getElementById("loginForm").submit(); 
+       }
+
      }
  </script>
   </body>

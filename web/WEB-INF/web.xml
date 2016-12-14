@@ -9,6 +9,16 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  
+  <servlet>
+    <servlet-name>StartCaptchaServlet</servlet-name>
+    <servlet-class>com.geetest.sdk.java.web.demo.StartCaptchaServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+7   <servlet-name>StartCaptchaServlet</servlet-name>
+8   <url-pattern>/graphanalysis/imageCaptcha</url-pattern>
+9 </servlet-mapping>
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
     <url-pattern>/</url-pattern>

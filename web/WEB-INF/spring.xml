@@ -24,12 +24,25 @@
 		</mvc:interceptor> 
      </mvc:interceptors> 
  -->
+<!-- 
+    配置基于注解版本的映射器，默认采用的是3.1之前的版本
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+    
+    配置基于注解版本的适配器，默认采用的是3.1之前的版本
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+	 -->
+	 
+    <!-- 
+        使用mvc的住注解驱动能够代替上面配置的基于注解版本的映射器和适配器
+        mvc:annotation-driven默认加载了很多的参数的绑定方法，比如json转换的解析器就被注解驱动默认加载了
+        实际开发使用该种方式
+     -->
+	<mvc:annotation-driven></mvc:annotation-driven>
 
-	<!-- 配置自动扫描的包 -->
+    <!-- 配置自动扫描的包 -->
 	<context:component-scan base-package="com.uniplore.graph" />
-
-	<mvc:annotation-driven />
-
+	
+	
 	<!-- 配置视图解析器 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

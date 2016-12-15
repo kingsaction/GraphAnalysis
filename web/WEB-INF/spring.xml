@@ -30,7 +30,7 @@
     
     配置基于注解版本的适配器，默认采用的是3.1之前的版本
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
-	 -->
+-->
 	 
     <!-- 
         使用mvc的住注解驱动能够代替上面配置的基于注解版本的映射器和适配器

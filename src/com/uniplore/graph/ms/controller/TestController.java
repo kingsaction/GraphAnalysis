@@ -16,6 +16,12 @@ public class TestController {
 	public String test(){
 		testService.test();
 		return "ms/test";
+		//return "redirect:test1";   //页面重定向，url会发生变化，request不可以共享
+		//return "forward:test1";    //页面转发，url不变，request可以共享
 	}
 	
+	@RequestMapping(value="/test1")
+	public void test1() {
+		System.out.println("哈哈");
+	}
 }

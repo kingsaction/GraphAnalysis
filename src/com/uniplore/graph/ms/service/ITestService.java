@@ -7,14 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.uniplore.graph.ms.dao.ITestUserDao;
 import com.uniplore.graph.ms.dao.impl.TestUserDao;
 
-@Service
-public class TestService {
+public interface ITestService {
 	
-	@Autowired
-	private ITestUserDao userDao;
-	
-	@RequestMapping(value="/test")
-	public void test(){
-		userDao.test();
-	}
+	public void test();
 }

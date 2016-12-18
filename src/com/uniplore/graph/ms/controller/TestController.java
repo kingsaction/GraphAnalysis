@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.uniplore.graph.ms.service.TestService;
+import com.uniplore.graph.ms.service.ITestService;
 
 @Controller
 public class TestController {
 
 	@Autowired
-	private TestService testService;
+	private ITestService testService;
 	
 	@RequestMapping(value="/test")
 	public String test(){

@@ -13,7 +13,7 @@ public class TestUserDao implements ITestUserDao{
 	private TestMapper tm;
 	@Override
 	public void test() {
-		System.out.println(tm.findByEmail("13101901@qq.com"));
+		System.out.println(tm.findByEmail("13101900@qq.com"));
 	}
 
 }

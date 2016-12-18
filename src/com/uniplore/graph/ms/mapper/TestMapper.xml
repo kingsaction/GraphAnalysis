@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper所在的java类的全限定名 -->
+<mapper namespace="com.uniplore.graph.ms.mapper.TestMapper">
+	
+	<!-- 将entity与数据库中的admin表建立映射关系 -->
+	<resultMap type="com.uniplore.graph.ms.entity.User" id="UserMap">
+		<id property="id" column="id"/>
+		<result property="email" column="email"/>
+		<result property="userName" column="username"/>
+		<result property="pwd" column="pwd"/>
+		<result property="accountState" column="accountstate"/>
+		<result property="activeCode" column="active_code"/>
+	</resultMap>
+	
+	<select id="findByEmail" parameterType="String" resultType="String">
+	    select email from user where email=#{email};
+	</select>
+</mapper>
+

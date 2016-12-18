@@ -6,7 +6,7 @@
 <mapper namespace="com.uniplore.graph.ms.mapper.TestMapper">
 	
 	<!-- 将entity与数据库中的admin表建立映射关系 -->
-	<resultMap type="com.uniplore.graph.ms.entity.User" id="UserMap">
+	<resultMap type="com.uniplore.graph.ms.entity.TestUser" id="UserMap">
 		<id property="id" column="id"/>
 		<result property="email" column="email"/>
 		<result property="userName" column="username"/>

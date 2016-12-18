@@ -1,6 +1,6 @@
 package com.uniplore.graph.ms.dao;
 
-public interface IUserDao {
+public interface ITestUserDao {
 	
 	public void test();
 }

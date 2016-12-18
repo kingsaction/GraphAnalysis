@@ -13,8 +13,9 @@ public class TestController {
 	private TestService testService;
 	
 	@RequestMapping(value="/test")
-	public void test(){
+	public String test(){
 		testService.test();
+		return "ms/test";
 	}
 	
 }

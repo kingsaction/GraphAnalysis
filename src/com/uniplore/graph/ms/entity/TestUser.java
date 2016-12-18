@@ -1,6 +1,6 @@
 package com.uniplore.graph.ms.entity;
 
-public class User implements java.io.Serializable { // 实现了一个序列化接口，
+public class TestUser implements java.io.Serializable { // 实现了一个序列化接口，
 													// session序列化的功能，当tomcat一停止，
 													// 就将session信息序列化到磁盘中，tomcat再次启动时会自动的加载这些信息
 
@@ -65,7 +65,7 @@ public class User implements java.io.Serializable { // 实现了一个序列化�
 				+ accountState + ", activeCode=" + activeCode + "]";
 	}
 
-	public User(int id, String email, String userName, String pwd, Integer accountState, String activeCode) {
+	public TestUser(int id, String email, String userName, String pwd, Integer accountState, String activeCode) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -75,7 +75,7 @@ public class User implements java.io.Serializable { // 实现了一个序列化�
 		this.activeCode = activeCode;
 	}
 
-	public User() {
+	public TestUser() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

@@ -1,10 +1,5 @@
-### **基于js.cytoscape的图分析软件实现**
+### **图分析系统设计与实现**
 ***
-
-#### **概述**
-***
-
-该项目是一个图分析系统软件，包含的模块有数据源模块、权限控制模块、图展示模块、图分析模块。
 
 #### **功能模块**
 ***
@@ -14,7 +9,11 @@
 * 图展示模块
 * 图分析模块
 
-#### **特别说明**
+#### **添加功能模块方法**
 ***
 
-该程序采用的是jdk 8 ，为了能够方便的使用Java 8的最新特性，尤其是在Lambda表达式中使用。jdk 8下载地址： http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+* 怎么使用mvc设计模式进行开发，在源代码中增加了一个开发过程的demo，其中给出了一个mvc设计模式的实例
+
+请看其中的以test(忽略大小写)开头的代码部分，代码的执行顺序为: **index.jsp**(/graphanalysis/web/index.jsp)-->**TestController.java**(/graphanalysis/src/com/uniplore/graph/ms/controller/TestController.java)-->**TestService.java**(/graphanalysis/src/com/uniplore/graph/ms/service/TestService.java)--> **TestUserDao.java**(/graphanalysis/src/com/uniplore/graph/ms/dao/impl/TestUserDao.java)-->**mapper**(mapper的设计请见TestMapper.java和TestMapper.xml)
+
+* 根据上述步骤添加新的功能模块

@@ -87,13 +87,13 @@
 	</bean>	
 		
 	<!-- 事务管理 : DataSourceTransactionManager dataSource:引用上面定义的数据源，在service层进行事务管理 -->
-	<bean id="txManager"
+	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<!-- 使用声明式事务 transaction-manager：引用上面定义的事务管理器 -->
-	<tx:annotation-driven transaction-manager="txManager" />	
+	<tx:annotation-driven transaction-manager="transactionManager" />	
 	
 	
 	<mvc:annotation-driven>

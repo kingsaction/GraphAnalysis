@@ -1,5 +1,7 @@
 package com.uniplore.graph.ms.entity;
 
+import com.alibaba.fastjson.JSON;
+
 public class TestUser implements java.io.Serializable { // 实现了一个序列化接口，
 													// session序列化的功能，当tomcat一停止，
 													// 就将session信息序列化到磁盘中，tomcat再次启动时会自动的加载这些信息
@@ -78,6 +80,16 @@ public class TestUser implements java.io.Serializable { // 实现了一个序列
 	public TestUser() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public static void main(String[] args) {
+		TestUser testUser = new TestUser();
+		testUser.setEmail("13101900@qq.com");
+		testUser.setId(1);
+		testUser.setUserName("jpzhu");
+		
+		String jsonString = JSON.toJSONString(testUser);
+		System.out.println(jsonString);
 	}
 
 }

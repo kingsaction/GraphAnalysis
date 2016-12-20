@@ -25,7 +25,7 @@
             <property name="password" value="${mysql.password}" />
         </bean>
         
-        下面部分采用的是c3p0连接池技术
+        下面部分采用的是c3p0连接池技术，性能在这个三个连接池中最差
 		<bean id="dataSource"
 			class="com.mchange.v2.c3p0.ComboPooledDataSource">
 			<property name="driverClass" value="${mysql.driver}"/>

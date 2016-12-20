@@ -6,18 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.uniplore.graph.ms.service.ITestService;
 
-/**
- * 
- * 项目名称：graphanalysis   
- * 类名称：TestController   
- * 类描述：   
- * 创建人：朱君鹏   
- * 创建时间：2016年12月20日 下午3:25:27   
- * 修改人：朱君鹏   
- * 修改时间：2016年12月20日 下午3:25:27   
- * 修改备注：   
- * @version 1.0
- */
+
 @Controller
 public class TestController {
 

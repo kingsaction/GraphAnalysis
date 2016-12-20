@@ -28,3 +28,5 @@ return_type method_name(params...) throws Exception{
     ...
 }
 ```
+
+**一定要在每一个方法上写throws Exception**

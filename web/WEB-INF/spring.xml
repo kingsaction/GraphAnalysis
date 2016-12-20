@@ -24,6 +24,7 @@
             <property name="username" value="${mysql.username}" />
             <property name="password" value="${mysql.password}" />
         </bean>
+        
         下面部分采用的是c3p0连接池技术
 		<bean id="dataSource"
 			class="com.mchange.v2.c3p0.ComboPooledDataSource">

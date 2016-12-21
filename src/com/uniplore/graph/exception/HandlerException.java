@@ -1,4 +1,4 @@
-package com.uniplore.graph.ms.exception;
+package com.uniplore.graph.exception;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ public class HandlerException implements HandlerExceptionResolver {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("message", message);
-		modelAndView.setViewName("ms/error");    //error是逻辑视图名，视图解析器会将其解析为真正的物理视图error.jsp
+		modelAndView.setViewName("common/error/error");    //error是逻辑视图名，视图解析器会将其解析为真正的物理视图error.jsp
 		
 		return modelAndView;
 	}

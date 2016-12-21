@@ -168,7 +168,7 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
     
-    <!-- 配置全局异常处理器 -->
-    <bean class="com.uniplore.graph.ms.exception.HandlerException"></bean>
+    <!-- 配置全局异常处理器，所有的包中的任何方法都要在方法声明中加throws Exception，否则全局异常处理器不能处理 -->
+    <bean class="com.uniplore.graph.exception.HandlerException"></bean>
 
 </beans>

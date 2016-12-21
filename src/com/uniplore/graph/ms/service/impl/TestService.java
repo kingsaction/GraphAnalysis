@@ -16,7 +16,8 @@ public class TestService implements ITestService {
 	private ITestUserDao userDao;
 	
 	@Override
-	public void test() {
+	public void test() throws Exception{
+		//throw new RuntimeException("发生错误，抛出异常");  //测试在该层是否能够进行异常的处理
 		userDao.test();
 	}
 

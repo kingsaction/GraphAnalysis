@@ -32,7 +32,8 @@ public class TestController {
 	 * @return
 	 */
 	@RequestMapping(value="/test")
-	public String test(){
+	public String test() throws Exception{
+		//throw new RuntimeException("发生了错误，并抛出"); //模拟异常的处理过程，一定要加throws Exception，否则不能处理
 		testService.test();
 		return "ms/test";
 		//return "redirect:test1";   //页面重定向，url会发生变化，request不可以共享

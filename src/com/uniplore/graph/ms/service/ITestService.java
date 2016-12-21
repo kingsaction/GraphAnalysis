@@ -9,5 +9,5 @@ import com.uniplore.graph.ms.dao.impl.TestUserDao;
 
 public interface ITestService {
 	
-	public void test();
+	public void test()throws Exception;
 }

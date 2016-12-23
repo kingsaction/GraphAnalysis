@@ -128,47 +128,50 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
-	<!-- 配置拦截器组，只放行允许公开访问的URL -->
-<!-- 	 <mvc:interceptors> 
-	  配置拦截器，并且拦截器可以配置多个，在拦截的过程中，顺序去执行拦截器中的内容 
-	 <mvc:interceptor> 
-		    /**拦截任意的路径，拦截器可以配置多个 
-		    <mvc:mapping path="/**"/>
-		     指定拦截器所在的类  
-		    <bean class="com.uniplore.ms.action.interceptor.LoginInterceptor"></bean> 
-		</mvc:interceptor> 
-     </mvc:interceptors> 
- -->
-<!-- 
-    配置基于注解版本的映射器，默认采用的是3.1之前的版本
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
-    
-    配置基于注解版本的适配器，默认采用的是3.1之前的版本
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
--->
+	<!-- 
+	    配置基于注解版本的映射器，默认采用的是3.1之前的版本
+	    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+	    
+	    配置基于注解版本的适配器，默认采用的是3.1之前的版本
+	    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+	-->
 	 
     <!-- 
-        使用mvc的住注解驱动能够代替上面配置的基于注解版本的映射器和适配器
+        使用mvc的住注解驱动能够代替RequestMappingHandlerMapping和RequestMappingHandlerAdapter
         mvc:annotation-driven默认加载了很多的参数的绑定方法，比如json转换的解析器就被注解驱动默认加载了
-        实际开发使用该种方式
+        实际开发要使用该种方式
      -->
 	<mvc:annotation-driven></mvc:annotation-driven>
 
     <!-- 
         配置自动扫描的包
-        实际开发中建议使用组件扫描，此时可以扫描Controller、service、dao等等，只需要指定相应的包即可 
+        实际开发中建议使用组件扫描，此时可以扫描Controller、service、dao等等，只需要指定相应的包即可
      -->
 	<context:component-scan base-package="com.uniplore.graph" ></context:component-scan>
 	
 	
-	<!-- 配置视图解析器 -->
+	<!-- 
+	    配置视图解析器，默认情况下所有的页面都应该写在/WEB-INF/目录之下，除了一个公共访问的页面
+	 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
     
-    <!-- 配置全局异常处理器，所有的包中的任何方法都要在方法声明中加throws Exception，否则全局异常处理器不能处理 -->
+    <!-- 
+        配置全局异常处理器，所有的包中的任何方法都要在方法声明中加throws Exception，否则全局异常处理器不能处理
+        异常处理需要规范代码的书写
+     -->
     <bean class="com.uniplore.graph.exception.HandlerException"></bean>
-
+	
+	<!-- 
+	    文件上传解析器，当需要上传图片时，必须要配置该解析器
+	-->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	   <!-- 设置上传文件的最大尺寸为5MB=5*1024*1024 -->
+	   <property name="maxUploadSize">
+	       <value>5242880</value>
+	   </property>
+	</bean>
 </beans>

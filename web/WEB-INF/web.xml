@@ -8,7 +8,8 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<!-- 该初始化参数（contextConfigLocation）必须要配置，如果不配置，其默认加载的是/WEB-INF/dispatcher-servlet.xml， 
-				所以如果不配置，必须将spring的配置文件放在指定的位置，文件的命名也要按照上述格式命名 -->
+				所以如果不配置，必须将spring的配置文件放在指定的位置，文件的命名也要按照上述格式命名 
+		    -->
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/spring.xml</param-value>
 		</init-param>
@@ -17,10 +18,13 @@
 
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
-		<!-- 在url-pattern的配置中可以采用以下三种方式： 1. *.action， 访问以.action结尾的url时，由DispatcherServlet进行解析转发 
+		<!-- 在url-pattern的配置中可以采用以下三种方式： 
+		    1. *.action， 访问以.action结尾的url时，由DispatcherServlet进行解析转发 
 			2. /，所有访问地址都由DispatcherServlet进行解析转发，此时要注意，这种情况下图片、js、css等静态的文件都由DispatcherServlet 
-			进行解析不合理，所以需要配置静态文件不让DispatcherServlet解析，使用此种配置方法能够实现RESTful风格 3. /*，这种配置方式不正确，使用这种配置，最终要转发到一个jsp页面时，仍然会由DispatcherServlet解析jsp页面，不能根据jsp 
-			页面找到Controller，会报错 -->
+			进行解析不合理，所以需要配置静态文件不让DispatcherServlet解析，使用此种配置方法能够实现RESTful风格 
+			3. /*，这种配置方式不正确，使用这种配置，最终要转发到一个jsp页面时，仍然会由DispatcherServlet解析jsp页面，不能根据jsp 
+			页面找到Controller，会报错 
+	    -->
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	

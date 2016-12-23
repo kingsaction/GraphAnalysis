@@ -13,6 +13,17 @@
         </property>
     </bean>
     
+    <!-- 
+        配置静态文件，如js、css、img等，因为在web.xml中配置DispatcherServlet时，url-pattern为/
+        此时所有的资源(包括jsp、js、css、img等)都要经过DispatcherServlet转发，这样会导致静态资源
+        根本找不到对应的Controller，导致静态资源不能被解析
+     -->
+    <mvc:resources location="/css/" mapping="/css/**"/>
+    <mvc:resources location="/img/" mapping="/img/**"/>
+    <mvc:resources location="/utils/" mapping="/utils/**"/>
+    <mvc:resources location="/js/" mapping="/js/**"/>
+    <mvc:resources location="/html/" mapping="/html/**"/>
+    
     <!--
         引入数据源，可以使用spring框架自带的jdbc支持，当然也可以选择使用c3p0、DBCP、Druid(阿里巴巴开源数据库连接池技术) 
         经过选择之后将数据库连接池换成Druid，性能最好

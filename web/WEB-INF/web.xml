@@ -54,25 +54,4 @@
 		<!-- 在请求验证码时，由StartCaptchaServlet解析并转发 -->
 		<url-pattern>/graphanalysis/imageCaptcha</url-pattern>
 	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>/js/*</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>/img/*</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>/css/*</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>/utils/*</url-pattern>
-	</servlet-mapping>
-	
 </web-app>

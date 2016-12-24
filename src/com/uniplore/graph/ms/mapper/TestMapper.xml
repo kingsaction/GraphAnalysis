@@ -15,9 +15,11 @@
 		<result property="activeCode" column="active_code"/>
 	</resultMap>
 	
-	<!-- 建议在parameterType和resultType以及resultMap时采用包装对象 -->
+	<!-- 
+	    建议在parameterType和resultType以及resultMap时采用包装对象，SQL结束时不加;
+	-->
 	<select id="findByEmail" parameterType="String" resultType="String">
-	    select email from user where email=#{email};
+	    select email from user where email=#{email}
 	</select>
 </mapper>
 

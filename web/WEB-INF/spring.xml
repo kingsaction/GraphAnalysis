@@ -28,7 +28,7 @@
         引入数据源，可以使用spring框架自带的jdbc支持，当然也可以选择使用c3p0、DBCP、Druid(阿里巴巴开源数据库连接池技术) 
         经过选择之后将数据库连接池换成Druid，性能最好
         
-        下面部分采用的是DBCH连接池技术实例
+        下面部分采用的是DBCP连接池技术实例
         <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
             <property name="driverClassName" value="$mysql.driver}" />
             <property name="url" value="${mysql.url}" />

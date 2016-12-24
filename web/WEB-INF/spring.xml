@@ -16,7 +16,7 @@
     <!-- 
         配置静态文件，如js、css、img等，因为在web.xml中配置DispatcherServlet时，url-pattern为/
         此时所有的资源(包括jsp、js、css、img等)都要经过DispatcherServlet转发，这样会导致静态资源
-        根本找不到对应的Controller，导致静态资源不能被解析
+        根本找不到对应的Controller，导致静态资源不能被解析，注意/开头的路径全部为绝对路径
      -->
     <mvc:resources location="/css/" mapping="/css/**"/>
     <mvc:resources location="/img/" mapping="/img/**"/>

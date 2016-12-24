@@ -89,7 +89,11 @@
 	    <!-- 指定数据源，在上面的配置中已经指定，ref参数指定上面数据源的id -->
 		<property name="dataSource" ref="dataSource" />
 		
-		<!-- 类型别名包，指定相应的entity类的名字，当有多个entity在不同的包中时，请依次使用value标签指出 -->
+		<!-- 
+		    类型别名包，指定相应的entity类的名字，当有多个entity在不同的包中时，请依次使用value标签指出，
+		    通过定义下面的别名包，Mybatis会进行自动的扫描，根据扫描的结果自动的定义别名
+		    别名就是POJO类名(首字母大小写均可，通常情况下为小写)
+		-->
 		<property name="typeAliasesPackage">
 		  <value>com.uniplore.graph.ms.entity</value>
 		</property>

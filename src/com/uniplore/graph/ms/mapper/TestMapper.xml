@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- mapper所在的java类的全限定名 -->
+<!-- 
+    mapper所在的java类的全限定名，需要遵循下面五点规范：
+    1. mapper.xml文件中namespace等于mapper接口的全限定名
+    2. mapper.java接口中的方法名和mapper.xml中的sql语句的id一致
+    3. mapper.java接口中的方法的输入参数类型和mapper.xml中的sql语句的parameterType类型一致
+    4. mapper.java接口中的方法的返回值的类型和mapper.xml中的sql语句的resultType类型一致
+    5. mapper.java每个方法都要抛出异常，这么做是为了做全局的异常管理
+-->
 <mapper namespace="com.uniplore.graph.ms.mapper.TestMapper">
 	
 	<!-- 将entity与数据库中的admin表建立映射关系 -->

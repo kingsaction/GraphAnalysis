@@ -1,4 +1,4 @@
-package com.uniplore.graph.ms.utils.dao;
+package com.uniplore.graph.ms.captcha.dao;
 
 /**
  * GeetestWeb配置文件

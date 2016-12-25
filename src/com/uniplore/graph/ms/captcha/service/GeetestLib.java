@@ -1,4 +1,4 @@
-package com.uniplore.graph.ms.utils.service;
+package com.uniplore.graph.ms.captcha.service;
 
 import java.awt.print.Printable;
 import java.io.BufferedReader;

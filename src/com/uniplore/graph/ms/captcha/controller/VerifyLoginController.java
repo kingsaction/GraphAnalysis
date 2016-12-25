@@ -1,4 +1,4 @@
-package com.uniplore.graph.ms.utils.controller;
+package com.uniplore.graph.ms.captcha.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.uniplore.graph.ms.utils.dao.GeetestConfig;
-import com.uniplore.graph.ms.utils.service.GeetestLib;
+import com.uniplore.graph.ms.captcha.dao.GeetestConfig;
+import com.uniplore.graph.ms.captcha.service.GeetestLib;
 
 
 public class VerifyLoginController {

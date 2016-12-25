@@ -41,17 +41,4 @@
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	
-	<servlet>
-		<!-- 配置geetest滑块验证码的servlet -->
-		<servlet-name>StartCaptchaServlet</servlet-name>
-		<servlet-class>com.geetest.sdk.java.web.demo.StartCaptchaServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>StartCaptchaServlet</servlet-name>
-		<!-- 在请求验证码时，由StartCaptchaServlet解析并转发 -->
-		<url-pattern>/graphanalysis/imageCaptcha</url-pattern>
-	</servlet-mapping>
 </web-app>

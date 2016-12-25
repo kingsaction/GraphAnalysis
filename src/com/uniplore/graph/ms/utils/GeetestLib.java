@@ -1,4 +1,4 @@
-package com.geetest.sdk.java;
+package com.uniplore.graph.ms.utils;
 
 import java.awt.print.Printable;
 import java.io.BufferedReader;

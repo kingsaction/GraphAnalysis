@@ -1,32 +1,23 @@
-package com.geetest.sdk.java.web.demo;
+package com.uniplore.graph.ms.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.rmi.server.SkeletonNotFoundException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.geetest.sdk.java.GeetestLib;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.uniplore.graph.ms.utils.GeetestConfig;
+import com.uniplore.graph.ms.utils.GeetestLib;
 
-/**
- * 使用post方式，返回验证结果, request表单中必须包含challenge, validate, seccode
- */
-public class VerifyLoginServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 244554953219893949L;
+public class VerifyLoginController {
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
+	protected void doPost(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		GeetestLib gtSdk = new GeetestLib(GeetestConfig.getGeetest_id(), GeetestConfig.getGeetest_key());
-			
+		
 		String challenge = request.getParameter(GeetestLib.fn_geetest_challenge);
 		String validate = request.getParameter(GeetestLib.fn_geetest_validate);
 		String seccode = request.getParameter(GeetestLib.fn_geetest_seccode);

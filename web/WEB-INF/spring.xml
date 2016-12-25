@@ -133,15 +133,6 @@
 	<!-- 使用声明式事务 transaction-manager：引用上面定义的事务管理器 -->
 	<tx:annotation-driven transaction-manager="txManager" />	
 	
-	
-	<mvc:annotation-driven>
-		<!-- 消息转换器,解决@ResponseBody注解返回中文乱码问题 -->
-		<mvc:message-converters register-defaults="true">
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />
-			</bean>
-		</mvc:message-converters>
-	</mvc:annotation-driven>
 
 	<!-- 
 	    配置基于注解版本的映射器，默认采用的是3.1之前的版本
@@ -150,13 +141,21 @@
 	    配置基于注解版本的适配器，默认采用的是3.1之前的版本
 	    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
 	-->
-	 
-    <!-- 
-        使用mvc的住注解驱动能够代替RequestMappingHandlerMapping和RequestMappingHandlerAdapter
+	<!-- 
+        使用mvc的注解驱动能够代替RequestMappingHandlerMapping和RequestMappingHandlerAdapter
         mvc:annotation-driven默认加载了很多的参数的绑定方法，比如json转换的解析器就被注解驱动默认加载了
         实际开发要使用该种方式
      -->
-	<mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:annotation-driven>
+		<!-- 消息转换器,解决@ResponseBody注解返回中文乱码问题 -->
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+    
 
     <!-- 
         配置自动扫描的包

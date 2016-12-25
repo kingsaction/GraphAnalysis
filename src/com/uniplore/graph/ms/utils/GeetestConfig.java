@@ -1,4 +1,4 @@
-package com.geetest.sdk.java.web.demo;
+package com.uniplore.graph.ms.utils;
 
 /**
  * GeetestWeb配置文件
@@ -8,8 +8,8 @@ package com.geetest.sdk.java.web.demo;
 public class GeetestConfig {
 
 	// 填入自己的captcha_id和private_key
-	private static final String geetest_id = "b46d1900d0a894591916ea94ea91bd2c";
-	private static final String geetest_key = "36fc3fe98530eea08dfc6ce76e3d24c4";
+	private static final String geetest_id = "030860a9df40bc2bf6b3544502bf027e";
+	private static final String geetest_key = "3794a85bbe9d2e75b77a7076be9442b1";
 
 	public static final String getGeetest_id() {
 		return geetest_id;

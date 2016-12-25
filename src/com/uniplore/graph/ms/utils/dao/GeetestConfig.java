@@ -1,4 +1,4 @@
-package com.uniplore.graph.ms.utils;
+package com.uniplore.graph.ms.utils.dao;
 
 /**
  * GeetestWeb配置文件

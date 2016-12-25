@@ -1,4 +1,4 @@
-package com.uniplore.graph.ms.utils;
+package com.uniplore.graph.ms.utils.service;
 
 import java.awt.print.Printable;
 import java.io.BufferedReader;

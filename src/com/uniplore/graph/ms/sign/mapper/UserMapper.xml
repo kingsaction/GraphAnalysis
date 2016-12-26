@@ -20,12 +20,13 @@
 		<result property="password" column="pwd"/>
 		<result property="accountState" column="account_state"/>
 		<result property="createTime" column="create_time"/>
-		<result property="activeTime" column="active_time"/>
+		<result property="activeCode" column="active_code"/>
+		
 	</resultMap>
 	
 	<!-- 保存用户信息到数据库中 -->
 	<insert id="saveUserInfo" parameterType="com.uniplore.graph.ms.sign.entity.UserPO" >
-	  insert into user(email,user_name,pwd,account_state,create_time) values(#{email},#{userName},#{password},#{accountState},#{createTime});
+	  insert into user(email,user_name,pwd,account_state,create_time,active_code) values(#{email},#{userName},#{password},#{accountState},#{createTime},#{activeCode});
 	</insert>
 </mapper>
 

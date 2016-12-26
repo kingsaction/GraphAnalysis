@@ -32,15 +32,19 @@ public class SendEmail {
 	        props.put("mail.debug", "true");
 	        
 	        MimeMessage message = new MimeMessage(session);
-	        Address fromAddress = new InternetAddress(from);
+	        Address fromAddress = new InternetAddress(from,"优联博睿");
 	        Address toAddress = new InternetAddress(desAddress);
 
 	        message.setFrom(fromAddress);
 	        message.setRecipient(Message.RecipientType.TO, toAddress);
 
-	        message.setSubject("JavaMail");
+	        message.setSubject("激活Graph Analysis账户");
 	        message.setSentDate(new Date());
-	        message.setText("Welcome to JavaMail");
+	        message.setContent(
+                    "<h1>请点击下面链接激活账户</h1><h3><a href='"+"/uniplore/activate?code="
+                            +""
+                            + "'>点击激活</a></h3>",
+                    "text/html;charset=utf-8");
 	        Transport transport = session.getTransport();
 	        transport.connect(host, from, authcode);
 	        message.saveChanges();

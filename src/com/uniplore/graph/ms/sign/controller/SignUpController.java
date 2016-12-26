@@ -31,7 +31,7 @@ public class SignUpController {
 	private IUserService userService;
 	
 	@RequestMapping(value="/SignUp",method=RequestMethod.POST)
-	public void SignUp(UserPO user,Model model) throws Exception{
+	public String SignUp(UserPO user,Model model) throws Exception{
 		System.out.println(user.toString());   //判断是否正确的接收到从客户端传来的用户信息
 		
 		//将user信息保存到数据库中
@@ -39,5 +39,8 @@ public class SignUpController {
 		
 		//数据回显到sign.jsp页面中
 		model.addAttribute("user", user);
+		
+		//
+		return "ms/login";
 	}
 }

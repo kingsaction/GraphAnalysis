@@ -1,6 +1,7 @@
 package com.uniplore.graph.ms.sign.service.impl;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,12 @@ public class UserService implements IUserService {
 		//设置创建用户的时间
 		Date date = new Date();
 		user.setCreateTime(date);
+		
+		//生成一个特定的UUID
+		String uuid = UUID.randomUUID().toString();
+		
+		//给用户设置uuid
+		user.setActiveCode(uuid);
 		
 		//保存用户信息到数据库中
 		userDao.saveUserInfo(user);

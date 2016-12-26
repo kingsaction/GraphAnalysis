@@ -7,8 +7,9 @@
 	border: 2px solid #ccc;
 	margin-top:50px;
 	box-shadow: 0 0 10px #c0c0c0;
+	border-radius: 15px; //圆角效果
 	margin-buttom: 0px;
-	min-width: 650px;  //定义最小宽度，使得中间的box-shadow部分最小能够将其中所有的内容包裹在其中，从而保证不会发生溢出
+	min-width: 600px;  //定义最小宽度，使得中间的box-shadow部分最小能够将其中所有的内容包裹在其中，从而保证不会发生溢出
 }
 
 .box-shadow-big h1{

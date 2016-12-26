@@ -8,10 +8,10 @@ html{
 	position: relative;
 	margin-left: auto;
 	margin-right: auto;
-	min-width: 1080px;  //定义最小宽度，使得导航条部分不会随着网页的变小宽度发生变化
+	min-width: 800px;  //定义最小宽度，使得导航条部分不会随着网页宽度变小内容溢出
 }
 ul{
-	list-style: outside none none;
+	list-style: none;
 }
 .box1{
 	background: #050505;
@@ -56,7 +56,6 @@ ul{
 	font-size: 15px;
 	float: left;
 	color:#fff;
-	width: 50px;
 }
 
 .box2 ul li a img{

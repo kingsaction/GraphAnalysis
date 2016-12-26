@@ -28,26 +28,9 @@
      </div>
      
      <div class="col s9">
-         <ul>
-            <li class="first"><a href="${pageContext.request.contextPath }/index.jsp">首页</a></li>
-         </ul>
-         <ul>
-            <li class="first"><a href="">首页</a></li>
-         </ul>
-         <ul>
-            <li class="first"><a href="">首页</a></li>
-          </ul>
-        
-         <ul>
-            <li class="first"><a href="">首页</a></li>
-          </ul>
-        
-          <ul>
-            <li class="first"><a href="">首页</a></li>
-          </ul>
-        </div>  
-       </div> 
-       </div>
+     </div>  
+    </div> 
+  </div>
     <div class="col s1 box2">   
        <ul>
 	     <li class="last"><a href="${pageContext.request.contextPath }/sign_in">登录</a></li>

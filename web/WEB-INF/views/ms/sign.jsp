@@ -24,23 +24,23 @@
                  <div class="col s12"></div>
                </div>
                <div class="row">
-                 <form class="col s12" id="loginForm" action="success.jsp" method="post">
+                 <form class="col s12" id="loginForm" action="${pageContext.request.contextPath }/ms/sign/SignUp" method="post">
                    <div class="row">
                      <div class="input-field col s12">
-                       <input id="email" type="email" class="validate">
+                       <input id="email" type="email" class="validate" name="email" value="${user.email}">
                        <label for="email">Email</label>
                      </div>
                    </div>
                       <div class="row">
                         <div class="input-field col s12">
-                         <input id="userName" type="text" class="validate">
+                         <input id="userName" type="text" class="validate" name="userName" value="${user.userName}" >
                          <label for="userName">User Name</label>
                         </div>
                      </div>
                      
                      <div class="row">
                        <div class="input-field col s12">
-                         <input id="password" type="password" class="validate">
+                         <input id="password" type="password" class="validate" name="password" value="${user.password}">
                          <label for="password">Password</label>
                        </div>
                    </div>

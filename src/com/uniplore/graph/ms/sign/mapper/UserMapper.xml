@@ -10,23 +10,22 @@
     4. mapper.java接口中的方法的返回值的类型和mapper.xml中的sql语句的resultType类型一致
     5. mapper.java每个方法都要抛出异常，这么做是为了做全局的异常管理
 -->
-<mapper namespace="com.uniplore.graph.ms.sign.mapper.TestMapper">
+<mapper namespace="com.uniplore.graph.ms.sign.mapper.UserMapper">
 	
 	<!-- 将entity与数据库中的admin表建立映射关系 -->
-	<resultMap type="com.uniplore.graph.ms.sign.entity.TestUser" id="UserMap">
+	<resultMap type="com.uniplore.graph.ms.sign.entity.UserPO" id="UserMap">
 		<id property="id" column="id"/>
 		<result property="email" column="email"/>
-		<result property="userName" column="username"/>
-		<result property="pwd" column="pwd"/>
-		<result property="accountState" column="accountstate"/>
-		<result property="activeCode" column="active_code"/>
+		<result property="userName" column="user_name"/>
+		<result property="password" column="pwd"/>
+		<result property="accountState" column="account_state"/>
+		<result property="createTime" column="create_time"/>
+		<result property="activeTime" column="active_time"/>
 	</resultMap>
 	
-	<!-- 
-	    建议在parameterType和resultType以及resultMap时采用包装对象，SQL结束时不加;
-	-->
-	<select id="findByEmail" parameterType="String" resultType="String">
-	    select email from user where email=#{email}
-	</select>
+	<!-- 保存用户信息到数据库中 -->
+	<insert id="saveUserInfo" parameterType="com.uniplore.graph.ms.sign.entity.UserPO" >
+	  insert into user(email,user_name,pwd,account_state,create_time) values(#{email},#{userName},#{password},#{accountState},#{createTime});
+	</insert>
 </mapper>
 

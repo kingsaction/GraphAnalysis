@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.uniplore.graph.ms.sign.dao.impl.UserDao;
 import com.uniplore.graph.ms.sign.entity.UserPO;
 import com.uniplore.graph.ms.sign.service.IUserService;
+import com.uniplore.graph.utils.email.SendEmail;
 
 @Service
 @Transactional
@@ -26,7 +27,12 @@ public class UserService implements IUserService {
 		//设置创建用户的时间
 		Date date = new Date();
 		user.setCreateTime(date);
+		
+		//保存用户信息到数据库中
 		userDao.saveUserInfo(user);
+		
+		//发送邮件给用户，提醒其激活用户
+		new SendEmail(user.getEmail());
 	}
 
 }

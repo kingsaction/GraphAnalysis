@@ -1,4 +1,4 @@
-package com.uniplore.graph.ms.mapper;
+package com.uniplore.graph.ms.sign.mapper;
 
 public interface TestMapper {
 	

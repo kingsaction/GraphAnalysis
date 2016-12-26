@@ -1,12 +1,12 @@
-package com.uniplore.graph.ms.service.impl;
+package com.uniplore.graph.ms.sign.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.uniplore.graph.ms.dao.ITestUserDao;
-import com.uniplore.graph.ms.service.ITestService;
+import com.uniplore.graph.ms.sign.dao.ITestUserDao;
+import com.uniplore.graph.ms.sign.service.ITestService;
 
 @Service
 @Transactional

@@ -1,4 +1,4 @@
-package com.uniplore.graph.ms.dao;
+package com.uniplore.graph.ms.sign.dao;
 
 public interface ITestUserDao {
 	

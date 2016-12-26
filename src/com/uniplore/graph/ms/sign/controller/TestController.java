@@ -1,17 +1,17 @@
-package com.uniplore.graph.ms.controller;
+package com.uniplore.graph.ms.sign.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.uniplore.graph.ms.service.ITestService;
+import com.uniplore.graph.ms.sign.service.ITestService;
 
 /*
  * 
  * 版权所有  2016-ACMIS Lab  
  * 项目名称  graphanalysis       
  * 类描述  
- * 类名称    com.uniplore.graph.ms.controller.TestController       
+ * 类名称    com.uniplore.graph.ms.sign.controller.TestController       
  * 创建人    朱君鹏
  * 创建时间  2016年12月20日 下午3:47:48     
  * 修改人  

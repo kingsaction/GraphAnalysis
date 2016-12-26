@@ -8,7 +8,7 @@
     <bean id="propertyConfigure" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:com/uniplore/graph/ms/properties/db.properties</value> 
+                <value>classpath:com/uniplore/graph/ms/sign/properties/db.properties</value> 
             </list>
         </property>
     </bean>
@@ -95,14 +95,14 @@
 		    别名就是POJO类名(首字母大小写均可，通常情况下为小写)
 		-->
 		<property name="typeAliasesPackage">
-		  <value>com.uniplore.graph.ms.entity</value>
+		  <value>com.uniplore.graph.ms.sign.entity</value>
 		</property>
 		<!-- 
 		     mapperLocations:它表示我们的Mapper文件存放的位置，当我们的Mapper文件跟对应的Mapper接口处于同一个位置的时候
 		     我们可以不用指定该属性的值
 		 -->
 		<property name="mapperLocations">
-		  <value>classpath:com/uniplore/graph/ms/mapper/*Mapper.xml</value>
+		  <value>classpath:com/uniplore/graph/ms/sign/mapper/*Mapper.xml</value>
 		</property>
     </bean>
     
@@ -116,7 +116,7 @@
 	    <!-- 指定基础包，即自动扫描某个包及其它的子包下的所有映射接口类 -->
 		<property name="basePackage">
 			<value>
-				com.uniplore.graph.ms.mapper
+				com.uniplore.graph.ms.sign.mapper
 			</value>
 		</property>
 		

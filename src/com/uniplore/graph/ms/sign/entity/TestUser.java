@@ -1,4 +1,4 @@
-package com.uniplore.graph.ms.entity;
+package com.uniplore.graph.ms.sign.entity;
 
 import com.alibaba.fastjson.JSON;
 

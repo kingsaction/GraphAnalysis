@@ -1,4 +1,4 @@
-package com.uniplore.graph.ms.captcha.controller;
+package com.uniplore.graph.ms.sign.captcha.controller;
 
 import java.io.PrintWriter;
 
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.uniplore.graph.ms.captcha.dao.GeetestConfig;
-import com.uniplore.graph.ms.captcha.service.GeetestLib;
+import com.uniplore.graph.ms.sign.captcha.dao.GeetestConfig;
+import com.uniplore.graph.ms.sign.captcha.service.GeetestLib;
 
 
 @Controller

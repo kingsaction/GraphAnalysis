@@ -10,10 +10,10 @@
     4. mapper.java接口中的方法的返回值的类型和mapper.xml中的sql语句的resultType类型一致
     5. mapper.java每个方法都要抛出异常，这么做是为了做全局的异常管理
 -->
-<mapper namespace="com.uniplore.graph.ms.mapper.TestMapper">
+<mapper namespace="com.uniplore.graph.ms.sign.mapper.TestMapper">
 	
 	<!-- 将entity与数据库中的admin表建立映射关系 -->
-	<resultMap type="com.uniplore.graph.ms.entity.TestUser" id="UserMap">
+	<resultMap type="com.uniplore.graph.ms.sign.entity.TestUser" id="UserMap">
 		<id property="id" column="id"/>
 		<result property="email" column="email"/>
 		<result property="userName" column="username"/>

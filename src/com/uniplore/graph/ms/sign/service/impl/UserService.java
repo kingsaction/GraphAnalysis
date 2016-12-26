@@ -38,8 +38,8 @@ public class UserService implements IUserService {
 		//保存用户信息到数据库中
 		userDao.saveUserInfo(user);
 		
-		//发送邮件给用户，提醒其激活用户
-		new SendEmail(user.getEmail());
+		//发送邮件给用户，提醒其激活用户,同时传递了用户的激活码
+		new SendEmail(user.getEmail(),user);
 	}
 
 }

@@ -9,10 +9,12 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import com.uniplore.graph.ms.sign.entity.UserPO;
 import com.uniplore.graph.utils.email.GMailAuthenticator;
 public class SendEmail {
 
-	public SendEmail(String desAddress) throws Exception{
+	public SendEmail(String desAddress,UserPO user) throws Exception{
 		try {
 	        String host = "smtp.qq.com";     //邮件服务器
 	        String from = "13101900@qq.com";   //发送邮件的QQ
@@ -41,9 +43,7 @@ public class SendEmail {
 	        message.setSubject("激活Graph Analysis账户");
 	        message.setSentDate(new Date());
 	        message.setContent(
-                    "<h1>请点击下面链接激活账户</h1><h3><a href='"+"/uniplore/activate?code="
-                            +""
-                            + "'>点击激活</a></h3>",
+                    "<h3>欢迎您使用Graph Analysis提供的服务!</h3><h3>您的账户已经成功的创建，请点击或复制以下链接激活账号：</h3><h3><a href='http://localhost:8080/graphanalysis/ms/sign/activeAccount?code="+user.getActiveCode()+"'>http://localhost:8080/graphanalysis/ms/sign/activeAccount?code="+user.getActiveCode()+"</a>"+"</h3>"+"<h3>请妥善保管这封电子邮件，您的账号名为:"+user.getUserName()+"</h3>"+"<h3>如果您忘记了密码，可以在用户登录界面通过'找回密码'链接，重置您的密码。</h3><h3>Graph Analysis同您一同成长，感谢您的注册</h3>",
                     "text/html;charset=utf-8");
 	        Transport transport = session.getTransport();
 	        transport.connect(host, from, authcode);

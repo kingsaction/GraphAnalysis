@@ -92,7 +92,7 @@
                     <div class="col s8">
                       <div class="row"></div>
                       <div class="row">
-                        <a href="${pageContext.request.contextPath }/sign_in">已经有账号?直接登录</a>
+                        <a href="${pageContext.request.contextPath }/sign_in">已有账号?直接登录</a>
                       </div>
                     </div>
                       <div class="col s2"></div>

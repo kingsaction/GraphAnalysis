@@ -178,14 +178,4 @@
         异常处理需要规范代码的书写
      -->
     <!-- <bean class="com.uniplore.graph.exception.HandlerException"></bean> -->
-	
-	<!-- 
-	    文件上传解析器，当需要上传图片时，必须要配置该解析器
-	-->
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	   <!-- 设置上传文件的最大尺寸为5MB=5*1024*1024 -->
-	   <property name="maxUploadSize">
-	       <value>5242880</value>
-	   </property>
-	</bean>
 </beans>

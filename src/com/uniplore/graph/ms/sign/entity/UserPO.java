@@ -2,7 +2,7 @@ package com.uniplore.graph.ms.sign.entity;
 
 import java.util.Date;
 
-import com.uniplore.graph.ms.common.entity.IPerson;
+import com.uniplore.graph.common.entity.IPerson;
 
 /**
  * 

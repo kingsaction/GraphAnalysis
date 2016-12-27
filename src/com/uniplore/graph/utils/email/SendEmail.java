@@ -10,7 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.uniplore.graph.ms.common.entity.IPerson;
+import com.uniplore.graph.common.entity.IPerson;
 import com.uniplore.graph.ms.sign.entity.UserPO;
 import com.uniplore.graph.utils.email.GMailAuthenticator;
 public class SendEmail {

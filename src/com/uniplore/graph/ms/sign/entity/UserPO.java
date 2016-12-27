@@ -2,6 +2,8 @@ package com.uniplore.graph.ms.sign.entity;
 
 import java.util.Date;
 
+import com.uniplore.graph.ms.common.entity.IPerson;
+
 /**
  * 
  * 版权所有  2016-ACMIS Lab  

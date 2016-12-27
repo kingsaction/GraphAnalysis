@@ -37,7 +37,7 @@
 	
 	<!-- 将激活时间插入到数据库中 -->
 	<insert id="updateActiveTime" parameterType="com.uniplore.graph.ms.sign.entity.UserPO">
-	  update user set active_time=#{activeTime} where id=#{id}
+	  update user set active_time=#{activeTime},account_state=#{accountState} where id=#{id}
 	</insert>
 	
 	<!-- 根据用户的激活码去找是否存在相应的id，防止用户随意修改激活码，恶意使用程序 -->

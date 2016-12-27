@@ -63,15 +63,15 @@ public class UserService implements IUserService {
 			}
 			//获取到当前时间
 			Date activeTime = new Date();
-		    System.out.println("当前时间为:"+activeTime);
+		    //System.out.println("当前时间为:"+activeTime);
 		    
 			//从数据库中拿出创建账户的时间
 			Date createTime = userDao.queryCreateTime(code);
-			System.out.println("创建账户的时间为:"+createTime);
+			//System.out.println("创建账户的时间为:"+createTime);
 			
 			//计算当前时间和创建账户的时间差
 			long computeTime = ComputeTime.computeTime(createTime,activeTime);
-			System.out.println("创建账户和激活账户之间的时间差:"+computeTime);
+			//System.out.println("创建账户和激活账户之间的时间差:"+computeTime);
 			
 			if(computeTime > 30){
 				//当在给定的时间内不能激活用户，当用户再次点击这个链接时，要求用户重新进行注册
@@ -79,6 +79,10 @@ public class UserService implements IUserService {
 				userDao.deleteUserByID(queryID);
 				return false;
 			}
+			
+			//更新用户的状态，将active_state设置为1
+			boolean accountState = true;
+			user.setAccountState(accountState);
 			
 			//将激活时间设置到user中
 			user.setActiveTime(activeTime);

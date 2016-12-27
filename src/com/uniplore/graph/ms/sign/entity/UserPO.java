@@ -15,7 +15,7 @@ import java.util.Date;
  * 修改备注     
  * @version  1.0
  */
-public class UserPO {
+public class UserPO implements IPerson{
 
 	private Integer id;                //唯一标识用户的id，使用mysql的自增主键
 	private String email;              //用户的email

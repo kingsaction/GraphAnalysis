@@ -8,6 +8,5 @@
   </head>
   
   <body>
-    <a href="${pageContext.request.contextPath }/test">你好</a>
   </body>
 </html>

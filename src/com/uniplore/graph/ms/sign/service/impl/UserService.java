@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.uniplore.graph.ms.sign.dao.IUserDao;
 import com.uniplore.graph.ms.sign.dao.impl.UserDao;
 import com.uniplore.graph.ms.sign.entity.UserPO;
 import com.uniplore.graph.ms.sign.service.IUserService;
@@ -18,7 +19,7 @@ import com.uniplore.graph.utils.time.ComputeTime;
 public class UserService implements IUserService {
 
 	@Autowired
-	private UserDao userDao;
+	private IUserDao userDao;
 	
 	@Override
 	public void saveUserInfo(UserPO user) throws Exception {

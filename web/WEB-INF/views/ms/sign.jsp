@@ -26,7 +26,7 @@
                  <div class="col s12"></div>
                </div>
                <div class="row">
-                 <form class="col s12" id="loginForm" action="${pageContext.request.contextPath }/ms/sign/SignUp" method="post">
+                 <form class="col s12" id="loginForm" action="${pageContext.request.contextPath }/ms/sign/SignUp" method="post" onsubmit="return doSubmit()">
                    <div class="row">
                      <div class="input-field col s12">
                        <input id="email" type="email" class="validate" name="email" value="${user.email}">
@@ -66,7 +66,7 @@
                   
                   <div class="row">
                     <div class="col s12">
-                      <button class="btn waves-effect waves-light button-self" type="submit" name="action"  id="embed-submit" onclick="validatePasswordEqual(),userNameNULL(),emailNULL()" onsubmit="doSubmit()">
+                      <button class="btn waves-effect waves-light button-self" type="submit" id="embed-submit" onclick="validatePasswordEqual(),userNameNULL(),emailNULL()">
                         注册
                       </button>
                     </div>

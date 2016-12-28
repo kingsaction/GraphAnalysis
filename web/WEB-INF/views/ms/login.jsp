@@ -6,6 +6,7 @@
   <head>
      <link rel="stylesheet" href="${pageContext.request.contextPath }/css/ms/login.css">
      <script type="text/javascript" src="${pageContext.request.contextPath}/utils/jquery/jquery-3.1.0.min.js"></script>
+     <script type="text/javascript" src="${pageContext.request.contextPath }/js/ms/login.js"></script>
      <script type="text/javascript" src="${pageContext.request.contextPath }/utils/materialize/js/materialize.min.js"></script>
      <link rel="stylesheet" href="${pageContext.request.contextPath }/utils/font-Awesome/css/font-awesome.min.css">
      <title>登录</title>
@@ -25,7 +26,7 @@
               <div class="section">
                 <h5>登陆 Uniplore</h5>
                 <div class="row left">
-	                <form class="col s12" action="${pageContext.request.contextPath}/ms/login/Login" method="POST">
+	                <form class="col s12" action="${pageContext.request.contextPath}/ms/login/Login" method="POST" id="loginForm">
 		                <div class="row left">
 					        <div class="input-field col s12">
 					           <input id="name"  type="text" class="validate" name="name">
@@ -49,8 +50,8 @@
                      <a href="#">忘记密码?</a>
                   </div>
                   <div class="col s6">
-                     <button class="btn waves-effect waves-light button-self" type="submit" name="action">登录
-                       <i class="mdi-content-send right"></i>
+                     <button class="btn waves-effect waves-light button-self" type="submit" name="action" onclick="doSubmitLogin()">
+                       登录
                      </button>
                   </div>
                 </div>
@@ -92,5 +93,5 @@
     </div>
     <div class="col s3"></div>
   </div>
-  </body>
+	</body>
 </html>

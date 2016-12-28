@@ -89,16 +89,15 @@ function emailNULL(){
 		return true;
 	}
 }
+
 //提交表单时进行校验
-function doSubmit() {
-	//表单数据js检查
-	//提交表单
-	alert("哈哈");
-	var validate = captchaObj.getValidate(); //获取滑块校验码的状态，如果没有正确的托动滑块到指定的位置，则其状态为false，否则为true
-	
+function doSubmit(){
 	var passwordValidate = validatePasswordEqual();
-	alert(passwordValidate);
-	if (validate == true  && passwordValidate == true) {
-		document.getElementById("loginForm").submit();
+	var userNameState = userNameNULL();
+	alert("两个密码是否一致"+passwordValidate);
+	if (passwordValidate && userNameState) {
+		 return true;
+	}else{
+		return false;
 	}
 }

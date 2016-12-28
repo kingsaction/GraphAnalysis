@@ -102,7 +102,10 @@
 		     我们可以不用指定该属性的值
 		 -->
 		<property name="mapperLocations">
-		  <value>classpath:com/uniplore/graph/ms/sign/mapper/*Mapper.xml</value>
+		  <value>
+		     classpath:com/uniplore/graph/ms/sign/mapper/*Mapper.xml
+		     classpath:com/uniplore/graph/ms/login/mapper/*Mapper.xml
+		  </value>
 		</property>
     </bean>
     
@@ -117,6 +120,7 @@
 		<property name="basePackage">
 			<value>
 				com.uniplore.graph.ms.sign.mapper
+				com.uniplore.graph.ms.login.mapper
 			</value>
 		</property>
 		

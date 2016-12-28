@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+    mapper所在的java类的全限定名，需要遵循下面五点规范：
+    1. mapper.xml文件中namespace等于mapper接口的全限定名
+    2. mapper.java接口中的方法名和mapper.xml中的sql语句的id一致
+    3. mapper.java接口中的方法的输入参数类型和mapper.xml中的sql语句的parameterType类型一致
+    4. mapper.java接口中的方法的返回值的类型和mapper.xml中的sql语句的resultType类型一致
+    5. mapper.java每个方法都要抛出异常，这么做是为了做全局的异常管理
+-->
+<mapper namespace="com.uniplore.graph.ms.login.mapper.LoginMapper">
+	
+	<!-- 将entity与数据库中的admin表建立映射关系 -->
+	<resultMap type="com.uniplore.graph.ms.sign.entity.UserPO" id="UserMapLogin">
+		<id property="id" column="id"/>
+		<result property="email" column="email"/>
+		<result property="userName" column="user_name"/>
+		<result property="password" column="pwd"/>
+		<result property="accountState" column="account_state"/>
+		<result property="createTime" column="create_time"/>
+		<result property="activeTime" column="active_time"/>
+		<result property="activeCode" column="active_code"/>
+	</resultMap>
+     
+    <!-- 根据用户的email查找id -->
+    <select id="queryIDbyEmail" parameterType="String" resultType="Integer">
+       select id from user where email=#{email}
+    </select>
+    
+    <!-- 根据用户的userName查找相应的id -->
+    <select id="queryIDbyUserName" parameterType="String" resultType="Integer">
+       select id from user where user_name=#{userName}
+    </select>
+    
+    <!-- 根据用户的id查找用户的密码 -->
+    <select id="queryPasswordbyID" parameterType="Integer" resultType="String">
+      select pwd from user where id=#{id}
+    </select>
+    
+    <!-- 根据用户id查找用户的激活状态 -->
+    <select id="queryStatebyID" parameterType="Integer" resultType="boolean">
+      select account_state from user where id=#{id}
+    </select>
+    
+    <!-- 根据用户的id获取用户的全部信息 -->
+    <select id="queryInfobyID" parameterType="Integer" resultMap="UserMapLogin">
+      select * from user where id=#{id}
+    </select>
+</mapper>

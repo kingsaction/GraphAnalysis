@@ -25,17 +25,17 @@
               <div class="section">
                 <h5>登陆 Uniplore</h5>
                 <div class="row left">
-	                <form class="col s12">
+	                <form class="col s12" action="${pageContext.request.contextPath}/ms/login/Login" method="POST">
 		                <div class="row left">
 					        <div class="input-field col s12">
-					           <input id="username"  type="text" class="validate">
-					           <label for="username">用户名或邮箱</label>
+					           <input id="name"  type="text" class="validate" name="name">
+					           <label for="name">用户名或邮箱</label>
 					        </div>
 		                </div>
 		                
 		                <div class="row">
                            <div class="input-field col s12">
-                               <input id="password" type="password" class="validate">
+                               <input id="password" type="password" class="validate" name="password">
                                <label for="password">密码</label>
                         </div>
                      </div>

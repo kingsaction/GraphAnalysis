@@ -15,15 +15,14 @@
 	href="${pageContext.request.contextPath }/utils/font-Awesome/css/font-awesome.min.css">
 	
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/css/dsm/modal.css">
+	href="${pageContext.request.contextPath }/css/dsm/main.css">
 </head>
 
 <body>
-	<!-- Modal Trigger -->
-	<a class="waves-effect waves-light btn modal-trigger" href="#modal-db">数据源</a>
-
-	<!-- Modal Structure -->
-	<div id="modal-db" class="modal">
+    <!-- Modal Trigger -->
+	<a class="waves-effect waves-light  modal-trigger" href="#modal-db">数据源</a>
+	<!-- 模态框的主要结构 -->
+	<div id="modal-db" class="modal">    <!-- 模态框主要结构开始 -->
 		<div class="modal-content">
 		   <div class="container">
 		     <div class="row">  <!-- 第一行开始 -->
@@ -36,7 +35,7 @@
 		     <div class="row">  <!-- 第二行开始 -->
 		       <div class="col s12">
 		          <div class="input-field col s12">
-                    <input id="Driver" type="text" name="Driver">
+                    <input id="Driver" type="text" name="Driver" class="validate">
                     <label for="Driver">Driver</label>
                   </div>   
 		       </div>
@@ -45,7 +44,7 @@
 		     <div class="row">  <!-- 第三行开始 -->
 		       <div class="col s12">
 		          <div class="input-field col s12">
-                    <input id="url" type="text" name="Url">
+                    <input id="url" type="text" name="Url" class="validate">
                     <label for="url">Url</label>
                   </div>   
 		       </div>
@@ -54,7 +53,7 @@
             <div class="row">  <!-- 第四行开始 -->
 		       <div class="col s12">
 		          <div class="input-field col s12">
-                    <input id="userName" type="text" name="UserName">
+                    <input id="userName" type="text" name="UserName" class="validate">
                     <label for="userName">User Name</label>
                   </div>   
 		       </div>
@@ -63,7 +62,7 @@
             <div class="row">  <!-- 第五行开始 -->
 		       <div class="col s12">
 		          <div class="input-field col s12">
-                    <input id="password" type="password" name="password">
+                    <input id="password" type="password" name="password" class="validate"> 
                     <label for="password">Password</label>
                   </div>   
 		       </div>
@@ -95,7 +94,7 @@
 	      </div>  <!-- container结束 -->
 		    
 	      </div>		
-	</div>  <!-- modal-db部分结束 -->
+	</div>  <!-- 模态框主要结构结束 -->
 	
 	<!-- 加载模态框 -->
 	<script type="text/javascript">

@@ -24,7 +24,7 @@ public class LoginController {
 	 * @param user
 	 */
 	@RequestMapping(value="/Login",method=RequestMethod.POST)
-	public void loginSys(String name, String password,HttpSession session)throws Exception{
+	public String loginSys(String name, String password,HttpSession session)throws Exception{
 		//System.out.println("接收到的名字为:"+name);
 		//System.out.println("接收到的密码为:"+password);
 		
@@ -50,19 +50,22 @@ public class LoginController {
 						//System.out.println("用户已经被激活");
 						//接下来获得用户的全部信息写入到session中，登录成功
 						UserPO userInto = loginService.queryInfobyID(id);
-						System.out.println("获取到的用户信息为:"+userInto.toString());
+						//System.out.println("获取到的用户信息为:"+userInto.toString());
 						session.setAttribute("userInfo", userInto);
 						//完成登录，跳转到指定的页面
-						
+						return "dsm/main";
 					}else{
 						//说明用户还没有被激活，提醒用户激活
 						System.out.println("用户还没有被激活");
+						return null;
 					}
 				}else{
 					//说明密码不一致，终止登录
+					return null;
 				}
 			}else{
 				//说明在数据库中不存在当前邮箱用户
+				return null;
 			}
 		}else{
 			//说明登录时采用的userName登录，需要判断用户名在数据库中是否存在
@@ -83,18 +86,22 @@ public class LoginController {
 						//System.out.println("用户已经被激活");
 						//接下来获得用户的全部信息写入到session中，登录成功
 						UserPO userInto = loginService.queryInfobyID(id);
-						System.out.println("获取到的用户信息为:"+userInto.toString());
+						//System.out.println("获取到的用户信息为:"+userInto.toString());
 						session.setAttribute("userInfo", userInto);
 						//完成登录
+						return "dsm/main";
 					}else{
 						//说明用户还没有被激活
 						System.out.println("用户还没有被激活");
+						return null;
 					}
 				}else{
 					//说明密码不一致，终止登录
+					return null;
 				}
 			}else{
 				//说明在数据库中不存在当前用户，终止登录
+				return null;
 			}
 		}
 	}

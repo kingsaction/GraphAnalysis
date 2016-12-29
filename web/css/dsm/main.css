@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-#modal-db{
+#modal-db-mysql{
 	width: 600px;
 	min-width: 600px;
 	height: 620px;
@@ -8,6 +8,13 @@
 	background-image: url(../../img/dsm/background.png);
 }
 
+#modal-db-text{
+	width: 600px;
+	min-width: 600px;
+	height: 620px;
+	min-height: 620px;
+	background-image: url(../../img/dsm/background.png);
+}
 .main-side-bar-1{
 	height: 100%;
 	/* width:100%; */

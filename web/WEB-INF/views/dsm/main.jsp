@@ -40,12 +40,12 @@
 			
 			<div class="row">
 			  <div class="col s2"></div>
-			  <div class="col s10 hoverable"><a href="#">文本文件</a></div>
+			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db-text">文本文件</a></div>
 			</div>
 
 			<div class="row">
 			  <div class="col s2"></div>
-			  <div class="col s10 hoverable"><a href="#">JSON文件</a></div>
+			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db-json">JSON文件</a></div>
 			</div>
 			
 			<div class="row">
@@ -60,13 +60,13 @@
 			<div class="row">
 			  <div class="col s2"></div>
 			  <!-- Modal Trigger -->
-			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db">MySQL</a></div>
+			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db-mysql">MySQL</a></div>
 			</div>
 			
 			<div class="row">
 			  <div class="col s2"></div>
 			  <!-- Modal Trigger -->
-			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db">Postgresql</a></div>
+			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db">PostgreSQL</a></div>
 			</div>
 			
 			<div class="row">
@@ -91,21 +91,50 @@
 	</div>
 
 
+    <!-- 文本文件模态框的主要结构模板，其它的文件格式都参考此模板，只需要注意在命名时以text、JSON...结束 -->
+	<div id="modal-db-text" class="modal">    <!-- 模态框主要结构开始 -->
+		<div class="modal-content">
+		   <div class="container">
+		     <div class="row">  <!-- 第一行开始 -->
+		       <div class="col s2"></div>
+		       <div class="col s8">
+		         <h5>文本文件</h5>
+		       </div>
+		       <div class="col s2"></div>
+		     </div> <!--  第一行结束 -->
+		     
+		     <!-- 定义驱动div开始 -->
+		     <div class="row">  <!-- 第一行开始 -->
+			    <div class="col s12">
+			    </div>
+             </div>
+            <!-- 定义驱动div结束 -->
+		   </div>  <!-- container结束 -->		
+		</div>  <!-- modal-content部分结束 -->
+
+	   <div class="modal-footer">
+	      <div class="container">
+	          <div class="row">
+	            <div class="col s2"></div>
+	            <div class="col s8">
+	               <div class="row">
+	                 <div class="col s2"></div>
+	                 <div class="col s5">
+	                   <a href="#!" class="waves-effect waves-light btn">确定</a>
+	                 </div>
+	               </div>  
+	            </div>
+	            <div class="col s2"></div>   
+	          </div>   <!-- row结束 -->
+	      </div>  <!-- container结束 -->
+		    
+	      </div>		
+	</div>  <!-- 文本文件模态框主要结构结束 -->
 
 
 
-
-
-
-
-
-
-
-
-	
-	
-	<!-- 模态框的主要结构 -->
-	<div id="modal-db" class="modal">    <!-- 模态框主要结构开始 -->
+	<!-- MySQL模态框的主要结构模板，其它的数据库都采用此模板，只需要注意id命名以mysql、postgresql...结束 -->
+	<div id="modal-db-mysql" class="modal">    <!-- 模态框主要结构开始 -->
 		<div class="modal-content">
 		   <div class="container">
 		     <div class="row">  <!-- 第一行开始 -->
@@ -191,7 +220,7 @@
 	      </div>  <!-- container结束 -->
 		    
 	      </div>		
-	</div>  <!-- 模态框主要结构结束 -->
+	</div>  <!-- MySQL数据库模态框主要结构结束 -->
 	
 	<!-- 加载模态框 -->
 	<script type="text/javascript">

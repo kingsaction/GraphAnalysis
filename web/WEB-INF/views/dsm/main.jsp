@@ -24,7 +24,7 @@
 		<div class="col s1 main-side-bar-1">
 		    <div class="row">  <!-- 占位用 -->
 			</div>
-		    <div class="row">  <!-- logo -->
+		    <div class="row"> 
 		      <div class="col s12 hoverable">
 		        <a href="#"><img alt="" src="${pageContext.request.contextPath }/img/main/icon.png" width="40px;"></a>
 		      </div>  

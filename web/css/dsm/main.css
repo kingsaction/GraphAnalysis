@@ -1,5 +1,7 @@
+@CHARSET "UTF-8";
 
 #modal-db{
 	width: 580px;
 	height: 650px;
+	background-image: url(../../img/dsm/background.png);
 }

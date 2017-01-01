@@ -16,6 +16,12 @@
 	
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/css/dsm/main.css">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/utils/drag-file/js/dropzone.js"></script>  <!-- 引入dropzone的js文件 -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/utils/drag-file/js/dropzone-amd-module.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/utils/drag-file/css/dropzone.css">   <!-- 引入dropzone的css文件 -->
 </head>
 
 <body>
@@ -96,40 +102,26 @@
 		<div class="modal-content">
 		   <div class="container">
 		     <div class="row">  <!-- 第一行开始 -->
-		       <div class="col s2"></div>
-		       <div class="col s8">
+		       <div class="col s4"></div>
+		       <div class="col s4">
 		         <h5>文本文件</h5>
 		       </div>
-		       <div class="col s2"></div>
+		       <div class="col s4"></div>
 		     </div> <!--  第一行结束 -->
 		     
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">
 			    <div class="col s12">
-			      
+			      <form action="${pageContext.request.contextPath }/file/Upload" class="dropzone" id="my-awesome-dropzone" enctype="multipart/form-data" method="POST">
+			        <div class="fallback">
+			           <input type="file" name="file" />
+			        </div>
+			      </form>
 			    </div>
              </div>
             <!-- 定义驱动div结束 -->
 		   </div>  <!-- container结束 -->		
 		</div>  <!-- modal-content部分结束 -->
-
-	   <div class="modal-footer">
-	      <div class="container">
-	          <div class="row">
-	            <div class="col s2"></div>
-	            <div class="col s8">
-	               <div class="row">
-	                 <div class="col s2"></div>
-	                 <div class="col s5">
-	                   <a href="#!" class="waves-effect waves-light btn">确定</a>
-	                 </div>
-	               </div>  
-	            </div>
-	            <div class="col s2"></div>   
-	          </div>   <!-- row结束 -->
-	      </div>  <!-- container结束 -->
-		    
-	      </div>		
 	</div>  <!-- 文本文件模态框主要结构结束 -->
 
 
@@ -231,6 +223,24 @@
 		   dismissible: false, // 点击模态框外部则关闭模态框
 		});
 	});
+	</script>
+	
+	<!-- 启动dropzone -->
+	<script type="text/javascript">
+	  $("#my-awesome-dropzone").dropzone({
+	      maxFilesize: 5000,   //5000MB代表的是5GB，单位默认为MB
+	      addRemoveLinks: true,
+	      acceptedFiles: ".txt,.csv",
+	      dictDefaultMessage: "请拖动文件到该区域或点击上传文件",
+	      dictFallbackMessage: "您的浏览器不支持拖拽式文件上传功能",
+	      dictRemoveFile: "删除文件",
+	      maxFiles: 1,
+	      dictMaxFilesExceeded: "只能上传{{maxFiles}}个",
+	      dictInvalidFileType:"您上传的文件类型不正确",
+	      dictFileTooBig:"可添加的最大文件大小为{{maxFilesize}}Mb，当前文件大小为{{filesize}}Mb ",
+	      dictResponseError: "上传出现错误",  
+	      dictRemoveFileConfirmation: "确认删除?",  //删除问价时的确认信息
+	  })
 	</script>
 </body>
 </html>

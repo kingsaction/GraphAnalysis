@@ -182,4 +182,12 @@
         异常处理需要规范代码的书写
      -->
     <!-- <bean class="com.uniplore.graph.exception.HandlerException"></bean> -->
+    
+    <!-- 文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+      <!-- 设置上传文件的大小为5GB=5*1024*1024*1024 -->
+      <property name="maxUploadSize">
+        <value>5368709120</value>
+      </property>
+    </bean>
 </beans>

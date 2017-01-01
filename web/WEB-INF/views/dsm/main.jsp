@@ -237,6 +237,8 @@
 	      dictDefaultMessage: "请拖动文件到该区域或点击上传文件",
 	      dictFallbackMessage: "您的浏览器不支持拖拽式文件上传功能",
 	      dictRemoveFile: "删除文件",
+	      dictCancelUpload: "取消上传",
+	      dictCancelUploadConfirmation: "您确定要取消上传？",
 	      maxFiles: 1,
 	      dictMaxFilesExceeded: "只能上传{{maxFiles}}个",
 	      dictInvalidFileType:"您上传的文件类型不正确",

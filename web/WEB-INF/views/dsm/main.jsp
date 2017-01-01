@@ -17,13 +17,13 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/css/dsm/main.css">
 <script type="text/javascript"
-	src="${pageContext.request.contextPath }/utils/drag-file/js/dropzone.js"></script>  <!-- 引入dropzone的js文件 -->
+	src="${pageContext.request.contextPath }/utils/dropzone/js/dropzone.js"></script>  <!-- 引入dropzone的js文件 -->
 <script type="text/javascript"
-	src="${pageContext.request.contextPath }/utils/drag-file/js/dropzone-amd-module.js"></script>
+	src="${pageContext.request.contextPath }/utils/dropzone/js/dropzone-amd-module.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath }/js/dsm/modal.js"></script>
+	src="${pageContext.request.contextPath }/js/dsm/main.js"></script>
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/utils/drag-file/css/dropzone.css">   <!-- 引入dropzone的css文件 -->
+	href="${pageContext.request.contextPath }/utils/dropzone/css/dropzone.css">   <!-- 引入dropzone的css文件 -->
 </head>
 
 <body>

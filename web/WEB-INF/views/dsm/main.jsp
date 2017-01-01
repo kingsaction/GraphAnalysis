@@ -20,6 +20,8 @@
 	src="${pageContext.request.contextPath }/utils/drag-file/js/dropzone.js"></script>  <!-- 引入dropzone的js文件 -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/utils/drag-file/js/dropzone-amd-module.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/js/dsm/modal.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/utils/drag-file/css/dropzone.css">   <!-- 引入dropzone的css文件 -->
 </head>
@@ -138,6 +140,7 @@
 		       <div class="col s2"></div>
 		     </div> <!--  第一行结束 -->
 		     
+		     <form action="haha" id="modal_mysql" method="POST">
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">  <!-- 第二行开始 -->
 		       <div class="col s12">
@@ -197,11 +200,11 @@
 	            <div class="col s8">
 	               <div class="row">
 	                 <div class="col s5">
-	                   <a href="#!" class="waves-effect waves-light btn">测试</a>
+	                   <div class="waves-effect waves-light btn" onclick="modal_mysql_test()">测试</div>
 	                 </div>
 	                 <div class="col s2"></div>
 	                 <div class="col s5">
-	                   <a href="#!" class="waves-effect waves-light btn">保存</a>
+	                   <div class="waves-effect waves-light btn" onclick="modal_mysql_save()">保存</div>
 	                 </div>
 	               </div>  
 	            </div>
@@ -209,7 +212,7 @@
 	            
 	            
 	          </div>   <!-- row结束 -->
-	      
+	        </form>
 	      </div>  <!-- container结束 -->
 		    
 	      </div>		

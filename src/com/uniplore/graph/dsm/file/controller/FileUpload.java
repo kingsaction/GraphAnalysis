@@ -17,8 +17,13 @@ public class FileUpload {
 
 	@RequestMapping(value="/Upload",method=RequestMethod.POST)
 	public void fileUpload(@RequestParam(value = "file",required = false) MultipartFile file,
-			HttpServletResponse response, Model model){
+			HttpServletResponse response, Model model)throws Exception{
 		System.out.println("从客户端接收到文件"+file.getOriginalFilename());
+		byte[] bytes = file.getBytes();
+		for(byte b : bytes){
+			System.out.println(b);
+		}
+		
 	}
 	
 }

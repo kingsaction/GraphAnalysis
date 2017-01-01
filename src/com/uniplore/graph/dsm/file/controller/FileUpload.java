@@ -1,4 +1,4 @@
-package com.uniplore.graph.dsm.file;
+package com.uniplore.graph.dsm.file.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

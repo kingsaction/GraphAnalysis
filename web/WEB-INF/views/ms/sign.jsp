@@ -66,7 +66,7 @@
                   
                   <div class="row">
                     <div class="col s12">
-                      <button class="btn waves-effect waves-light button-self" type="submit" id="embed-submit" onclick="validatePasswordEqual(),userNameNULL(),emailNULL(),checkUserNameExisted(),checkEmailExisted()">
+                      <button class="btn waves-effect waves-light button-self" type="submit" id="embed-submit" onclick="doSubmitSign()">
                         注册
                       </button>
                     </div>

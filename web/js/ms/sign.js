@@ -97,8 +97,11 @@ function emailNULL(){
 function doSubmit(){
 	var passwordValidate = validatePasswordEqual();
 	var userNameState = userNameNULL();
+	var checkUserNameState = checkUserNameExisted();
+	var checkEmailState = checkEmailExisted();
+	var emailState = emailNULL(); 
 	//alert("两个密码是否一致"+passwordValidate);
-	if (passwordValidate && userNameState) {
+	if (passwordValidate && userNameState && checkUserNameState && checkEmailState && emailState) {
 		 return true;
 	}else{
 		return false;
@@ -178,4 +181,9 @@ function checkEmailExisted(){
 			}
 		})
 	}	
+}
+
+//提交注册信息
+function doSubmitSign(){
+	document.getElementById("loginForm").submit();
 }

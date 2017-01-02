@@ -35,7 +35,7 @@ public class SignUpController {
 	
 	@RequestMapping(value="/SignUp",method=RequestMethod.POST)
 	public String signUp(UserPO user,Model model) throws Exception{
-		System.out.println(user.toString());   //判断是否正确的接收到从客户端传来的用户信息
+		//System.out.println(user.toString());   //判断是否正确的接收到从客户端传来的用户信息
 		
 		//将user信息保存到数据库中
 		userService.saveUserInfo(user);
@@ -50,7 +50,7 @@ public class SignUpController {
 	@RequestMapping(value="/CheckUserNameExisted",method=RequestMethod.POST)
 	public @ResponseBody Integer checkUserNameExisted(HttpServletRequest request)throws Exception{
 		String userName = request.getParameter("userName");
-		System.out.println("接收到的用户名为:"+userName);
+		//System.out.println("接收到的用户名为:"+userName);
 		Integer id = userService.queryUserExisted(userName);
 		return id;
 	}
@@ -58,7 +58,7 @@ public class SignUpController {
 	@RequestMapping(value="/CheckEmailExisted",method=RequestMethod.POST)
 	public @ResponseBody Integer checkEmailExisted(HttpServletRequest request) throws Exception{
 		String email = request.getParameter("email");
-		System.out.println("接收到的email为:"+email);
+		//System.out.println("接收到的email为:"+email);
 		Integer id = userService.queryEmailExisted(email);
 		return id;
 	}

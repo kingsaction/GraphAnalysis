@@ -177,6 +177,5 @@ function checkEmailExisted(){
 				}
 			}
 		})
-	}
-	
+	}	
 }

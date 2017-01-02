@@ -26,30 +26,30 @@
                  <div class="col s12"></div>
                </div>
                <div class="row">
-                 <form class="col s12" id="loginForm" action="${pageContext.request.contextPath }/ms/sign/SignUp" method="post" onsubmit="return doSubmit()">
+                 <form class="col s12" action="${pageContext.request.contextPath }/ms/sign/SignUp" method="POST" onsubmit="return doSubmit()">
                    <div class="row">
                      <div class="input-field col s12">
-                       <input id="email" type="email" class="validate" name="email" value="${user.email}" onfocus="Materialize.toast('请输入您的有效邮箱，用于激活您的账户', 4000,'rounded')" onblur="emailNULL();checkEmailExisted()" >
+                       <input id="email" type="text" class="" name="email" value="${user.email}" onfocus="Materialize.toast('请输入您的有效邮箱，用于激活您的账户', 4000,'rounded')" onblur="emailNULL(),checkEmailExisted()" >
                        <label for="email">Email</label>
                      </div>
                    </div>
                       <div class="row">
                         <div class="input-field col s12">
-                         <input id="userName" type="text" class="validate" name="userName" value="${user.userName}" onfocus="Materialize.toast('请输入用户名，可以为汉字、字母、数字组成的字符串', 4000,'rounded')" onblur="checkUserNameExisted()">
+                         <input id="userName" type="text" class="" name="userName" value="${user.userName}" onfocus="Materialize.toast('请输入用户名，可以为汉字、字母、数字组成的字符串', 4000,'rounded')" onblur="userNameNULL(),checkUserNameExisted()">
                          <label for="userName">User Name</label>
                         </div>
                      </div>
                      
                      <div class="row">
                        <div class="input-field col s12">
-                         <input id="password" type="password" class="validate" name="password" value="${user.password}" onfocus="Materialize.toast('请注意保护您的密码', 4000,'rounded')" >
+                         <input id="password" type="password" class="" name="password" value="${user.password}" onfocus="Materialize.toast('请注意保护您的密码', 4000,'rounded')" >
                          <label for="password">Password</label>
                        </div>
                    </div>
                    
                    <div class="row">
                        <div class="input-field col s12">
-                         <input id="password_confirm" type="password" class="validate" onfocus="Materialize.toast('请再次输入您的密码', 4000,'rounded')" onblur="validatePasswordEqual()">
+                         <input id="password_confirm" type="password" class="" onfocus="Materialize.toast('请再次输入您的密码', 4000,'rounded')" onblur="validatePasswordEqual()">
                          <label for="password_confirm">Confirm Password</label>
                        </div>
                    </div>
@@ -66,7 +66,7 @@
                   
                   <div class="row">
                     <div class="col s12">
-                      <button class="btn waves-effect waves-light button-self" type="submit" id="embed-submit" onclick="doSubmitSign()">
+                      <button class="btn waves-effect waves-light button-self" type="submit" id="embed-submit">
                         注册
                       </button>
                     </div>

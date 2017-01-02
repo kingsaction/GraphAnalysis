@@ -69,12 +69,14 @@ function validatePasswordEqual(){
 function userNameNULL(){
 	var userNameSize = $("#userName").val().length;
 	if(userNameSize == 0){
+		//说明用户名为空
 		$("#userName").removeClass("valid");
 		$("#userName").addClass("invalid");
 		return false;
 	}else{
 		$("#userName").removeClass("invalid");
 		$("#userName").addClass("valid");
+		return true;
 	}
 }
 
@@ -93,26 +95,12 @@ function emailNULL(){
 	}
 }
 
-//提交表单时进行校验
-function doSubmit(){
-	var passwordValidate = validatePasswordEqual();
-	var userNameState = userNameNULL();
-	var checkUserNameState = checkUserNameExisted();
-	var checkEmailState = checkEmailExisted();
-	var emailState = emailNULL(); 
-	//alert("两个密码是否一致"+passwordValidate);
-	if (passwordValidate && userNameState && checkUserNameState && checkEmailState && emailState) {
-		 return true;
-	}else{
-		return false;
-	}
-}
-
 //检查用户名是否存在
 function checkUserNameExisted(){
 	//alert("检查用户名是否存在");
 	//获取用户名输入框中的数据
 	var userName = $("#userName").val();
+	var flag_username ;
 	//alert("接收到的用户名为:"+userName);
 	if(userName.length == 0){
 		//alert("用户名为空")
@@ -123,26 +111,32 @@ function checkUserNameExisted(){
 	}else{
 		//使用ajax异步提交技术检查用户名是否存在，因为在登录模块中允许用户使用用户名登录，所以用户名不能重复
 		$.ajax({
+			async: false,
 			url : "ms/sign/CheckUserNameExisted?t=" + (new Date()).getTime(), // 加随机数防止缓存，主要是为了解决IE浏览器的行为异常
 			type : "POST",
 			data: {
 				"userName": userName,
 			},
 			success : function(data) {
-				if(data > 0){
+				if(data > 0){  //data参数指定的是从服务器端接收到的返回值
 					//说明用户名已经存在
 					$("#userName").removeClass("valid");
 					$("#userName").addClass("invalid");
 					Materialize.toast('用户名已经存在，请重新输入', 4000,'rounded');
-					return false;
+					flag_username = "用户名已经存在";
 				}else{
 					//否则说明用户名不存在
 					$("#userName").removeClass("invalid");
 					$("#userName").addClass("valid");
-					return true;
+					flag_username = "用户名不存在"
 				}
 			}
 		})
+		if(flag_username == "用户名已经存在"){
+			return false;
+		}else{
+			return true;
+		}
 	}
 	
 }
@@ -152,6 +146,7 @@ function checkEmailExisted(){
 	//alert("检查邮箱是否已经被注册");
 	//获取输入框中的email地址
 	var email = $("#email").val();
+	var flag_email;
 	if(email.length == 0){
 		//说明email为空，不满足要求
 		$("#email").removeClass("valid");
@@ -160,6 +155,7 @@ function checkEmailExisted(){
 		return false;
 	}else{
 		$.ajax({
+			async: false,  //设置ajax交互为同步方式，默认采用的是异步方式
 			url : "ms/sign/CheckEmailExisted?t=" + (new Date()).getTime(), // 加随机数防止缓存，主要是为了解决IE浏览器的行为异常
 			type : "POST",
 			data: {
@@ -171,19 +167,33 @@ function checkEmailExisted(){
 					$("#email").removeClass("valid");
 					$("#email").addClass("invalid");
 					Materialize.toast('邮箱已经存在，请重新输入', 4000,'rounded');
-					return false;
+					flag_email = "邮箱已经存在";
 				}else{
 					//否则说明email不存在
 					$("#email").removeClass("invalid");
 					$("#email").addClass("valid");
-					return true;
+					flag_email = "邮箱不存在";
 				}
 			}
 		})
+		if(flag_email == "邮箱已经存在"){
+			return false;
+		}else{
+			return true;
+		}
 	}	
 }
 
-//提交注册信息
-function doSubmitSign(){
-	document.getElementById("loginForm").submit();
+//提交表单时进行校验
+function doSubmit(){
+	var passwordValidate = validatePasswordEqual();
+	var userNameState = userNameNULL(); 
+	var checkUserNameState = checkUserNameExisted();  
+	var checkEmailState = checkEmailExisted();
+	var emailState = emailNULL(); 
+	if (passwordValidate && userNameState && checkUserNameState &&  emailState && checkEmailState)  {
+		 return true;
+	}else{ 
+		return false;
+	}
 }

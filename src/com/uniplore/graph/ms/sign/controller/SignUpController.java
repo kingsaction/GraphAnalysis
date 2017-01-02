@@ -2,11 +2,14 @@ package com.uniplore.graph.ms.sign.controller;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uniplore.graph.ms.sign.entity.UserPO;
 import com.uniplore.graph.ms.sign.service.IUserService;
@@ -42,5 +45,21 @@ public class SignUpController {
 		
 		//成功发送邮件之后，提醒用户到邮箱中激活
 		return "ms/login";
+	}
+	
+	@RequestMapping(value="/CheckUserNameExisted",method=RequestMethod.POST)
+	public @ResponseBody Integer checkUserNameExisted(HttpServletRequest request)throws Exception{
+		String userName = request.getParameter("userName");
+		System.out.println("接收到的用户名为:"+userName);
+		Integer id = userService.queryUserExisted(userName);
+		return id;
+	}
+	
+	@RequestMapping(value="/CheckEmailExisted",method=RequestMethod.POST)
+	public @ResponseBody Integer checkEmailExisted(HttpServletRequest request) throws Exception{
+		String email = request.getParameter("email");
+		System.out.println("接收到的email为:"+email);
+		Integer id = userService.queryEmailExisted(email);
+		return id;
 	}
 }

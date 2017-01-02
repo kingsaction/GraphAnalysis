@@ -99,4 +99,14 @@ public class UserService implements IUserService {
 		
 	}
 
+	@Override
+	public Integer queryUserExisted(String userName) throws Exception {
+		return userDao.queryUserExisted(userName);
+	}
+
+	@Override
+	public Integer queryEmailExisted(String email) throws Exception {
+		return userDao.queryEmailExisted(email);
+	}
+
 }

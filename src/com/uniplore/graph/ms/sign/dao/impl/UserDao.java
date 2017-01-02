@@ -46,4 +46,14 @@ public class UserDao implements IUserDao {
 		um.deleteUserByID(id);
 	}
 
+	@Override
+	public Integer queryUserExisted(String userName) throws Exception {
+		return um.queryUserExisted(userName);
+	}
+
+	@Override
+	public Integer queryEmailExisted(String email) throws Exception {
+		return um. queryEmailExisted(email);
+	}
+
 }

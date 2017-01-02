@@ -54,5 +54,15 @@
 	<delete id="deleteUserByID" parameterType="Integer">
 	  delete from user where id=#{id}
 	</delete>
+	
+	<!-- 根据用户名返回用户的ID -->
+	<select id="queryUserExisted" parameterType="String" resultType="Integer">
+	  select id from user where user_name=#{userName}
+	</select>
+	
+	<!-- 根据用户的email返回用户的ID -->
+	<select id="queryEmailExisted" parameterType="String" resultType="Integer">
+	  select id from user where email=#{email}
+	</select>
 </mapper>
 

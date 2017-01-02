@@ -17,4 +17,8 @@ public interface UserMapper {
 	public Date queryActiveTime(Integer id)throws Exception;
 
 	public void deleteUserByID(Integer id)throws Exception;
+
+	public Integer queryUserExisted(String userName)throws Exception;
+
+	public Integer queryEmailExisted(String email)throws Exception;
 }

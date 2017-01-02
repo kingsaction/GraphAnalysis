@@ -9,4 +9,8 @@ public interface IUserService {
 	
 	public boolean activeUserAccount(String code) throws Exception;
 
+	public Integer queryUserExisted(String userName)throws Exception;
+
+	public Integer queryEmailExisted(String email)throws Exception;
+
 }

@@ -47,12 +47,14 @@ function validatePasswordEqual(){
 		$("#password_confirm").removeClass("valid");
 		$("#password").addClass("invalid");
 		$("#password_confirm").addClass("invalid");
+		Materialize.toast('两次输入的密码不一致，请重新输入', 4000,'rounded');
 		return false;
 	}else if(pwd == pwd_confirm && pwd.length == 0){
 		$("#password").removeClass("valid");
 		$("#password_confirm").removeClass("valid");
 		$("#password").addClass("invalid");
 		$("#password_confirm").addClass("invalid");
+		Materialize.toast('密码不能为空', 4000,'rounded');
 		return false;
 	}else{
 		$("#password").removeClass("invalid");
@@ -79,11 +81,12 @@ function userNameNULL(){
 //email不能为空
 function emailNULL(){
 	var emailSize = $("#email").val().length;
-	if(emailSize == 0){
+	if(emailSize == 0){   //说明email为空
 		$("#email").removeClass("valid");
 		$("#email").addClass("invalid");
+		Materialize.toast('邮箱不能为空，请重新输入', 4000,'rounded');
 		return false;
-	}else{
+	}else{   //否则说明email不为空
 		$("#email").removeClass("invalid");
 		$("#email").addClass("valid");
 		return true;
@@ -94,10 +97,86 @@ function emailNULL(){
 function doSubmit(){
 	var passwordValidate = validatePasswordEqual();
 	var userNameState = userNameNULL();
-	alert("两个密码是否一致"+passwordValidate);
+	//alert("两个密码是否一致"+passwordValidate);
 	if (passwordValidate && userNameState) {
 		 return true;
 	}else{
 		return false;
 	}
+}
+
+//检查用户名是否存在
+function checkUserNameExisted(){
+	//alert("检查用户名是否存在");
+	//获取用户名输入框中的数据
+	var userName = $("#userName").val();
+	//alert("接收到的用户名为:"+userName);
+	if(userName.length == 0){
+		//alert("用户名为空")
+		$("#userName").removeClass("valid");
+		$("#userName").addClass("invalid");
+		Materialize.toast('您输入的用户名为空，请重新输入', 4000,'rounded');
+		return false;
+	}else{
+		//使用ajax异步提交技术检查用户名是否存在，因为在登录模块中允许用户使用用户名登录，所以用户名不能重复
+		$.ajax({
+			url : "ms/sign/CheckUserNameExisted?t=" + (new Date()).getTime(), // 加随机数防止缓存，主要是为了解决IE浏览器的行为异常
+			type : "POST",
+			data: {
+				"userName": userName,
+			},
+			success : function(data) {
+				if(data > 0){
+					//说明用户名已经存在
+					$("#userName").removeClass("valid");
+					$("#userName").addClass("invalid");
+					Materialize.toast('用户名已经存在，请重新输入', 4000,'rounded');
+					return false;
+				}else{
+					//否则说明用户名不存在
+					$("#userName").removeClass("invalid");
+					$("#userName").addClass("valid");
+					return true;
+				}
+			}
+		})
+	}
+	
+}
+
+//检查email是否在数据库中已经存在
+function checkEmailExisted(){
+	//alert("检查邮箱是否已经被注册");
+	//获取输入框中的email地址
+	var email = $("#email").val();
+	if(email.length == 0){
+		//说明email为空，不满足要求
+		$("#email").removeClass("valid");
+		$("#email").addClass("invalid");
+		Materialize.toast('邮箱不能为空，请重新输入', 4000,'rounded');
+		return false;
+	}else{
+		$.ajax({
+			url : "ms/sign/CheckEmailExisted?t=" + (new Date()).getTime(), // 加随机数防止缓存，主要是为了解决IE浏览器的行为异常
+			type : "POST",
+			data: {
+				"email": email,
+			},
+			success : function(data) {
+				if(data > 0){
+					//说明email已经存在
+					$("#email").removeClass("valid");
+					$("#email").addClass("invalid");
+					Materialize.toast('邮箱已经存在，请重新输入', 4000,'rounded');
+					return false;
+				}else{
+					//否则说明email不存在
+					$("#email").removeClass("invalid");
+					$("#email").addClass("valid");
+					return true;
+				}
+			}
+		})
+	}
+	
 }

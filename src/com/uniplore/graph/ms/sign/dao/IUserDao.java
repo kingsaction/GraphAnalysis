@@ -17,6 +17,10 @@ public interface IUserDao {
 	public void deleteUserByID(Integer id) throws Exception;  //根据用户的id删除用户
 
 	public Date queryActiveTime(Integer id) throws Exception;  //根据用户的id查询用户的激活时间，如果没有激活返回null
+
+	public Integer queryUserExisted(String userName)throws Exception;  //查询用户名在数据库中是否已经存在
+ 
+	public Integer queryEmailExisted(String email)throws Exception;  //查询email在数据库中是否存在
 	
 	
 }

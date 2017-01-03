@@ -145,7 +145,7 @@
 		     <div class="row">  <!-- 第二行开始 -->
 		       <div class="col s12">
 		          <div class="input-field col s12">
-                    <input disabled id="driver" type="text" name="driver" class="validate" value="com.mysql.jdbc.Driver">
+                    <input disabled="disabled" id="driver" type="text" name="driver" class="validate" value="com.mysql.jdbc.Driver">
                     <label for="driver">驱动</label>
                   </div>
 		       </div>

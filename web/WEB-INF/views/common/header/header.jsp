@@ -12,32 +12,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/utils/font-Awesome/css/font-awesome.min.css">
 </head>
 <body>
-<div class="row content">
-  <div class="col s3 box1"> 
-  
-  </div>
-  <div class="col s5 box2">
-   <div class="row">
-     <div class="col s1">
-       <ul>
-        <li class="logo-header"><a href="${pageContext.request.contextPath }/index.jsp"><img src="${pageContext.request.contextPath }/img/main/icon.png"></a></li>
-       </ul>
-     </div>
-     <div class="col s2">
-     
-     </div>
-     
-     <div class="col s9">
-     </div>  
-    </div> 
-  </div>
-    <div class="col s1 box2">   
-       <ul>
-	     <li class="last"><a href="${pageContext.request.contextPath }/sign_in">登录</a></li>
-       </ul>
-    </div>
-  <div class="col s3 box3">   
-  </div>
-</div>
+
 </body>
 </html>

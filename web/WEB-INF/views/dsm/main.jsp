@@ -150,7 +150,7 @@
 				      <option value="2">com.mysql.jdbc.Driver</option>
 				      <option value="3">org.gjt.mm.mysql.Driver</option>
                     </select>
-                    <label onblur="valid()">驱动</label>
+                    <label>驱动</label>
                   </div>
                   <div class="input-field col s3">
                     <input readonly="readonly" value="MYSQL" id="readonly" type="text" onblur="readonly_mysql()" class="validate">

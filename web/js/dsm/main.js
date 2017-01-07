@@ -12,3 +12,7 @@ function modal_mysql_test(){
 	$("#modal_mysql").submit();
 }
 
+function readonly_mysql(){
+	$("#readonly").removeClass("invalid");
+	$("#readonly").addClass("valid");
+}

@@ -140,13 +140,21 @@
 		       <div class="col s2"></div>
 		     </div> <!--  第一行结束 -->
 		     
-		     <form action="haha" id="modal_mysql" method="POST">
+		     <form id="modal_mysql" method="POST">
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">  <!-- 第二行开始 -->
 		       <div class="col s12">
-		          <div class="input-field col s12">
-                    <input disabled="disabled" id="driver" type="text" name="driver" class="validate" value="com.mysql.jdbc.Driver">
-                    <label for="driver">驱动</label>
+		          <div class="input-field col s9">
+                    <select>
+                      <option value="1">com.mysql.jdbc.Driver</option>
+				      <option value="2">com.mysql.jdbc.Driver</option>
+				      <option value="3">org.gjt.mm.mysql.Driver</option>
+                    </select>
+                    <label onblur="valid()">驱动</label>
+                  </div>
+                  <div class="input-field col s3">
+                    <input readonly="readonly" value="MYSQL" id="readonly" type="text" onblur="readonly_mysql()" class="validate">
+                    <label for="readonly">数据库</label>
                   </div>
 		       </div>
             </div> <!-- 第二行结束 -->
@@ -155,11 +163,11 @@
             
 		     <div class="row">  <!-- 第三行开始 -->
 		       <div class="col s12">
-		          <div class="input-field col s10">
+		          <div class="input-field col s9">
                     <input id="host" type="text" name="host" class="validate">
                     <label for="host">主机名或IP地址</label>
                   </div>  
-                  <div class="input-field col s2">
+                  <div class="input-field col s3">
                     <input id="port" type="text" name="port" class="validate" value="3306">
                     <label for="port">端口</label>
                   </div>    
@@ -217,6 +225,7 @@
 		    
 	      </div>		
 	</div>  <!-- MySQL数据库模态框主要结构结束 -->
+	<!-- 启动拖拽模态框 -->
 	<script type="text/javascript">
 		//启动dropzone
 		$("#my-awesome-dropzone").dropzone({
@@ -234,7 +243,16 @@
 		    dictFileTooBig:"可添加的最大文件大小为{{maxFilesize}}Mb，当前文件大小为{{filesize}}Mb ",
 		    dictResponseError: "上传出现错误",  
 		    dictRemoveFileConfirmation: "确认删除?",  //删除问价时的确认信息
+		    autoDiscover: false,
 		})
 	</script>
+	
+	<!-- 启用下拉列表 -->
+	<script type="text/javascript">
+	    $(document).ready(function() {
+        $('select').material_select();
+      });
+	</script>
+	
 </body>
 </html>

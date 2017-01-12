@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <!-- 在一个jsp页面中引入公共的jsp页面 -->
 <%@include file="/WEB-INF/views/common/header/header.jsp" %>
+<%@include file="/WEB-INF/views/common/footer/footer.jsp" %>
 <!DOCTYPE html>
 <html>
   <head>

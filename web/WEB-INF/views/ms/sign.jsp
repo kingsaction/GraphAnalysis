@@ -9,6 +9,7 @@
     <script src="http://static.geetest.com/static/tools/gt.js"></script>
     <script src="${pageContext.request.contextPath }/js/ms/sign.js"></script>
     <script src="${pageContext.request.contextPath }/utils/jquery/jquery-3.1.0.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/css/common/footer/footer.css">
   </head>
   
   <body>
@@ -114,5 +115,19 @@
      </div>  
      <div class="col s4"></div>
    </div>
+   
+   <div class="footer">  <!-- 页脚 -->
+      <div class="footer-content">
+         <div class="footer-content-1">
+           <h5>产品</h5>
+           <ul>
+             <li><a href="#">敏捷BI</a></li>
+             <li><a href="#">MPP数据集市</a></li>
+             <li><a href="#">深度分析</a></li>
+           </ul>
+         </div>
+      </div>
+   </div>
+   
   </body>
 </html>

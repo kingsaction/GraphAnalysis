@@ -14,7 +14,7 @@
   </head>  
   <body>
   <div class="row bg">
-    <div class="col s3"></div>   <!-- 导航条的左侧部分占整个屏幕的三份 -->
+    <div class="col s3"></div>   <!-- 左侧部分占整个屏幕的三份 -->
     <div class="col s6">  <!-- 主要内容部分占6份 -->
        <div class="row">
        <div class="col s12">
@@ -92,7 +92,7 @@
        
      </div>
     </div>
-    <div class="col s3"></div>
-  </div>
+    <div class="col s3"></div>   <!-- 右侧占满三份 -->
+    </div>
 	</body>
 </html>

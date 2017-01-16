@@ -118,16 +118,71 @@
    
    <div class="footer">  <!-- 页脚 -->
       <div class="footer-content">
-         <div class="footer-content-1">
-           <h5>产品</h5>
+         <div class="footer-content-1">     <!-- 第一部分内容 -->
+           <h5><a href="#">产品</a></h5>
            <ul>
              <li><a href="#">敏捷BI</a></li>
-             <li><a href="#">MPP数据集市</a></li>
+             <li><a href="#">MPP&nbsp;数据集市</a></li>
              <li><a href="#">深度分析</a></li>
            </ul>
          </div>
+         
+         <div class="footer-content-1">     <!-- 第二部分内容 -->
+           <h5><a href="#">解决方案</a></h5>
+           <ul>
+             <li><a href="#">金融行业</a></li>
+             <li><a href="#">电信行业</a></li>
+             <li><a href="#">零售行业</a></li>
+             <li><a href="#">医疗行业</a></li>
+             <li><a href="#">高教行业</a></li>
+             <li><a href="#">电商行业</a></li>
+             <li><a href="#">交通行业</a></li>
+           </ul>
+         </div>   <!-- 第二部分结束 -->
+         
+         <div class="footer-content-1">     <!-- 第三部分内容 -->
+           <h5><a href="#">案例</a></h5>
+           <ul>
+             <li><a href="#">金融行业</a></li>
+             <li><a href="#">电信行业</a></li>
+             <li><a href="#">能源行业</a></li>
+             <li><a href="#">电商行业</a></li>
+             <li><a href="#">互联网行业</a></li>
+           </ul>
+         </div>   <!-- 第三部分结束 -->
+         
+         <div class="footer-content-1">     <!-- 第四部分内容 -->
+           <h5><a href="#">合作</a></h5>
+           <ul>
+             <li><a href="#">渠道代理</a></li>
+           </ul>
+         </div>   <!-- 第四部分结束 -->
+         
+         <div class="footer-content-1">     <!-- 第五部分内容 -->
+           <h5><a href="#">支持</a></h5>
+           <ul>
+             <li><a href="#">授权验证</a></li>
+             <li><a href="#">常见问题</a></li>
+             <li><a href="#">产品使用文档</a></li>
+             <li><a href="#">产品白皮书</a></li>
+             <li><a href="#">在线学习</a></li>
+             <li><a href="#">支持服务</a></li>
+             <li><a href="#">观看演示</a></li>
+           </ul>
+         </div>   <!-- 第五部分结束 -->
+         
+         <div class="footer-content-1">     <!-- 第五部分内容 -->
+           <h5><a href="#">关于</a></h5>
+           <ul>
+             <li><a href="#">联系我们</a></li>
+             <li><a href="#">工作机会</a></li>
+             <li><a href="#">媒体报道</a></li>
+             <li><a href="#">新闻与活动</a></li>
+             <li><a href="#">管理团队</a></li>
+             <li><a href="#">公司介绍</a></li>
+           </ul>
+         </div>   <!-- 第五部分结束 -->
       </div>
-   </div>
-   
+      </div>   <!-- 页脚结束 -->
   </body>
 </html>

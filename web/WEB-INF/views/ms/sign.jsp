@@ -183,6 +183,9 @@
            </ul>
          </div>   <!-- 第五部分结束 -->
       </div>
+      
+      <div style="clear:both"></div>   <!-- 采用外墙法将之前的浮动全部清除 -->
+      <div class="footer-content" style="margin-top :20px; color: #fff;">Copyright  &copy; 2016-2017 贵州贵阳优联博睿科技有限公司</div>
       </div>   <!-- 页脚结束 -->
   </body>
 </html>

@@ -48,7 +48,7 @@
               <div class="section">
                 <div class="row">
                   <div class="col s6 left">
-                     <a href="#">忘记密码?</a>
+                     <a href="#" style="text-decoration: none">忘记密码?</a>
                   </div>
                   <div class="col s6">
                      <button class="btn waves-effect waves-light button-self" type="submit" name="action" onclick="doSubmitLogin()">
@@ -79,7 +79,7 @@
                 <div class="row">
                   <div class="col s12">
                     <div class="section" >
-                     <a href="${pageContext.request.contextPath }/sign_up">没有账户？立即创建一个</a>
+                     <a href="${pageContext.request.contextPath }/sign_up" style="text-decoration: none">没有账户？立即创建一个</a>
                   </div>
                </div>
            </div>

@@ -7,9 +7,36 @@ $(document).ready(function() {
 	});
 });
 
+//获取到所有的参数信息，并将其传至后台测试能否连接数据源
 function modal_mysql_test(){
-	alert("修改该部分，采用ajax异步实现提前判断是否能连接上数据源");
-	$("#modal_mysql").submit();
+	//首先获取到表单元素的所有值
+	var driverName = $("#driverName option:selected").text();   //获取到select选中的值
+	var dataBaseType = $("#dataBaseType").val();
+	var ipAddress = $("#ipAddress").val();
+	var portNumber = $("#portNumber").val();
+	var connectionName = $("#connectionName").val();
+	var userName = $("#userName").val();
+	var password = $("#password").val();
+	//输出上述的所有值，判断是是否正确的得到连接信息
+	alert("驱动名称为:"+driverName+"数据库类型为:"+dataBaseType+"ip地址为:"+ipAddress+"端口号为:"+portNumber+"连接名为"+connectionName+"用户名为"+userName+"密码为:"+password);
+	$.ajax({
+		async: false,  //设置ajax交互为同步方式，默认采用的是异步方式
+		url: "/graphanalysis/dsm/db/connection?t=" + (new Date()).getTime(),   //提交数据，测试是否能够成功的连接数据源,url路径采用绝对路径
+		type:"POST",
+		data: {
+			//成功的连接数据源之后要能获取到数据源的信息
+			"driverName": driverName,
+			"dataBaseType": dataBaseType,
+			"ipAddress": ipAddress,
+			"portNumber": portNumber,
+			"connectionName": connectionName,
+			"userName": userName,
+			"password": password,
+		},
+		success: function(data){
+			
+		}
+	})
 }
 
 function readonly_mysql(){

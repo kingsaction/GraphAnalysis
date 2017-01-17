@@ -145,16 +145,16 @@
 		     <div class="row">  <!-- 第二行开始 -->
 		       <div class="col s12">
 		          <div class="input-field col s9">
-                    <select>
+                    <select id="driverName" name="driverName">
                       <option value="1">com.mysql.jdbc.Driver</option>
 				      <option value="2">com.mysql.jdbc.Driver</option>
 				      <option value="3">org.gjt.mm.mysql.Driver</option>
                     </select>
-                    <label>驱动</label>
+                    <label for="driverName">驱动</label>
                   </div>
                   <div class="input-field col s3">
-                    <input readonly="readonly" value="MYSQL" id="readonly" type="text" onblur="readonly_mysql()" class="validate">
-                    <label for="readonly">数据库</label>
+                    <input readonly="readonly" value="MYSQL" id="dataBaseType"  name="dataBaseType" type="text" onblur="readonly_mysql()" class="validate">
+                    <label for="dataBaseType">数据库</label>
                   </div>
 		       </div>
             </div> <!-- 第二行结束 -->
@@ -164,12 +164,12 @@
 		     <div class="row">  <!-- 第三行开始 -->
 		       <div class="col s12">
 		          <div class="input-field col s9">
-                    <input id="host" type="text" name="host" class="validate">
-                    <label for="host">主机名或IP地址</label>
+                    <input id="ipAddress" type="text" name="ipAddress" class="validate">
+                    <label for="ipAddress">主机名或IP地址</label>
                   </div>  
                   <div class="input-field col s3">
-                    <input id="port" type="text" name="port" class="validate" value="3306">
-                    <label for="port">端口</label>
+                    <input id="portNumber" type="text" name="portNumber" class="validate" value="3306">
+                    <label for="portNumber">端口</label>
                   </div>    
 		       </div>
             </div> <!-- 第三行结束 -->
@@ -208,11 +208,11 @@
 	            <div class="col s8">
 	               <div class="row">
 	                 <div class="col s5">
-	                   <div class="waves-effect waves-light btn" onclick="modal_mysql_test()">测试</div>
+	                   <button class="waves-effect waves-light btn" type="submit" onmousedown="modal_mysql_test()">测试</button>
 	                 </div>
 	                 <div class="col s2"></div>
 	                 <div class="col s5">
-	                   <div class="waves-effect waves-light btn" onclick="modal_mysql_save()">保存</div>
+	                   <button class="waves-effect waves-light btn" onclick="modal_mysql_save()">保存</button>
 	                 </div>
 	               </div>  
 	            </div>

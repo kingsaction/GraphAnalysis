@@ -24,7 +24,7 @@ public class LoginController {
 	 * @param user
 	 */
 	@RequestMapping(value="/Login",method=RequestMethod.POST)
-	public String loginSys(String name, String password,HttpSession session)throws Exception{
+	public String loginSys(String name, String password,HttpSession session,HttpServletRequest request)throws Exception{
 		//System.out.println("接收到的名字为:"+name);
 		//System.out.println("接收到的密码为:"+password);
 		
@@ -53,7 +53,7 @@ public class LoginController {
 						//System.out.println("获取到的用户信息为:"+userInto.toString());
 						session.setAttribute("userInfo", userInto);
 						//完成登录，跳转到指定的页面
-						return "dsm/main";
+						return "redirect:/dsm/main";
 					}else{
 						//说明用户还没有被激活，提醒用户激活
 						System.out.println("用户还没有被激活");

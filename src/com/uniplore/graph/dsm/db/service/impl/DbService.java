@@ -30,7 +30,6 @@ public class DbService implements IDbService {
 
 			// 连接数据库
 			Connection connection = DriverManager.getConnection(url, user, password);
-			System.out.println("得到的客户端ip为:"+dbPO.getIpAddress());
 			if (dbPO.getIpAddress().length() != 0 && connection != null) {
 				return "数据库连接成功";
 			}

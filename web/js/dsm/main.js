@@ -1,9 +1,8 @@
 document.write("<script type='text/javascript' src='../utils/sweetalert/js/sweetalert.min.js'></script>");
-document.write("<script type='text/javascript' src='../utils/sweetalert/js/sweetalert-dev.js'></script>");  //在一个js文件中动态加载另外的js文件
 document.write("<link rel='stylesheet' type='text/css' href='../utils/sweetalert/css/sweetalert.css'>"); 
 
-document.write("<script type='text/javascript' src='../utils/layui/js/layui.js'></script>");  //在一个js文件中动态加载另外的js文件
 document.write("<link rel='stylesheet' type='text/css' href='../utils/layui/css/layui.css'>");  //在一个js文件中动态加载一个css文件
+document.write("<script type='text/javascript' src='../utils/layui/js/layui.js'></script>");  //在一个js文件中动态加载另外的js文件
 //模态框启动
 $(document).ready(function() {
 	// the "href" attribute of .modal-trigger must specify the modal ID that
@@ -51,7 +50,6 @@ function modal_mysql_test(){
 			}else{
 				swal("Oops...","数据库连接失败","error");
 			}
-			
 			}
 	})
 }

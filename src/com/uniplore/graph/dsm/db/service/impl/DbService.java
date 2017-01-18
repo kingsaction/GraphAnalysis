@@ -3,6 +3,8 @@ package com.uniplore.graph.dsm.db.service.impl;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import javax.validation.constraints.Null;
+
 import org.springframework.stereotype.Service;
 
 import com.alibaba.druid.support.http.util.IPAddress;
@@ -29,7 +31,7 @@ public class DbService implements IDbService {
 			// 连接数据库
 			Connection connection = DriverManager.getConnection(url, user, password);
 			System.out.println("得到的客户端ip为:"+dbPO.getIpAddress());
-			if (dbPO.getIpAddress().equals(null) && connection != null) {
+			if (dbPO.getIpAddress().length() != 0 && connection != null) {
 				return "数据库连接成功";
 			}
 		} catch (Exception e) {

@@ -1,9 +1,15 @@
+document.write("<script type='text/javascript' src='../utils/sweetalert/js/sweetalert.min.js'></script>");
+document.write("<script type='text/javascript' src='../utils/sweetalert/js/sweetalert-dev.js'></script>");  //在一个js文件中动态加载另外的js文件
+document.write("<link rel='stylesheet' type='text/css' href='../utils/sweetalert/css/sweetalert.css'>"); 
+
+document.write("<script type='text/javascript' src='../utils/layui/js/layui.js'></script>");  //在一个js文件中动态加载另外的js文件
+document.write("<link rel='stylesheet' type='text/css' href='../utils/layui/css/layui.css'>");  //在一个js文件中动态加载一个css文件
 //模态框启动
 $(document).ready(function() {
 	// the "href" attribute of .modal-trigger must specify the modal ID that
 	// wants to be triggered
 	$('.modal-trigger').leanModal({
-		dismissible : false, // 点击模态框外部则关闭模态框
+		dismissible : true, // 点击模态框外部则关闭模态框
 	});
 });
 
@@ -18,7 +24,7 @@ function modal_mysql_test(){
 	var userName = $("#userName").val();
 	var password = $("#password").val();
 	//输出上述的所有值，判断是是否正确的得到连接信息
-	alert("驱动名称为:"+driverName+"数据库类型为:"+dataBaseType+"ip地址为:"+ipAddress+"端口号为:"+portNumber+"连接名为"+connectionName+"用户名为"+userName+"密码为:"+password);
+	//alert("驱动名称为:"+driverName+"数据库类型为:"+dataBaseType+"ip地址为:"+ipAddress+"端口号为:"+portNumber+"连接名为"+connectionName+"用户名为"+userName+"密码为:"+password);
 	$.ajax({
 		async: false,  //设置ajax交互为同步方式，默认采用的是异步方式
 		url: "/graphanalysis/dsm/db/connection?t=" + (new Date()).getTime(),   //提交数据，测试是否能够成功的连接数据源,url路径采用绝对路径
@@ -33,9 +39,20 @@ function modal_mysql_test(){
 			"userName": userName,
 			"password": password,
 		},
-		success: function(data){
+		success: function(data) {
+				//alert("返回值为:"+data);   //判断是否成功的接收到返回值，当成功的连接数据源接收到的数据为:"数据库连接成功"
+				//连接数据源失败时，返回值为"数据库连接失败"
+			if("数据库连接成功" == data){
+				swal("Good job!", "数据库连接成功", "success");
+			}else if("用户名和密码无效" == data){
+				swal("Oops...", "用户名和密码无效", "error");
+			}else if("与数据库通信时出错，不能连接到数据库服务器，请检查服务器是否正在运行以及您是否有权访问请求的数据库" == data){
+				swal("Oops...","与数据库通信时出错，不能连接到数据库服务器，请检查服务器是否正在运行以及您是否有权访问请求的数据库","error");
+			}else{
+				swal("Oops...","数据库连接失败","error");
+			}
 			
-		}
+			}
 	})
 }
 

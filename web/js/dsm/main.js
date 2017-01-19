@@ -1,6 +1,6 @@
+//加载弹出框
 document.write("<script type='text/javascript' src='../utils/sweetalert/js/sweetalert.min.js'></script>");
 document.write("<link rel='stylesheet' type='text/css' href='../utils/sweetalert/css/sweetalert.css'>"); 
-
 //模态框启动
 $(document).ready(function() {
 	// the "href" attribute of .modal-trigger must specify the modal ID that
@@ -51,6 +51,8 @@ function modal_mysql_test(){
 			
 			}
 	})
+	
+	/*$('#loader').shCircleLoader();*/
 }
 
 function readonly_mysql(){

@@ -21,7 +21,7 @@ public class DbService implements IDbService {
 		String url = null;
 		if (driverName != null && driverName.contains("mysql")) {
 			url = "jdbc:mysql://" + dbPO.getIpAddress() + ":" + dbPO.getPortNumber()
-					+ "?connectTimeout=10000&socketTimeout=10000"; // 设置连接超时的时间均是10s，如果10s未连接成功则直接终止连接
+					+ "?connectTimeout=3000&socketTimeout=3000"; // 设置连接超时的时间均是3s，如果3s未连接成功则直接终止连接
 		}
 		String user = dbPO.getUserName();
 		String password = dbPO.getPassword();

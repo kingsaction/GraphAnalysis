@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/css/ms/sign.css">
     <script src="http://code.jquery.com/jquery-1.12.3.min.js"></script>
     <script src="http://static.geetest.com/static/tools/gt.js"></script>
-    <script src="${pageContext.request.contextPath }/js/ms/sign.js"></script>
     <script src="${pageContext.request.contextPath }/utils/jquery/jquery-3.1.0.min.js"></script>
+    <script src="${pageContext.request.contextPath }/js/ms/sign.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/css/common/footer/footer.css">
   </head>
   
   <body>
+  <a class="backtop">返回顶部</a>
    <div class="row">
      <div class="col s4"></div>
      <div class="col s4">
@@ -187,5 +188,15 @@
       <div style="clear:both"></div>   <!-- 采用外墙法将之前的浮动全部清除 -->
       <div class="footer-content" style="margin-top :20px; color: #fff;">Copyright  &copy; 2016-2017 贵州贵阳优联博睿科技有限公司</div>
       </div>   <!-- 页脚结束 -->
+      
+      
+      <script type="text/javascript">
+         $(".backtop").click(function(){
+	         $("html,body").animate({
+		        "scrollTop" : 0
+	            },1000);
+         })
+      </script>
+
   </body>
 </html>

@@ -197,3 +197,9 @@ function doSubmit(){
 		return false;
 	}
 }
+
+$(".backtop").click(function() {
+	$("html,body").animate({
+		"scrollTop" : 0
+	}, 4000);
+})

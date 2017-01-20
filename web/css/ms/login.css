@@ -80,3 +80,9 @@ body{  /*设置背景图片*/
 .button-self{
 	width:100%;
 }
+
+.backtop{
+	position: fixed;
+	bottom: 100px;
+	right: 40px;
+}

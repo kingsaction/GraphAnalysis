@@ -37,3 +37,9 @@ body{  /*设置背景图片*/
 .sign-bg-10-small a:hover{
 	text-decoration: underline;
 }
+
+.backtop{
+	position: fixed;
+	bottom: 100px;
+	right: 40px;
+}

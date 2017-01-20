@@ -13,7 +13,7 @@
   </head>
   
   <body>
-  <a class="backtop">返回顶部</a>
+  <a class="backtop"><img src="${pageContext.request.contextPath }/img/ms/topback.gif"></a>
    <div class="row">
      <div class="col s4"></div>
      <div class="col s4">

@@ -40,6 +40,8 @@ body{  /*设置背景图片*/
 
 .backtop{
 	position: fixed;
-	bottom: 100px;
-	right: 40px;
+	bottom: 80px;
+	right: 30px;
+	opacity: 1;
+	cursor: pointer;
 }

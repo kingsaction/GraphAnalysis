@@ -107,7 +107,12 @@
             </dt>
           </dl>
        </div>
+       
+       <div class="connection">
+          <h5><a>连接</a></h5>
+       </div>
     </div>
+    
     
     <div class="main-content-center">  <!-- 中心部分内容 -->
        

@@ -76,3 +76,11 @@ body{
 	min-width: 460px;
 }
 
+.connection h5 {
+	padding-top: 30px;
+	padding-left: 28px;
+}
+.connection h5 a{
+	font-size: 28px;
+	color: #FFFFFF;
+}

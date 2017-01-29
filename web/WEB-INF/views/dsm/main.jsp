@@ -28,11 +28,11 @@
 
 <body>
 	<!-- 主框架 -->
-	<div class="row" style="margin: 0px;">
+	<%-- <div class="row" style="margin: 0;">
 		<div class="col s1 main-side-bar-1">
 		    <div class="row">  <!-- 占位用 -->
 			</div>
-		    <div class="row"> 
+		    <div class="row" style="background-color: #000;"> 
 		      <div class="col s12 hoverable">
 		        <a href="#"><img alt="" src="${pageContext.request.contextPath }/img/main/icon.png" width="40px;"></a>
 		      </div>  
@@ -86,7 +86,7 @@
 			<div class="row">
 			  <div class="col s2"></div>
 			  <!-- Modal Trigger -->
-			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db">SQL Server</a></div>
+			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db">Microsoft SQL Server</a></div>
 			</div>
 			
 			<div class="row">
@@ -97,8 +97,29 @@
 		<div class="col s10"></div>
 		<div class="col s1"></div>
 	</div>
-
-
+ --%>
+  <div class="main">
+    <div class="main-side-bar-left">
+       <div class="logo">
+          <dl>
+            <dt>
+              <a href="#"><img alt="" src="${pageContext.request.contextPath }/img/main/icon.png"></a>
+            </dt>
+          </dl>
+       </div>
+    </div>
+    
+    <div class="main-content-center">  <!-- 中心部分内容 -->
+       
+    </div>
+    
+    
+    <div class="main-side-bar-right">
+      
+    </div>
+  </div>
+  
+  
     <!-- 文本文件模态框的主要结构模板，其它的文件格式都参考此模板，只需要注意在命名时以text、JSON...结束 -->
 	<div id="modal-db-text" class="modal">    <!-- 模态框主要结构开始 -->
 		<div class="modal-content">

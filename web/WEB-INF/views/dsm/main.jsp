@@ -27,77 +27,7 @@
 </head>
 
 <body>
-	<!-- 主框架 -->
-	<%-- <div class="row" style="margin: 0;">
-		<div class="col s1 main-side-bar-1">
-		    <div class="row">  <!-- 占位用 -->
-			</div>
-		    <div class="row" style="background-color: #000;"> 
-		      <div class="col s12 hoverable">
-		        <a href="#"><img alt="" src="${pageContext.request.contextPath }/img/main/icon.png" width="40px;"></a>
-		      </div>  
-			</div>
-			
-			<div class="row">
-			  <div class="col s12 hoverable"><h5>连接</h5></div>
-			</div>
-			
-			<div class="row ">
-			  <div class="col s12 hoverable"><h6>到文件</h6></div>
-			</div>
-			
-			<div class="row">
-			  <div class="col s2"></div>
-			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db-text">文本文件</a></div>
-			</div>
-
-			<div class="row">
-			  <div class="col s2"></div>
-			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db-json">JSON文件</a></div>
-			</div>
-			
-			<div class="row">
-			  <div class="col s2"></div>
-			  <div class="col s10 hoverable"><a href="#">更多...</a></div>
-			</div>
-			
-			<div class="row">
-			  <div class="col s12 hoverable"><h6>到服务器</h6></div>
-			</div>
-			
-			<div class="row">
-			  <div class="col s2"></div>
-			  <!-- Modal Trigger -->
-			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db-mysql">MySQL</a></div>
-			</div>
-			
-			<div class="row">
-			  <div class="col s2"></div>
-			  <!-- Modal Trigger -->
-			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db">PostgreSQL</a></div>
-			</div>
-			
-			<div class="row">
-			  <div class="col s2"></div>
-			  <!-- Modal Trigger -->
-			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db">Oracle</a></div>
-			</div>
-			
-			<div class="row">
-			  <div class="col s2"></div>
-			  <!-- Modal Trigger -->
-			  <div class="col s10 hoverable"><a class="waves-effect waves-light  modal-trigger" href="#modal-db">Microsoft SQL Server</a></div>
-			</div>
-			
-			<div class="row">
-			  <div class="col s2"></div>
-			  <div class="col s10 hoverable"><a href="#">更多...</a></div>
-			</div>
-		</div>
-		<div class="col s10"></div>
-		<div class="col s1"></div>
-	</div>
- --%>
+  <!-- 主框架 -->
   <div class="main">
     <div class="main-side-bar-left">
        <div class="logo">
@@ -110,6 +40,33 @@
        
        <div class="connection">
           <h5><a>连接</a></h5>
+          <div class="file">
+            <h5><a>到文件</a></h5>
+            <ul>
+              <li><a class="waves-effect waves-light  modal-trigger" href="#modal-db-text">文本文件</a></li>
+              <li><a>JSON文件</a></li>
+              <li><a>Excel文件</a></li>
+              <li><a>更多...<span class="fr">〉</span></a></li>
+            </ul>
+          </div>
+          
+          <div class="server">
+            <h5><a>到服务器</a></h5>
+            <ul>
+              <li><a class="waves-effect waves-light  modal-trigger" href="#modal-db-mysql">MySQL</a></li>
+              <li><a>PostgreSQL</a></li>
+              <li><a>Oracle</a></li>
+              <li><a>Microsoft SQL Server</a></li>
+              <li><a>更多...<span class="fr">〉</span></a></li>
+            </ul>
+          </div>
+          
+          <div class="server">
+            <h5><a>已保存数据源</a></h5>
+            <ul>
+              <li><a>facebook关系网络</a></li>
+            </ul>
+          </div>
        </div>
     </div>
     
@@ -165,8 +122,7 @@
 		       </div>
 		       <div class="col s2"></div>
 		     </div> <!--  第一行结束 -->
-		     
-		     <form id="modal_mysql" method="POST">
+		  
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">  <!-- 第二行开始 -->
 		       <div class="col s12">
@@ -179,7 +135,7 @@
                     <label for="driverName">驱动</label>
                   </div>
                   <div class="input-field col s3">
-                    <input readonly="readonly" value="MYSQL" id="dataBaseType"  name="dataBaseType" type="text" onblur="readonly_mysql()" class="validate">
+                    <input readonly="readonly" value="MYSQL" id="dataBaseType"  name="dataBaseType" type="text" onblur="readonly_mysql()">
                     <label for="dataBaseType">数据库</label>
                   </div>
 		       </div>
@@ -246,7 +202,6 @@
 	            
 	            
 	          </div>   <!-- row结束 -->
-	        </form>
 	      </div>  <!-- container结束 -->
 		    
 	      </div>		

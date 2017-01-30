@@ -71,16 +71,62 @@ body{
 	float: left;
 	width: calc(100% - 300px - 340px);  /*自动根据浏览器的大小计算除了左侧栏和右侧栏剩余部分的宽度*/
 	height: 100%;
-	background-color: red;
 	overflow: hidden;
 	min-width: 460px;
 }
 
+.connection {
+	padding: 0 10px 0 0 ;
+}
 .connection h5 {
 	padding-top: 30px;
 	padding-left: 28px;
 }
 .connection h5 a{
-	font-size: 28px;
+	font-size: 30px;
 	color: #FFFFFF;
+}
+
+.connection .file ul li {
+	padding-left: 44px;
+}
+.connection .file ul li a {
+	display: block;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	color: #fff;
+	font-size: 18px;
+}
+.connection .file h5 a {
+	color: #bdbdbd;
+	font-size: 24px;
+}
+.connection .file ul li a:hover {
+	background-color: #202020;
+}
+
+.connection .server ul li {
+	padding-left: 44px;
+}
+.connection .server ul li a {
+	display: block;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	color: #fff;
+	font-size: 18px;
+}
+.connection .server h5 a {
+	color: #bdbdbd;
+	font-size: 24px;
+}
+.connection .server ul li a:hover {
+	background-color: #202020;
+}
+
+.fr {
+	float: right;
+	padding-right: 10px;
+	overflow: hidden;
 }

@@ -27,6 +27,15 @@ body{
 	min-height: 400px;
 	background-image: url(../../img/dsm/background.png);
 }
+
+#modal-db-json{
+	width: 600px;
+	min-width: 600px;
+	height: 400px;
+	min-height: 400px;
+	background-image: url(../../img/dsm/background.png);
+}
+
 .main-side-bar-left{
 	float: left;
 	height: 100%;

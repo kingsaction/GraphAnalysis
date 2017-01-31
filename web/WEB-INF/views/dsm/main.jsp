@@ -44,7 +44,7 @@
             <h5><a>到文件</a></h5>
             <ul>
               <li><a class="waves-effect waves-light  modal-trigger" href="#modal-db-text">文本文件</a></li>
-              <li><a>JSON文件</a></li>
+              <li><a class="waves-effect waves-light  modal-trigger" href="#modal-db-json">JSON文件</a></li>
               <li><a>Excel文件</a></li>
               <li><a>更多...<span class="fr">〉</span></a></li>
             </ul>
@@ -97,7 +97,7 @@
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">
 			    <div class="col s12">
-			      <form action="${pageContext.request.contextPath }/file/Upload" class="dropzone" id="my-awesome-dropzone" enctype="multipart/form-data" method="POST">
+			      <form action="${pageContext.request.contextPath }/file/Upload" class="dropzone" id="my-awesome-dropzone-text" enctype="multipart/form-data" method="POST">
 			        <div class="fallback">
 			           <input type="file" name="file" />
 			        </div>
@@ -109,6 +109,32 @@
 		</div>  <!-- modal-content部分结束 -->
 	</div>  <!-- 文本文件模态框主要结构结束 -->
 
+    <!-- JSON文件模态框 -->
+	<div id="modal-db-json" class="modal">    <!-- 模态框主要结构开始 -->
+		<div class="modal-content">
+		   <div class="container">
+		     <div class="row">  <!-- 第一行开始 -->
+		       <div class="col s4"></div>
+		       <div class="col s4">
+		         <h5>JSON文件</h5>
+		       </div>
+		       <div class="col s4"></div>
+		     </div> <!--  第一行结束 -->
+		     
+		     <!-- 定义驱动div开始 -->
+		     <div class="row">
+			    <div class="col s12">
+			      <form action="${pageContext.request.contextPath }/file/Upload" class="dropzone" id="my-awesome-dropzone-json" enctype="multipart/form-data" method="POST">
+			        <div class="fallback">
+			           <input type="file" name="file" />
+			        </div>
+			      </form>
+			    </div>
+             </div>
+            <!-- 定义驱动div结束 -->
+		   </div>  <!-- container结束 -->		
+		</div>  <!-- modal-content部分结束 -->
+	</div>  <!-- JSON模态框主要结构结束 -->
 
 
 	<!-- MySQL模态框的主要结构模板，其它的数据库都采用此模板，只需要注意id命名以mysql、postgresql...结束 -->
@@ -206,13 +232,38 @@
 		    
 	      </div>		
 	</div>  <!-- MySQL数据库模态框主要结构结束 -->
-	<!-- 启动拖拽模态框 -->
+	
+	
+	
+	<!-- 启动文本文件拖拽模态框 -->
 	<script type="text/javascript">
 		//启动dropzone
-		$("#my-awesome-dropzone").dropzone({
+		$("#my-awesome-dropzone-text").dropzone({
 		    maxFilesize: 5000,   //5000MB代表的是5GB，单位默认为MB
 		    addRemoveLinks: true,
 		    acceptedFiles: ".txt,.csv",
+		    dictDefaultMessage: "请拖动文件到该区域或点击上传文件",
+		    dictFallbackMessage: "您的浏览器不支持拖拽式文件上传功能",
+		    dictRemoveFile: "删除文件",
+		    dictCancelUpload: "取消上传",
+		    dictCancelUploadConfirmation: "您确定要取消上传？",
+		    maxFiles: 1,
+		    dictMaxFilesExceeded: "只能上传{{maxFiles}}个",
+		    dictInvalidFileType:"您上传的文件类型不正确",
+		    dictFileTooBig:"可添加的最大文件大小为{{maxFilesize}}Mb，当前文件大小为{{filesize}}Mb ",
+		    dictResponseError: "上传出现错误",  
+		    dictRemoveFileConfirmation: "确认删除?",  //删除问价时的确认信息
+		    autoDiscover: false,
+		})
+	</script>
+	
+	<!-- 启动JSON文件拖拽模态框 -->
+	<script type="text/javascript">
+		//启动dropzone
+		$("#my-awesome-dropzone-json").dropzone({
+		    maxFilesize: 5000,   //5000MB代表的是5GB，单位默认为MB
+		    addRemoveLinks: true,
+		    acceptedFiles: ".json",
 		    dictDefaultMessage: "请拖动文件到该区域或点击上传文件",
 		    dictFallbackMessage: "您的浏览器不支持拖拽式文件上传功能",
 		    dictRemoveFile: "删除文件",

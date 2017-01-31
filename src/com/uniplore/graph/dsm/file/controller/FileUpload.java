@@ -40,6 +40,7 @@ public class FileUpload {
 			HttpServletResponse response, Model model)throws Exception{
 		System.out.println("从客户端接收到文件"+file.getOriginalFilename());
 		
+		//获取到从客户端传来的数据，将其保存到一个指定的位置，将文件名保存到model中，接着跳转到一个成功的页面中
 	}
 	
 }

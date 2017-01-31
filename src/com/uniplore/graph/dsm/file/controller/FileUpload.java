@@ -11,11 +11,32 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
-@RequestMapping(value="/file")
+@RequestMapping(value="/file/Upload")
 public class FileUpload {
 
-	@RequestMapping(value="/Upload",method=RequestMethod.POST)
-	public void fileUpload(@RequestParam(value = "file",required = false) MultipartFile file,
+	/**
+	 * 
+	 * @param file
+	 * @param response
+	 * @param model    
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/Text",method=RequestMethod.POST)
+	public void fileUploadText(@RequestParam(value = "file",required = false) MultipartFile file,
+			HttpServletResponse response, Model model)throws Exception{
+		System.out.println("从客户端接收到文件"+file.getOriginalFilename());
+		
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @param response
+	 * @param model
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/Json",method=RequestMethod.POST)
+	public void fileUploadJson(@RequestParam(value = "file",required = false) MultipartFile file,
 			HttpServletResponse response, Model model)throws Exception{
 		System.out.println("从客户端接收到文件"+file.getOriginalFilename());
 		

@@ -97,7 +97,7 @@
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">
 			    <div class="col s12">
-			      <form action="${pageContext.request.contextPath }/file/Upload" class="dropzone" id="my-awesome-dropzone-text" enctype="multipart/form-data" method="POST">
+			      <form action="${pageContext.request.contextPath }/file/Upload/Text" class="dropzone" id="my-awesome-dropzone-text" enctype="multipart/form-data" method="POST">
 			        <div class="fallback">
 			           <input type="file" name="file" />
 			        </div>
@@ -124,7 +124,7 @@
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">
 			    <div class="col s12">
-			      <form action="${pageContext.request.contextPath }/file/Upload" class="dropzone" id="my-awesome-dropzone-json" enctype="multipart/form-data" method="POST">
+			      <form action="${pageContext.request.contextPath }/file/Upload/Json" class="dropzone" id="my-awesome-dropzone-json" enctype="multipart/form-data" method="POST">
 			        <div class="fallback">
 			           <input type="file" name="file" />
 			        </div>

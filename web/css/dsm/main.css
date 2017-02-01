@@ -144,3 +144,59 @@ body{
 	height: 50px;
 	width: 100% ;
 }
+
+.main-side-bar-right .main-side-bar-right-header {
+	height: 50px;
+	width: 100% ;
+}
+
+.main-side-bar-right .explore {
+	padding: 0 10px 0 0 ;
+}
+
+.explore h5 {
+	padding-top: 30px;
+	padding-left: 28px;
+}
+
+.explore h5 a{
+	font-size: 30px;
+	color: #535353;
+}
+
+.explore ul li {
+	padding-left: 44px;
+}
+
+.explore ul li a {
+	display: block;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	color: #303030;
+	font-size: 18px;
+}
+
+/*分割*/
+.source h5 {
+	padding-top: 30px;
+	padding-left: 28px;
+}
+
+.source h5 a{
+	font-size: 30px;
+	color: #535353;
+}
+
+.source ul li {
+	padding-left: 44px;
+}
+
+.source ul li a {
+	display: block;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	color: #303030;
+	font-size: 18px;
+}

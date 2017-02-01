@@ -80,7 +80,29 @@
     
     
     <div class="main-side-bar-right">
+      <div class="main-side-bar-right-header"></div>
+      <div class="connection">
+         <h5><a style="color: #2a2a2a;">探索</a></h5>
+      </div>
       
+      <div class="explore">
+        <h5><a>培训</a></h5>
+        <ul>
+          <li><a>入门</a></li>
+          <li><a>连接到数据</a></li>
+          <li><a>可视化分析</a></li>
+          <li><a>更多...</a></li>
+        </ul>
+      </div>
+      
+      <div class="source">
+        <h5><a>资源</a></h5>
+        <ul>
+          <li><a>论坛</a></li>
+          <li><a>博客</a></li>
+          <li><a>更多...</a></li>
+        </ul>
+      </div>
     </div>
   </div>
   

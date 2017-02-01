@@ -277,7 +277,7 @@
 		    dictInvalidFileType:"您上传的文件类型不正确",
 		    dictFileTooBig:"可添加的最大文件大小为{{maxFilesize}}Mb，当前文件大小为{{filesize}}Mb ",
 		    dictResponseError: "上传出现错误",  
-		    dictRemoveFileConfirmation: "确认删除?",  //删除问价时的确认信息
+		    dictRemoveFileConfirmation: "确认删除?",  //删除文件时的确认信息
 		    autoDiscover: false,
 		})
 	</script>
@@ -299,7 +299,7 @@
 		    dictInvalidFileType:"您上传的文件类型不正确",
 		    dictFileTooBig:"可添加的最大文件大小为{{maxFilesize}}Mb，当前文件大小为{{filesize}}Mb ",
 		    dictResponseError: "上传出现错误",  
-		    dictRemoveFileConfirmation: "确认删除?",  //删除问价时的确认信息
+		    dictRemoveFileConfirmation: "确认删除?",  //删除文件时的确认信息
 		    autoDiscover: false,
 		})
 	</script>

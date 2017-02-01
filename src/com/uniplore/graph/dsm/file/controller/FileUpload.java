@@ -1,7 +1,6 @@
 package com.uniplore.graph.dsm.file.controller;
 
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,11 +35,15 @@ public class FileUpload {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/Json",method=RequestMethod.POST)
-	public void fileUploadJson(@RequestParam(value = "file",required = false) MultipartFile file,
+	public String fileUploadJson(@RequestParam(value = "file",required = true) MultipartFile file,
 			HttpServletResponse response, Model model)throws Exception{
-		System.out.println("从客户端接收到文件"+file.getOriginalFilename());
+		System.out.println("从客户端接收到JSON文件为:"+file.getOriginalFilename());
 		
 		//获取到从客户端传来的数据，将其保存到一个指定的位置，将文件名保存到model中，接着跳转到一个成功的页面中
+		
+		
+		//将数据保存之后，跳转到另外一个页面
+		return "dsm/file/json/json";
 	}
 	
 }

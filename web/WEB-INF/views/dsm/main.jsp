@@ -177,16 +177,16 @@
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">  <!-- 第二行开始 -->
 		       <div class="col s12">
-		          <div class="input-field col s9">
-                    <select id="driverName" name="driverName">
-                      <option value="1">com.mysql.jdbc.Driver</option>
-				      <option value="2">com.mysql.jdbc.Driver</option>
-				      <option value="3">org.gjt.mm.mysql.Driver</option>
+		          <div class="input-field col s9 validate" id="driverName" onblur="driver_validate()">
+                    <select  name="driverName">
+                      <option value="1" class="validate">com.mysql.jdbc.Driver</option>
+				      <option value="2" class="validate">com.mysql.jdbc.Driver</option>
+				      <option value="3" class="validate">org.gjt.mm.mysql.Driver</option>
                     </select>
                     <label for="driverName">驱动</label>
                   </div>
                   <div class="input-field col s3">
-                    <input readonly="readonly" value="MYSQL" id="dataBaseType"  name="dataBaseType" type="text" onblur="readonly_mysql()">
+                    <input readonly="readonly" value="MYSQL" id="dataBaseType"  name="dataBaseType" type="text" onblur="readonly_mysql()" class="validate">
                     <label for="dataBaseType">数据库</label>
                   </div>
 		       </div>

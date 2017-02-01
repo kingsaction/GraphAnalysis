@@ -56,6 +56,12 @@ function modal_mysql_test(){
 }
 
 function readonly_mysql(){
-	$("#readonly").removeClass("invalid");
-	$("#readonly").addClass("valid");
+	$("#dataBaseType").removeClass("invalid");
+	$("#dataBaseType").addClass("valid");
+}
+
+function driver_validate(){
+	$(".select-dropdown").removeClass("invalid");
+	$(".select-dropdown").addClass("validate");
+	$(".select-dropdown").addClass("valid");
 }

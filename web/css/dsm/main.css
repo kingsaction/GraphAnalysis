@@ -177,6 +177,11 @@ body{
 	font-size: 18px;
 }
 
+.explore ul li a:hover {
+	background-color: #818181;
+}
+
+
 /*分割*/
 .source h5 {
 	padding-top: 30px;
@@ -199,4 +204,8 @@ body{
 	padding-bottom: 5px;
 	color: #303030;
 	font-size: 18px;
+}
+
+.source ul li a:hover {
+	background-color: #818181;
 }

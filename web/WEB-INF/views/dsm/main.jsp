@@ -157,6 +157,13 @@
 			    </div>
              </div>
             <!-- 定义驱动div结束 -->
+            <div class="row">
+               <div class="col s4"></div>
+               <div class="col s4">
+			        <div class="waves-effect waves-light btn" id="dropzonre-submit" style="margin-top: 10px;">保存</div>
+			   </div>
+			   <div class="col s4"></div>
+            </div>
 		   </div>  <!-- container结束 -->		
 		</div>  <!-- modal-content部分结束 -->
 	</div>  <!-- JSON模态框主要结构结束 -->
@@ -264,6 +271,7 @@
 	<script type="text/javascript">
 		//启动dropzone
 		$("#my-awesome-dropzone-text").dropzone({
+		    autoDiscover: false,
 		    maxFilesize: 5000,   //5000MB代表的是5GB，单位默认为MB
 		    addRemoveLinks: true,
 		    acceptedFiles: ".txt,.csv",
@@ -278,7 +286,13 @@
 		    dictFileTooBig:"可添加的最大文件大小为{{maxFilesize}}Mb，当前文件大小为{{filesize}}Mb ",
 		    dictResponseError: "上传出现错误",  
 		    dictRemoveFileConfirmation: "确认删除?",  //删除文件时的确认信息
-		    autoDiscover: false,
+		    init: function() {
+               this.on("success", function(file,backData) { 
+                   $('#modal-db-text').closeModal({out_duration: 1000});   //当文件成功的上传之后，模态框消失
+               });
+            }
+            
+            
 		})
 	</script>
 	
@@ -286,6 +300,8 @@
 	<script type="text/javascript">
 		//启动dropzone
 		$("#my-awesome-dropzone-json").dropzone({
+		    autoProcessQueue: false,  //禁止自动上传
+		    autoDiscover: false,
 		    maxFilesize: 5000,   //5000MB代表的是5GB，单位默认为MB
 		    addRemoveLinks: true,
 		    acceptedFiles: ".json",
@@ -300,7 +316,20 @@
 		    dictFileTooBig:"可添加的最大文件大小为{{maxFilesize}}Mb，当前文件大小为{{filesize}}Mb ",
 		    dictResponseError: "上传出现错误",  
 		    dictRemoveFileConfirmation: "确认删除?",  //删除文件时的确认信息
-		    autoDiscover: false,
+		    init: function() {
+		       var myDropzone = this ;
+		       $('#dropzonre-submit').on("click", function(e) {
+	              myDropzone.processQueue();   //当点击按钮时发生提交操作，此时会访问服务器
+	           });
+	           
+               this.on("success", function(file,backData) {
+                   alert("返回值为:"+backData);
+                   $('#modal-db-json').closeModal({
+                       out_duration: 1000,    /*关闭模态框,1000代表1000ms，在1s内关闭模态框*/
+                   });
+                   window.location.href = "${pageContext.request.contextPath }/JsonTypeDataAnalysis?id="+backData;  //成功上传文件之后跳转到指定的路径中
+               });
+            }
 		})
 	</script>
 	

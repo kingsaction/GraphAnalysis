@@ -133,7 +133,7 @@
             <div class="row">
                <div class="col s4"></div>
                <div class="col s4">
-			        <div class="waves-effect waves-light btn" id="dropzonre-submit" style="margin-top: 10px;">保存</div>
+			        <div class="waves-effect waves-light btn" id="dropzonre-submit-text" style="margin-top: 10px;">保存</div>
 			   </div>
 			   <div class="col s4"></div>
             </div>
@@ -167,7 +167,7 @@
             <div class="row">
                <div class="col s4"></div>
                <div class="col s4">
-			        <div class="waves-effect waves-light btn" id="dropzonre-submit" style="margin-top: 10px;">保存</div>
+			        <div class="waves-effect waves-light btn" id="dropzonre-submit-json" style="margin-top: 10px;">保存</div>
 			   </div>
 			   <div class="col s4"></div>
             </div>
@@ -296,7 +296,7 @@
 		    dictRemoveFileConfirmation: "确认删除?",  //删除文件时的确认信息
 		    init: function() {
 		       var myDropzone = this ;
-		       $('#dropzonre-submit').on("click", function(e) {
+		       $('#dropzonre-submit-text').on("click", function(e) {
 	              myDropzone.processQueue();   //当点击按钮时发生提交操作，此时会访问服务器
 	           });
 	           
@@ -333,7 +333,7 @@
 		    dictRemoveFileConfirmation: "确认删除?",  //删除文件时的确认信息
 		    init: function() {
 		       var myDropzone = this ;
-		       $('#dropzonre-submit').on("click", function(e) {
+		       $('#dropzonre-submit-json').on("click", function(e) {
 	              myDropzone.processQueue();   //当点击按钮时发生提交操作，此时会访问服务器
 	           });
 	           

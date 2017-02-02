@@ -322,7 +322,7 @@
 	              myDropzone.processQueue();   //当点击按钮时发生提交操作，此时会访问服务器
 	           });
 	           
-               this.on("success", function(file,backData) {
+               this.on("success", function(file,backData) {  //dropzone上传文件成功之后激活的事件，backData为从服务器端返回的数据
                    alert("返回值为:"+backData);
                    $('#modal-db-json').closeModal({
                        out_duration: 1000,    /*关闭模态框,1000代表1000ms，在1s内关闭模态框*/

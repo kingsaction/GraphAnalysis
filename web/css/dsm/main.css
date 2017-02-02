@@ -23,8 +23,8 @@ body{
 #modal-db-text{
 	width: 600px;
 	min-width: 600px;
-	height: 400px;
-	min-height: 400px;
+	height: 500px;
+	min-height: 500px;
 	background-image: url(../../img/dsm/background.png);
 }
 
@@ -32,7 +32,7 @@ body{
 	width: 600px;
 	min-width: 600px;
 	height: 500px;
-	min-height: 400px;
+	min-height: 500px;
 	background-image: url(../../img/dsm/background.png);
 }
 

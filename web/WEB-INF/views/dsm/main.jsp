@@ -156,9 +156,10 @@
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">
 			    <div class="col s12">
+			      <!-- 在上传文件时，必须要指定enctype="multipart/form-data"属性，并且method属性必须为POST，因为get方式对上传的大小有限制，会被截断 -->
 			      <form action="${pageContext.request.contextPath }/file/Upload/Json" class="dropzone" id="my-awesome-dropzone-json" enctype="multipart/form-data" method="POST">
 			        <div class="fallback">
-			           <input type="file" name="file" />
+			           <input type="file" name="file" />   <!-- 上传文件的文本域，类型必须指定为file -->
 			        </div>
 			      </form>
 			    </div>
@@ -338,11 +339,11 @@
 	           });
 	           
                this.on("success", function(file,backData) {  //dropzone上传文件成功之后激活的事件，backData为从服务器端返回的数据
-                   //alert("返回值为:"+backData);
+                   //alert("返回值id为:"+backData.id+" "+" 返回的文件名为"+backData.fileName);
                    $('#modal-db-json').closeModal({
                        out_duration: 1000,    /*关闭模态框,1000代表1000ms，在1s内关闭模态框*/
                    });
-                   window.location.href = "${pageContext.request.contextPath }/JsonTypeDataAnalysis?id="+backData;  //成功上传文件之后跳转到指定的路径中
+                   window.location.href = "${pageContext.request.contextPath }/JsonTypeDataAnalysis?id="+backData.id+"&fileName="+backData.fileName;  //成功上传文件之后跳转到指定的路径中
                });
             }
 		})

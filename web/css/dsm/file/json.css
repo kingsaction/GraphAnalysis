@@ -1,0 +1,80 @@
+@CHARSET "UTF-8";
+body{
+	background-image: url(../../../img/dsm/background.png);
+}
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.main{
+	width: 100%;
+	min-width: 1100px;
+}
+
+
+.main-side-bar-left{
+	float: left;
+	height: 100%;
+	width: 300px;
+	min-width: 300px;
+	background-color: #313131;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+.main-side-bar-left .logo dl{
+	background-color: #2a2a2a;
+}
+
+.main-side-bar-left .logo dl a {
+	display: block;
+	padding-top : 15px;
+	padding-bottom : 15px;
+	padding-left: 18px;
+}
+
+.main-side-bar-left .logo dl a:hover{
+	background-color: #202020;
+}
+
+.main-side-bar-left .logo dl a img {
+	width: 20px;
+	height: 20px;
+}
+
+.main-side-bar-right {
+	float: right;
+	width: 340px;
+	height: 100%;
+	background-color: #c0c0c0;
+	overflow: hidden;
+	min-width: 340px;
+}
+
+.main-content-center {
+	float: left;
+	width: calc(100% - 300px - 340px);  /*自动根据浏览器的大小计算除了左侧栏和右侧栏剩余部分的宽度*/
+	height: 100%;
+	overflow: hidden;
+	min-width: 460px;
+}
+
+
+.fr {
+	float: right;
+	padding-right: 10px;
+	overflow: hidden;
+}
+
+.main-content-center .main-content-center-header {
+	height: 50px;
+	width: 100% ;
+}
+
+.main-side-bar-right .main-side-bar-right-header {
+	height: 50px;
+	width: 100% ;
+}

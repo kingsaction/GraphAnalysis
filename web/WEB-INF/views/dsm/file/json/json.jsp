@@ -32,8 +32,17 @@
 
 		<div class="main-content-center">
 			<!-- 中心部分内容 -->
-			<div class="main-content-center-header"></div>
-			<!-- 撑开该部分，使得和左侧导航条的logo处一样的高度 -->		
+			<div class="main-content-center-header">
+			</div>  <!-- 撑开该部分，使得和左侧导航条的logo处一样的高度 -->
+			
+			<div class="main-content-center-center">
+			  <div>请将数据集拖拽至此处</div>
+			  <div class="main-content-center-footer" id="main-content-center-graphanalysis">
+			      
+			  </div>
+			</div>	
+		    
+		    <div class="main-content-center-footer"></div>
 		</div>
 
 

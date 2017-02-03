@@ -57,11 +57,12 @@ public class FileUpload {
 		String id = UUID.randomUUID().toString();  
 		String fileOriginalName = file.getOriginalFilename();   //得到上传的原始文件名
 		System.out.println(fileOriginalName);
-		String saveFileName = id+"#"+fileOriginalName;   //文件名被拆分为两个部分
+		String saveFileName = id+"#"+fileOriginalName;  //保存到服务器的文件名由两部分组成：生成的唯一id和原始的文件名
 		
 		//这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
         FileUtils.copyInputStreamToFile(file.getInputStream(), new File(realPath, saveFileName)); 
 		
+        //将文件的唯一id(避免文件重名)和原始文件名以JSON形式返回给服务器端
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);   //将每个文件的唯一id编号传递给客户端
 		map.put("fileName", fileOriginalName);   //将原始的文件名传递给客户端

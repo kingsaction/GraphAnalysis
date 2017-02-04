@@ -4,12 +4,18 @@
 
 <html>
 <head>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/utils/easyui/css/easyui.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/utils/easyui/css/icon.css">
 <link rel="Shortcut Icon"
 	href="${pageContext.request.contextPath}/img/main/icon.png" />
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/utils/materialize/css/materialize.min.css">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/utils/jquery/jquery-3.1.0.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/utils/easyui/js/jquery.easyui.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/utils/materialize/js/materialize.min.js"></script>
 <link rel="stylesheet" type="text/css"
@@ -28,6 +34,12 @@
 					</dt>
 				</dl>
 			</div>
+			
+			<div class="source">数据源</div>
+			
+			<div class="worksheet" id="data-source">
+			  <h5>工作表</h5>
+			</div>
         </div>
 
 		<div class="main-content-center">
@@ -35,10 +47,12 @@
 			<div class="main-content-center-header">
 			</div>  <!-- 撑开该部分，使得和左侧导航条的logo处一样的高度 -->
 			
-			<div class="main-content-center-center">
-			  <div>请将数据集拖拽至此处</div>
+			<div class="main-content-center-center" id="target-source" >
+			  <div>
+			    请将数据集拖拽至此处
+			  </div>
 			  <div class="main-content-center-footer" id="main-content-center-graphanalysis">
-			      
+			      图分析数据展示
 			  </div>
 			</div>	
 		    

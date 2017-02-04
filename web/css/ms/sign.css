@@ -7,9 +7,9 @@
 	border: 2px solid #ccc;
 	margin-top:50px;
 	box-shadow: 0 0 10px #c0c0c0;
-	border-radius: 15px; //圆角效果
+	border-radius: 15px; /*圆角效果*/
 	margin-buttom: 0px;
-	min-width: 400px;   //给定一个最小的宽度，这样能解决：当网页的宽度变小时，里面的内容不会溢出
+	min-width: 400px;   /*给定一个最小的宽度，这样能解决：当网页的宽度变小时，里面的内容不会溢出*/
 }
 
 .button-self{

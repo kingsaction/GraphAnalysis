@@ -17,6 +17,8 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/utils/easyui/js/jquery.easyui.min.js"></script>
 <script type="text/javascript"
+	src="${pageContext.request.contextPath}/utils/easyui/js/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"
 	src="${pageContext.request.contextPath }/utils/materialize/js/materialize.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/css/dsm/file/json.css">

@@ -4,10 +4,6 @@
 
 <html>
 <head>
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/utils/easyui/css/easyui.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/utils/easyui/css/icon.css">
 <link rel="Shortcut Icon"
 	href="${pageContext.request.contextPath}/img/main/icon.png" />
 <link rel="stylesheet" type="text/css"
@@ -22,6 +18,10 @@
 	src="${pageContext.request.contextPath }/utils/materialize/js/materialize.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/css/dsm/file/json.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/utils/easyui/css/easyui.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/utils/easyui/css/icon.css">
 
 </head>
 

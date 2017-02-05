@@ -1,8 +1,8 @@
 @CHARSET "UTF-8";
-body{
-	background-image: url(../../../img/dsm/background.png);
-}
 
+body {
+	font-family: Microsoft Yahei,Simsun,GillSans, Calibri, Trebuchet, sans-serif;
+}
 *{
 	margin: 0;
 	padding: 0;
@@ -22,6 +22,7 @@ body{
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
+	background-color: #F5F5F5;
 }
 
 .main-side-bar-left .logo dl{
@@ -81,12 +82,10 @@ body{
 .main-content-center-center {
 	width: 100%; /*自动根据浏览器的大小计算除了左侧栏和右侧栏剩余部分的宽度*/
 	height: 200px;
-	border: 2px solid #d20931;
+	border-bottom: 2px solid #F5F5F5;
 	margin: 0 auto;
 	line-height: 200px;
 	text-align: center;
-	border-left: 1px solid #d20931;
-	border-right: 1px solid #d20931;
 }
 
 .main-content-center-center div{
@@ -97,7 +96,6 @@ body{
 .main-content-center-footer {
 	width: 100%;
 	height: calc(100% - 50px - 200px);
-	border: 1px dashed #000;
 }
 
 .main-side-bar-left .source {
@@ -105,12 +103,57 @@ body{
 	height: 100px;
 	padding-left: 18px;
 	margin-top: 20px;
-	border: 1px solid red;
+	border-bottom: 2px solid #D5D5D5;
+}
+.main-side-bar-left .source h5 {
+	font-size: 14px;
 }
 .main-side-bar-left .worksheet {
 	margin-top: 20px;
 	padding-left: 18px;
 	width: 100%;
 	height: calc(100% - 150px);
-	border: 1px solid #000;
+}
+.main-side-bar-left .worksheet h5 {
+	font-size: 14px;
+}
+
+.main-side-bar-left .source ul li {
+	background-color: #E7E7E7;
+	padding-left: 14px;
+	margin-right: 18px;
+	padding-top : 8px;
+	padding-bottom: 8px;
+	cursor: default;
+}
+
+.main-side-bar-left .source ul li:hover {
+	background-color: #c0c0c0;
+}
+.source ul li .file-title {
+	font-size: 16px;
+	/* font-family: "Microsoft Yahei"; */
+}
+.source ul li .file-type {
+	font-size: 12px;
+	padding-left: 22px;
+	/* font-family: "Simsun"; */
+}
+
+.main-side-bar-left .worksheet ul li {
+	background-color: #E7E7E7;
+	padding-left: 14px;
+	margin-right: 18px;
+	padding-top : 8px;
+	padding-bottom: 8px;
+	cursor: move;
+}
+
+.main-side-bar-left .worksheet ul li:hover {
+	background-color: #c0c0c0;
+}
+
+.main-side-bar-left .worksheet #free-table {
+	padding-left: 100px;
+	cursor: pointer;
 }

@@ -4,8 +4,15 @@
 
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="Shortcut Icon"
 	href="${pageContext.request.contextPath}/img/main/icon.png" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/utils/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/utils/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/utils/font-awesome/css/font-awesome-ie7.min.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/utils/materialize/css/materialize.min.css">
 <script type="text/javascript"
@@ -22,7 +29,8 @@
 	href="${pageContext.request.contextPath }/utils/easyui/css/easyui.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/utils/easyui/css/icon.css">
-
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/js/dsm/file/json.js"></script>
 </head>
 
 <body>
@@ -37,16 +45,31 @@
 				</dl>
 			</div>
 			
-			<div class="source">数据源</div>
+			<div class="source">
+			  <h5>连接</h5>
+			  <ul>
+			    <li>
+			      <div class="file-title"><%= request.getParameter("fileName") %></div>
+			      <div class="file-type">JSON文件</div>
+			    </li>
+			  </ul>
+			</div>
 			
 			<div class="worksheet" id="data-source">
-			  <h5>工作表</h5>
+			  <h5>文件</h5>
+			  <ul>
+			    <li onmouseover="freeTableAppear();" onmouseout="freeTableDisappear()">
+			      <i class="icon-table" style="margin-right: 12px;"></i><%= request.getParameter("fileName") %>
+			      <i class="modal-trigger waves-effect waves-light" href="#modal-free-table" id="free-table" title="查看数据"></i>
+			    </li>
+			  </ul>
 			</div>
         </div>
 
 		<div class="main-content-center">
 			<!-- 中心部分内容 -->
 			<div class="main-content-center-header">
+			  <h5 style="margin-left: 25px;"><i class="icon-file-text-alt" style="margin-right: 24px;"></i><%= request.getParameter("fileName") %></h5>
 			</div>  <!-- 撑开该部分，使得和左侧导航条的logo处一样的高度 -->
 			
 			<div class="main-content-center-center" id="target-source" >
@@ -67,5 +90,30 @@
 		</div>
 		
 	</div>
+
+	<div id="modal-free-table" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<p></p>
+		</div>
+		<div class="modal-footer">
+			<a class="modal-action modal-close waves-effect waves-green btn-flat ">关闭</a>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$('.modal-trigger').leanModal({
+			dismissible : true, // 点击模态框外部则关闭模态框
+			opacity : 0.5, // 背景透明度
+			in_duration : 300, // 切入时间
+			out_duration : 200, // 切出时间
+			ready : function() {
+				//alert('Ready');
+			}, // 当模态框打开时执行的函数
+			complete : function() {
+				//alert('Closed');
+			} // 当模态框关闭时执行的函数
+		}
+		);
+	</script>
 </body>
 </html>

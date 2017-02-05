@@ -70,7 +70,7 @@ public class FileUpload {
 	}
 	
 	@RequestMapping(value="/ViewData",method=RequestMethod.POST)
-	public String viewData(String id , String fileName){
-		return id;
+	public void viewData(String id , String fileName){
+		System.out.println("执行了该函数");
 	}
 }

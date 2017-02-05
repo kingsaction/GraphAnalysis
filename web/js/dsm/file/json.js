@@ -9,3 +9,7 @@ function freeTableDisappear(){
 	//alert("当鼠标移到上方时调用该函数");
 	$("#free-table").removeClass("icon-table");
 }
+
+function viewData(){
+	alert("测试");
+}

@@ -154,6 +154,9 @@ body {
 }
 
 .main-side-bar-left .worksheet #free-table {
-	padding-left: 100px;
+	float: right;
+	padding-right: 14px;
 	cursor: pointer;
+	overflow: hidden;
+	padding-top: 4px;
 }

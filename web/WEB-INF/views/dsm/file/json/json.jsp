@@ -112,6 +112,7 @@
 					async : false,
 					url : "file/Upload/FindData?t=" + (new Date()).getTime(),
 					type : "POST",
+					dataType: "JSON",
 					data : {
 						"id" : id,
 						"fileName" : fileName,

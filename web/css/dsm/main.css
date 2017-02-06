@@ -1,6 +1,7 @@
 @CHARSET "UTF-8";
 body{
 	background-image: url(../../img/dsm/background.png);
+	font-family: Microsoft Yahei,Simsun,GillSans, Calibri, Trebuchet, sans-serif;
 }
 *{
 	margin: 0;

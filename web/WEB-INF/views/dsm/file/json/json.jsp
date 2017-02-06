@@ -58,7 +58,7 @@
 			<div class="worksheet" id="data-source">
 			  <h5>文件</h5>
 			  <ul>
-			    <li onmouseover="freeTableAppear();" onmouseout="freeTableDisappear()">
+			    <li onmouseover="freeTableAppear();" onmouseout="freeTableDisappear()" title="拖动数据集到指定位置">
 			      <i class="icon-table" style="margin-right: 12px;"></i><%= request.getParameter("fileName") %>
 			      <i id="free-table" title="查看数据" class="waves-effect waves-light modal-trigger" href="#modal-free-table"></i>
 			    </li>

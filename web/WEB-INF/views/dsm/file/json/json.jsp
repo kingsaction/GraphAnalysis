@@ -117,7 +117,7 @@
 						"fileName" : fileName,
 					},
 					success : function(backData) {
-						alert(backData.jsonContent);
+						//alert(backData.jsonContent);
 						$("#modal-content-JSON").html(backData.jsonContent);
 					}
 				})

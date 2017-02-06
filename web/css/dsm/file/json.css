@@ -160,3 +160,7 @@ body {
 	overflow: hidden;
 	padding-top: 4px;
 }
+
+#modal-free-table {
+	width: 600px;
+}

@@ -91,7 +91,7 @@
 		
 		<div id="modal-free-table" class="modal modal-fixed-footer">
 		<div class="modal-content">
-			<p id="modal-content-JSON"></p>
+			<span id="modal-content-JSON"></span>
 		</div>
 		<div class="modal-footer">
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">关闭</a>
@@ -117,7 +117,7 @@
 						"fileName" : fileName,
 					},
 					success : function(backData) {
-						//alert(backData.jsonContent);
+						alert(backData.jsonContent);
 						$("#modal-content-JSON").html(backData.jsonContent);
 					}
 				})

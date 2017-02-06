@@ -1,6 +1,8 @@
 package com.uniplore.graph.dsm.file.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -11,12 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.uniplore.graph.utils.fileoperation.FileOperation;
 
 
 @Controller
@@ -69,8 +72,23 @@ public class FileUpload {
 		return map;
 	}
 	
-	@RequestMapping(value="/ViewData",method=RequestMethod.POST)
-	public void viewData(String id , String fileName){
-		System.out.println("执行了该函数");
+	@RequestMapping(value="/FindData",method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> viewData(HttpServletRequest request)throws Exception{
+		String id = request.getParameter("id");
+		String fileName = request.getParameter("fileName");
+		
+		String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
+		//System.out.println("拼接的路径为:"+realPath+"\\"+id+"#"+fileName);  //查看拼接的路径是否正确
+		File file = new File(realPath+"\\"+id+"#"+fileName);    //获取到指定路径下的文件
+		//System.out.println("读取到的文件大小为:"+file.length());
+		
+		FileInputStream fileInputStream = new FileInputStream(file); //建立数据通道
+		String jsonContent = FileOperation.readFileContent(fileInputStream);
+		System.out.println("返回的数据为:"+jsonContent);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("jsonContent", jsonContent);
+		return map;
+		
 	}
 }

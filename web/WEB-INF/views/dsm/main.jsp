@@ -13,7 +13,7 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/utils/materialize/js/materialize.min.js"></script>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath }/utils/font-Awesome/css/font-awesome.min.css">
+	href="${pageContext.request.contextPath }/utils/font-awesome/css/font-awesome.min.css">
 	
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/css/dsm/main.css">

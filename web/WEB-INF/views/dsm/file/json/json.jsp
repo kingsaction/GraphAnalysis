@@ -60,7 +60,7 @@
 			  <ul>
 			    <li onmouseover="freeTableAppear();" onmouseout="freeTableDisappear()">
 			      <i class="icon-table" style="margin-right: 12px;"></i><%= request.getParameter("fileName") %>
-			      <i id="free-table" title="查看数据" onclick="viewData();"></i>
+			      <i id="free-table" title="查看数据" class="waves-effect waves-light modal-trigger" href="#modal-free-table"></i>
 			    </li>
 			  </ul>
 			</div>
@@ -89,6 +89,43 @@
 			<div class="main-side-bar-right-header"></div>
 		</div>
 		
+		<div id="modal-free-table" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<p id="modal-content-JSON"></p>
+		</div>
+		<div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">关闭</a>
+        </div>
 	</div>
+	
+	</div>
+	<script type="text/javascript">
+		$('.modal-trigger').leanModal({
+			dismissible : true, // 点击模态框外部则关闭模态框
+			opacity : 0.5, // 背景透明度
+			in_duration : 300, // 切入时间
+			out_duration : 200, // 切出时间
+			ready : function() {
+				var id =  '<%= (String) request.getParameter("id")%>';
+				var fileName = '<%= (String) request.getParameter("fileName")%>';
+				$.ajax({
+					async : false,
+					url : "file/Upload/FindData?t=" + (new Date()).getTime(),
+					type : "POST",
+					data : {
+						"id" : id,
+						"fileName" : fileName,
+					},
+					success : function(backData) {
+						//alert(backData.jsonContent);
+						$("#modal-content-JSON").html(backData.jsonContent);
+					}
+				})
+			}, // 当模态框打开时执行的函数
+			complete : function() {
+			} // 当模态框关闭时执行的函数
+		}
+		);
+	</script>
 </body>
 </html>

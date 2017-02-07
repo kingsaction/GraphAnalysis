@@ -145,7 +145,7 @@
 							cytoscape({
 								container : document.getElementById('main-content-center-footer'),
 								elements : backData,
-								layout : { name : 'circle'}
+								layout : { name: 'circle'}
 							});
 						});
 					}, //success函数结束

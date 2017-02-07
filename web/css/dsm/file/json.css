@@ -96,7 +96,7 @@ body {
 #main-content-center-footer {
 	width: 100%;
 	height: calc(100% - 50px - 200px);
-	/* background-color: #f9f9f9; */
+	background-color: #f9f9f9;
 }
 
 .main-side-bar-left .source {

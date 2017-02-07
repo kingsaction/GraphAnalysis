@@ -154,8 +154,14 @@
 		<!-- 消息转换器,解决@ResponseBody注解返回中文乱码问题 -->
 		<mvc:message-converters register-defaults="true">
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />
+				<property name="supportedMediaTypes">
+                    <list>
+                        <value>text/plain;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
 			</bean>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 	

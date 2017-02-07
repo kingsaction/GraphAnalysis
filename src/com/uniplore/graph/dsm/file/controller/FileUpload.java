@@ -73,7 +73,7 @@ public class FileUpload {
 	}
 	
 	@RequestMapping(value="/FindData",method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> viewData(HttpServletRequest request)throws Exception{
+	public @ResponseBody String viewData(HttpServletRequest request)throws Exception{
 		String id = request.getParameter("id");
 		String fileName = request.getParameter("fileName");
 		
@@ -86,9 +86,7 @@ public class FileUpload {
 		String jsonContent = FileOperation.readFileContent(fileInputStream);
 		System.out.println("返回的数据为:"+jsonContent);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("jsonContent", jsonContent);
-		return map;
+		return jsonContent;
 		
 	}
 }

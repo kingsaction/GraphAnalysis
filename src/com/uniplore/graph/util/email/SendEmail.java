@@ -1,4 +1,4 @@
-package com.uniplore.graph.utils.email;
+package com.uniplore.graph.util.email;
 
 import java.util.Date;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 import com.uniplore.graph.common.entity.IPerson;
 import com.uniplore.graph.ms.sign.entity.UserPO;
-import com.uniplore.graph.utils.email.GMailAuthenticator;
+import com.uniplore.graph.util.email.GMailAuthenticator;
 public class SendEmail {
 
 	public SendEmail(String desAddress,IPerson person,String emailContent) throws Exception{

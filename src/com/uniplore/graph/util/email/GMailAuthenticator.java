@@ -1,4 +1,4 @@
-package com.uniplore.graph.utils.email;
+package com.uniplore.graph.util.email;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;

@@ -1,4 +1,4 @@
-package com.uniplore.graph.utils.time;
+package com.uniplore.graph.util.time;
 
 import java.util.Date;
 

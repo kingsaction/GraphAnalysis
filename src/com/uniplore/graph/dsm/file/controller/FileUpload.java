@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
-import com.uniplore.graph.utils.fileoperation.FileOperation;
+import com.uniplore.graph.util.fileoperation.FileOperation;
 
 
 

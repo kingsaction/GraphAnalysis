@@ -1,4 +1,4 @@
-package com.uniplore.graph.utils.fileoperation;
+package com.uniplore.graph.util.fileoperation;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

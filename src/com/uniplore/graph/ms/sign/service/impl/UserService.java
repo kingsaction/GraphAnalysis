@@ -11,8 +11,8 @@ import com.uniplore.graph.ms.sign.dao.IUserDao;
 import com.uniplore.graph.ms.sign.dao.impl.UserDao;
 import com.uniplore.graph.ms.sign.entity.UserPO;
 import com.uniplore.graph.ms.sign.service.IUserService;
-import com.uniplore.graph.utils.email.SendEmail;
-import com.uniplore.graph.utils.time.ComputeTime;
+import com.uniplore.graph.util.email.SendEmail;
+import com.uniplore.graph.util.time.ComputeTime;
 
 @Service
 @Transactional

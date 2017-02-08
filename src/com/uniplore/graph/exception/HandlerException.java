@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.uniplore.graph.utils.email.GMailAuthenticator;
-import com.uniplore.graph.utils.email.SendEmail;
+import com.uniplore.graph.util.email.GMailAuthenticator;
+import com.uniplore.graph.util.email.SendEmail;
 
 public class HandlerException implements HandlerExceptionResolver {
 

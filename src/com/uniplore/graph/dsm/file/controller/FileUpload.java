@@ -2,7 +2,6 @@ package com.uniplore.graph.dsm.file.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -19,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSON;
 import com.uniplore.graph.utils.fileoperation.FileOperation;
+
 
 
 @Controller
@@ -84,9 +85,15 @@ public class FileUpload {
 		
 		FileInputStream fileInputStream = new FileInputStream(file); //建立数据通道
 		String jsonContent = FileOperation.readFileContent(fileInputStream);
-		System.out.println("返回的数据为:"+jsonContent);
+		System.out.println("--原始JSON字符串--:");
+		System.out.println(jsonContent);
 		
-		return jsonContent;
+		//使用fastjson将字符串构造成标准的JSON对象对应的字符串
+		Object formatJSON = JSON.parse(jsonContent);   //将字符串解析为一个JSON对象
+		String outputJSON = formatJSON.toString();   //将得到的JSON对象格式化为标准的字符串，无需做美化的操作
+		System.out.println("--格式化JSON字符串--");
+		System.out.println(outputJSON);
+		return outputJSON;   //返回标准的JSON字符串
 		
 	}
 }

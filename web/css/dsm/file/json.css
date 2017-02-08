@@ -113,7 +113,7 @@ body {
 	margin-top: 20px;
 	padding-left: 18px;
 	width: 100%;
-	height: calc(100% - 150px);
+	height: 300px;
 }
 .main-side-bar-left .worksheet h5 {
 	font-size: 14px;
@@ -164,4 +164,15 @@ body {
 
 #modal-free-table {
 	width: 600px;
+}
+
+.main-side-bar-left .graph-layout {
+	margin-top: 20px;
+	padding-left: 18px;
+	width: 100%;
+	height: calc(100% - 150px - 100px);
+}
+
+.main-side-bar-left .graph-layout h5 {
+	font-size: 14px;
 }

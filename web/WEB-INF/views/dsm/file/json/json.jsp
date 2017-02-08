@@ -68,6 +68,40 @@
 				    </li>
 				</ul>
 			</div>
+
+			<div class="graph-layout">
+				<h5>布局</h5>
+				<ul>
+					<li>
+						<input name="group1" type="radio" id="test1" class="with-gap"/>
+                        <label for="test1">breadthfirst</label>
+					</li>
+					<li>
+						<input name="group1" type="radio" id="test2" class="with-gap"/>
+                        <label for="test2">cose</label>
+					</li> 
+					<li>
+						<input name="group1" type="radio" id="test3" class="with-gap"/>
+                        <label for="test3">grid</label>
+					</li>
+					<li>
+						<input name="group1" type="radio" id="test4" class="with-gap"/>
+                        <label for="test4">concentric</label>
+					</li>
+					<li>
+						<input name="group1" type="radio" id="test5" class="with-gap"/>
+                        <label for="test5">preset</label>
+					</li>
+					<li>
+						<input name="group1" type="radio" id="test6" class="with-gap"/>
+                        <label for="test6">random</label>
+					</li>
+					<li>
+						<input name="group1" type="radio" id="test7" class="with-gap"/>
+                        <label for="test7">circle</label>
+					</li>
+				</ul>	
+			</div>
 		</div>
 
 		<div class="main-content-center">
@@ -122,7 +156,7 @@
 					},
 					success : function(backData) {
 					    //alert(typeof(backData));   //从服务器端得到的是JSON对象，类型为Object
-					    var str = JSON.stringify(backData);  //将JSON对象转换成字符串
+					    var str = JSON.stringify(backData, undefined, 4);  //将JSON对象转换成字符串
 					    //alert("得到的字符串为:"+str);
 						$("#modal-content-JSON").html(str);  //将字符串赋值给指定的部分用于显示
 					}//success函数结束
@@ -145,7 +179,7 @@
 							cytoscape({
 								container : document.getElementById('main-content-center-footer'),
 								elements : backData,
-								layout : { name: 'circle'}
+								layout: { name: 'circle'} 
 							});
 						});
 					}, //success函数结束

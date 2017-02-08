@@ -128,7 +128,7 @@
 
 		<div id="modal-free-table" class="modal modal-fixed-footer">
 			<div class="modal-content">
-				<span id="modal-content-JSON"></span>
+				<pre id="modal-content-JSON" class="cls"></pre>
 			</div>
 			<div class="modal-footer">
 				<a class="modal-action modal-close waves-effect waves-green btn-flat ">关闭</a>
@@ -156,7 +156,8 @@
 					},
 					success : function(backData) {
 					    //alert(typeof(backData));   //从服务器端得到的是JSON对象，类型为Object
-					    var str = JSON.stringify(backData, undefined, 4);  //将JSON对象转换成字符串
+					    var str = JSON.stringify(backData,  null , 2);  //将JSON对象转换成字符串
+					    str = str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 					    //alert("得到的字符串为:"+str);
 						$("#modal-content-JSON").html(str);  //将字符串赋值给指定的部分用于显示
 					}//success函数结束

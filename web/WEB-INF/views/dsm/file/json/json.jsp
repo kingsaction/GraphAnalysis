@@ -72,35 +72,21 @@
 			<div class="graph-layout">
 				<h5>布局</h5>
 				<ul>
-					<li>
-						<input name="group1" type="radio" id="test1" class="with-gap"/>
-                        <label for="test1">breadthfirst</label>
-					</li>
-					<li>
-						<input name="group1" type="radio" id="test2" class="with-gap"/>
-                        <label for="test2">cose</label>
-					</li> 
-					<li>
-						<input name="group1" type="radio" id="test3" class="with-gap"/>
-                        <label for="test3">grid</label>
-					</li>
-					<li>
-						<input name="group1" type="radio" id="test4" class="with-gap"/>
-                        <label for="test4">concentric</label>
-					</li>
-					<li>
-						<input name="group1" type="radio" id="test5" class="with-gap"/>
-                        <label for="test5">preset</label>
-					</li>
-					<li>
-						<input name="group1" type="radio" id="test6" class="with-gap"/>
-                        <label for="test6">random</label>
-					</li>
-					<li>
-						<input name="group1" type="radio" id="test7" class="with-gap"/>
-                        <label for="test7">circle</label>
-					</li>
-				</ul>	
+					<li><input name="group1" type="radio" id="test1"
+						class="with-gap" value="breadthfirst" checked="checked"/> <label for="test1">breadthfirst</label></li>
+					<li><input name="group1" type="radio" id="test2"
+						class="with-gap" value="cose"/> <label for="test2">cose</label></li>
+					<li><input name="group1" type="radio" id="test3"
+						class="with-gap" value="grid"/> <label for="test3">grid</label></li>
+					<li><input name="group1" type="radio" id="test4"
+						class="with-gap" value="concentric"/> <label for="test4">concentric</label></li>
+					<li><input name="group1" type="radio" id="test5"
+						class="with-gap" value="preset"/> <label for="test5">preset</label></li>
+					<li><input name="group1" type="radio" id="test6"
+						class="with-gap" value="random"/> <label for="test6">random</label></li>
+					<li><input name="group1" type="radio" id="test7"
+						class="with-gap" value="circle"/> <label for="test7">circle</label></li>
+				</ul>
 			</div>
 		</div>
 
@@ -163,14 +149,87 @@
 					}//success函数结束
 				})
 			}, // 当模态框打开时执行的函数
-			complete: function () {
-			    var id =  '<%=(String) request.getParameter("id")%>';
-			    var fileName = '<%=(String) request.getParameter("fileName")%>';
+			//complete: function () {
+			    //var id =  '<%=(String) request.getParameter("id")%>';
+			    //var fileName = '<%=(String) request.getParameter("fileName")%>';
+			    //var ly = $('input:radio[name="group1"]:checked').val();
+			    //alert("布局方式为:"+ly);
+				//$.ajax({
+					//async : false,
+					//url : "file/Upload/FindData?t=" + (new Date()).getTime(),
+					//type : "POST",
+					//dataType: "JSON",
+					//data : {
+						//"id" : id,
+						//"fileName" : fileName,
+					//},
+					//success : function(backData) {
+						//$(function() {
+							//cytoscape({
+								//container : document.getElementById('main-content-center-footer'),
+								//elements : backData,
+								//layout: { name: ly} 
+							//});
+						//});
+					//}, //success函数结束
+					//error : function (XMLHttpRequest, textStatus, errorThrown) {
+					   //alert("返回错误");
+					   //alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);  
+					//}
+				//})
+			//}//complete函数结束
+		}
+		);
+	</script>
+
+    <!-- 当页面加载时调用的js代码 -->
+	<script type="text/javascript">
+		$(function() {
+			var id = '<%=(String) request.getParameter("id")%>';
+			var fileName = '<%=(String) request.getParameter("fileName")%>';
+			var ly = $('input:radio[name="group1"]:checked').val();
+			//alert("布局方式为:" + ly + "接受到的id为:" + id + "接受到的fileName为:" + fileName);
+			$.ajax({
+				async : false,
+				url : "file/Upload/FindData?t=" + (new Date()).getTime(),
+				type : "POST",
+				dataType : "JSON",
+				data : {
+					"id" : id,
+					"fileName" : fileName,
+				},
+				success : function(backData) {
+					$(function() {
+						cytoscape({
+							container : document.getElementById('main-content-center-footer'),
+							elements : backData,
+							layout : {
+								name : ly
+							}
+						});
+					});
+				}, //success函数结束
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("返回错误");
+					alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+				}
+			})
+		});
+	</script>
+
+	<!-- 单选框值改变时调用的js代码 -->
+	<script type="text/javascript">
+		$(function() {
+			$(":radio").click(function() {
+				var id = '<%=(String) request.getParameter("id")%>';
+				var fileName = '<%=(String) request.getParameter("fileName")%>';
+				var ly = $('input:radio[name="group1"]:checked').val();
+				//alert("布局方式为:" + ly + "接受到的id为:" + id + "接受到的fileName为:" + fileName);
 				$.ajax({
 					async : false,
 					url : "file/Upload/FindData?t=" + (new Date()).getTime(),
 					type : "POST",
-					dataType: "JSON",
+					dataType : "JSON",
 					data : {
 						"id" : id,
 						"fileName" : fileName,
@@ -180,18 +239,19 @@
 							cytoscape({
 								container : document.getElementById('main-content-center-footer'),
 								elements : backData,
-								layout: { name: 'circle'} 
+								layout : {
+									name : ly
+								}
 							});
 						});
 					}, //success函数结束
-					error : function (XMLHttpRequest, textStatus, errorThrown) {
-					   alert("返回错误");
-					   alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);  
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("返回错误");
+						alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
 					}
 				})
-			}//complete函数结束
-		}
-		);
+			});
+		});
 	</script>
 </body>
 </html>

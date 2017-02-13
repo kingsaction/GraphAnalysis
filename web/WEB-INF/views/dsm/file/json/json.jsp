@@ -200,13 +200,43 @@
 				},
 				success : function(backData) {
 					$(function() {
-						cytoscape({
-							container : document.getElementById('main-content-center-footer'),
+						var cy = cytoscape({
+							container : $("#main-content-center-footer"),  //jquery获取元素
 							elements : backData,
+							style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+											'background-color' : '#666',
+											'label' : 'data(id)'
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+											/* 'width' : 1, */
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'target-arrow-shape' : 'triangle'
+										}
+									}
+								],
 							layout : {
 								name : ly
-							}
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
 						});
+						
+						/* cy.on('tap', function(evt) {
+							alert('tap:' + evt.cyTarget.id());   //获取到点击元素的id
+						}); */
 					});
 				}, //success函数结束
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -236,13 +266,46 @@
 					},
 					success : function(backData) {
 						$(function() {
-							cytoscape({
-								container : document.getElementById('main-content-center-footer'),
+							var cy = cytoscape({
+								container : $("#main-content-center-footer"),
 								elements : backData,
+								style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+											'background-color' : '#666',
+											'label' : 'data(id)'
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+											/* 'width' : 1, */
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'target-arrow-shape' : 'triangle'
+										}
+									}
+								],
+	
 								layout : {
-									name : ly
-								}
+									name : ly,
+									/* rows: 1 */
+								},
+								zoom: 1,
+                                pan: { x: 0, y: 0 },
+                                hideEdgesOnViewport: true,
+                                motionBlur: true,
+                                motionBlurOpacit: 0.5,
+                                wheelSensitivity: 0.5,
+                                pixelRatio: 'auto',
 							});
+							
+							/* cy.on('tap', function(evt) {
+								alert(evt.cyTarget.id()+" "+cy.$('#195').isNode()); //当点击时获取元素的id
+							    alert(cy.$('#195').degree(true));   //得到节点的度，包括循环
+							});	 */
 						});
 					}, //success函数结束
 					error : function(XMLHttpRequest, textStatus, errorThrown) {

@@ -122,65 +122,6 @@
 		</div>
 
 	</div>
-	<script type="text/javascript">
-		$('.modal-trigger').leanModal({
-			dismissible : true, // 点击模态框外部则关闭模态框
-			opacity : 0.5, // 背景透明度
-			in_duration : 300, // 切入时间
-			out_duration : 200, // 切出时间
-			ready : function() {
-				var id =  '<%= (String) request.getParameter("id")%>';
-				var fileName = '<%= (String) request.getParameter("fileName")%>';
-				$.ajax({
-					async : false,
-					url : "file/Upload/FindData?t=" + (new Date()).getTime(),
-					type : "POST",
-					dataType: "JSON",
-					data : {
-						"id" : id,
-						"fileName" : fileName,
-					},
-					success : function(backData) {
-					    //alert(typeof(backData));   //从服务器端得到的是JSON对象，类型为Object
-					    var str = JSON.stringify(backData,  null , 2);  //将JSON对象转换成字符串
-					    str = str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-					    //alert("得到的字符串为:"+str);
-						$("#modal-content-JSON").html(str);  //将字符串赋值给指定的部分用于显示
-					}//success函数结束
-				})
-			}, // 当模态框打开时执行的函数
-			//complete: function () {
-			    //var id =  '<%=(String) request.getParameter("id")%>';
-			    //var fileName = '<%=(String) request.getParameter("fileName")%>';
-			    //var ly = $('input:radio[name="group1"]:checked').val();
-			    //alert("布局方式为:"+ly);
-				//$.ajax({
-					//async : false,
-					//url : "file/Upload/FindData?t=" + (new Date()).getTime(),
-					//type : "POST",
-					//dataType: "JSON",
-					//data : {
-						//"id" : id,
-						//"fileName" : fileName,
-					//},
-					//success : function(backData) {
-						//$(function() {
-							//cytoscape({
-								//container : document.getElementById('main-content-center-footer'),
-								//elements : backData,
-								//layout: { name: ly} 
-							//});
-						//});
-					//}, //success函数结束
-					//error : function (XMLHttpRequest, textStatus, errorThrown) {
-					   //alert("返回错误");
-					   //alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);  
-					//}
-				//})
-			//}//complete函数结束
-		}
-		);
-	</script>
 
     <!-- 当页面加载时调用的js代码 -->
 	<script type="text/javascript">
@@ -251,7 +192,7 @@
 						    cy.remove(r_n0);   //删除上述方法获取到的元素
 						}); */
 						
-					});
+					});   //function()函数结束
 				}, //success函数结束
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 					alert("返回错误");
@@ -266,6 +207,35 @@
 				//alert("布局方式为:" + ly + "接受到的id为:" + id + "接受到的fileName为:" + fileName);
 				cy.layout({name: ly});    //使用API获取到全局变量cy，切换布局方式
 			});
+			
+			$('.modal-trigger').leanModal({
+			dismissible : true, // 点击模态框外部则关闭模态框
+			opacity : 0.5, // 背景透明度
+			in_duration : 300, // 切入时间
+			out_duration : 200, // 切出时间
+			ready : function() {
+				var id =  '<%= (String) request.getParameter("id")%>';
+				var fileName = '<%= (String) request.getParameter("fileName")%>';
+				$.ajax({
+					async : false,
+					url : "file/Upload/FindData?t=" + (new Date()).getTime(),
+					type : "POST",
+					dataType: "JSON",
+					data : {
+						"id" : id,
+						"fileName" : fileName,
+					},
+					success : function(backData) {
+					    //alert(typeof(backData));   //从服务器端得到的是JSON对象，类型为Object
+					    var str = JSON.stringify(backData,  null , 2);  //将JSON对象转换成字符串
+					    str = str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+					    //alert("得到的字符串为:"+str);
+						$("#modal-content-JSON").html(str);  //将字符串赋值给指定的部分用于显示
+					}//success函数结束
+				})
+			}, // 当模态框打开时执行的函数
+		}
+		);
 		});
 	</script>
 </body>

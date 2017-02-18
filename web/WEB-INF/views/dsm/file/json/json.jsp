@@ -33,8 +33,6 @@
 	src="${pageContext.request.contextPath }/js/dsm/file/json.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/utils/cytoscape/js/cytoscape.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/utils/qtip/js/cytoscape.min.js"></script>
 </head>
 
 <body>

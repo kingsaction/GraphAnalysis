@@ -33,6 +33,8 @@
 	src="${pageContext.request.contextPath }/js/dsm/file/json.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/utils/cytoscape/js/cytoscape.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/utils/qtip/js/cytoscape.min.js"></script>
 </head>
 
 <body>
@@ -200,14 +202,14 @@
 				},
 				success : function(backData) {
 					$(function() {
-						var cy = cytoscape({
+						cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
 							container : $("#main-content-center-footer"),  //jquery获取元素
 							elements : backData,
 							style : [ // the stylesheet for the graph
 									{
 										selector : 'node',
 										style : {
-											'background-color' : '#666',
+											'background-color' : '#000',
 											'label' : 'data(id)'
 										}
 									},
@@ -233,10 +235,24 @@
                             wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
                             pixelRatio: 'auto',
 						});
-						
-						/* cy.on('tap', function(evt) {
-							alert('tap:' + evt.cyTarget.id());   //获取到点击元素的id
+	
+						/*在已有的图中增加节点和边，新增的边既可以和原先已有的数据建立联系，也可以和新增的其它节点建立联系*/
+						/* cy.add([
+						  {  data: { id: "n0" }, position: { x: 100, y: 100 } },
+	  					      {  data: { id: "n1" }, position: { x: 200, y: 200 } },
+	                          {  data: { id: "e0", source: "n0", target: "195" } },
+	                          {  data: { id: "e1", source: "n0", target: "n1" } }
+						]) */
+	
+						/*当抓取到节点时，首先获取当该节点的id，并删除该节点*/
+						/* cy.nodes().on('tap', function(event) {
+							//alert(event.cyTarget.id());   //获取到点击时元素的id
+							
+							//获取到要删除元素的id,cyTarget代表当前事件操作的元素
+							var r_n0 = cy.$('#'+event.cyTarget.id());    //使用#和id进行拼接，形成完整的id选择器，并获取到该元素
+						    cy.remove(r_n0);   //删除上述方法获取到的元素
 						}); */
+						
 					});
 				}, //success函数结束
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -244,75 +260,13 @@
 					alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
 				}
 			})
-		});
-	</script>
-
-	<!-- 单选框值改变时调用的js代码 -->
-	<script type="text/javascript">
-		$(function() {
+			
+			/*在单选列表上增加鼠标单击事件，进行布局的切换*/
 			$(":radio").click(function() {
-				var id = '<%=(String) request.getParameter("id")%>';
-				var fileName = '<%=(String) request.getParameter("fileName")%>';
-				var ly = $('input:radio[name="group1"]:checked').val();
+				var ly = $('input:radio[name="group1"]:checked').val();   //获取当前选中的元素值
+				//alert(cy);   //获取到变量
 				//alert("布局方式为:" + ly + "接受到的id为:" + id + "接受到的fileName为:" + fileName);
-				$.ajax({
-					async : false,
-					url : "file/Upload/FindData?t=" + (new Date()).getTime(),
-					type : "POST",
-					dataType : "JSON",
-					data : {
-						"id" : id,
-						"fileName" : fileName,
-					},
-					success : function(backData) {
-						$(function() {
-							var cy = cytoscape({
-								container : $("#main-content-center-footer"),
-								elements : backData,
-								style : [ // the stylesheet for the graph
-									{
-										selector : 'node',
-										style : {
-											'background-color' : '#666',
-											'label' : 'data(id)'
-										}
-									},
-	
-									{
-										selector : 'edge',
-										style : {
-											/* 'width' : 1, */
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
-											'target-arrow-shape' : 'triangle'
-										}
-									}
-								],
-	
-								layout : {
-									name : ly,
-									/* rows: 1 */
-								},
-								zoom: 1,
-                                pan: { x: 0, y: 0 },
-                                hideEdgesOnViewport: true,
-                                motionBlur: true,
-                                motionBlurOpacit: 0.5,
-                                wheelSensitivity: 0.5,
-                                pixelRatio: 'auto',
-							});
-							
-							/* cy.on('tap', function(evt) {
-								alert(evt.cyTarget.id()+" "+cy.$('#195').isNode()); //当点击时获取元素的id
-							    alert(cy.$('#195').degree(true));   //得到节点的度，包括循环
-							});	 */
-						});
-					}, //success函数结束
-					error : function(XMLHttpRequest, textStatus, errorThrown) {
-						alert("返回错误");
-						alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
-					}
-				})
+				cy.layout({name: ly});    //使用API获取到全局变量cy，切换布局方式
 			});
 		});
 	</script>

@@ -75,11 +75,11 @@
 				<h5>布局</h5>
 				<ul>
 					<li><input name="group1" type="radio" id="test1"
-						class="with-gap" value="breadthfirst" checked="checked"/> <label for="test1">breadthfirst</label></li>
+						class="with-gap" value="breadthfirst" /> <label for="test1">breadthfirst</label></li>
 					<li><input name="group1" type="radio" id="test2"
 						class="with-gap" value="cose"/> <label for="test2">cose</label></li>
 					<li><input name="group1" type="radio" id="test3"
-						class="with-gap" value="grid"/> <label for="test3">grid</label></li>
+						class="with-gap" value="grid" checked="checked"/> <label for="test3">grid</label></li>
 					<li><input name="group1" type="radio" id="test4"
 						class="with-gap" value="concentric"/> <label for="test4">concentric</label></li>
 					<li><input name="group1" type="radio" id="test5"

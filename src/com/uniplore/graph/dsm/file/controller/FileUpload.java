@@ -73,6 +73,12 @@ public class FileUpload {
 		return map;
 	}
 	
+	/**
+	 * 功能描述: 实现数据集的预览
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/FindData",method=RequestMethod.POST)
 	public @ResponseBody String viewData(HttpServletRequest request)throws Exception{
 		String id = request.getParameter("id");

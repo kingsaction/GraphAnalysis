@@ -186,8 +186,8 @@
 									{
 										selector : 'edge',
 										style : {
-											/* 'width' : 1, */
-											'line-color' : '#ccc',
+											'width' : 1,
+											'line-color' : '#000',
 											'target-arrow-color' : '#ccc',
 											'target-arrow-shape' : 'triangle'
 										}

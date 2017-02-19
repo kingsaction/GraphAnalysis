@@ -1,14 +1,14 @@
 package com.uniplore.graph.dsm.file.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.uniplore.graph.util.fileoperation.FileOperation;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSON;
-import com.uniplore.graph.util.fileoperation.FileOperation;
-
 
 
 @Controller
-@RequestMapping(value="/file/Upload")
+@RequestMapping(value = "/file/Upload")
 public class FileUpload {
 
 	/**

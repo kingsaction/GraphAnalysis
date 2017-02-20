@@ -4,5 +4,5 @@ import com.uniplore.graph.dsm.db.entity.DbPO;
 
 public interface IDbService {
 
-	public String connectDataBase(DbPO dbPO)throws Exception;
+  public String connectDataBase(DbPO dbPo)throws Exception;
 }

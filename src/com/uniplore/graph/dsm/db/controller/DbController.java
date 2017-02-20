@@ -17,7 +17,7 @@ public class DbController {
 
   /** 接收用户客户端传来的参数，使用JDBC建立连接测试是否能够成功的连接数据库.
   * @param dbPo 接收并保存数据库连接参数
-  * @return  返回值
+  * @return  Srting类型返回值，返回的时连接数据库返回的信息
   * @throws Exception  提供全局异常处理机制 
   */
   @RequestMapping(value = "/connection",method = RequestMethod.POST)

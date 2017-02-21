@@ -3,6 +3,13 @@ package com.uniplore.graph.dsm.db.controller;
 
 import com.uniplore.graph.dsm.db.entity.DbPO;
 import com.uniplore.graph.dsm.db.service.IDbService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +34,30 @@ public class DbController {
     return dbService.connectDataBase(dbPo);   //service层完成连接数据库的功能
   }
   
-  @RequestMapping(value = "/dbPage",method = {RequestMethod.POST,RequestMethod.GET})
-  public String dispatcherDb() {
+  /**
+   * 功能描述: 当成功的连接上数据库之后，跳转到指定的显示页面.
+   * @return 返回值
+   * @throws Exception 抛出异常
+   */
+  @RequestMapping(value = "/dbPage",method = {RequestMethod.POST})
+  public String dispatcherDb(HttpServletRequest request) throws Exception {
     return "/dsm/db/dbPage";
+  }
+  
+  /**
+   * 功能描述： 接收数据库的连接信息，将此ip下的所有数据库返回给用户.
+   * @param dbPo  接收数据库的连接信息，封装为对象
+   * @return   返回值，返回此连接下的所有的数据库名
+   * @throws Exception  抛出异常
+   */
+  @RequestMapping(value = "/showDatabase")
+  public @ResponseBody Map<String, Object> showDatabase(DbPO dbPo)throws Exception {
+    System.out.println("接收到的数据库连接信息为:" + dbPo.toString());
+    
+    List<String> dbList = dbService.showDataBase(dbPo);
+    
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("dbNames",dbList);
+    return map;
   }
 }

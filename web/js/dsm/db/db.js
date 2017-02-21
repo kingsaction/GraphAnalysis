@@ -31,8 +31,26 @@ function modal_mysql_login(){
 				$('#modal-db-json').closeModal({
                     out_duration: 1000,    /*关闭模态框,1000代表1000ms，在1s内关闭模态框*/
                 });
-				window.location.href = "/graphanalysis/dsm/db/dbPage";  //成功上传文件之后跳转到指定的路径中
-			}else if("用户名和密码无效" == data){
+				var form = $("<form method='post'></form>");
+		        form.attr({"action":"/graphanalysis/dsm/db/dbPage"});
+		        var arr = new Array();
+		        arr["driverName"] = driverName;
+		        arr["dataBaseType"] = dataBaseType;
+		        arr["ipAddress"] = ipAddress;
+		        arr["portNumber"] = portNumber;
+		        arr["connectionName"] = connectionName;
+		        arr["userName"] = userName;
+		        arr["password"]= password;
+		        for (var key in arr)
+		        {
+		            var input = $("<input type='hidden'>");
+		            input.attr({"name":key});
+		            input.val(arr[key]);
+		            form.append(input);
+		        }
+		        form.submit();
+				//window.location.href = "/graphanalysis/dsm/db/dbPage";  //成功上传文件之后跳转到指定的路径中	
+		}else if("用户名和密码无效" == data){
 				swal("Oops...", "用户名和密码无效", "error");
 			}else if("与数据库通信时出错，不能连接到数据库服务器，请检查服务器是否正在运行以及您是否有权访问请求的数据库" == data){
 				swal("Oops...","与数据库通信时出错，不能连接到数据库服务器，请检查服务器是否正在运行以及您是否有权访问请求的数据库","error");
@@ -42,6 +60,4 @@ function modal_mysql_login(){
 			
 			}
 	})
-	
-	/*$('#loader').shCircleLoader();*/
 }

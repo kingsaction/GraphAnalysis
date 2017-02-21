@@ -1,0 +1,166 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: Microsoft Yahei,Simsun,GillSans, Calibri, Trebuchet, sans-serif;
+}
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.main{
+	width: 100%;
+	min-width: 1100px;
+}
+
+
+.main-side-bar-left{
+	float: left;
+	height: 100%;
+	width: 300px;
+	min-width: 300px;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #F5F5F5;
+}
+
+.main-side-bar-left .logo dl{
+	background-color: #2a2a2a;
+}
+
+.main-side-bar-left .logo dl a {
+	display: block;
+	padding-top : 15px;
+	padding-bottom : 15px;
+	padding-left: 18px;
+}
+
+.main-side-bar-left .logo dl a:hover{
+	background-color: #202020;
+}
+
+.main-side-bar-left .logo dl a img {
+	width: 20px;
+	height: 20px;
+}
+
+.main-side-bar-right {
+	float: right;
+	width: 340px;
+	height: 100%;
+	background-color: #c0c0c0;
+	overflow: hidden;
+	min-width: 340px;
+}
+
+.main-content-center {
+	float: left;
+	width: calc(100% - 300px - 340px);  /*自动根据浏览器的大小计算除了左侧栏和右侧栏剩余部分的宽度*/
+	height: 100%;
+	overflow: hidden;
+	min-width: 460px;
+}
+
+
+.fr {
+	float: right;
+	padding-right: 10px;
+	overflow: hidden;
+}
+
+.main-content-center .main-content-center-header {
+	height: 50px;
+	width: 100% ;
+}
+
+.main-side-bar-right .main-side-bar-right-header {
+	width: 100% ;
+	height: 50px;
+}
+
+.main-content-center-center {
+	width: 100%; /*自动根据浏览器的大小计算除了左侧栏和右侧栏剩余部分的宽度*/
+	height: 200px;
+	border-bottom: 2px solid #F5F5F5;
+	margin: 0 auto;
+	line-height: 200px;
+	text-align: center;
+}
+
+.main-content-center-center div{
+	font-size: 20px;
+	color: #d20931;
+}
+
+#main-content-center-footer {
+	width: 100%;
+	height: calc(100% - 50px - 200px);
+	background-color: #f9f9f9;
+}
+
+.main-side-bar-left .source {
+	width: 100%;
+	height: 100px;
+	padding-left: 18px;
+	margin-top: 20px;
+	border-bottom: 2px solid #D5D5D5;
+}
+.main-side-bar-left .source h5 {
+	font-size: 14px;
+}
+.main-side-bar-left .worksheet {
+	margin-top: 20px;
+	padding-left: 18px;
+	width: 100%;
+	height: 100px;
+	border-bottom: 2px solid #D5D5D5;
+}
+.main-side-bar-left .worksheet h5 {
+	font-size: 14px;
+}
+
+.main-side-bar-left .source {
+	border-bottom: 2px solid #D5D5D5;
+}
+.main-side-bar-left .source ul li {
+	background-color: #E7E7E7;
+	padding-left: 14px;
+	margin-right: 18px;
+	padding-top : 8px;
+	padding-bottom: 8px;
+}
+
+.main-side-bar-left .worksheet ul li {
+	/* background-color: #E7E7E7; */
+	padding-left: 14px;
+	margin-right: 18px;
+	padding-top : 8px;
+	padding-bottom: 8px;
+	cursor: pointer;
+}
+
+.main-side-bar-left .source ul li:hover {
+	background-color: #c0c0c0;
+}
+.source ul li .file-title {
+	font-size: 16px;
+	/* font-family: "Microsoft Yahei"; */
+}
+.source ul li .file-type {
+	font-size: 12px;
+	padding-left: 22px;
+	/* font-family: "Simsun"; */
+}
+
+
+.main-side-bar-left .graph-layout {
+	margin-top: 20px;
+	padding-left: 18px;
+	width: 100%;
+	height: calc(100% - 150px - 100px);
+}
+
+.main-side-bar-left .graph-layout h5 {
+	font-size: 14px;
+}

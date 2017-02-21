@@ -4,6 +4,10 @@ import com.uniplore.graph.dsm.db.entity.DbPO;
 import com.uniplore.graph.dsm.db.service.IDbService;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,6 +42,36 @@ public class DbService implements IDbService {
       }
     }
     return "数据库连接失败";
+  }
+
+  @Override
+  public List<String> showDataBase(DbPO dbPo) throws Exception {
+    //建立一数组，用于存放此ip地址下所有的数据库
+    List<String> dataBaseList = new ArrayList<String>();
+
+    //使用JDBC连接数据库
+    Class.forName(dbPo.getDriverName());
+    
+    String url = null;
+    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
+      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
+        + "?connectTimeout=3000&socketTimeout=3000"; // 设置连接超时的时间均是3s，如果3s未连接成功则直接终止连接
+    }
+    // 连接数据库
+    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(),
+        dbPo.getPassword());
+    
+    /* 功能： 连接上数据库之后，获取数据库中所有的数据库名
+     * MySQL数据库必须采用getCatalogs()方法
+     * 但是对于其他的数据库，采用的是getSchemas()方法
+     * */
+    ResultSet dbNames = connection.getMetaData().getCatalogs();   
+    while (dbNames.next()) {
+      String dbName = dbNames.getString("TABLE_CAT");
+      //System.out.println("TABLE_CAT = " + dbName );  //判断是否正确的接收到表
+      dataBaseList.add(dbName);
+    }
+    return dataBaseList;
   }
 
 }

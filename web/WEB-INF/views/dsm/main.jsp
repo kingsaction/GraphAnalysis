@@ -14,11 +14,8 @@
 	src="${pageContext.request.contextPath }/utils/materialize/js/materialize.min.js"></script>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/utils/font-awesome/css/font-awesome.min.css">
-	
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/css/dsm/main.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/css/dsm/db/db.css">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/utils/dropzone/js/dropzone.js"></script>  <!-- 引入dropzone的js文件 -->
 <script type="text/javascript"

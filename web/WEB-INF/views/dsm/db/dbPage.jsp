@@ -62,7 +62,7 @@
 					<li>
 						<div>
 							<select class="browser-default" id="db_select">
-								<option value="" disabled selected>选择数据库</option>
+								<option value="" disabled selected>请选择数据库</option>
 							</select>
 						</div>
 					</li>
@@ -75,7 +75,7 @@
 					<li>
 						<div>
 							<select class="browser-default">
-								<option value="" disabled selected>选择表</option>
+								<option value="" disabled selected>请选择表</option>
 							</select>
 						</div>
 					</li>
@@ -88,7 +88,7 @@
 					<li>
 						<div>
 							<select class="browser-default">
-								<option value="" disabled selected>选择起始点</option>
+								<option value="" disabled selected>请选择起始点</option>
 							</select>
 						</div>
 					</li>
@@ -101,7 +101,7 @@
 					<li>
 						<div>
 							<select class="browser-default">
-								<option value="" disabled selected>选择目标点</option>
+								<option value="" disabled selected>请选择目标点</option>
 							</select>
 						</div>
 					</li>

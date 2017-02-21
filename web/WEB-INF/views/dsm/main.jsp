@@ -149,7 +149,7 @@
 		     <div class="row">  <!-- 第一行开始 -->
 		       <div class="col s4"></div>
 		       <div class="col s4">
-		         <h5>JSON文件</h5>
+		         <h5 style="font-weight: 600;font-size: 22px;">JSON文件</h5>
 		       </div>
 		       <div class="col s4"></div>
 		     </div> <!--  第一行结束 -->
@@ -185,7 +185,7 @@
 		     <div class="row">  <!-- 第一行开始 -->
 		       <div class="col s2"></div>
 		       <div class="col s8">
-		         <h5>MySQL数据库连接信息</h5>
+		         <h5 class="mysql-infomation-modal">MySQL数据库连接信息</h5>
 		       </div>
 		       <div class="col s2"></div>
 		     </div> <!--  第一行结束 -->

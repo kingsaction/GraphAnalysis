@@ -16,7 +16,7 @@ body{
 #modal-db-mysql{
 	width: 600px;
 	min-width: 600px;
-	height: 620px;
+	height: 640px;
 	min-height: 640px;
 	background-image: url(../../img/dsm/background.png);
 }
@@ -209,4 +209,9 @@ body{
 
 .source ul li a:hover {
 	background-color: #818181;
+}
+
+.mysql-infomation-modal {
+	font-size: 22px;
+	font-weight: 600;
 }

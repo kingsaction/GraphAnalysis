@@ -26,4 +26,9 @@ public class DbController {
     //System.out.println("从客户端接收到的连接参数为:"+dbPO.toString());
     return dbService.connectDataBase(dbPo);   //service层完成连接数据库的功能
   }
+  
+  @RequestMapping(value = "/dbPage",method = {RequestMethod.POST,RequestMethod.GET})
+  public String dispatcherDb() {
+    return "/dsm/db/dbPage";
+  }
 }

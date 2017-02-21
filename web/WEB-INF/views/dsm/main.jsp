@@ -17,12 +17,16 @@
 	
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/css/dsm/main.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/css/dsm/db/db.css">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/utils/dropzone/js/dropzone.js"></script>  <!-- 引入dropzone的js文件 -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/utils/dropzone/js/dropzone-amd-module.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/js/dsm/main.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/js/dsm/db/db.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/utils/dropzone/css/dropzone.css">   <!-- 引入dropzone的css文件 -->
 </head>
@@ -261,7 +265,7 @@
 	                 </div>
 	                 <div class="col s2"></div>
 	                 <div class="col s5">
-	                   <button class="waves-effect waves-light btn" onclick="modal_mysql_save()">登陆</button>
+	                   <button class="waves-effect waves-light btn" onclick="modal_mysql_login()">登陆</button>
 	                 </div>
 	               </div>  
 	            </div>

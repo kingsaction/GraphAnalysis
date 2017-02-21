@@ -193,7 +193,7 @@
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">  <!-- 第二行开始 -->
 		       <div class="col s12">
-		          <div class="input-field col s9 validate" id="driverName" onblur="driver_validate()">
+		          <div class="input-field col s9 validate" id="driverName">
                     <select  name="driverName">
                       <option value="1" class="validate">com.mysql.jdbc.Driver</option>
 				      <option value="2" class="validate">com.mysql.jdbc.Driver</option>
@@ -353,8 +353,8 @@
 	<!-- 启用下拉列表 -->
 	<script type="text/javascript">
 	    $(document).ready(function() {
-        $('select').material_select();
-      });
+          $('select').material_select();
+        });
 	</script>
 	
 </body>

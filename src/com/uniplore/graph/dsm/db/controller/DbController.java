@@ -54,7 +54,7 @@ public class DbController {
    */
   @RequestMapping(value = "/showDatabase",method = RequestMethod.POST)
   public @ResponseBody Map<String, Object> showDatabase(DbPO dbPo)throws Exception {
-    System.out.println("接收到的数据库连接信息为:" + dbPo.toString());
+    //System.out.println("接收到的数据库连接信息为:" + dbPo.toString());
     
     List<String> dbList = dbService.showDataBase(dbPo);
     
@@ -94,10 +94,10 @@ public class DbController {
   @RequestMapping(value = "/showColumn",method = RequestMethod.POST)
   public @ResponseBody Map<String, Object> showColumn(DbPO dbPo,String dbName,String tableName) 
       throws Exception {
-    System.out.println("-----显示表时传来的参数-----");
-    System.out.println(dbPo.toString());
-    System.out.println(dbName);
-    System.out.println(tableName);
+    //System.out.println("-----显示表时传来的参数-----");
+    //System.out.println(dbPo.toString());
+    //System.out.println(dbName);
+    //System.out.println(tableName);
     
     //使用JDBC连接数据库，并获取表中的列名
     List<String> columnList = dbService.showColumn(dbPo,dbName,tableName);

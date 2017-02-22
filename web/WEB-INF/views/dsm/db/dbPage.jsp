@@ -228,7 +228,6 @@
 	        var index = this.selectedIndex;  //this代表是当前select下拉框
 	        var optionElement = this[index];   //把整个下拉框看成一个数组来处理，每一个option都是数组中的元素
 	        var dbName = optionElement.innerHTML;   //获取到选中下来框的内容
-	        
 	        var driverName =  '<%= (String) request.getParameter("driverName")%>';
 			var dataBaseType = '<%= (String) request.getParameter("dataBaseType")%>';
 			var ipAddress = '<%= (String) request.getParameter("ipAddress")%>';
@@ -237,7 +236,8 @@
 			var userName = '<%= (String) request.getParameter("userName")%>';
 			var password = '<%= (String) request.getParameter("password")%>';
 	        //发送ajax请求到服务器端，得到该数据库下所有的表
-	        $.ajax({
+	        if(dbName != "请选择数据库"){
+	            $.ajax({
 	            url: "/graphanalysis/dsm/db/showTable?t=" + (new Date()).getTime(),
 	            type: "POST",
 	            dataType: "JSON",
@@ -251,20 +251,24 @@
 					"password": password,
 					"dbName": dbName,
 	            },
-	            success: function (backData) {
-					var tables = backData.tables.toString();
-					var arr = tables.split(",");
-                    
-					var selector = $('#table_select'); //找到相应的select元素
-					for (var i = 0; i < arr.length; i++) {
-						selector.append('<option value="' + i + '">' + arr[i] + '</option>'); //构造选择表下拉菜单的option
+				success : function(backData) {
+					if (backData.tables != null) {
+						var tables = backData.tables.toString();
+						var arr = tables.split(",");
+
+						var selector = $('#table_select'); //找到相应的select元素
+						for (var i = 0; i < arr.length; i++) {
+							selector.append('<option value="' + i + '">' + arr[i] + '</option>'); //构造选择表下拉菜单的option
+						}
+
 					}
-	
-					},
-	            error: function (){
-	                alert("数据库表返回错误");
-	            }    
+				},
+				error: function (){
+                alert("数据库表返回错误");
+                }    
 	        })       
+	        }
+	        
 	    })
 	</script>
 	

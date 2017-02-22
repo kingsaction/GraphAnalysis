@@ -8,4 +8,6 @@ public interface IDbService {
   public String connectDataBase(DbPO dbPo)throws Exception;
 
   public List<String> showDataBase(DbPO dbPo)throws Exception;
+
+  public List<String> showTable(DbPO dbPo,String dbName) throws Exception;
 }

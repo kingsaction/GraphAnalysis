@@ -74,7 +74,7 @@
 				<ul>
 					<li>
 						<div>
-							<select class="browser-default">
+							<select class="browser-default" id="table_select">
 								<option value="" disabled selected>请选择表</option>
 							</select>
 						</div>
@@ -87,7 +87,7 @@
 				<ul>
 					<li>
 						<div>
-							<select class="browser-default">
+							<select class="browser-default" id="source_select">
 								<option value="" disabled selected>请选择起始点</option>
 							</select>
 						</div>
@@ -100,7 +100,7 @@
 				<ul>
 					<li>
 						<div>
-							<select class="browser-default">
+							<select class="browser-default" id="target_select">
 								<option value="" disabled selected>请选择目标点</option>
 							</select>
 						</div>
@@ -210,6 +210,58 @@
 				}
 		 })
 	  })
+	</script>
+	
+	<!-- 处理选择数据库的下拉框中有选项被选中时执行的过程 -->
+	<script type="text/javascript">
+	    $('#db_select').change(function (){
+	        //在构造option之前，应该删除之前已经存在的option，否则会出现option的叠加现象
+	        var tableElement = document.getElementById("table_select");
+	        tableElement.options.length = 1;
+	        
+	        //获取选中的值
+	        var index = this.selectedIndex;  //this代表是当前select下拉框
+	        var optionElement = this[index];   //把整个下拉框看成一个数组来处理，每一个option都是数组中的元素
+	        var dbName = optionElement.innerHTML;   //获取到选中下来框的内容
+	        
+	        var driverName =  '<%= (String) request.getParameter("driverName")%>';
+			var dataBaseType = '<%= (String) request.getParameter("dataBaseType")%>';
+			var ipAddress = '<%= (String) request.getParameter("ipAddress")%>';
+			var portNumber = '<%= (String) request.getParameter("portNumber")%>';
+			var connectionName = '<%= (String) request.getParameter("connectionName")%>';
+			var userName = '<%= (String) request.getParameter("userName")%>';
+			var password = '<%= (String) request.getParameter("password")%>';
+	        //发送ajax请求到服务器端，得到该数据库下所有的表
+	        $.ajax({
+	            url: "/graphanalysis/dsm/db/showTable?t=" + (new Date()).getTime(),
+	            type: "POST",
+	            dataType: "JSON",
+	            data: {
+	                "driverName" : driverName,
+					"dataBaseType" : dataBaseType,
+					"ipAddress": ipAddress,
+					"portNumber": portNumber,
+					"connectionName": connectionName,
+					"userName": userName,
+					"password": password,
+					"dbName": dbName,
+	            },
+	            success: function (backData){
+	                var tables = backData.tables.toString();
+	                var arr = tables.split(",");
+	                var selector = $('#table_select');   //找到相应的select元素
+	                for(var i = 0 ; i < arr.length ; i++){
+	                    
+	                    selector.append('<option value="'+i+'">'+arr[i]+'</option>');  //构造选择表下拉菜单的option
+	                }
+	            },
+	            error: function (){
+	                alert("返回错误");
+	            }
+	           
+	        })
+	        
+	    })
 	</script>
 </body>
 </html>

@@ -74,4 +74,29 @@ public class DbService implements IDbService {
     return dataBaseList;
   }
 
+  @Override
+  public List<String> showTable(DbPO dbPo,String dbName) throws Exception {
+    List<String> tableList = new ArrayList<String>();
+    //使用JDBC连接数据库
+    Class.forName(dbPo.getDriverName());
+
+    String url = null;
+    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
+      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
+        + "/" + dbName + "?connectTimeout=3000&socketTimeout=3000";
+    }
+    System.out.println("url为:" + url);
+    // 连接数据库
+    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
+        dbPo.getPassword());
+    
+    ResultSet tables = connection.getMetaData().getTables(null, null, "%", null);
+    while (tables.next()) {
+      String table = tables.getString(3);
+      System.out.println(table);
+      tableList.add(table);
+    }
+    return tableList;
+  }
+
 }

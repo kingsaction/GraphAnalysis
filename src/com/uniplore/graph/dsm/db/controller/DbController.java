@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -50,7 +52,7 @@ public class DbController {
    * @return   返回值，返回此连接下的所有的数据库名
    * @throws Exception  抛出异常
    */
-  @RequestMapping(value = "/showDatabase")
+  @RequestMapping(value = "/showDatabase",method = RequestMethod.POST)
   public @ResponseBody Map<String, Object> showDatabase(DbPO dbPo)throws Exception {
     System.out.println("接收到的数据库连接信息为:" + dbPo.toString());
     
@@ -58,6 +60,26 @@ public class DbController {
     
     Map<String, Object> map = new HashMap<String, Object>();
     map.put("dbNames",dbList);
+    return map;
+  }
+  
+  /**
+   * 功能说明: .
+   * @param dbPo  接收客户端传来的数据库连接参数
+   * @param dbName  接收从客户端传来的数据库名参数
+   * @return  返回该数据库的所有表集合
+   * @throws Exception  抛出异常
+   */
+  @RequestMapping(value = "/showTable",method =  RequestMethod.POST) 
+  public @ResponseBody Map<String, Object> showTable(DbPO dbPo , @RequestParam(value = "dbName",
+      required = true) String  dbName) throws Exception {
+    //System.out.println("获取到的数据库连接信息为:" + dbPo.toString());
+    //System.out.println("获取到的数据库名为:" + dbName);
+    
+    //使用JDBC连接数据库，并返回相应的表
+    List<String> tableList = dbService.showTable(dbPo,dbName);
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("tables", tableList);
     return map;
   }
 }

@@ -85,7 +85,7 @@ public class DbService implements IDbService {
       url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
         + "/" + dbName + "?connectTimeout=3000&socketTimeout=3000";
     }
-    System.out.println("url为:" + url);
+    //System.out.println("url为:" + url);
     // 连接数据库
     Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
         dbPo.getPassword());
@@ -93,10 +93,33 @@ public class DbService implements IDbService {
     ResultSet tables = connection.getMetaData().getTables(null, null, "%", null);
     while (tables.next()) {
       String table = tables.getString(3);
-      System.out.println(table);
+      //System.out.println(table);
       tableList.add(table);
     }
     return tableList;
+  }
+
+  @Override
+  public List<String> showColumn(DbPO dbPo, String dbName, String tableName) throws Exception {
+    List<String> columnList = new ArrayList<String>();
+    //使用JDBC连接数据库
+    Class.forName(dbPo.getDriverName());
+    
+    String url  = "";
+    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
+      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
+          + "/" + dbName  + "?connectTimeout=3000&socketTimeout=3000";
+    }
+    //System.out.println("url为:" + url);
+    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
+            dbPo.getPassword());
+    ResultSet columns = connection.getMetaData().getColumns(null, null, tableName, null);
+    while (columns.next()) {
+      String column = columns.getString("COLUMN_NAME");
+      //System.out.println(column);
+      columnList.add(column);
+    }
+    return columnList;
   }
 
 }

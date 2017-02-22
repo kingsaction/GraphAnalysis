@@ -169,6 +169,7 @@
       });
 	</script>
 	
+	<!-- 当页面加载完成后，完成数据库的初始化操作 -->
 	<script type="text/javascript">
 	  $(function (){
 	     //在加载该页面时完成"选择数据库"下拉菜单的初始化
@@ -212,14 +213,19 @@
 	  })
 	</script>
 	
-	<!-- 处理选择数据库的下拉框中有选项被选中时执行的过程 -->
+	<!-- 完成数据库和该数据库中表的二级联动 -->
 	<script type="text/javascript">
 	    $('#db_select').change(function (){
 	        //在构造option之前，应该删除之前已经存在的option，否则会出现option的叠加现象
 	        var tableElement = document.getElementById("table_select");
 	        tableElement.options.length = 1;
+	        var sourceElement = document.getElementById("source_select");  //联动源点的下拉菜单
+	        sourceElement.options.length = 1;
+	        var targetElement = document.getElementById("target_select");   //联动目标点的下拉菜单
+	        targetElement.options.length = 1; 
 	        
-	        //获取选中的值
+	        
+	        //获取数据库选中的值
 	        var index = this.selectedIndex;  //this代表是当前select下拉框
 	        var optionElement = this[index];   //把整个下拉框看成一个数组来处理，每一个option都是数组中的元素
 	        var dbName = optionElement.innerHTML;   //获取到选中下来框的内容
@@ -250,17 +256,72 @@
 	                var tables = backData.tables.toString();
 	                var arr = tables.split(",");
 	                var selector = $('#table_select');   //找到相应的select元素
-	                for(var i = 0 ; i < arr.length ; i++){
-	                    
+	                for(var i = 0 ; i < arr.length ; i++){    
 	                    selector.append('<option value="'+i+'">'+arr[i]+'</option>');  //构造选择表下拉菜单的option
 	                }
 	            },
 	            error: function (){
 	                alert("返回错误");
-	            }
-	           
-	        })
+	            }    
+	        })       
+	    })
+	</script>
+	
+	<!-- 完成数据库表到表的列的二级联动 -->
+	<script type="text/javascript">
+	    $('#table_select').change(function (){
+	        //在构造option之前，应该删除之前已经存在的option，否则会出现option的叠加现象
+	        var sourceElement = document.getElementById("source_select");  //联动源点的下拉菜单
+	        sourceElement.options.length = 1;
+	        var targetElement = document.getElementById("target_select");   //联动目标点的下拉菜单
+	        targetElement.options.length = 1; 
 	        
+	        //获取选中的数据库名
+	        var dbName = $('#db_select').find("option:selected").text();
+	        /* alert(dbName); */
+	        //获取表选中的值
+	        var index = this.selectedIndex;  //this代表是当前select下拉框
+	        var optionElement = this[index];   //把整个下拉框看成一个数组来处理，每一个option都是数组中的元素
+	        var tableName = optionElement.innerHTML;   //获取到选中下来框的内容
+	        
+	        //alert(tableName);
+	        var driverName =  '<%= (String) request.getParameter("driverName")%>';
+			var dataBaseType = '<%= (String) request.getParameter("dataBaseType")%>';
+			var ipAddress = '<%= (String) request.getParameter("ipAddress")%>';
+			var portNumber = '<%= (String) request.getParameter("portNumber")%>';
+			var connectionName = '<%= (String) request.getParameter("connectionName")%>';
+			var userName = '<%= (String) request.getParameter("userName")%>';
+			var password = '<%= (String) request.getParameter("password")%>';
+	        //发送ajax请求到服务器端，得到该数据库下所有的表
+	        $.ajax({
+	            url: "/graphanalysis/dsm/db/showColumn?t=" + (new Date()).getTime(),
+	            type: "POST",
+	            dataType: "JSON",
+	            data: {
+	                "driverName" : driverName,
+					"dataBaseType" : dataBaseType,
+					"ipAddress": ipAddress,
+					"portNumber": portNumber,
+					"connectionName": connectionName,
+					"userName": userName,
+					"password": password,
+					"dbName": dbName,
+					"tableName": tableName
+	            },
+	            success: function (backData){
+	               var columns = backData.columns.toString();
+	               var arr = columns.split(",");
+	               var selector_source = $('#source_select');   //找到相应的select元素
+	               var selector_target = $('#target_select');   //找到相应的select元素
+	               for(var i = 0 ; i < arr.length ; i++){    
+	                   selector_source.append('<option value="'+i+'">'+arr[i]+'</option>');  //构造选择表下拉菜单的option
+	                   selector_target.append('<option value="'+i+'">'+arr[i]+'</option>');  //构造选择表下拉菜单的option
+	               }
+	            },
+	            error: function (){
+	                alert("返回错误");
+	            }    
+	        })       
 	    })
 	</script>
 </body>

@@ -82,4 +82,27 @@ public class DbController {
     map.put("tables", tableList);
     return map;
   }
+  
+  /**
+   * 功能说明: 根据从客户端传来的表，返回该表中的列名.
+   * @param dbPo  封装客户端传来的数据库连接信息参数
+   * @param dbName 接收客户端传来的数据库名参数
+   * @param tableName  接收客户端传来的表名参数
+   * @return  返回该表对应的列名
+   * @throws Exception  抛出异常，方便全局异常处理
+   */
+  @RequestMapping(value = "/showColumn",method = RequestMethod.POST)
+  public @ResponseBody Map<String, Object> showColumn(DbPO dbPo,String dbName,String tableName) 
+      throws Exception {
+    System.out.println("-----显示表时传来的参数-----");
+    System.out.println(dbPo.toString());
+    System.out.println(dbName);
+    System.out.println(tableName);
+    
+    //使用JDBC连接数据库，并获取表中的列名
+    List<String> columnList = dbService.showColumn(dbPo,dbName,tableName);
+    Map<String, Object>  map = new HashMap<String, Object>();
+    map.put("columns", columnList);
+    return map;
+  }
 }

@@ -10,4 +10,6 @@ public interface IDbService {
   public List<String> showDataBase(DbPO dbPo)throws Exception;
 
   public List<String> showTable(DbPO dbPo,String dbName) throws Exception;
+
+  public List<String> showColumn(DbPO dbPo, String dbName, String tableName)throws Exception;
 }

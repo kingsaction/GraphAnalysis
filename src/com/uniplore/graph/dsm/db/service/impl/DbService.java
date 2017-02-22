@@ -71,9 +71,16 @@ public class DbService implements IDbService {
       //System.out.println("TABLE_CAT = " + dbName );  //判断是否正确的接收到表
       dataBaseList.add(dbName);
     }
-    return dataBaseList;
+    
+    if (dataBaseList.size() != 0) {
+      return dataBaseList;
+    }
+    
+    return null;
+   
   }
-
+  
+  
   @Override
   public List<String> showTable(DbPO dbPo,String dbName) throws Exception {
     List<String> tableList = new ArrayList<String>();
@@ -96,7 +103,11 @@ public class DbService implements IDbService {
       //System.out.println(table);
       tableList.add(table);
     }
-    return tableList;
+    //System.out.println(tableList.size());
+    if (tableList.size() != 0 ) {
+      return tableList;
+    }
+    return null;
   }
 
   @Override
@@ -119,7 +130,12 @@ public class DbService implements IDbService {
       //System.out.println(column);
       columnList.add(column);
     }
-    return columnList;
+    
+    if (columnList.size() != 0) {    //如果该数据库中有表则返回columnList，否则返回空
+      return columnList;
+    }
+    
+    return null;
   }
 
 }

@@ -206,7 +206,7 @@
 			},
 			
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("返回错误");
+					alert("数据库返回错误");
 					alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
 				}
 		 })
@@ -252,16 +252,18 @@
 					"password": password,
 					"dbName": dbName,
 	            },
-	            success: function (backData){
-	                var tables = backData.tables.toString();
-	                var arr = tables.split(",");
-	                var selector = $('#table_select');   //找到相应的select元素
-	                for(var i = 0 ; i < arr.length ; i++){    
-	                    selector.append('<option value="'+i+'">'+arr[i]+'</option>');  //构造选择表下拉菜单的option
-	                }
-	            },
+	            success: function (backData) {
+					var tables = backData.tables.toString();
+					var arr = tables.split(",");
+                    
+					var selector = $('#table_select'); //找到相应的select元素
+					for (var i = 0; i < arr.length; i++) {
+						selector.append('<option value="' + i + '">' + arr[i] + '</option>'); //构造选择表下拉菜单的option
+					}
+	
+					},
 	            error: function (){
-	                alert("返回错误");
+	                alert("数据库表返回错误");
 	            }    
 	        })       
 	    })

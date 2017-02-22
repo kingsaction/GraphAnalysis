@@ -207,7 +207,6 @@
 			
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 					alert("数据库返回错误");
-					alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
 				}
 		 })
 	  })

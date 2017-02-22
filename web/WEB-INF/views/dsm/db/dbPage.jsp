@@ -62,7 +62,7 @@
 					<li>
 						<div>
 							<select class="browser-default" id="db_select">
-								<option value="" disabled selected>请选择数据库</option>
+								<option value="" selected>请选择数据库</option>
 							</select>
 						</div>
 					</li>
@@ -75,7 +75,7 @@
 					<li>
 						<div>
 							<select class="browser-default" id="table_select">
-								<option value="" disabled selected>请选择表</option>
+								<option value="" selected>请选择表</option>
 							</select>
 						</div>
 					</li>
@@ -88,7 +88,7 @@
 					<li>
 						<div>
 							<select class="browser-default" id="source_select">
-								<option value="" disabled selected>请选择起始点</option>
+								<option value="" selected>请选择起始点</option>
 							</select>
 						</div>
 					</li>
@@ -101,7 +101,7 @@
 					<li>
 						<div>
 							<select class="browser-default" id="target_select">
-								<option value="" disabled selected>请选择目标点</option>
+								<option value="" selected>请选择目标点</option>
 							</select>
 						</div>
 					</li>
@@ -142,7 +142,7 @@
 				<div>请将数据集拖拽至此处</div>
 			</div>
 
-			<div id="main-content-center-footer">
+			<div id="main-content-center-footer" onclick="graph_display()">
 			 
 			</div>
 		</div>
@@ -324,6 +324,18 @@
 	            }    
 	        })       
 	    })
+	</script>
+	
+	<!-- 构造JSON串，实现图展示 -->
+	<script type="text/javascript">
+		function graph_display() {
+			var dbName = $('#db_select').find("option:selected").text(); //获取当前的选中的数据库
+			var tableName = $('#table_select').find("option:selected").text(); //获取当前选中的表
+			var source = $('#source_select').find("option:selected").text(); //获取当前选中的起始点
+			var target = $('#target_select').find("option:selected").text(); //获取当前选中的终点
+	
+			alert("获取到的数据为:" + dbName + " " + tableName + " " + source + " " + target);
+		}
 	</script>
 </body>
 </html>

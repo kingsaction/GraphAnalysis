@@ -1,5 +1,10 @@
 package com.uniplore.graph.dsm.db.entity;
 
+/**
+ * 功能： 数据库的连接信息.
+ * @author 朱君鹏
+ *
+ */
 public class DbPO {
 
   private int id;                     //唯一的id标识每一个连接信息

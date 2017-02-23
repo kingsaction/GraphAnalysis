@@ -1,9 +1,16 @@
 package com.uniplore.graph.dsm.db.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.uniplore.graph.dsm.db.entity.DbPO;
+import com.uniplore.graph.dsm.db.entity.DbVO;
+import com.uniplore.graph.dsm.db.entity.EdgeDataVO;
+import com.uniplore.graph.dsm.db.entity.EdgeVO;
+import com.uniplore.graph.dsm.db.entity.NodeDataVO;
+import com.uniplore.graph.dsm.db.entity.NodeVO;
 import com.uniplore.graph.dsm.db.service.IDbService;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -136,6 +143,70 @@ public class DbService implements IDbService {
     }
     
     return null;
+  }
+  
+  @Override
+  public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
+    //首先连接数据库
+    Class.forName(dbPo.getDriverName());   //获取到数据库驱动，并连接数据库
+    
+    String url = "";
+    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
+      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
+          + "/" + dbVo.getDbName()  + "?connectTimeout=3000&socketTimeout=3000";
+    }
+    System.out.println("拼接成的url地址为:" + url);
+    
+    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
+            dbPo.getPassword());
+    
+    //获取表中的两列
+    String sourceNode = dbVo.getSourceNode();
+    String targetNode = dbVo.getTargetNode();
+    //获取表名
+    String tableName = dbVo.getTableName();
+    String sql = "select " + sourceNode + "," + targetNode + " from " + tableName;   //一定要注意其中的空格
+    PreparedStatement prepareStatement = connection.prepareStatement(sql);
+    ResultSet set = prepareStatement.executeQuery();
+    
+    StringBuffer stringBuffer = new StringBuffer();
+    int countNode = 0;  //点计数
+    int countEdge = 0 ; //边计数
+    while (set.next()) {  /*经过该部分测试可以知道，当前返回的数据是一行行的返回的*/
+
+      String node1 = set.getString(1);
+      countNode++;
+      //构造节点对象
+      //拼接节点的编号
+      String nodeID1 = "n" + countNode; 
+      NodeDataVO data1 = new NodeDataVO(nodeID1, node1, 1);
+      NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
+      String jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
+      
+      String node2 = set.getString(2);
+      countNode++;
+      //构造节点对象
+      //拼接节点的编号
+      String nodeID2 = "n" + countNode ;
+      NodeDataVO data2 = new NodeDataVO(nodeID2, node1, 1);
+      NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
+      String jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第二个节点
+      
+      countEdge++;
+      //用上面的参数构造边
+      //构造边编号
+      String edgeID1 = "e" + countEdge;
+      EdgeDataVO data3 = new EdgeDataVO(edgeID1, nodeID1, nodeID2, 1);
+      EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
+      String jsonString3 = JSON.toJSONString(edgeVo);
+      //将上述结果放在StringBuffer对象中
+      stringBuffer.append(jsonString1 + "," + jsonString2 + "," + jsonString3 + ",");
+    }
+    String jsonContent = stringBuffer.toString();
+    //拼接成最后的结果
+    /*System.out.println("------拼接最好的结果------");*/
+    String outString = "[" + jsonContent + "]" ;
+    return outString;
   }
 
 }

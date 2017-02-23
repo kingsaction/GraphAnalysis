@@ -335,10 +335,86 @@
 		function graph_display() {
 			var dbName = $('#db_select').find("option:selected").text(); //获取当前的选中的数据库
 			var tableName = $('#table_select').find("option:selected").text(); //获取当前选中的表
-			var source = $('#source_select').find("option:selected").text(); //获取当前选中的起始点
-			var target = $('#target_select').find("option:selected").text(); //获取当前选中的终点
+			var sourceNode = $('#source_select').find("option:selected").text(); //获取当前选中的起始点
+			var targetNode = $('#target_select').find("option:selected").text(); //获取当前选中的终点
+			
+			var driverName =  '<%= (String) request.getParameter("driverName")%>';
+			var dataBaseType = '<%= (String) request.getParameter("dataBaseType")%>';
+			var ipAddress = '<%= (String) request.getParameter("ipAddress")%>';
+			var portNumber = '<%= (String) request.getParameter("portNumber")%>';
+			var connectionName = '<%= (String) request.getParameter("connectionName")%>';
+			var userName = '<%= (String) request.getParameter("userName")%>';
+			var password = '<%= (String) request.getParameter("password")%>';
 	
-			alert("获取到的数据为:" + dbName + " " + tableName + " " + source + " " + target);
+			//alert("获取到的数据为:" + dbName + " " + tableName + " " + source + " " + target);
+			
+			if(dbName == "请选择数据库" || tableName == "请选择表" || sourceNode == "请选择起始点" || targetNode == "请选择目标点") {
+			    //alert("不执行");
+			}else{
+			    //alert("执行");
+			    //获取到数据库的连接信息、选择好的数据库、数据库表、表中的两行发送到服务器端
+			    $.ajax({
+			       url: "/graphanalysis/dsm/db/dbDataFormatJson?t=" + (new Date()).getTime(),
+			       type: "POST",
+			       dataType: "JSON",
+			       data: {
+			            "dbName": dbName,
+			            "tableName": tableName,
+			            "sourceNode": sourceNode,
+			            "targetNode": targetNode,		            
+			            "driverName" : driverName,
+						"dataBaseType" : dataBaseType,
+						"ipAddress": ipAddress,
+						"portNumber": portNumber,
+						"connectionName": connectionName,
+						"userName": userName,
+						"password": password,
+			       },
+			       success: function (backData){
+			         //alert("成功的开始构造JSON字符串");
+			         var str = JSON.stringify(backData,  null , 2);  //将JSON对象转换成字符串
+			         var ly = $('input:radio[name="group1"]:checked').val();
+			         //alert(str);
+			         cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							container : $("#main-content-center-footer"),  //jquery获取元素
+							elements : backData,
+							style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+											'background-color' : 'red',
+											'label' : 'data(id)'
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+											'width' : 1,
+											'line-color' : '#000',
+											'target-arrow-color' : '#ccc',
+											'target-arrow-shape' : 'triangle'
+										}
+									}
+								],
+							layout : {
+								name : ly
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});
+			       },
+			       error: function (XMLHttpRequest, textStatus, errorThrown) {
+			           alert("返回错误");
+			           alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+			       }
+			    })
+			}
 		}
 	</script>
 </body>

@@ -188,7 +188,7 @@ public class DbService implements IDbService {
       //构造节点对象
       //拼接节点的编号
       String nodeID2 = "n" + countNode ;
-      NodeDataVO data2 = new NodeDataVO(nodeID2, node1, 1);
+      NodeDataVO data2 = new NodeDataVO(nodeID2, node2, 1);
       NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
       String jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第二个节点
       

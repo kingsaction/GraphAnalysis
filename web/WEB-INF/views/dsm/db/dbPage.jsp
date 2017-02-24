@@ -383,7 +383,7 @@
 										selector : 'node',
 										style : {
 											'background-color' : 'red',
-											'label' : 'data(id)'
+											'label' : 'data(name)'
 										}
 									},
 	

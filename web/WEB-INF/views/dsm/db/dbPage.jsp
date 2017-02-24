@@ -142,7 +142,7 @@
 				<div>请将数据集拖拽至此处</div>
 			</div>
 
-			<div id="main-content-center-footer" onclick="graph_display()">
+			<div id="main-content-center-footer" ondblclick="graph_display()">
 			 
 			</div>
 		</div>

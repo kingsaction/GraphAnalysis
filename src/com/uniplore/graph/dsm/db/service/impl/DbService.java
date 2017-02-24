@@ -239,6 +239,7 @@ public class DbService implements IDbService {
         stringBuffer.append(jsonString2 + ",");  //将该数据追加到输出中
       }
       
+      /***************************************边处理.*******************************************/
       countEdge++;
       //用上面的参数构造边
       //构造边编号

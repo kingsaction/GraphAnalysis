@@ -190,7 +190,7 @@
 		       </div>
 		       <div class="col s2"></div>
 		     </div> <!--  第一行结束 -->
-		  
+		     <form id="form_db">
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">  <!-- 第二行开始 -->
 		       <div class="col s12">
@@ -246,7 +246,7 @@
                   </div>    
 		       </div>
             </div> <!-- 第五行结束 -->
-   
+          </form>
 		   </div>  <!-- container结束 -->		
 		</div>  <!-- modal-content部分结束 -->
 		
@@ -262,7 +262,7 @@
 	                 </div>
 	                 <div class="col s2"></div>
 	                 <div class="col s5">
-	                   <button class="waves-effect waves-light btn" onclick="modal_mysql_login()">登陆</button>
+	                   <button class="waves-effect waves-light btn"   type="submit" onclick="modal_mysql_login()">连接</button>
 	                 </div>
 	               </div>  
 	            </div>
@@ -357,6 +357,5 @@
           $('select').material_select();
         });
 	</script>
-	
 </body>
 </html>

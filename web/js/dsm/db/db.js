@@ -10,7 +10,6 @@ function modal_mysql_login(){
 	//输出上述的所有值，判断是是否正确的得到连接信息
 	//alert("驱动名称为:"+driverName+"数据库类型为:"+dataBaseType+"ip地址为:"+ipAddress+"端口号为:"+portNumber+"连接名为"+connectionName+"用户名为"+userName+"密码为:"+password);
 	$.ajax({
-		async: false,  //设置ajax交互为同步方式，默认采用的是异步方式
 		url: "/graphanalysis/dsm/db/connection?t=" + (new Date()).getTime(),   //提交数据，测试是否能够成功的连接数据源,url路径采用绝对路径
 		type:"POST",
 		data: {
@@ -32,6 +31,9 @@ function modal_mysql_login(){
                     out_duration: 1000,    /*关闭模态框,1000代表1000ms，在1s内关闭模态框*/
                 });
 				var form = $("<form method='post'></form>");
+				/*参考文章: http://stackoverflow.com/questions/42053775/getting-error-form-submission-canceled-because-the-form-is-not-connected*/
+				$(document.body).append(form);    //动态构建的表单，必须要使用这个语句，将form加到body中才行
+				
 		        form.attr({"action":"/graphanalysis/dsm/db/dbPage"});
 		        var arr = new Array();
 		        arr["driverName"] = driverName;

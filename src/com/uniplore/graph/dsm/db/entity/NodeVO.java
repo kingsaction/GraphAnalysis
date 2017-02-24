@@ -1,5 +1,7 @@
 package com.uniplore.graph.dsm.db.entity;
 
+import java.util.HashMap;
+
 import com.alibaba.fastjson.JSON;
 
 /**
@@ -132,45 +134,45 @@ public class NodeVO {
    * @param args 形式参数
    */
   public static void main(String[] args) {
-    System.out.println("------构造第一个点------");
+    //System.out.println("------构造第一个点------");
     NodeDataVO data1 = new NodeDataVO("n01","13101900@qq.com",4);
     NodeVO nodeVo1 = new NodeVO(data1,"nodes",false,false,true,false,false,true,"");
     String jsonString1 = JSON.toJSONString(nodeVo1);
-    System.out.println(jsonString1);
+    //System.out.println(jsonString1);
     
-    System.out.println("------构造第二个点------");
+    //System.out.println("------构造第二个点------");
     NodeDataVO data2 = new NodeDataVO("n02","13101901@qq.com",10);
     NodeVO nodeVo2 = new NodeVO(data2,"nodes",false,false,true,false,false,true,"");
     String jsonString2 = JSON.toJSONString(nodeVo2);
-    System.out.println(jsonString2);
+    //System.out.println(jsonString2);
     
-    System.out.println("------构造第三个点------");
+    //System.out.println("------构造第三个点------");
     NodeDataVO data3 = new NodeDataVO("n03","13101901@qq.com",10);
     NodeVO nodeVo3 = new NodeVO(data3,"nodes",false,false,true,false,false,true,"");
     String jsonString3 = JSON.toJSONString(nodeVo3);
-    System.out.println(jsonString3);
+    //System.out.println(jsonString3);
     
-    System.out.println("------构造第四个点------");
+    //System.out.println("------构造第四个点------");
     NodeDataVO data4 = new NodeDataVO("n04","13101901@qq.com",10);
     NodeVO nodeVo4 = new NodeVO(data4,"nodes",false,false,true,false,false,true,"");
     String jsonString4 = JSON.toJSONString(nodeVo4);
-    System.out.println(jsonString4);
+    //System.out.println(jsonString4);
     
-    System.out.println("连接两个点");
+    //System.out.println("连接两个点");
     
     /*不同的点只需要在开始和结尾处拼接一个[]就可以*/
     String jsonString = "[" + jsonString1 + "," + jsonString2 + "," + "]";
-    System.out.println(jsonString);
+    //System.out.println(jsonString);
     
     /*根据上面两个点构造一条边*/
-    System.out.println("------构造第一条边------");
+    //System.out.println("------构造第一条边------");
     EdgeDataVO data5 = new EdgeDataVO("e01", "n01", "n02", 100);
     EdgeVO edgeVo1 = new EdgeVO(data5,"edges",false,false,true,false,false,true,"");
     String jsonString5 = JSON.toJSONString(edgeVo1);
-    System.out.println("-------构造边------:");
-    System.out.println(jsonString5);
+    //System.out.println("-------构造边------:");
+    //System.out.println(jsonString5);
     
-    System.out.println("------构造第二条边------");
+    //System.out.println("------构造第二条边------");
     EdgeDataVO data6 = new EdgeDataVO("e02", "n03", "n04", 100);
     EdgeVO edgeVo2 = new EdgeVO(data6,"edges",false,false,true,false,false,true,"");
     String jsonString6 = JSON.toJSONString(edgeVo2);
@@ -178,8 +180,21 @@ public class NodeVO {
     //String outString = "[" + jsonString1 + "," + jsonString2 + "," + jsonString5 + "," + "]"; 
     String outString = "[" + jsonString1 + "," + jsonString2 + "," + jsonString5 + "," 
         + jsonString3 + "," + jsonString4 + "," + jsonString6 + "," + "]";
-    System.out.println("------最终结果------");
-    System.out.println(outString);
+    //System.out.println("------最终结果------");
+    //System.out.println(outString);
+    
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    map.put("小明", 1);
+    if (map.containsKey("小明")) {
+      System.out.println("键已经存在");
+      Object object = map.get("小明");  
+      System.out.println(object);
+    } else {
+      map.put("xiaoming", 2);
+    }
+   
+    
+    System.out.println(map.toString());
   }
   
   

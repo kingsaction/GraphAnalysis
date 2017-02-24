@@ -190,7 +190,7 @@
 		       </div>
 		       <div class="col s2"></div>
 		     </div> <!--  第一行结束 -->
-		     <form id="form_db">
+		    
 		     <!-- 定义驱动div开始 -->
 		     <div class="row">  <!-- 第二行开始 -->
 		       <div class="col s12">
@@ -246,7 +246,6 @@
                   </div>    
 		       </div>
             </div> <!-- 第五行结束 -->
-          </form>
 		   </div>  <!-- container结束 -->		
 		</div>  <!-- modal-content部分结束 -->
 		

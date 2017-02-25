@@ -147,9 +147,10 @@
 			</div>
 		</div>
 
-
+        <!-- 右侧边栏放置分析算法 -->
 		<div class="main-side-bar-right">
 			<div class="main-side-bar-right-header"></div>
+			<div>度</div>
 		</div>
 
 		<div id="modal-free-table" class="modal modal-fixed-footer">
@@ -416,6 +417,19 @@
 			    })
 			}
 		}
+	</script>
+	
+	<!-- 当布局发生变化时，切换布局 -->
+	<script type="text/javascript">
+	  $(function (){
+	     /*在单选列表上增加鼠标单击事件，进行布局的切换*/
+			$(":radio").click(function() {
+				var ly = $('input:radio[name="group1"]:checked').val();   //获取当前选中的元素值
+				//alert(cy);   //获取到变量
+				//alert("布局方式为:" + ly + "接受到的id为:" + id + "接受到的fileName为:" + fileName);
+				cy.layout({name: ly});    //使用API获取到全局变量cy，切换布局方式
+			});
+	  })
 	</script>
 </body>
 </html>

@@ -32,11 +32,13 @@ public class DbService implements IDbService {
     }
     String user = dbPo.getUserName();
     String password = dbPo.getPassword();
+    Connection connection;
     try {
       Class.forName(driverName);
       // 连接数据库
-      Connection connection = DriverManager.getConnection(url, user, password);
+      connection = DriverManager.getConnection(url, user, password);
       if (dbPo.getIpAddress().length() != 0 && connection != null) {
+        connection.close();//关闭流
         return "数据库连接成功";
       }
     } catch (Exception ex) {
@@ -81,9 +83,10 @@ public class DbService implements IDbService {
     }
     
     if (dataBaseList.size() != 0) {
+      connection.close();
       return dataBaseList;
     }
-    
+    connection.close();
     return null;
    
   }
@@ -113,8 +116,10 @@ public class DbService implements IDbService {
     }
     //System.out.println(tableList.size());
     if (tableList.size() != 0 ) {
+      connection.close();
       return tableList;
     }
+    connection.close();
     return null;
   }
 
@@ -140,9 +145,10 @@ public class DbService implements IDbService {
     }
     
     if (columnList.size() != 0) {    //如果该数据库中有表则返回columnList，否则返回空
+      connection.close();
       return columnList;
     }
-    
+    connection.close();
     return null;
   }
   
@@ -253,6 +259,7 @@ public class DbService implements IDbService {
     //拼接成最后的结果
     /*System.out.println("------拼接最好的结果------");*/
     String outString = "[" + jsonContent + "]" ;
+    connection.close();
     return outString;
   }
 

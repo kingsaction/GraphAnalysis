@@ -250,8 +250,9 @@ public class DbService implements IDbService {
       //用上面的参数构造边
       //构造边编号
       String edgeID1 = "e" + countEdge;
-      EdgeDataVO data3 = new EdgeDataVO(edgeID1, nodeID1, nodeID2, 1);
-      EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
+      EdgeDataVO data3 = new EdgeDataVO(edgeID1, nodeID1, nodeID2, 1,true);
+      EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"",
+          "ArrowShape.DELTA","#000");
       String jsonString3 = JSON.toJSONString(edgeVo);
       stringBuffer.append(jsonString3 + ",");  //将该数据追加到输出中
     }

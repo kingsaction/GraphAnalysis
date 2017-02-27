@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -131,5 +130,16 @@ public class DbController {
     return outputString;
   }
   
+  /**
+   * 功能: 保存从客户端接收到的用户点击node的id值，并保存到session，供后续的事件获取.
+   * @param request  客户端请求
+   */
+  @RequestMapping(value = "/saveNodeId" ,method = RequestMethod.POST)
+  public @ResponseBody Map<String, Object> saveNodeId(HttpServletRequest request) {
+    String nodeId = request.getParameter("nodeID");
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("nodeID", nodeId);
+    return map;
+  }
   
 }

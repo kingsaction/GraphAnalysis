@@ -164,3 +164,16 @@ body {
 .main-side-bar-left .graph-layout h5 {
 	font-size: 14px;
 }
+.main-side-bar-right .analysis {
+	padding: 0 10px 0 0 ;
+}
+
+.analysis h5 {
+	padding-top: 30px;
+	padding-left: 28px;
+	color: #2a2a2a;
+}
+
+.main-side-bar-right .analysis li  label{
+	color: #8f8f8f;
+}

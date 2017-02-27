@@ -14,4 +14,6 @@ public @Data  @NoArgsConstructor @AllArgsConstructor class EdgeVO {
   private boolean grabbed;
   private boolean grabbable;
   private String classess;
+  private String targetArrowShape;  //有向边的形状，目前参数不能发挥作用
+  private String targetArrowColor;  //有向边重点的颜色，目前参数不能发挥作用
 }

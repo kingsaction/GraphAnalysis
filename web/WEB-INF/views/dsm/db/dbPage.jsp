@@ -164,6 +164,14 @@
 						class="with-gap" value="dijkstra" disabled/> <label for="algorithm4">dijkstra</label></li>
 					<li><input name="group2" type="radio" id="algorithm5"
 						class="with-gap" value="aStar" disabled/> <label for="algorithm5">aStar</label></li>
+					<li><input name="group2" type="radio" id="algorithm15"
+						class="with-gap" value="k-means" disabled/> <label for="algorithm15">k-means cluster</label></li>
+					<li><input name="group2" type="radio" id="algorithm15"
+						class="with-gap" value="markov" disabled/> <label for="algorithm15">markov cluster</label></li>
+					<li><input name="group2" type="radio" id="algorithm15"
+						class="with-gap" value="hierarchical" disabled/> <label for="algorithm15">hierarchical cluster</label></li>
+					<li><input name="group2" type="radio" id="algorithm15"
+						class="with-gap" value="affinity" disabled/> <label for="algorithm15">affinity propagation</label></li>
 					<li><input name="group2" type="radio" id="algorithm6"
 						class="with-gap" value="floydWarshall" disabled/> <label for="algorithm6">floydWarshall</label></li>
 					<li><input name="group2" type="radio" id="algorithm7"
@@ -604,6 +612,23 @@
 		        {
 		            break;
 		        }
+		        case "k-means" :
+		        {
+		            break;
+		        }
+		        case "markov" :
+		        {
+		            break;
+		        }
+		        case "hierarchical" :
+		        {
+		            break;
+		        }
+		        case "affinity" :
+		        {
+		            break;
+		        }
+		        
 		    }
 		});
 	</script>

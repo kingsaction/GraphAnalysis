@@ -137,8 +137,10 @@ public class DbController {
   @RequestMapping(value = "/saveNodeId" ,method = RequestMethod.POST)
   public @ResponseBody Map<String, Object> saveNodeId(HttpServletRequest request) {
     String nodeId = request.getParameter("nodeID");
+    String color = request.getParameter("color");
     Map<String, Object> map = new HashMap<String, Object>();
     map.put("nodeID", nodeId);
+    map.put("color", color);
     return map;
   }
   

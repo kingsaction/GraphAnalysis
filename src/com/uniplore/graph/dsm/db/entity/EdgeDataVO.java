@@ -9,6 +9,4 @@ public @Data @NoArgsConstructor @AllArgsConstructor class EdgeDataVO {
   private String source;
   private String target;
   private Integer weight;
-  private boolean directed;
-
 }

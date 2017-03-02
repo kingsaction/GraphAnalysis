@@ -28,24 +28,25 @@
 	href="${pageContext.request.contextPath }/utils/easyui/css/easyui.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/utils/easyui/css/icon.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/utils/jRange/css/jquery.range.css">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/js/dsm/db/db.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/utils/cytoscape/js/cytoscape.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/utils/jscolor/js/jscolor.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/utils/jRange/js/jquery.range.js"></script>
 </head>
   
 <body>
     <div class="main">
-		<div class="main-side-bar-left">
+		<div class="main-side-bar-left" >
 			<div class="logo">
-				<dl>
-					<dt>
-						<a href="#"><img alt=""
-							src="${pageContext.request.contextPath }/img/main/icon.png"></a>
-					</dt>
-				</dl>
+				
 			</div>
-
+            
 			<div class="source">
 				<h5>连接</h5>
 				<ul>
@@ -105,108 +106,116 @@
 							</select>
 						</div>
 					</li>
-				</ul>
-						
+				</ul>		
 			</div>
 			
-			<div class="graph-layout">
+			<div class="worksheet">
 				<h5>布局</h5>
 				<ul>
-				    <li><input name="group1" type="radio" id="test3"
-						class="with-gap" value="grid" checked="checked"/> <label for="test3">grid</label></li>
-				    <li><input name="group1" type="radio" id="test4"
-						class="with-gap" value="concentric"/> <label for="test4">concentric</label></li>
-					<li><input name="group1" type="radio" id="test2"
-						class="with-gap" value="cose" /> <label for="test2">cose</label></li>
-					<li><input name="group1" type="radio" id="test7"
-						class="with-gap" value="circle"/> <label for="test7">circle</label></li>
-					<li><input name="group1" type="radio" id="test1"
-						class="with-gap" value="breadthfirst"/> <label for="test1">breadthfirst</label></li>
-					<li><input name="group1" type="radio" id="test6"
-						class="with-gap" value="random"/> <label for="test6">random</label></li>
-					<li><input name="group1" type="radio" id="test5"
-						class="with-gap" value="preset"/> <label for="test5">preset</label></li>
-				</ul>
+					<li>
+						<div>
+							<select class="browser-default" id="layout_graph">
+								<option value="" selected>请选择布局</option>
+								<option value="grid">grid</option>
+								<option value="concentric">concentric</option>
+								<option value="cose">cose</option>
+								<option value="circle">circle</option>
+								<option value="breadthfirst">breadthfirst</option>
+								<option value="random">random</option>
+								<option value="preset">preset</option>
+							</select>
+						</div>
+					</li>
+				</ul>		
 			</div>
-			<input type="hidden" id="nodeTap"/>   <!-- 隐藏域，保存抓取到的点的id -->
+			
+
+			<div style="padding-left: 32px;margin-right: 18px;margin-top: 20px;">
+			  <button class="waves-effect waves-light btn" style="width: 100%;" onclick="graph_display()">运行</button>
+			</div>
+			
 		</div>
+		<input type="hidden" id="nodeTap"/>   <!-- 隐藏域，保存抓取到的点的id -->
+		
 
 		<div class="main-content-center">
 			<!-- 中心部分内容 -->
 			<div class="main-content-center-header">
-				<h5 style="margin-left: 25px;">
-					<i class="icon-file-text-alt" style="margin-right: 24px;"></i><%= request.getParameter("ipAddress") %></h5>
+				<h5 style="margin-left: 25px;" > 
+					<i class="icon-file-text-alt" style="margin-right: 24px;"></i><%= request.getParameter("ipAddress") %>
+			    </h5>
 			</div>
 			<!-- 撑开该部分，使得和左侧导航条的logo处一样的高度 -->
 
-			<div class="main-content-center-center" id="target-source">
-				<div>请将数据集拖拽至此处</div>
-			</div>
-
-			<div id="main-content-center-footer" ondblclick="graph_display()">
+			<div id="main-content-center-footer">
 			 
 			</div>
 		</div>
 
         <!-- 右侧边栏放置分析算法 -->
 		<div class="main-side-bar-right">
-			<div class="main-side-bar-right-header"></div>
-			<div class="analysis"><h5>图分析</h5></div>
-			<div class="analysis">
-				<ul style="padding-left: 25px;margin-top: 25px;" id="graph_impor">
-					<li><input name="group2" type="radio" id="algorithm1"
-						class="with-gap" value="firstNeighbors" disabled/> <label for="algorithm1">firstNeighbors</label></li>
-					<li><input name="group2" type="radio" id="algorithm2"
-						class="with-gap" value="breadthFirstSearch" disabled/> <label for="algorithm2">breadthFirstSearch</label></li>
-					<li><input name="group2" type="radio" id="algorithm3"
-						class="with-gap" value="depthFirstSearch" disabled/> <label for="algorithm3">depthFirstSearch</label></li>
-					<li><input name="group2" type="radio" id="algorithm4"
-						class="with-gap" value="dijkstra" disabled/> <label for="algorithm4">dijkstra</label></li>
-					<li><input name="group2" type="radio" id="algorithm5"
-						class="with-gap" value="aStar" disabled/> <label for="algorithm5">aStar</label></li>
-					<li><input name="group2" type="radio" id="algorithm15"
-						class="with-gap" value="k-means" disabled/> <label for="algorithm15">k-means cluster</label></li>
-					<li><input name="group2" type="radio" id="algorithm15"
-						class="with-gap" value="markov" disabled/> <label for="algorithm15">markov cluster</label></li>
-					<li><input name="group2" type="radio" id="algorithm15"
-						class="with-gap" value="hierarchical" disabled/> <label for="algorithm15">hierarchical cluster</label></li>
-					<li><input name="group2" type="radio" id="algorithm15"
-						class="with-gap" value="affinity" disabled/> <label for="algorithm15">affinity propagation</label></li>
-					<li><input name="group2" type="radio" id="algorithm6"
-						class="with-gap" value="floydWarshall" disabled/> <label for="algorithm6">floydWarshall</label></li>
-					<li><input name="group2" type="radio" id="algorithm7"
-						class="with-gap" value="bellmanFord" disabled/> <label for="algorithm7">bellmanFord</label></li>
-						<li><input name="group2" type="radio" id="algorithm8"
-						class="with-gap" value="kruskal" disabled/> <label for="algorithm8">kruskal</label></li>
-					<li><input name="group2" type="radio" id="algorithm9"
-						class="with-gap" value="kargerStein" disabled/> <label for="algorithm9">kargerStein</label></li>
-					<li><input name="group2" type="radio" id="algorithm10"
-						class="with-gap" value="pageRank" disabled/> <label for="algorithm10">pageRank</label></li>
-					<li><input name="group2" type="radio" id="algorithm11"
-						class="with-gap" value="degreeCentrality" disabled/> <label for="algorithm11">degreeCentrality</label></li>
-					<li><input name="group2" type="radio" id="algorithm12"
-						class="with-gap" value="degreeCentralityNormalized" disabled/> <label for="algorithm12">degreeCentralityNormalized</label></li>
-					<li><input name="group2" type="radio" id="algorithm13"
-						class="with-gap" value="closenessCentrality" disabled/> <label for="algorithm13">closenessCentrality</label></li>
-					<li><input name="group2" type="radio" id="algorithm14"
-						class="with-gap" value="closenessCentralityNormalized" disabled/> <label for="algorithm14">closenessCentralityNormalized</label></li>
-				    <li><input name="group2" type="radio" id="algorithm15"
-						class="with-gap" value="betweennessCentrality" disabled/> <label for="algorithm15">betweennessCentrality</label></li>
+		    <div class="logo">
+				
+			</div>
+            
+			<div class="source">
+				<h5>连接</h5>
+				<ul>
+					<li>
+						<div class="file-title"><%= request.getParameter("ipAddress") %></div>
+						<div class="file-type"><%= request.getParameter("dataBaseType") %></div>
+					</li>
 				</ul>
 			</div>
-		</div>
 
-		<div id="modal-free-table" class="modal modal-fixed-footer">
-			<div class="modal-content">
-				<pre id="modal-content-JSON" class="cls"></pre>
+			<div class="worksheet" id="data-source">
+				<h5>图分析算法</h5>
+				<ul>
+					<li>
+						<div>
+							<select class="browser-default" id="graph_select">
+								<option value="" selected>请选择图分析算法</option>
+							</select>
+						</div>
+					</li>
+				</ul>
 			</div>
-			<div class="modal-footer">
-				<a class="modal-action modal-close waves-effect waves-green btn-flat ">关闭</a>
+			<div class="worksheet" id="setting" style="height: 455px;">
+				<h5>图属性设置</h5>
+				<div>
+				  <input class="jscolor {required:false}" id="setting-node-color" style="height: 20px;" placeholder="节点颜色">
+				  <input class="jscolor {refine:false}"  id="setting-edge-color" style="height: 20px;" placeholder="边颜色">
+				  <input type="hidden" class="slider-input" value="10" id="setting-node-width" />
+				  <p style="height: 30px;"></p>
+				  <input type="hidden" class="slider-input" value="5" id="setting-node-height"/>
+				  <p style="height: 30px;"></p>
+				  
+				  <select id="setting-node-shape" style="height: 20px;">
+				     <option>default</option>
+				     <option>rectangle</option>
+				     <option>roundrectangle</option>
+				     <option>ellipse</option>
+				     <option>triangle</option>
+				     <option>pentagon</option>
+				     <option>hexagon</option>
+				     <option>heptagon</option>
+				     <option>octagon</option>
+				     <option>star</option>
+				     <option>diamond</option>
+				     <option>vee</option>
+				     <option>rhomboid</option>
+				     <option>polygon</option>
+				  </select>
+				  
+				</div>
+				
+			</div>
+			
+			<div style="padding-left: 32px;margin-right: 18px;margin-top: 20px;">
+			  <button class="waves-effect waves-light btn" style="width: 100%;" onclick="refreshGraph()">刷新</button>
 			</div>
 		</div>
-
 	</div>
-	
 	<script type="text/javascript">
 	  $(document).ready(function() {
         $('select').material_select();
@@ -381,7 +390,7 @@
 			var tableName = $('#table_select').find("option:selected").text(); //获取当前选中的表
 			var sourceNode = $('#source_select').find("option:selected").text(); //获取当前选中的起始点
 			var targetNode = $('#target_select').find("option:selected").text(); //获取当前选中的终点
-			
+			var ly = $('#layout_graph').find("option:selected").text();  //获取当前选中的布局
 			var driverName =  '<%= (String) request.getParameter("driverName")%>';
 			var dataBaseType = '<%= (String) request.getParameter("dataBaseType")%>';
 			var ipAddress = '<%= (String) request.getParameter("ipAddress")%>';
@@ -417,7 +426,6 @@
 			       success: function (backData){
 			         //alert("成功的开始构造JSON字符串");
 			         var str = JSON.stringify(backData,  null , 2);  //将JSON对象转换成字符串
-			         var ly = $('input:radio[name="group1"]:checked').val();
 			         //alert(str);
 			         cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
 							container : $("#main-content-center-footer"),  //jquery获取元素
@@ -427,26 +435,34 @@
 										selector : 'node',
 										style : {
 											'background-color' : 'red',
-											'label' : 'data(name)',
-											/* 'width': 2, */
+											'label' : 'data(weight)',
+											//'width': 2,
 											'opacity': .9,
 											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20, 
 										}
 									},
 	
 									{
 										selector : 'edge',
 										style : {
-											'width' : 1,
-											'line-color' : '#000',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
 											'target-arrow-color' : '#ccc',
-											'target-arrow-shape' : 'triangle',
-											'opacity': .9,
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											'label': 'data(weight)', */
 										}
 									}
 								],
 							layout : {
-								name : ly
+								name : ly,
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
 							},
 							zoom: 1,
                             pan: { x: 0, y: 0 },
@@ -456,15 +472,54 @@
                             wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
                             pixelRatio: 'auto',
 						});
+						$('#setting-icon').removeClass('icon-cog');  
+						$('#setting-icon').addClass('icon-cog');  //在右侧增加设置按钮
 						
+						/*进行布局的切换*/
+						$("#layout_graph").change(function() {
+						    //alert("切换布局");
+						    if(cy != undefined){
+						        ly = $('#layout_graph').find("option:selected").text();   //获取当前选中的布局方式
+							    //alert(cy);   //获取到变量
+							    //alert("布局方式为:" + ly + "接受到的id为:" + id + "接受到的fileName为:" + fileName);
+							    cy.layout({name: ly});    //使用API获取到全局变量cy，切换布局方式
+						    }
+							
+						});
 						cy.nodes().on('tap', function(event) {
 							var nodeID = event.cyTarget.id();   //获取到点击时元素的id
 							//获取到要删除元素的id,cyTarget代表当前事件操作的元素
 							var nodeObj = cy.$('#'+ nodeID);    //使用#和id进行拼接，形成完整的id选择器，并获取到该元素
 							//alert("点击节点"+ nodeID);
-						    $('input:radio[name="group2"]').removeAttr("disabled");    //当获取到一个特定的元素之后删除单选框的disabled属性
-	                        $('#graph_impor li label').css('color','#2a2a2a');  //当一个点被选中时，给右侧的分析算法颜色全部变成深黑色
+						    
+						    //当选中图中的点之后，创建图分析算法的option
+						    var graphElement = document.getElementById("graph_select")  //父亲节点
+						    graphElement.options.length = 1;
+						    
+						    var graphSelect = $('#graph_select');
+						    var selection_1 = $('<option>firstNeighbors</option>');  //创建第一个节点
+						    var selection_2 = $('<option>breadthFirstSearch</option>');  //创建第二个节点
+						    var selection_3 = $('<option>depthFirstSearch</option>');  //创建第三个节点
+	                        var selection_4 = $('<option>pageRank</option>');  //创建第四个节点
+	                        graphSelect.append(selection_1);
+	                        graphSelect.append(selection_2);
+	                        graphSelect.append(selection_3);
+	                        graphSelect.append(selection_4);
 	                        
+	                        
+	                        var colorStr="";
+						    //字符串的每一字符的范围  
+				            var randomArr=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']; 
+				            //产生一个六位的字符串  
+						    for(var i=0;i<6;i++){  
+						        //15是范围上限，0是范围下限，两个函数保证产生出来的随机数是整数  
+						        colorStr+=randomArr[Math.ceil(Math.random()*(15-0)+0)];  
+						    }  
+						    var color = '#' + colorStr;    //拼接成一个随机色
+						    
+						    //直接给该选中的元素着色
+						   /*  nodeObj.style({'background-color' : color}); */
+						    
 	                        //将上述得到的nodeID保存到sessinon中，方便客户端其它函数获取
 	                        $.ajax({
 	                            async: false,
@@ -473,11 +528,12 @@
 	                            dataType: "JSON",
 	                            data: {
 	                                "nodeID" : nodeID,
+	                                "color" : color,
 	                            },
 	                            success: function (backData) {
 	                                //alert(typeof(backData.nodeID)); 
 	                                var inputElement = $('#nodeTap');
-	                                inputElement.val(backData.nodeID);
+	                                inputElement.val(backData.nodeID + "," + backData.color);
 	                            },
 	                            error: function (XMLHttpRequest, textStatus, errorThrown){
 	                                alert("返回错误");
@@ -496,43 +552,28 @@
 		}   //构造JSON串实现图
 	</script>
 	
-	<!-- 当布局发生变化时，切换布局 -->
-	<script type="text/javascript">
-	  $(function (){
-	     /*在单选列表上增加鼠标单击事件，进行布局的切换*/
-			$(":radio").click(function() {
-				var ly = $('input:radio[name="group1"]:checked').val();   //获取当前选中的元素值
-				//alert(cy);   //获取到变量
-				//alert("布局方式为:" + ly + "接受到的id为:" + id + "接受到的fileName为:" + fileName);
-				cy.layout({name: ly});    //使用API获取到全局变量cy，切换布局方式
-			});
-	  })
-	</script>
-	
 	<!-- 当图分析算法发生点击事件时，激活该段代码 -->
 	<script type="text/javascript">
      /*在单选列表上增加鼠标单击事件，进行算法切换*/
-		$('input:radio[name="group2"]').click(function() {
-			var algorithmName = $('input:radio[name="group2"]:checked').val();   //获取当前选中的元素值
+		$('#graph_select').change(function() {
+			var algorithmName = $('#graph_select').find("option:selected").text();;   //获取当前选中的元素值#graph_select
 			//alert("得到的算法为:"+algorithmName);
-		    var nodeID = $('#nodeTap').val();   //得到点的id
+		    var nodeIDAndColor = $('#nodeTap').val();   //得到点的id和color值，分别拆成id和color
+		    //alert(nodeIDAndColor);
+		    var arrNodeColor = nodeIDAndColor.split(",");  //从逗号处将整个字符串拆开
+		    var nodeID = arrNodeColor[0];     //从拆开的数组中获取到nodeID的值
+		    //alert("第一个点的序号为:" + nodeID);
+		    var color = arrNodeColor[1];      //从拆开的数组中获取到color的值
 		    var nodeObj = cy.$('#'+ nodeID);    //使用#和id进行拼接，形成完整的id选择器，并获取到该元素
-		    var colorStr="";
-		    //字符串的每一字符的范围  
-            var randomArr=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']; 
-            //产生一个六位的字符串  
-		    for(var i=0;i<6;i++){  
-		        //15是范围上限，0是范围下限，两个函数保证产生出来的随机数是整数  
-		        colorStr+=randomArr[Math.ceil(Math.random()*(15-0)+0)];  
-		    }  
-		    var color = '#' + colorStr;
+		    /* nodeObj.style({'background-color' : color});    //将选中的点的颜色设置为黑色 */
 		    //alert("得到的最近的节点为:"+ nodeID); 
 		    switch (algorithmName){
 		        case "firstNeighbors" :
 		        {
-		            nodeObj.style({'background-color' : color});    //将选中的点的颜色设置为黑色
                     nodeObj.neighborhood('node').style({'background-color' : color});   //将选中的点的邻居点全部颜色设置为黑色
                     nodeObj.neighborhood('edge').style({'line-color' : color});   //将选中的点的邻居边全部设置为蓝色
+                    nodeObj.neighborhood('edge').style({'target-arrow-color' : color});   //将选中的点的邻居边全部设置为蓝色
+                    
                     break;
 		        }
 		        case "breadthFirstSearch" :
@@ -557,61 +598,14 @@
 		            found.style({'background-color' : color});  //给找到的点着色
 		            break;
 		        }
-		        case "dijkstra" : 
-		        {
-		            var dijkstra = cy.elements().dijkstra({
-		                root: nodeObj,
-		            });
-		            break;
-		        }
 		        
 		        case "pageRank" :
 		        {
 		            var pr = cy.elements().pageRank();
-		            //alert(pr.rank(nodeObj));   //输出某个点的pageRank值
-		            break;
-		        }
-		        case "aStar" :
-		        {
+		            alert(pr.rank(nodeObj));   //输出某个点的pageRank值
 		            break;
 		        }
 		        
-		        case "floydWarshall" :
-		        {
-		            break;  
-		        }
-		        case "bellmanFord" :
-		        {
-		            break;
-		        }
-		        case "kruskal" :
-		        {
-		            break;
-		        }
-		        case "kargerStein" :
-		        {
-		            break;
-		        }
-		        case "degreeCentrality" :
-		        {
-		            break;
-		        }
-		        case "degreeCentralityNormalized" :
-		        {
-		            break;
-		        }
-		        case "closenessCentrality" :
-		        {
-		            break;
-		        }
-		        case "closenessCentralityNormalized" :
-		        {
-		            break;
-		        }
-		        case "betweennessCentrality" :
-		        {
-		            break;
-		        }
 		        case "k-means" :
 		        {
 		            break;
@@ -631,6 +625,48 @@
 		        
 		    }
 		});
+	</script>
+	
+	<!-- jquery的范围插件，不用手动输入值，这样能够避免参数的校验 -->
+	<script type="text/javascript">
+	   $('.slider-input').jRange({
+	    from: 1,     /*开始刻度*/
+	    to: 100,     /*结束刻度*/
+	    step: 1,     /*滑动过程的步长*/
+	    scale: [1,25,50,75,100],  /*整个尺子的刻度*/
+	    format: '%s',  
+	    width: 300,    /*尺子的宽度*/
+	    showLabels: true,    /*滑动的过程中是否显示当前值*/
+	    snap: true,   /*滑动过程中捕获步长值*/
+	    theme: 'theme-blue',
+	   });
+	</script>
+	
+	<script type="text/javascript">
+	    function refreshGraph(){
+	        /*设置点的颜色*/
+	        var settingNodeElement = $('#setting-node-color').val();
+	        var settingNodeColor = '#' + settingNodeElement;
+	        cy.nodes().style({'background-color': settingNodeColor});
+	        
+	        /*设置边的颜色*/
+	        var settingEdgeElement = $('#setting-edge-color').val();
+	        //alert(settingEdgeElement)
+	        var settingEdgeColor = '#' + settingEdgeElement;
+	        cy.edges().style({'line-color': settingEdgeColor});
+	        
+	        /*设置点的宽和高*/
+	        var settingNodeWidth = $('#setting-node-width').val();
+	        //alert("宽为 " + settingNodeWidth )
+	        //cy.nodes({'width': settingNodeWidth});
+	        var settingNodeHeight = $('#setting-node-height').val();
+	        //alert("高为 " + settingNodeHeight );
+	        cy.nodes({'height': settingNodeHeight});
+	        
+	        /*设置点的类型*/
+	        var nodeShape = $('#setting-node-shape').find("option:selected").text()  //setting-node-shape
+	        cy.nodes().style({'shape':nodeShape});
+	    }
 	</script>
 </body>
 </html>

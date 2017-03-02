@@ -161,7 +161,7 @@ public class DbService implements IDbService {
    * 功能:该算法是整个数据库作为数据源最重要的方法，在图中，每个小的图都是由两个点，一条边构成的，那么就需要在数据库中选出两列，在这两列上构造图，
    * 选出的这两列中的每一列都可能有很多值是重复的，对于重复的值，我们需要作为同一个点来对待，所以就需要一种数据结构来保存结果，并能快速的找到是够有
    * 重复的值存在，在此我选择了HashMap作为其数据结构.对于点的权重，我增加了一个简单的生成原则，当点和其它的点之间的边越多，其权重就越大，默认为1，多
-   * 一条边的联系，权重就加1.
+   * 一条边的联系，权重就加1.当两个点中有某个值有空值时，权重为1，并且不再创建新的节点.
    */
   @Override
   public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
@@ -196,14 +196,14 @@ public class DbService implements IDbService {
     while (set.next()) {  /*经过该部分测试可以知道，当前返回的数据是一行行的返回的*/
       /***************************************节点一处理.*******************************************/
       String node1 = set.getString(1);   //获取第一个点的值
-      String node2 = set.getString(2);   //获取第二个点的值
+      String node2 = set.getString(2);   //获取第二个点的值，同时获取是因为在构造node1点是需要知道node2点是否为空，如果为空，权值为0
       
       //sourceNode的属性值
       String nodeID1 = null;
       NodeDataVO data1 = null;
       String jsonString1 = null;
       
-      if (node1 != null) {
+      if (node1 != null) {   //只有node1不为空，我们才有创建节点的必要性
         //判断node1的键知否已经被包含在mapSourceNode中，在说明该节点的出度不是1，此时应该做加一的操作
         if (mapSourceNode.containsKey(node1)) {
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化，也不需要将该数据再次加入到StringBuffer中
@@ -233,17 +233,17 @@ public class DbService implements IDbService {
               }
             }  //for
           } //node2 != null
-        } else {   //判断是否已经存在node1、nodeID1
+        } else {   //if (node1 != null)配对的else字句
           //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
           countNode++;
           //构造节点对象
           nodeID1 = "n" + countNode;   //拼接节点的编号
-          if (node2 != null) {
+          if (node2 != null) {   //如果node2的值为空，那么我们在初始化node1节点的weight值应该设置为0
             data1 = new NodeDataVO(nodeID1, node1, 1);
           } else {
             data1 = new NodeDataVO(nodeID1, node1, 0);
           }
-          NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
+          NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");  //创建节点
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
           mapSourceNode.put(node1, nodeID1);
           stringBuffer.append(jsonString1 + ";");   //将该数据追加到输出中
@@ -257,20 +257,20 @@ public class DbService implements IDbService {
       NodeDataVO data2 = null;
       String jsonString2 = null;
       
-      if (node2 != null) {
+      if (node2 != null) {  //只有node2不为空，才有构造节点的必要性
         //判断node1的键知否已经被包含在mapSourceNode中
         if (mapTargetNode.containsKey(node2)) {
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化
           //得到该key下的value值，也就是id值
           nodeID2 = (String)mapTargetNode.get(node2);  //根据其key获取value的值
-          if (node1 != null) {
+          if (node1 != null) {   //如果节点1的值为空，则美有必要去改变其权值，该if语句中所有内容都是在改变已经存在的节点的权值
             //下面的代码给重复的节点赋予新的权值
             //将上述的对象拆解为一个个的字符串，这些字符串中既含有点的数据，也含有边的数据
             String[] sb =  stringBuffer.toString().split(";");   
             stringBuffer = new StringBuffer() ; //将stringBuffer的值全部清空，后面会重新构造
             for (int i = 0 ; i < sb.length ; i++) { //遍历上述的数组
               if (!sb[i].contains("source")) {   //判断obj是否为节点类型
-                NodeVO object = JSON.parseObject(sb[i], NodeVO.class);   //将obj进行强制类型转换，将其类型变为NodeVO类型
+                NodeVO object = JSON.parseObject(sb[i], NodeVO.class);
                 if (object.getData().getId().equals(nodeID2)) {
                   //再次判断得到的这个节点的id是否和我们在上面得到的nodeID1一样
                   //如果一样，得到该节点的权值，并在原来值的基础上加1
@@ -291,12 +291,12 @@ public class DbService implements IDbService {
               }
             }
           }
-        } else {
+        } else {  //判断if (mapTargetNode.containsKey(node2))的else子句
           //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
           countNode++;
           //构造节点对象
           nodeID2 = "n" + countNode;   //拼接节点的编号
-          if ( node1 != null) {
+          if ( node1 != null) {   //如果node1的值为空，说明该节点没有与之相连的节点，此时只能将weight设置为0
             data2 = new NodeDataVO(nodeID2, node2, 1);
           } else {
             data2 = new NodeDataVO(nodeID2, node2, 0);
@@ -309,9 +309,9 @@ public class DbService implements IDbService {
         }
       }
       /***************************************边处理.*******************************************/
-      if (node1 == null || node2 == null) {
+      if (node1 == null || node2 == null) {   //如果有一个点的没有值，即为空，则不会构造边，因为此时至多只有一个点
         continue;
-      } else {
+      } else {   //两个节点都不为空，才有构造变的必要性
         countEdge++;
         //用上面的参数构造边
         //构造边编号

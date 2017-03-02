@@ -195,7 +195,8 @@ public class DbService implements IDbService {
     int countEdge = 0 ; //边计数
     while (set.next()) {  /*经过该部分测试可以知道，当前返回的数据是一行行的返回的*/
       /***************************************节点一处理.*******************************************/
-      String node1 = set.getString(1);
+      String node1 = set.getString(1);   //获取第一个点的值
+      String node2 = set.getString(2);   //获取第二个点的值
       
       //sourceNode的属性值
       String nodeID1 = null;
@@ -208,35 +209,40 @@ public class DbService implements IDbService {
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化，也不需要将该数据再次加入到StringBuffer中
           //得到该key下的value值，也就是id值
           nodeID1 = (String)mapSourceNode.get(node1);  //根据其key获取value的值
-        
-          //下面的代码给重复的节点赋予新的权值
-          //将上述的对象拆解为一个个的字符串，这些字符串中既含有点的数据，也含有边的数据
-          String[] sb =  stringBuffer.toString().split(";");   //怎么stringBuffer中的数据进行合理的分割
-          stringBuffer = new StringBuffer() ; //将stringBuffer的值全部清空，后面会重新构造
-          for (int i = 0 ; i < sb.length ; i++) {  //遍历上述的数组
-            if (!sb[i].contains("source")) {   //判断转成的字符串是否包含source字段，如果不包含，则说明是节点类型，而不是边类型
-              NodeVO object = JSON.parseObject(sb[i], NodeVO.class);  //将字符串转换为NodeVO类型
-              if (object.getData().getId().equals(nodeID1)) {
-                //再次判断得到的这个节点的id是否和我们在上面得到的nodeID1一样
-                //如果一样，得到该节点的权值，并在原来值的基础上加1
-                object.getData().setWeight(object.getData().getWeight() + 1);   //权值在原值的基础上加1
-                String jsonString = JSON.toJSONString(object);   //将该对象再次转换成JSON字符串
-                stringBuffer.append(jsonString + ";");
+          if (node2 != null) {
+            //下面的代码给重复的节点赋予新的权值
+            //将上述的对象拆解为一个个的字符串，这些字符串中既含有点的数据，也含有边的数据
+            String[] sb =  stringBuffer.toString().split(";");   //怎么stringBuffer中的数据进行合理的分割
+            stringBuffer = new StringBuffer() ; //将stringBuffer的值全部清空，后面会重新构造
+            for (int i = 0 ; i < sb.length ; i++) {  //遍历上述的数组
+              if (!sb[i].contains("source")) {   //判断转成的字符串是否包含source字段，如果不包含，则说明是节点类型，而不是边类型
+                NodeVO object = JSON.parseObject(sb[i], NodeVO.class);  //将字符串转换为NodeVO类型
+                if (object.getData().getId().equals(nodeID1)) {
+                  //再次判断得到的这个节点的id是否和我们在上面得到的nodeID1一样
+                  //如果一样，得到该节点的权值，并在原来值的基础上加1
+                  object.getData().setWeight(object.getData().getWeight() + 1);   //权值在原值的基础上加1
+                  String jsonString = JSON.toJSONString(object);   //将该对象再次转换成JSON字符串
+                  stringBuffer.append(jsonString + ";");
+                } else {
+                  //否则直接将原来的sb[i]放回到原来的stringBuffer中
+                  stringBuffer.append(sb[i] + ";");
+                }
               } else {
                 //否则直接将原来的sb[i]放回到原来的stringBuffer中
                 stringBuffer.append(sb[i] + ";");
               }
-            } else {
-              //否则直接将原来的sb[i]放回到原来的stringBuffer中
-              stringBuffer.append(sb[i] + ";");
-            }
-          }
-        } else {
+            }  //for
+          } //node2 != null
+        } else {   //判断是否已经存在node1、nodeID1
           //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
           countNode++;
           //构造节点对象
           nodeID1 = "n" + countNode;   //拼接节点的编号
-          data1 = new NodeDataVO(nodeID1, node1, 1);
+          if (node2 != null) {
+            data1 = new NodeDataVO(nodeID1, node1, 1);
+          } else {
+            data1 = new NodeDataVO(nodeID1, node1, 0);
+          }
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
           mapSourceNode.put(node1, nodeID1);
@@ -245,7 +251,6 @@ public class DbService implements IDbService {
       }
       /***************************************节点二处理.*******************************************/
       
-      String node2 = set.getString(2);
       
       //targetNode的属性值
       String nodeID2 = null;
@@ -258,31 +263,32 @@ public class DbService implements IDbService {
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化
           //得到该key下的value值，也就是id值
           nodeID2 = (String)mapTargetNode.get(node2);  //根据其key获取value的值
-        
-          //下面的代码给重复的节点赋予新的权值
-          //将上述的对象拆解为一个个的字符串，这些字符串中既含有点的数据，也含有边的数据
-          String[] sb =  stringBuffer.toString().split(";");   
-          stringBuffer = new StringBuffer() ; //将stringBuffer的值全部清空，后面会重新构造
-          for (int i = 0 ; i < sb.length ; i++) { //遍历上述的数组
-            if (!sb[i].contains("source")) {   //判断obj是否为节点类型
-              NodeVO object = JSON.parseObject(sb[i], NodeVO.class);   //将obj进行强制类型转换，将其类型变为NodeVO类型
-              if (object.getData().getId().equals(nodeID2)) {
-                //再次判断得到的这个节点的id是否和我们在上面得到的nodeID1一样
-                //如果一样，得到该节点的权值，并在原来值的基础上加1
-                object.getData().setWeight(object.getData().getWeight() + 1);   //权值在原值的基础上加1
-                String jsonString = JSON.toJSONString(object);   //将该对象再次转换成JSON字符串
-                stringBuffer.append(jsonString + ";");
+          if (node1 != null) {
+            //下面的代码给重复的节点赋予新的权值
+            //将上述的对象拆解为一个个的字符串，这些字符串中既含有点的数据，也含有边的数据
+            String[] sb =  stringBuffer.toString().split(";");   
+            stringBuffer = new StringBuffer() ; //将stringBuffer的值全部清空，后面会重新构造
+            for (int i = 0 ; i < sb.length ; i++) { //遍历上述的数组
+              if (!sb[i].contains("source")) {   //判断obj是否为节点类型
+                NodeVO object = JSON.parseObject(sb[i], NodeVO.class);   //将obj进行强制类型转换，将其类型变为NodeVO类型
+                if (object.getData().getId().equals(nodeID2)) {
+                  //再次判断得到的这个节点的id是否和我们在上面得到的nodeID1一样
+                  //如果一样，得到该节点的权值，并在原来值的基础上加1
+                  object.getData().setWeight(object.getData().getWeight() + 1);   //权值在原值的基础上加1
+                  String jsonString = JSON.toJSONString(object);   //将该对象再次转换成JSON字符串
+                  stringBuffer.append(jsonString + ";");
+                } else {
+                  //否则直接将原来的sb[i]放回到原来的stringBuffer中
+                  //将sb[i]转换成JSON对象
+                  Object objJson = JSON.parse(sb[i]);  //将字符串转换成JSON对象
+                  stringBuffer.append(objJson.toString() + ";");   //将JSON对象字符串
+                }
               } else {
                 //否则直接将原来的sb[i]放回到原来的stringBuffer中
                 //将sb[i]转换成JSON对象
                 Object objJson = JSON.parse(sb[i]);  //将字符串转换成JSON对象
                 stringBuffer.append(objJson.toString() + ";");   //将JSON对象字符串
               }
-            } else {
-              //否则直接将原来的sb[i]放回到原来的stringBuffer中
-              //将sb[i]转换成JSON对象
-              Object objJson = JSON.parse(sb[i]);  //将字符串转换成JSON对象
-              stringBuffer.append(objJson.toString() + ";");   //将JSON对象字符串
             }
           }
         } else {
@@ -290,10 +296,15 @@ public class DbService implements IDbService {
           countNode++;
           //构造节点对象
           nodeID2 = "n" + countNode;   //拼接节点的编号
-          data2 = new NodeDataVO(nodeID2, node2, 1);
+          if ( node1 != null) {
+            data2 = new NodeDataVO(nodeID2, node2, 1);
+          } else {
+            data2 = new NodeDataVO(nodeID2, node2, 0);
+          }
+          
           NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
-          mapSourceNode.put(node2, nodeID2);
+          mapTargetNode.put(node2, nodeID2);
           stringBuffer.append(jsonString2 + ";");  //将该数据追加到输出中
         }
       }

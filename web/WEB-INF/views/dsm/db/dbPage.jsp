@@ -131,7 +131,7 @@
 			
 
 			<div style="padding-left: 32px;margin-right: 18px;margin-top: 20px;">
-			  <button class="waves-effect waves-light btn" style="width: 100%;" onclick="graph_display()">运行</button>
+			  <button class="waves-effect waves-light btn" style="width: 100%;" onclick="graph_display()"><i class="icon-off"></i>&nbsp;&nbsp;&nbsp;运行</button>
 			</div>
 			
 		</div>
@@ -154,7 +154,120 @@
 
         <!-- 右侧边栏放置分析算法 -->
 		<div class="main-side-bar-right">
-		    <div class="logo">
+			<ul class="collapsible" data-collapsible="accordion" style="margin: 0; padding: 0;">
+				<li>
+					<div class="collapsible-header">
+						<i class="icon-foursquare"></i>ALOGRITHM
+					</div>
+					<div class="collapsible-body" id="alogrithm-tabs">
+					
+					<ul>
+					<li>
+						<div>
+							<select class="browser-default" id="graph_select">
+								<option value="" selected>请选择图分析算法</option>
+							</select>
+						</div>
+					</li>
+				  </ul>
+					  <!-- <ul>
+					    <li>
+					      <span class="title">fitstNeighbor</span>
+					      <button class="go-run" style="width: 40px;height: 22px;padding-bottom: 10px;">run<i class="icon-play-circle"></i></button>
+					    </li>
+					     <li>
+					      <span class="title">breadthFirstSearch</span>
+					      <button class="go-run" style="width: 40px;height: 22px;padding-bottom: 10px;">run</button>
+					    </li>
+					     <li>
+					      <span class="title">depthFirstSearch</span>
+					      <button class="go-run" style="width: 40px;height: 22px;padding-bottom: 10px;">run</button>
+					    </li>
+					     <li>
+					      <span class="title">pageRank</span>
+					      <button class="go-run" style="width: 40px;height: 22px;padding-bottom: 10px;">run</button>
+					    </li>
+					  </ul> -->
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="icon-cogs"></i>SETTING
+					</div>
+					<div class="collapsible-body" id="setting-tabs">
+						<ul>
+						  <li><span>节点颜色</span><input class="jscolor {required:false}" id="setting-node-color" style="height: 20px;"></li>
+						  <li><span>边颜色</span><input class="jscolor {required:false}" id="setting-edge-color" style="height: 20px;"></li>
+						  <li style="margin-bottom: 20px;"><span>点宽度</span></li>
+						  <li style="margin-bottom: 20px;width: 90%"><input type="hidden" class="slider-input" value="10" id="setting-node-width" title="点宽度"/></li>
+						  <li style="margin-bottom: 20px;"><span>边宽度</span></li>
+						  <li style="margin-bottom: 20px;width: 90%"><input type="hidden" class="slider-input" value="10" id="setting-edge-width" /></li>
+						  <li>
+						    <span>点形状</span>
+						    <select id="setting-node-shape" style="width: 100%;height: 35px;" class="browser-default">
+			                 <option>default</option>
+						     <option>rectangle</option>
+						     <option>roundrectangle</option>
+						     <option>ellipse</option>
+						     <option>triangle</option>
+						     <option>pentagon</option>
+						     <option>hexagon</option>
+						     <option>heptagon</option>
+						     <option>octagon</option>
+						     <option>star</option>
+						     <option>diamond</option>
+						     <option>vee</option>
+						     <option>rhomboid</option>
+						     <option>polygon</option>
+							 </select>
+					      </li>
+					      <li style="margin-bottom: 20px;"><span>点透明度</span></li>
+					      <li style="margin-bottom: 20px;width: 90%"><input type="hidden" class="node-edge-opacity" value=".2" id="node-opacity" title="点宽度"/></li>
+					      <li style="margin-bottom: 20px;"><span>边透明度</span></li>
+					      <li style="margin-bottom: 20px;width: 90%"><input type="hidden" class="node-edge-opacity" value=".2" id="edge-opacity" title="点宽度"/></li>
+					      <li>
+						    <span>线类型</span>
+						    <select id="edge-style" style="width: 100%;height: 35px;" class="browser-default">
+					         <option>default</option>
+			                 <option>solid</option>
+						     <option>dotted</option>
+						     <option>dashed</option>
+							 </select>
+					      </li>
+					      <li style="margin-bottom: 20px;"><span>点高度</span></li>
+						  <li style="margin-bottom: 20px;width: 90%"><input type="hidden" class="slider-input" value="10" id="setting-node-height" title="点宽度"/></li>
+						  <li style="margin-bottom: 20px;"><span>边高度</span></li>
+						  <li style="margin-bottom: 20px;width: 90%"><input type="hidden" class="slider-input" value="10" id="setting-edge-height" /></li>
+						  <li>
+						    <span>边方向</span>
+						    <select id="edge-direction" style="width: 100%;height: 35px;" class="browser-default">
+					         <option>haystack</option>
+			                 <option>bezier</option>
+						     <option>unbundled-bezier</option>
+							 </select>
+					      </li>
+					      <li  style="margin-bottom: 10px;">
+						    <span>箭头形状</span>
+						    <select id="arrow-shape" style="width: 100%;height: 35px;" class="browser-default">
+					         <option>tee</option>
+			                 <option>triangle</option>
+						     <option>triangle-tee</option>
+						     <option>triangle-backcurve</option>
+						     <option>square</option>
+						     <option>circle</option>
+						     <option>diamond</option>
+						     <option>none</option>
+							 </select>
+					      </li>
+						  <li><button class="waves-effect waves-light btn"  style="width: 100%" onclick="refreshGraph()"><i class="icon-refresh"></i>&nbsp;&nbsp;&nbsp;刷新</button><li>
+						</ul>
+					</div>
+					
+				</li>
+			</ul>
+		</div>
+		<!-- main-side-bar-right结束 -->
+		<%-- <div class="logo">
 				
 			</div>
             
@@ -166,10 +279,10 @@
 						<div class="file-type"><%= request.getParameter("dataBaseType") %></div>
 					</li>
 				</ul>
-			</div>
+			</div> --%>
 
-			<div class="worksheet" id="data-source">
-				<h5>图分析算法</h5>
+			<!-- <div class="worksheet" id="data-source"> -->
+				<!-- <h5>图分析算法</h5>
 				<ul>
 					<li>
 						<div>
@@ -178,10 +291,10 @@
 							</select>
 						</div>
 					</li>
-				</ul>
+				</ul> -->
 			</div>
-			<div class="worksheet" id="setting" style="height: 455px;">
-				<h5>图属性设置</h5>
+			<!-- <div class="worksheet" id="setting" style="height: 455px;"> -->
+				<!-- <h5>图属性设置</h5>
 				<div>
 				  <input class="jscolor {required:false}" id="setting-node-color" style="height: 20px;" placeholder="节点颜色">
 				  <input class="jscolor {refine:false}"  id="setting-edge-color" style="height: 20px;" placeholder="边颜色">
@@ -207,15 +320,15 @@
 				     <option>polygon</option>
 				  </select>
 				  
-				</div>
+				</div> -->
 				
-			</div>
+			<!-- </div> -->
 			
-			<div style="padding-left: 32px;margin-right: 18px;margin-top: 20px;">
+			<!-- <div style="padding-left: 32px;margin-right: 18px;margin-top: 20px;">
 			  <button class="waves-effect waves-light btn" style="width: 100%;" onclick="refreshGraph()">刷新</button>
-			</div>
-		</div>
-	</div>
+			</div> -->
+		<!-- </div> -->
+	
 	<script type="text/javascript">
 	  $(document).ready(function() {
         $('select').material_select();
@@ -434,27 +547,29 @@
 									{
 										selector : 'node',
 										style : {
-											'background-color' : 'red',
-											'label' : 'data(weight)',
-											//'width': 2,
+										    'label' : 'data(name)',
+											/* 'background-color' : 'red',
+											
+											'width': 2,
 											'opacity': .9,
 											'size': 60,
 											'shape': 'ellipse',
 											'width': 10,
-											'height': 20, 
+											'height': 20,  */
 										}
 									},
 	
 									{
 										selector : 'edge',
 										style : {
+										    'label': 'data(name)',
 										    /* 'target-arrow-shape' : 'triangle',
 											'width' : 4,
 											'line-color' : '#ccc',
 											'target-arrow-color' : '#ccc',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											'label': 'data(weight)', */
+											 */
 										}
 									}
 								],
@@ -518,7 +633,7 @@
 						    var color = '#' + colorStr;    //拼接成一个随机色
 						    
 						    //直接给该选中的元素着色
-						   /*  nodeObj.style({'background-color' : color}); */
+						    nodeObj.style({'background-color' : color});
 						    
 	                        //将上述得到的nodeID保存到sessinon中，方便客户端其它函数获取
 	                        $.ajax({
@@ -631,11 +746,11 @@
 	<script type="text/javascript">
 	   $('.slider-input').jRange({
 	    from: 1,     /*开始刻度*/
-	    to: 100,     /*结束刻度*/
+	    to: 50,     /*结束刻度*/
 	    step: 1,     /*滑动过程的步长*/
-	    scale: [1,25,50,75,100],  /*整个尺子的刻度*/
+	    scale: [1,10,20,30,40,50],  /*整个尺子的刻度*/
 	    format: '%s',  
-	    width: 300,    /*尺子的宽度*/
+	    width: 290,    /*尺子的宽度*/
 	    showLabels: true,    /*滑动的过程中是否显示当前值*/
 	    snap: true,   /*滑动过程中捕获步长值*/
 	    theme: 'theme-blue',
@@ -658,15 +773,66 @@
 	        /*设置点的宽和高*/
 	        var settingNodeWidth = $('#setting-node-width').val();
 	        //alert("宽为 " + settingNodeWidth )
-	        //cy.nodes({'width': settingNodeWidth});
+	        cy.nodes({'width': Number(settingNodeWidth)});
 	        var settingNodeHeight = $('#setting-node-height').val();
 	        //alert("高为 " + settingNodeHeight );
-	        cy.nodes({'height': settingNodeHeight});
+	        cy.nodes({'height': Number(settingNodeHeight)});
 	        
 	        /*设置点的类型*/
 	        var nodeShape = $('#setting-node-shape').find("option:selected").text()  //setting-node-shape
 	        cy.nodes().style({'shape':nodeShape});
+	        
+	        /*设置点透明度*/
+	        var settingNodeOpacity = $('#node-opacity').val();
+	        cy.nodes().style({'opacity': Number(settingNodeOpacity)});
+	        
+	        /*设置边透明度*/
+	        var settingEdgeOpacity = $('#edge-opacity').val();
+	        //alert(typeof(settingEdgeOpacity))
+	        cy.edges().style({'opacity': Number(settingEdgeOpacity)});
+	        
+	        /*设置线类型*/
+	        var edgeStyle = $('#edge-style').find("option:selected").text();
+	        cy.edges().style({'line-style': edgeStyle});
+	        
+	        /*设置点标签内容*/
+	        var nodeLabelContent = $('#node-label-content').find("option:selected").text();
+	        cy.nodes().style({'label': 'data(nodeLabelContent)'});
+	        /*设置边标签内容*/
+	        var edgeLabelContent = $('#edge-label-content').find("option:selected").text();
+	        //alert(edgeLabelContent)
+	        cy.nodes().style({'label': 'data(edgeLabelContent)'});
+	        
+	        /*设置边的宽和高*/
+	        var settingEdgeWidth = $('#setting-edge-width').val();
+	        //alert("宽为 " + settingNodeWidth )
+	        cy.edges({'width': Number(settingEdgeWidth)});
+	        var settingEdgeHeight = $('#setting-edge-height').val();
+	        cy.edges().style({'height': Number(settingEdgeHeight)});
+	        
+	        /*设置边方向*/
+	        var edgeDirection = $('#edge-direction').find("option:selected").text();
+	        cy.edges().style({'curve-style': edgeDirection});
+	        
+	        /*设置箭头形状*/
+	        var arrowShape = $('#arrow-shape').find("option:selected").text();
+	        cy.edges().style({'target-arrow-shape': ''  + arrowShape});
 	    }
+	</script>
+	
+	<script type="text/javascript">
+	  //
+	  $('.node-edge-opacity').jRange({
+	    from: 0,     /*开始刻度*/
+	    to: 1,     /*结束刻度*/
+	    step: 0.1,     /*滑动过程的步长*/
+	    scale: [0,0.2,0.4,0.6,0.8,1],  /*整个尺子的刻度*/
+	    format: '%s',  
+	    width: 290,    /*尺子的宽度*/
+	    showLabels: true,    /*滑动的过程中是否显示当前值*/
+	    snap: true,   /*滑动过程中捕获步长值*/
+	    theme: 'theme-blue',
+	   });
 	</script>
 </body>
 </html>

@@ -332,7 +332,7 @@ public class DbService implements IDbService {
     String outString = "[" + jsonContentOutput + "]" ;
     connection.close();
     return outString;
-  }  */  //注释整个函数，下面的代码改进了整个算法的性能
+  } */   //注释整个函数，下面的代码改进了整个算法的性能
   
   /*该函数实现的功能和上面被注释的函数实现的功能完全一致，只是在操作字符串时，采用了新的替代方法，算法的效率有了明显的提升，之前算法测试20s左右，现在的算法10s*/
   @Override
@@ -497,6 +497,5 @@ public class DbService implements IDbService {
     connection.close();
     return outString;
   }
-  
 }
 

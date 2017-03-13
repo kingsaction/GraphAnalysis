@@ -157,9 +157,126 @@ public class DbService implements IDbService {
     return null;
   }
 
+  /**
+   * 版本一实现功能:该算法是整个数据库作为数据源最重要的方法，在图中，每个小的图都是由两个点，一条边构成的，那么就需要在数据库中选出两列，在这两列上构造图，
+   * 选出的这两列中的每一列都可能有很多值是重复的，对于重复的值，我们需要作为同一个点来对待，所以就需要一种数据结构来保存结果，并能快速的找到是够有
+   * 重复的值存在，在此我选择了HashMap作为其数据结构，算法实现如下.该版本的代码没有实现计算节点weight的功能，其它的功能和上面两个算法都是一样的。
+   */
+  @Override
+  public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
+    //首先连接数据库
+    Class.forName(dbPo.getDriverName());   //获取到数据库驱动，并连接数据库
+    
+    String url = "";
+    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
+      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
+          + "/" + dbVo.getDbName()  + "?connectTimeout=3000&socketTimeout=3000";
+    }
+    //System.out.println("拼接成的url地址为:" + url);
+    
+    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
+            dbPo.getPassword());
+    
+    //获取表中的两列
+    String sourceNode = dbVo.getSourceNode();
+    String targetNode = dbVo.getTargetNode();
+    //获取表名
+    String tableName = dbVo.getTableName();
+    String sql = "select " + sourceNode + "," + targetNode + " from " + tableName;   //一定要注意其中的空格
+    PreparedStatement prepareStatement = connection.prepareStatement(sql);
+    ResultSet set = prepareStatement.executeQuery();
+    
+    //构造两个HashMap，分别用来放sourceNode和targetNode
+    HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性
+    HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性
+    StringBuffer stringBuffer = new StringBuffer();
+    int countNode = 0;  //点计数
+    int countEdge = 0 ; //边计数
+    while (set.next()) {  /*经过该部分测试可以知道，当前返回的数据是一行行的返回的*/
+      //***************************************节点一处理.******************************************
+      String node1 = set.getString(1);
+      String node2 = set.getString(2);
+      
+      //sourceNode的属性值
+      String nodeID1 = null;
+      NodeDataVO data1 = null;
+      String jsonString1 = null;
+      
+      if (node1 != null) { 
+        //判断node1的键知否已经被包含在mapSourceNode中
+        if (mapSourceNode.containsKey(node1)) {
+          //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化，也不需要将该数据再次加入到StringBuffer中
+          //得到该key下的value值，也就是id值
+          nodeID1 = (String)mapSourceNode.get(node1);  //根据其key获取value的值
+          data1 = new NodeDataVO(nodeID1,node1,1);
+          NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
+          jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
+          mapSourceNode.put(node1, nodeID1);
+        } else {
+          //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
+          countNode++;
+          //构造节点对象
+          nodeID1 = "n" + countNode;   //拼接节点的编号
+          data1 = new NodeDataVO(nodeID1, node1, 1);
+          NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
+          jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
+          mapSourceNode.put(node1, nodeID1);
+          stringBuffer.append(jsonString1 + ",");   //将该数据追加到输出中
+        }
+      }
+      //***************************************节点二处理.******************************************
+      
+      String nodeID2 = null;
+      if (node2 != null) {
+        //targetNode的属性值
+        NodeDataVO data2 = null;
+        String jsonString2 = null;
+        //判断node1的键知否已经被包含在mapSourceNode中
+        if (mapTargetNode.containsKey(node2)) {
+          //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化
+          //得到该key下的value值，也就是id值
+          nodeID2 = (String)mapTargetNode.get(node2);  //根据其key获取value的值
+          data2 = new NodeDataVO(nodeID2,node2,1);
+          NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
+          jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
+          mapTargetNode.put(node2, nodeID2);
+        } else {
+          //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
+          countNode++;
+          //构造节点对象
+          nodeID2 = "n" + countNode;   //拼接节点的编号
+          data2 = new NodeDataVO(nodeID2, node2, 1);
+          NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
+          jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
+          mapTargetNode.put(node2, nodeID2);
+          stringBuffer.append(jsonString2 + ",");  //将该数据追加到输出中
+        }
+      }
+      //***************************************边处理.******************************************
+      if (node1 == null || node2 == null) {   //如果有一个点的没有值，即为空，则不会构造边，因为此时至多只有一个点
+        continue;
+      } else {
+        countEdge++;
+        //用上面的参数构造边
+        //构造边编号
+        String edgeID1 = "e" + countEdge;
+        EdgeDataVO data3 = new EdgeDataVO(edgeID1, nodeID1, nodeID2, 1);
+        EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
+        String jsonString3 = JSON.toJSONString(edgeVo);
+        stringBuffer.append(jsonString3 + ",");  //将该数据追加到输出中
+      }
+    }
+    String jsonContent = stringBuffer.toString();
+    //拼接成最后的结果
+    //System.out.println("------拼接最好的结果------");
+    String outString = "[" + jsonContent + "]" ;
+    connection.close();
+    return outString;
+  }
+  
   
   /**
-   * 功能:该算法是整个数据库作为数据源最重要的方法，在图中，每个小的图都是由两个点，一条边构成的，那么就需要在数据库中选出两列，在这两列上构造图，
+   * 版本二实现功能:该算法是整个数据库作为数据源最重要的方法，在图中，每个小的图都是由两个点，一条边构成的，那么就需要在数据库中选出两列，在这两列上构造图，
    * 选出的这两列中的每一列都可能有很多值是重复的，对于重复的值，我们需要作为同一个点来对待，所以就需要一种数据结构来保存结果，并能快速的找到是够有
    * 重复的值存在，在此我选择了HashMap作为其数据结构.对于点的权重，我增加了一个简单的生成原则，当点和其它的点之间的边越多，其权重就越大，默认为1，多
    * 一条边的联系，权重就加1.当两个点中有某个值有空值时，权重为1，并且不再创建新的节点.
@@ -335,7 +452,7 @@ public class DbService implements IDbService {
   } */   //注释整个函数，下面的代码改进了整个算法的性能
   
   /*
-   * 功能说明: 该函数实现的功能和上面被注释的函数实现的功能完全一致，只是在操作字符串时，采用了新的替代方法，算法的效率有了明显的提升，
+   * 版本三实现功能说明: 该函数实现的功能和上面被注释的函数实现的功能完全一致，只是在操作字符串时，采用了新的替代方法，算法的效率有了明显的提升，
    * 之前算法测试20s左右，现在的算法10s.该版本是在上面一个同名算法的基础上进行改进，对其中字符串的构造过程进行了修改，
    * 过滤了没必要的对字符串的扫描工作，使得整个算法的性能得到了优化.
   */
@@ -502,122 +619,4 @@ public class DbService implements IDbService {
     connection.close();
     return outString;
   } */
-  
-  /**
-   * 功能:该算法是整个数据库作为数据源最重要的方法，在图中，每个小的图都是由两个点，一条边构成的，那么就需要在数据库中选出两列，在这两列上构造图，
-   * 选出的这两列中的每一列都可能有很多值是重复的，对于重复的值，我们需要作为同一个点来对待，所以就需要一种数据结构来保存结果，并能快速的找到是够有
-   * 重复的值存在，在此我选择了HashMap作为其数据结构，算法实现如下.该版本的代码没有实现计算节点weight的功能，其它的功能和上面两个算法都是一样的。
-   */
-  @Override
-  public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
-    //首先连接数据库
-    Class.forName(dbPo.getDriverName());   //获取到数据库驱动，并连接数据库
-    
-    String url = "";
-    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
-      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
-          + "/" + dbVo.getDbName()  + "?connectTimeout=3000&socketTimeout=3000";
-    }
-    //System.out.println("拼接成的url地址为:" + url);
-    
-    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
-            dbPo.getPassword());
-    
-    //获取表中的两列
-    String sourceNode = dbVo.getSourceNode();
-    String targetNode = dbVo.getTargetNode();
-    //获取表名
-    String tableName = dbVo.getTableName();
-    String sql = "select " + sourceNode + "," + targetNode + " from " + tableName;   //一定要注意其中的空格
-    PreparedStatement prepareStatement = connection.prepareStatement(sql);
-    ResultSet set = prepareStatement.executeQuery();
-    
-    //构造两个HashMap，分别用来放sourceNode和targetNode
-    HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性
-    HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性
-    StringBuffer stringBuffer = new StringBuffer();
-    int countNode = 0;  //点计数
-    int countEdge = 0 ; //边计数
-    while (set.next()) {  /*经过该部分测试可以知道，当前返回的数据是一行行的返回的*/
-      //***************************************节点一处理.******************************************
-      String node1 = set.getString(1);
-      String node2 = set.getString(2);
-      
-      //sourceNode的属性值
-      String nodeID1 = null;
-      NodeDataVO data1 = null;
-      String jsonString1 = null;
-      
-      if (node1 != null) { 
-        //判断node1的键知否已经被包含在mapSourceNode中
-        if (mapSourceNode.containsKey(node1)) {
-          //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化，也不需要将该数据再次加入到StringBuffer中
-          //得到该key下的value值，也就是id值
-          nodeID1 = (String)mapSourceNode.get(node1);  //根据其key获取value的值
-          data1 = new NodeDataVO(nodeID1,node1,1);
-          NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
-          jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
-          mapSourceNode.put(node1, nodeID1);
-        } else {
-          //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
-          countNode++;
-          //构造节点对象
-          nodeID1 = "n" + countNode;   //拼接节点的编号
-          data1 = new NodeDataVO(nodeID1, node1, 1);
-          NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
-          jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
-          mapSourceNode.put(node1, nodeID1);
-          stringBuffer.append(jsonString1 + ",");   //将该数据追加到输出中
-        }
-      }
-      //***************************************节点二处理.******************************************
-      
-      String nodeID2 = null;
-      if (node2 != null) {
-        //targetNode的属性值
-        NodeDataVO data2 = null;
-        String jsonString2 = null;
-        //判断node1的键知否已经被包含在mapSourceNode中
-        if (mapTargetNode.containsKey(node2)) {
-          //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化
-          //得到该key下的value值，也就是id值
-          nodeID2 = (String)mapTargetNode.get(node2);  //根据其key获取value的值
-          data2 = new NodeDataVO(nodeID2,node2,1);
-          NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
-          jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
-          mapTargetNode.put(node2, nodeID2);
-        } else {
-          //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
-          countNode++;
-          //构造节点对象
-          nodeID2 = "n" + countNode;   //拼接节点的编号
-          data2 = new NodeDataVO(nodeID2, node2, 1);
-          NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
-          jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
-          mapTargetNode.put(node2, nodeID2);
-          stringBuffer.append(jsonString2 + ",");  //将该数据追加到输出中
-        }
-      }
-      //***************************************边处理.******************************************
-      if (node1 == null || node2 == null) {   //如果有一个点的没有值，即为空，则不会构造边，因为此时至多只有一个点
-        continue;
-      } else {
-        countEdge++;
-        //用上面的参数构造边
-        //构造边编号
-        String edgeID1 = "e" + countEdge;
-        EdgeDataVO data3 = new EdgeDataVO(edgeID1, nodeID1, nodeID2, 1);
-        EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
-        String jsonString3 = JSON.toJSONString(edgeVo);
-        stringBuffer.append(jsonString3 + ",");  //将该数据追加到输出中
-      }
-    }
-    String jsonContent = stringBuffer.toString();
-    //拼接成最后的结果
-    //System.out.println("------拼接最好的结果------");
-    String outString = "[" + jsonContent + "]" ;
-    connection.close();
-    return outString;
-  }
 }
-

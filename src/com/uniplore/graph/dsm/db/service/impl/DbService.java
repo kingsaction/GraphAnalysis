@@ -345,7 +345,7 @@ public class DbService implements IDbService {
       url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
           + "/" + dbVo.getDbName()  + "?connectTimeout=3000&socketTimeout=3000";
     }
-    System.out.println("拼接成的url地址为:" + url);
+    //System.out.println("拼接成的url地址为:" + url);
     
     Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
             dbPo.getPassword());

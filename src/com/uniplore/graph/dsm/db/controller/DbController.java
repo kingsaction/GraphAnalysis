@@ -113,23 +113,45 @@ public class DbController {
    * @param dbVo  接收数据库名、数据库表名、源点、目标点的
    * @return  返回JSON字符串，需要用alibaba开源的fastJSON将任意字符串转成JSON串
    * @throws Exception  抛出异常
-   */
+  */
   @RequestMapping(value = "/dbDataFormatJson" ,method = RequestMethod.POST)
   public @ResponseBody String dbDataFormatJson(DbPO dbPo,DbVO dbVo) throws Exception {
-    System.out.println("从客户端接收到的数据库连接信息为:" + dbPo.toString());
-    System.out.println("从客户端接收到的表单信息为:" + dbVo.toString());
+    //System.out.println("从客户端接收到的数据库连接信息为:" + dbPo.toString());
+    //System.out.println("从客户端接收到的表单信息为:" + dbVo.toString());
     
     String jsonContent = dbService.dbDataFormatJson(dbPo,dbVo);
     
     //将上述字符串重新解析
     Object parse = JSON.parse(jsonContent);
     String outputString = parse.toString();
-    System.out.println("------在控制器端得到的数据------");
-    System.out.println(outputString);
-    System.out.println("拼接完成");
+    //System.out.println("------在控制器端得到的数据------");
+    //System.out.println(outputString);
+    //System.out.println("拼接完成");
     return outputString;
   }
   
+  /**
+   * 重构功能说明:  对上面函数的重构，其中加入了数据库分页接收从客户端传来的参数，从指定的数据库表中获取到数据，将其构造成符合cytoscape格式的数据.
+   * @param dbPo  接收数据库的连接参数
+   * @param dbVo  接收数据库名、数据库表名、源点、目标点的
+   * @return  返回JSON字符串，需要用alibaba开源的fastJSON将任意字符串转成JSON串
+   * @throws Exception  抛出异常
+   */
+  /*@RequestMapping(value = "/dbDataFormatJson" ,method = RequestMethod.POST)
+  public @ResponseBody String dbDataFormatJson(DbPO dbPo,DbVO dbVo) throws Exception {
+    //System.out.println("从客户端接收到的数据库连接信息为:" + dbPo.toString());
+    //System.out.println("从客户端接收到的表单信息为:" + dbVo.toString());
+    
+    String jsonContent = dbService.dbDataFormatJson(dbPo,dbVo);
+    
+    //将上述字符串重新解析
+    Object parse = JSON.parse(jsonContent);
+    String outputString = parse.toString();
+    //System.out.println("------在控制器端得到的数据------");
+    //System.out.println(outputString);
+    //System.out.println("拼接完成");
+    return outputString;
+  }*/
   /**
    * 功能: 保存从客户端接收到的用户点击node的id值，并保存到session，供后续的事件获取.
    * @param request  客户端请求

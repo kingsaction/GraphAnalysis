@@ -1078,7 +1078,6 @@
 		                  })//ajax结束
 			           }  else{ //满足i==0的id结束
 			               $.ajax({
-			                  asyn: false,
 		                      url: "/graphanalysis/dsm/db/increseGetJsonData?t=" + (new Date()).getTime(),
 		                      type: "POST",
 		                      dataType: "JSON",

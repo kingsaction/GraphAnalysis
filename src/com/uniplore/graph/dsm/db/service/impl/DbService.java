@@ -725,7 +725,7 @@ public class DbService implements IDbService {
     HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性
     HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性
     StringBuffer stringBuffer = new StringBuffer();
-    int countNode = currentPage * pageCount * 2;  //点计数，但是目前这种计数当时是错误的
+    int countNode = currentPage * pageCount * 2;  //点计数，但是目前这种计数方式是错误的
     int countEdge = currentPage * pageCount * 2 ; //边计数，但是目前这种计数方式是错误的
     while (set.next()) {  /*经过该部分测试可以知道，当前返回的数据是一行行的返回的*/
       //***************************************节点一处理.******************************************

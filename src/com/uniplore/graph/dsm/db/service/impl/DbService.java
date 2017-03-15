@@ -614,7 +614,7 @@ public class DbService implements IDbService {
     String jsonContent = stringBuffer.toString();
     String jsonContentOutput = jsonContent.replace(";", ",");
     //拼接成最后的结果
-    //System.out.println("------拼接最好的结果------");
+    //System.out.println("------拼接最后的结果------");
     String outString = "[" + jsonContentOutput + "]" ;
     connection.close();
     return outString;

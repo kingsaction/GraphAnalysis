@@ -725,8 +725,9 @@ public class DbService implements IDbService {
     HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性
     HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性
     StringBuffer stringBuffer = new StringBuffer();
-    int countNode = currentPage * pageCount * 2;  //点计数，但是目前这种计数方式是错误的
-    int countEdge = currentPage * pageCount * 2 ; //边计数，但是目前这种计数方式是错误的
+    int countNode = (currentPage * pageCount * 2);  //点计数正确的，加入有100行记录，则最多有200个点因此采用该计数方式编号不会重合
+    int countEdge = currentPage * pageCount * pageCount ; //当有100行记录时，边最多为100*100条，此时的边的编号一定不会重合，
+                                                          //按照这样的计算，每页最多可有大约40000条记录，远远超出系统可表示范围
     while (set.next()) {  /*经过该部分测试可以知道，当前返回的数据是一行行的返回的*/
       //***************************************节点一处理.******************************************
       String node1 = set.getString(1);

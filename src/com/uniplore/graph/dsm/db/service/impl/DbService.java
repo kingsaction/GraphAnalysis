@@ -8,6 +8,7 @@ import com.uniplore.graph.dsm.db.entity.EdgeDataVO;
 import com.uniplore.graph.dsm.db.entity.EdgeVO;
 import com.uniplore.graph.dsm.db.entity.NodeDataVO;
 import com.uniplore.graph.dsm.db.entity.NodeVO;
+import com.uniplore.graph.dsm.db.entity.PagingVO;
 import com.uniplore.graph.dsm.db.service.IDbService;
 
 import lombok.experimental.var;
@@ -19,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import org.ietf.jgss.Oid;
 import org.springframework.stereotype.Service;
@@ -272,6 +274,67 @@ public class DbService implements IDbService {
     String outString = "[" + jsonContent + "]" ;
     connection.close();
     return outString;
+  }
+  
+
+  @Override
+  public String paddingTableInfomation(DbPO dbPo, DbVO dbVo) throws Exception {
+    //首先连接数据库
+    Class.forName(dbPo.getDriverName());   //获取到数据库驱动，并连接数据库
+
+    String url = "";
+    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
+      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
+        + "/" + dbVo.getDbName()  + "?connectTimeout=3000&socketTimeout=3000";
+    }
+    //System.out.println("拼接成的url地址为:" + url);
+
+    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
+        dbPo.getPassword());
+    
+    //获取表名
+    String tableName = dbVo.getTableName();
+    String sql = "select " + " count(*) " + " AS totalCount " + " from " + tableName;   //统计行数
+    //System.out.println(sql);
+    PreparedStatement prepareStatement = connection.prepareStatement(sql);
+    ResultSet set = prepareStatement.executeQuery();
+    int totalCount = 0;   //存放表中总的记录数
+    while (set.next()) {
+      totalCount = set.getInt("totalCount");
+    }
+    //System.out.println("返回的总记录数为:" + totalCount);
+    
+    //获取表中的两列
+    String sourceNode = dbVo.getSourceNode();
+    
+    //统计source点的数目
+    sql = "select " + " count(DISTINCT " + sourceNode + ") " + " AS sourceNodeCount " + " from " 
+      + tableName;
+    //System.out.println(sql);
+    prepareStatement = connection.prepareStatement(sql);
+    set = prepareStatement.executeQuery();
+    int sourceNodeCount = 0;   //存放source点的总个数
+    while (set.next()) {
+      sourceNodeCount = set.getInt("sourceNodeCount");
+    }
+    //System.out.println("返回source点数为:" + nodeCount);
+    
+    String targetNode = dbVo.getTargetNode();
+    //统计target点的数目
+    sql = "select " + " count(DISTINCT " + targetNode + ") " + " AS targetNodeCount " + " from " 
+      + tableName;
+    //System.out.println(sql);
+    prepareStatement = connection.prepareStatement(sql);
+    set = prepareStatement.executeQuery();
+    int targetNodeCount = 0;   //存放表中总的记录数
+    while (set.next()) {
+      targetNodeCount = set.getInt("targetNodeCount");
+    }
+    //System.out.println("返回target点数为:" + edgeCount);
+    
+    //将上述信息拼接成一个字符串并返回给controller层
+    String infomation = totalCount + "," + sourceNodeCount + "," + targetNodeCount + "," ;
+    return infomation;
   }
   
   
@@ -614,9 +677,135 @@ public class DbService implements IDbService {
     String jsonContent = stringBuffer.toString();
     String jsonContentOutput = jsonContent.replace(";", ",");
     //拼接成最后的结果
-    //System.out.println("------拼接最好的结果------");
+    //System.out.println("------拼接最后的结果------");
     String outString = "[" + jsonContentOutput + "]" ;
     connection.close();
     return outString;
   } */
+  
+  /**
+   * 版本四实现的功能: 该算法实现的也是构建图的核心算法，但是整个过程采用的是分页思想，即将数据库分页，每次只获取其中的几百行，而不是
+   * 获取全部的数据库记录，由于每次请求的数据量小，所以构造字符串的速度比较快，但是在此代码中没有考虑构造的点可能会有全局重复的可能性
+   * 只考虑了分页时每一页中可能重复构造点的问题，下一步将改进此算法，采用redis内存数据库作为缓存，这样便能进行全局的节点去重操作.
+   * 版本四实现存在的问题：首先没有对之前的数据进行缓存，在这里我想要全部将数据缓存到redis中。
+   */
+  @Override
+  public String increseGetJsonData(DbPO dbPo, DbVO dbVo, PagingVO pagingVo) throws Exception {
+    // 获取到连接数据之后，得到相应的数据，该段代码中拼接的SQL应该是分页SQL
+    //首先连接数据库
+    Class.forName(dbPo.getDriverName());   //获取到数据库驱动，并连接数据库
+
+    String url = "";
+    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
+      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
+        + "/" + dbVo.getDbName()  + "?connectTimeout=3000&socketTimeout=3000";
+    }
+    //System.out.println("拼接成的url地址为:" + url);
+
+    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
+        dbPo.getPassword());
+    
+    //获取表中的两列
+    String sourceNode = dbVo.getSourceNode();
+    String targetNode = dbVo.getTargetNode();
+    //获取表名
+    String tableName = dbVo.getTableName();
+    
+    //获取分页数据信息
+    Integer currentPage = pagingVo.getCurrentPage();   //第几页
+    Integer pageCount = pagingVo.getPageCount();  //每页有多少数据
+    
+    String sql = "select " + sourceNode + "," + targetNode + " from " + tableName 
+        + " LIMIT " + "" + pageCount + " OFFSET " + "" + currentPage * pageCount;   //拼接分页SQL
+    System.out.println(sql);
+    PreparedStatement prepareStatement = connection.prepareStatement(sql);
+    ResultSet set = prepareStatement.executeQuery();
+    
+    //构造两个HashMap，分别用来放sourceNode和targetNode
+    HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性
+    HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性
+    StringBuffer stringBuffer = new StringBuffer();
+    int countNode = currentPage * pageCount * 2;  //点计数，但是目前这种计数当时是错误的
+    int countEdge = currentPage * pageCount * 2 ; //边计数，但是目前这种计数方式是错误的
+    while (set.next()) {  /*经过该部分测试可以知道，当前返回的数据是一行行的返回的*/
+      //***************************************节点一处理.******************************************
+      String node1 = set.getString(1);
+      String node2 = set.getString(2);
+      
+      //sourceNode的属性值
+      String nodeID1 = null;
+      NodeDataVO data1 = null;
+      String jsonString1 = null;
+      
+      if (node1 != null) { 
+        //判断node1的键知否已经被包含在mapSourceNode中
+        if (mapSourceNode.containsKey(node1)) {
+          //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化，也不需要将该数据再次加入到StringBuffer中
+          //得到该key下的value值，也就是id值
+          nodeID1 = (String)mapSourceNode.get(node1);  //根据其key获取value的值
+          data1 = new NodeDataVO(nodeID1,node1,1);
+          NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
+          jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
+          mapSourceNode.put(node1, nodeID1);
+        } else {
+          //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
+          countNode++;
+          //构造节点对象
+          nodeID1 = "n" + countNode;   //拼接节点的编号
+          data1 = new NodeDataVO(nodeID1, node1, 1);
+          NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
+          jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
+          mapSourceNode.put(node1, nodeID1);
+          stringBuffer.append(jsonString1 + ",");   //将该数据追加到输出中
+        }
+      }
+      //***************************************节点二处理.******************************************
+      
+      String nodeID2 = null;
+      if (node2 != null) {
+        //targetNode的属性值
+        NodeDataVO data2 = null;
+        String jsonString2 = null;
+        //判断node1的键知否已经被包含在mapSourceNode中
+        if (mapTargetNode.containsKey(node2)) {
+          //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化
+          //得到该key下的value值，也就是id值
+          nodeID2 = (String)mapTargetNode.get(node2);  //根据其key获取value的值
+          data2 = new NodeDataVO(nodeID2,node2,1);
+          NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
+          jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
+          mapTargetNode.put(node2, nodeID2);
+        } else {
+          //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
+          countNode++;
+          //构造节点对象
+          nodeID2 = "n" + countNode;   //拼接节点的编号
+          data2 = new NodeDataVO(nodeID2, node2, 1);
+          NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
+          jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
+          mapTargetNode.put(node2, nodeID2);
+          stringBuffer.append(jsonString2 + ",");  //将该数据追加到输出中
+        }
+      }
+      //***************************************边处理.******************************************
+      if (node1 == null || node2 == null) {   //如果有一个点的没有值，即为空，则不会构造边，因为此时至多只有一个点
+        continue;
+      } else {
+        countEdge++;
+        //用上面的参数构造边
+        //构造边编号
+        String edgeID1 = "e" + countEdge;
+        EdgeDataVO data3 = new EdgeDataVO(edgeID1, nodeID1, nodeID2, 1);
+        EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
+        String jsonString3 = JSON.toJSONString(edgeVo);
+        stringBuffer.append(jsonString3 + ",");  //将该数据追加到输出中
+      }
+    }
+    String jsonContent = stringBuffer.toString();
+    //拼接成最后的结果
+    //System.out.println("------拼接最好的结果------");
+    String outString = "[" + jsonContent + "]" ;
+    connection.close();
+    return outString;
+  }
 }

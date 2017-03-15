@@ -130,14 +130,60 @@
 			</div>
 			
 
-			<div style="padding-left: 32px;margin-right: 18px;margin-top: 20px;">
-			  <button class="waves-effect waves-light btn" style="width: 100%;" onclick="graph_display()"><i class="icon-off"></i>&nbsp;&nbsp;&nbsp;运行</button>
+			<div style="padding-left: 32px;margin-right: 18px;margin-top: 20px;"> <!-- onclick="graph_display()" -->
+			  <button class="waves-effect waves-light btn modal-trigger" style="width: 100%;"  data-target="modal-paging" id="run"><i class="icon-off"></i>&nbsp;&nbsp;&nbsp;运行</button>
 			</div>
-			
+            <div class="container">
+			  <div id="modal-paging" class="modal" style="width: 600px;min-width: 600px;height: 480px;min-height: 480px;">
+				<div class="container" style="margin-top: 40px;">
+					<!-- <div style="border-bottom: 1px solid #000;">设置</div>
+					<div>由于您当前的点大约有<span></span></div>
+					<div>由于您当前的边大约有<span></span></div> -->
+					<div class="row">
+					    <div class="col s12" style="border-bottom: 1px solid #000;"><span style="font-size: 24px;font-weight: 400">设置</span></div>
+					</div>
+					<div class="row">
+					    <div class="col s12"><span style="font-size: 18px;font-weight: 400">数据库中一共有&nbsp;<span id="total-count"></span>&nbsp;条记录，其中</span></div>
+					</div>
+					<div class="row">
+					    <div class="col s6" ><span style="font-size: 18px;font-weight: 400">点大约有&nbsp;<span id="node-count"></span>&nbsp;个</span></div>
+					    <div class="col s6" ><span style="font-size: 18px;font-weight: 400">边大约有&nbsp;<span id="edge-count"></span>&nbsp;条</span></div>
+					</div>
+					<div class="row">
+					    <div class="col s12"><span style="font-size: 18px;font-weight: 400">您可选择是否分页来提高用户体验</span></div>
+					</div>  
+					<div class="row">  
+					    <div class="col s6">
+					        <input name="group1" type="radio" id="paging-radio"  class="with-gap" value="分页"/>
+                            <label for="paging-radio"><span style="font-size: 18px;font-weight: 400">分页</span></label>
+					    </div>
+					    <div class="col s6">
+					        <input name="group1" type="radio" id="no-paging-radio"  class="with-gap" value="不分页" checked/>
+                            <label for="no-paging-radio"><span style="font-size: 18px;font-weight: 400">不分页</span></label>
+					    </div>
+					</div>
+					<div class='row'>
+						<div class='col s12'>
+							<span style='font-size: 18px;font-weight: 400'>请输入每页包含的记录条数</span>
+							<input type='text' disabled id="page-text" value="0"/>  
+						</div>
+					</div>
+					
+					<div class="row">
+					   <div>
+					      <button class="waves-effect waves-light btn modal-action modal-close" style="width: 100%;">确定</button>
+					   </div>
+					</div>
+					  
+					</div>
+				 </div>
+					
+			  </div>
+           </div>
+           
 		</div>
 		<input type="hidden" id="nodeTap"/>   <!-- 隐藏域，保存抓取到的点的id -->
-		
-
+		 <!-- 选择是否使用分页功能的模态框 -->
 		<div class="main-content-center">
 			<!-- 中心部分内容 -->
 			<div class="main-content-center-header">
@@ -259,7 +305,7 @@
 						     <option>none</option>
 							 </select>
 					      </li>
-						  <li><button class="waves-effect waves-light btn"  style="width: 100%" onclick="refreshGraph()"><i class="icon-refresh"></i>&nbsp;&nbsp;&nbsp;刷新</button><li>
+						  <li><button class="waves-effect waves-light btn" disabled style="width: 100%" onclick="refreshGraph()" id="refresh-btn"><i class="icon-refresh"></i>&nbsp;&nbsp;&nbsp;刷新</button><li>
 						</ul>
 					</div>
 					
@@ -338,6 +384,17 @@
 	<!-- 当页面加载完成后，完成数据库的初始化操作 -->
 	<script type="text/javascript">
 	  $(function (){
+	     var dbName = $('#db_select').find("option:selected").text(); //获取当前的选中的数据库
+	     var tableName = $('#table_select').find("option:selected").text(); //获取当前选中的表
+		 var sourceNode = $('#source_select').find("option:selected").text(); //获取当前选中的起始点
+	     var targetNode = $('#target_select').find("option:selected").text(); //获取当前选中的终点
+	     var ly = $('#layout_graph').find("option:selected").text();  //获取当前选中的布局
+	     var runElement = $('#run');   //获取运行按钮元素
+	     if(dbName == "请选择数据库" || tableName == "请选择表" || sourceNode == "请选择起始点" || targetNode == "请选择目标点" || ly == "请选择布局" ) {
+			runElement.attr("disabled","disabled");
+		 }else {
+		    runElement.removeAttr("disabled");
+		 }
 	     //在加载该页面时完成"选择数据库"下拉菜单的初始化
 	     var driverName =  '<%= (String) request.getParameter("driverName")%>';
 		 var dataBaseType = '<%= (String) request.getParameter("dataBaseType")%>';
@@ -388,7 +445,6 @@
 	        sourceElement.options.length = 1;
 	        var targetElement = document.getElementById("target_select");   //联动目标点的下拉菜单
 	        targetElement.options.length = 1; 
-	        
 	        
 	        //获取数据库选中的值
 	        var index = this.selectedIndex;  //this代表是当前select下拉框
@@ -587,9 +643,10 @@
                             wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
                             pixelRatio: 'auto',
 						});
-						$('#setting-icon').removeClass('icon-cog');  
-						$('#setting-icon').addClass('icon-cog');  //在右侧增加设置按钮
 						
+						
+						var refreshBtn = $('#refresh-btn');
+						refreshBtn.removeAttr('disabled');
 						/*进行布局的切换*/
 						$("#layout_graph").change(function() {
 						    //alert("切换布局");
@@ -834,5 +891,259 @@
 	    theme: 'theme-blue',
 	   });
 	</script>
+	
+	<!-- 启动modal-paging模态框 -->
+	<script type="text/javascript">
+		$('.modal-trigger').leanModal({
+			dismissible : true, // Modal can be dismissed by clicking outside of the modal
+			opacity : .5, // Opacity of modal background
+			inDuration : 300, // Transition in duration
+			outDuration : 200, // Transition out duration
+			startingTop : '4%', // Starting top style attribute
+			endingTop : '10%', // Ending top style attribute
+			ready : function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+			    //当其打开时，发送ajax请求到服务器端，获取当前情况下，可能构造多少个点，可能构造多少条边
+			    //填充弹出模态框部分需要的值，需要访问数据库，获取到相应的信息
+			    var dbName = $('#db_select').find("option:selected").text(); //获取当前的选中的数据库
+			    var tableName = $('#table_select').find("option:selected").text(); //获取当前选中的表
+			    var sourceNode = $('#source_select').find("option:selected").text(); //获取当前选中的起始点
+			    var targetNode = $('#target_select').find("option:selected").text(); //获取当前选中的终点
+			    var driverName =  '<%= (String) request.getParameter("driverName")%>';
+			    var dataBaseType = '<%= (String) request.getParameter("dataBaseType")%>';
+			    var ipAddress = '<%= (String) request.getParameter("ipAddress")%>';
+			    var portNumber = '<%= (String) request.getParameter("portNumber")%>';
+			    var connectionName = '<%= (String) request.getParameter("connectionName")%>';
+			    var userName = '<%= (String) request.getParameter("userName")%>';
+			    var password = '<%= (String) request.getParameter("password")%>';
+			    $.ajax({
+                      async: false,
+                      url: "/graphanalysis/dsm/db/paddingTableInfomation?t=" + (new Date()).getTime(),
+                      type: "POST",
+                      dataType: "JSON",
+                      data: {
+                          "dbName": dbName,
+			              "tableName": tableName,
+			              "sourceNode": sourceNode,
+			              "targetNode": targetNode,		            
+			              "driverName" : driverName,
+						  "dataBaseType" : dataBaseType,
+						  "ipAddress": ipAddress,
+						  "portNumber": portNumber,
+						  "connectionName": connectionName,
+						  "userName": userName,
+						  "password": password,
+                      },
+                      success: function (backData) {
+                          //alert(typeof(backData.totalCount)); 
+                          //将接受到的值设置到相应的位置
+                          var totalCount = $('#total-count');
+                          totalCount.html();   //先清空 
+                          totalCount.html(backData.totalCount);   //再设置 
+                          
+                          var nodeCount = $('#node-count');
+                          nodeCount.html();
+                          nodeCount.html(backData.sourceNodeCount + backData.targetNodeCount);
+                          
+                          var edgeCount = $('#edge-count');
+                          edgeCount.html();
+                          edgeCount.html(backData.totalCount);
+                          
+                      },
+                      error: function (XMLHttpRequest, textStatus, errorThrown){
+                          alert("返回错误");
+                          alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+                      }
+                  })
+			    
+			},
+			complete : function() {
+			   //当关闭时响应的渲染图，当选择分页时实现增量渲染
+			   //在点击关闭时执行
+			   //此时需要判断究竟选择的是分页还是不分页，如果是不分页，则直接调用graph_display()函数执行即可
+			   var radioElement = $('input[name=group1]:checked').val();
+			   if(radioElement == '分页'){
+			       //当选择分页时，应该用分页的方法渲染图
+			       
+			       //获取总记录数
+			       var totalCountString = $('#total-count').html();   //获取总记录数
+			       //alert(typeof(totalCountString));   //Object类型
+			       var totalCount = Number(totalCountString);  //将String类型转换成Integer类型
+			       //alert(typeof(totalCount));  //number类型
+			       //alert(totalCount);
+			       
+			       //获取每一页数据条数
+			       var pageTextString = $('#page-text').val();   //pageTextString为String类型
+			       //alert(pageTextString);
+			       var pageText = Number(pageTextString);   //获取到每一页的数据条数，pageText为整型
+			       //alert(typeof(pageText));
+			       //alert(pageText);
+			       //判断
+			       if( pageText <= 0 || pageText >= totalCount){  
+			           //如果分页数为0或者分页数大于等于总记录数，则为不分页
+			           //alert('执行不分页逻辑')
+			           graph_display();
+			       }else {
+			           //alert('执行分页逻辑');
+			           var  pageCount = Math.ceil(totalCount / pageText);  //得到数据库需要分页的页数
+			           //alert("分页的页数为:" + pageCount);
+			           //alert(typeof(pageCount));        //number类型
+			           var dbName = $('#db_select').find("option:selected").text(); //获取当前的选中的数据库
+			           var tableName = $('#table_select').find("option:selected").text(); //获取当前选中的表
+			           var sourceNode = $('#source_select').find("option:selected").text(); //获取当前选中的起始点
+			           var targetNode = $('#target_select').find("option:selected").text(); //获取当前选中的终点
+			           var ly = $('#layout_graph').find("option:selected").text();  //获取当前选中的布局
+			           var driverName =  '<%= (String) request.getParameter("driverName")%>';
+			           var dataBaseType = '<%= (String) request.getParameter("dataBaseType")%>';
+			           var ipAddress = '<%= (String) request.getParameter("ipAddress")%>';
+			           var portNumber = '<%= (String) request.getParameter("portNumber")%>';
+			           var connectionName = '<%= (String) request.getParameter("connectionName")%>';
+			           var userName = '<%= (String) request.getParameter("userName")%>';
+			           var password = '<%= (String) request.getParameter("password")%>';
+			           for (var i = 0 ; i < pageCount ; i++ ){
+			           //开始循环得到JSON格式的图数据
+			           if(i == 0){
+			               $.ajax({
+		                      url: "/graphanalysis/dsm/db/increseGetJsonData?t=" + (new Date()).getTime(),
+		                      type: "POST",
+		                      dataType: "JSON",
+		                      data: {
+		                          "dbName": dbName,
+					              "tableName": tableName,
+					              "sourceNode": sourceNode,
+					              "targetNode": targetNode,		            
+					              "driverName" : driverName,
+								  "dataBaseType" : dataBaseType,
+								  "ipAddress": ipAddress,
+								  "portNumber": portNumber,
+								  "connectionName": connectionName,
+								  "userName": userName,
+								  "password": password,
+								  "currentPage" : i,
+								  "pageCount": pageText,
+		                      },
+		                      success: function (backData) {
+		                          //接收到部分数据后构造对象
+		                          cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+									container : $("#main-content-center-footer"),  //jquery获取元素
+									elements : backData,
+									style : [ // the stylesheet for the graph
+											{
+												selector : 'node',
+												style : {
+												    'label' : 'data(name)',
+													/* 'background-color' : 'red',
+													
+													'width': 2,
+													'opacity': .9,
+													'size': 60,
+													'shape': 'ellipse',
+													'width': 10,
+													'height': 20,  */
+												}
+											},
+			
+											{
+												selector : 'edge',
+												style : {
+												    'label': 'data(name)',
+												    /* 'target-arrow-shape' : 'triangle',
+													'width' : 4,
+													'line-color' : '#ccc',
+													'target-arrow-color' : '#ccc',
+													'opacity': 2,
+													'curve-style': 'bezier', //设置边到底是有向还是无向边
+													 */
+												}
+											}
+										],
+									layout : {
+										name : ly,
+										directed: true,
+										/* padding: 10, */
+										margin: 2,
+									},
+									zoom: 1,
+		                            pan: { x: 0, y: 0 },
+		                            hideEdgesOnViewport: true,
+		                            motionBlur: true,
+		                            motionBlurOpacit: 0.5,
+		                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+		                            pixelRatio: 'auto',
+								});
+		                      },
+		                      error: function (XMLHttpRequest, textStatus, errorThrown){
+		                          alert("返回错误");
+		                          alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+		                      }
+		                  })//ajax结束
+			           }  else{ //满足i==0的id结束
+			               $.ajax({
+			                  asyn: false,
+		                      url: "/graphanalysis/dsm/db/increseGetJsonData?t=" + (new Date()).getTime(),
+		                      type: "POST",
+		                      dataType: "JSON",
+		                      data: {
+		                          "dbName": dbName,
+					              "tableName": tableName,
+					              "sourceNode": sourceNode,
+					              "targetNode": targetNode,		            
+					              "driverName" : driverName,
+								  "dataBaseType" : dataBaseType,
+								  "ipAddress": ipAddress,
+								  "portNumber": portNumber,
+								  "connectionName": connectionName,
+								  "userName": userName,
+								  "password": password,
+								  "currentPage" : i,
+								  "pageCount": pageText,
+		                      },
+		                      success: function (backData) {
+								//alert("执行叠加操作");
+								//alert(backData);
+								//alert(ly);
+								cy.add(backData).layout({name : ly});  //增加点
+							  }//success结束
+		                   })   //else中的ajax请求结束
+			           } //else i=除0之外的其它数结束
+			           }  //满足pageText > 0 && pageText < totalCount条件的else结束
+			       }  //分页if完成
+			   }else {
+			       //当选择不分页时，直接调用graph_display()函数渲染图即可
+			       graph_display();
+			   }
+			} // Callback for Modal close
+		}
+		);
+	</script>
+    
+    <!-- 由用户设置每一个包含的数据条数 -->
+	<script type="text/javascript">
+		var pagingText = $('#page-text');
+		$('input[type=radio][name=group1]').change(function() {
+			if (this.value == '分页') {
+				pagingText.removeAttr('disabled')
+			} else if (this.value == '不分页') {
+				pagingText.removeAttr('disabled');
+				pagingText.attr('disabled','disabled');
+			}
+		});
+	</script>
+	
+	<!-- 设置定时检查机制，1s的时间间隔时检查一次下面的值是否为空，如果为空，则运行按钮不能点击，只有全部选中才能点击 -->
+	<script type="text/javascript">
+	    var timer = setInterval(function() {
+	       var dbName = $('#db_select').find("option:selected").text(); //获取当前的选中的数据库
+	       var tableName = $('#table_select').find("option:selected").text(); //获取当前选中的表
+		   var sourceNode = $('#source_select').find("option:selected").text(); //获取当前选中的起始点
+	       var targetNode = $('#target_select').find("option:selected").text(); //获取当前选中的终点
+	       var ly = $('#layout_graph').find("option:selected").text();  //获取当前选中的布局
+	       var runElement = $('#run');   //获取运行按钮元素
+	       if(dbName == "请选择数据库" || tableName == "请选择表" || sourceNode == "请选择起始点" || targetNode == "请选择目标点" || ly == "请选择布局" ) {
+			  runElement.attr("disabled","disabled");
+		   }else {
+		      runElement.removeAttr("disabled");
+		   }
+	    }, 1)
+	</script>        
 </body>
 </html>

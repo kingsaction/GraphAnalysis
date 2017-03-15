@@ -4,6 +4,7 @@ package com.uniplore.graph.dsm.db.controller;
 import com.alibaba.fastjson.JSON;
 import com.uniplore.graph.dsm.db.entity.DbPO;
 import com.uniplore.graph.dsm.db.entity.DbVO;
+import com.uniplore.graph.dsm.db.entity.PagingVO;
 import com.uniplore.graph.dsm.db.service.IDbService;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -144,4 +146,49 @@ public class DbController {
     return map;
   }
   
+  /**
+  * 功能： 接收从客户端出来的参数，并将表的总记录数、指定列的元素总数返回给客户端，用来填充相应表的统计信息.
+  * @param dbPo  接收客户端的数据库连接信息
+  * @param dbVo   接收选中的数据库名、表名、源点所在的列名、目标点所在的列名
+  * @return  返回一个hashmap，存放该表的总记录数、节点数
+  * @throws Exception  抛出异常
+  */
+  @RequestMapping(value = "/paddingTableInfomation" , method = RequestMethod.POST)
+  public @ResponseBody Map<String,Object> paddingTableInfomation(DbPO dbPo,DbVO dbVo) 
+      throws Exception {
+    String infomation = dbService.paddingTableInfomation(dbPo,dbVo);  //返回对相应表的统计信息
+    System.out.println(infomation);
+    
+    String[] split = infomation.split(",");   //获取到一个字符串数组，将其转成Integer，Integer会自动拆箱成int
+    Map<String, Object> map = new HashMap<String, Object>();
+    
+    map.put("totalCount", Integer.parseInt(split[0]));
+    map.put("sourceNodeCount", Integer.parseInt(split[1]));
+    map.put("targetNodeCount", Integer.parseInt(split[2]));
+    
+    return map;
+  }
+  
+  /**
+   * 功能: 实现增量加载数据.
+   * @param dbPo 数据库连接信息对象
+   * @param dbVo   图数据对象
+   * @param pagingVo  分页数据
+   * @return  返回JSON字符串
+   */
+  @RequestMapping(value = "/increseGetJsonData" ,method = RequestMethod.POST)
+  public @ResponseBody String increseGetJsonData(DbPO dbPo,DbVO dbVo,PagingVO pagingVo) 
+      throws Exception {
+    //System.out.println(pagingVo.getCurrentPage());
+    //System.out.println(pagingVo.getPageCount());
+    String jsonContent = dbService.increseGetJsonData(dbPo,dbVo,pagingVo);
+    
+    //将上述字符串重新解析
+    Object parse = JSON.parse(jsonContent);
+    String outputString = parse.toString();
+    //System.out.println("------在控制器端得到的数据------");
+    //System.out.println(outputString);
+    //System.out.println("拼接完成");
+    return outputString;
+  }
 }

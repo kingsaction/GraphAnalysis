@@ -724,80 +724,7 @@
 		}   //构造JSON串实现图
 	</script>
 	
-	<!-- 当图分析算法发生点击事件时，激活该段代码 -->
-	<script type="text/javascript">
-     /*在单选列表上增加鼠标单击事件，进行算法切换*/
-		$('#graph_select').change(function() {
-			var algorithmName = $('#graph_select').find("option:selected").text();;   //获取当前选中的元素值#graph_select
-			//alert("得到的算法为:"+algorithmName);
-		    var nodeIDAndColor = $('#nodeTap').val();   //得到点的id和color值，分别拆成id和color
-		    //alert(nodeIDAndColor);
-		    var arrNodeColor = nodeIDAndColor.split(",");  //从逗号处将整个字符串拆开
-		    var nodeID = arrNodeColor[0];     //从拆开的数组中获取到nodeID的值
-		    //alert("第一个点的序号为:" + nodeID);
-		    var color = arrNodeColor[1];      //从拆开的数组中获取到color的值
-		    var nodeObj = cy.$('#'+ nodeID);    //使用#和id进行拼接，形成完整的id选择器，并获取到该元素
-		    /* nodeObj.style({'background-color' : color});    //将选中的点的颜色设置为黑色 */
-		    //alert("得到的最近的节点为:"+ nodeID); 
-		    switch (algorithmName){
-		        case "firstNeighbors" :
-		        {
-                    nodeObj.neighborhood('node').style({'background-color' : color});   //将选中的点的邻居点全部颜色设置为黑色
-                    nodeObj.neighborhood('edge').style({'line-color' : color});   //将选中的点的邻居边全部设置为蓝色
-                    nodeObj.neighborhood('edge').style({'target-arrow-color' : color});   //将选中的点的邻居边全部设置为蓝色
-                    
-                    break;
-		        }
-		        case "breadthFirstSearch" :
-		        {
-		            var bfs = cy.elements().bfs({
-		                 roots: nodeObj,   
-		            });
-		            var path = bfs.path;   //找到的路径
-		            var found = bfs.found;   //找到的点
-		            path.style({'background-color' : color});   //给找到的边着色
-		            found.style({'background-color' : color});  //给找到的点着色
-		            break;
-		        }
-		        case "depthFirstSearch" :
-		        {
-		            var dfs = cy.elements().dfs({
-		                roots: nodeObj,
-		            });
-		            var path = dfs.path; //找到的点的路径
-		            var found = dfs.found ; //找到的点
-		            path.style({'background-color' : color});   //给找到的边着色
-		            found.style({'background-color' : color});  //给找到的点着色
-		            break;
-		        }
-		        
-		        case "pageRank" :
-		        {
-		            var pr = cy.elements().pageRank();
-		            alert(pr.rank(nodeObj));   //输出某个点的pageRank值
-		            break;
-		        }
-		        
-		        case "k-means" :
-		        {
-		            break;
-		        }
-		        case "markov" :
-		        {
-		            break;
-		        }
-		        case "hierarchical" :
-		        {
-		            break;
-		        }
-		        case "affinity" :
-		        {
-		            break;
-		        }
-		        
-		    }
-		});
-	</script>
+
 	
 	<!-- jquery的范围插件，不用手动输入值，这样能够避免参数的校验 -->
 	<script type="text/javascript">
@@ -814,68 +741,7 @@
 	   });
 	</script>
 	
-	<script type="text/javascript">
-	    function refreshGraph(){
-	        /*设置点的颜色*/
-	        var settingNodeElement = $('#setting-node-color').val();
-	        var settingNodeColor = '#' + settingNodeElement;
-	        cy.nodes().style({'background-color': settingNodeColor});
-	        
-	        /*设置边的颜色*/
-	        var settingEdgeElement = $('#setting-edge-color').val();
-	        //alert(settingEdgeElement)
-	        var settingEdgeColor = '#' + settingEdgeElement;
-	        cy.edges().style({'line-color': settingEdgeColor});
-	        
-	        /*设置点的宽和高*/
-	        var settingNodeWidth = $('#setting-node-width').val();
-	        //alert("宽为 " + settingNodeWidth )
-	        cy.nodes({'width': Number(settingNodeWidth)});
-	        var settingNodeHeight = $('#setting-node-height').val();
-	        //alert("高为 " + settingNodeHeight );
-	        cy.nodes({'height': Number(settingNodeHeight)});
-	        
-	        /*设置点的类型*/
-	        var nodeShape = $('#setting-node-shape').find("option:selected").text()  //setting-node-shape
-	        cy.nodes().style({'shape':nodeShape});
-	        
-	        /*设置点透明度*/
-	        var settingNodeOpacity = $('#node-opacity').val();
-	        cy.nodes().style({'opacity': Number(settingNodeOpacity)});
-	        
-	        /*设置边透明度*/
-	        var settingEdgeOpacity = $('#edge-opacity').val();
-	        //alert(typeof(settingEdgeOpacity))
-	        cy.edges().style({'opacity': Number(settingEdgeOpacity)});
-	        
-	        /*设置线类型*/
-	        var edgeStyle = $('#edge-style').find("option:selected").text();
-	        cy.edges().style({'line-style': edgeStyle});
-	        
-	        /*设置点标签内容*/
-	        var nodeLabelContent = $('#node-label-content').find("option:selected").text();
-	        cy.nodes().style({'label': 'data(nodeLabelContent)'});
-	        /*设置边标签内容*/
-	        var edgeLabelContent = $('#edge-label-content').find("option:selected").text();
-	        //alert(edgeLabelContent)
-	        cy.nodes().style({'label': 'data(edgeLabelContent)'});
-	        
-	        /*设置边的宽和高*/
-	        var settingEdgeWidth = $('#setting-edge-width').val();
-	        //alert("宽为 " + settingNodeWidth )
-	        cy.edges({'width': Number(settingEdgeWidth)});
-	        var settingEdgeHeight = $('#setting-edge-height').val();
-	        cy.edges().style({'height': Number(settingEdgeHeight)});
-	        
-	        /*设置边方向*/
-	        var edgeDirection = $('#edge-direction').find("option:selected").text();
-	        cy.edges().style({'curve-style': edgeDirection});
-	        
-	        /*设置箭头形状*/
-	        var arrowShape = $('#arrow-shape').find("option:selected").text();
-	        cy.edges().style({'target-arrow-shape': ''  + arrowShape});
-	    }
-	</script>
+	
 	
 	<script type="text/javascript">
 	  //
@@ -983,6 +849,8 @@
 			           //alert('执行不分页逻辑')
 			           graph_display();
 			       }else {
+			           //创建cytoscape对象
+			           cy = cytoscape();
 			           //alert('执行分页逻辑');
 			           var  pageCount = Math.ceil(totalCount / pageText);  //得到数据库需要分页的页数
 			           //alert("分页的页数为:" + pageCount);
@@ -1003,6 +871,7 @@
 			           //开始循环得到JSON格式的图数据
 			           if(i == 0){
 			               $.ajax({
+			                  async: false,
 		                      url: "/graphanalysis/dsm/db/increseGetJsonData?t=" + (new Date()).getTime(),
 		                      type: "POST",
 		                      dataType: "JSON",
@@ -1078,6 +947,7 @@
 		                  })//ajax结束
 			           }  else{ //满足i==0的id结束
 			               $.ajax({
+			                  /* async: false, */
 		                      url: "/graphanalysis/dsm/db/increseGetJsonData?t=" + (new Date()).getTime(),
 		                      type: "POST",
 		                      dataType: "JSON",
@@ -1105,6 +975,77 @@
 		                   })   //else中的ajax请求结束
 			           } //else i=除0之外的其它数结束
 			           }  //满足pageText > 0 && pageText < totalCount条件的else结束
+			           var refreshBtn = $('#refresh-btn');
+					   refreshBtn.removeAttr('disabled');
+					   /*进行布局的切换*/
+					   $("#layout_graph").change(function() {
+						    //alert("切换布局");
+						    if(cy != undefined){
+						        ly = $('#layout_graph').find("option:selected").text();   //获取当前选中的布局方式
+							    //alert(cy);   //获取到变量
+							    //alert("布局方式为:" + ly + "接受到的id为:" + id + "接受到的fileName为:" + fileName);
+							    cy.layout({name: ly});    //使用API获取到全局变量cy，切换布局方式
+						    }
+							
+						});
+						
+						//这段代码存在问题，根本没有执行，这里存在很大的bug
+						cy.nodes().on('tap', function(event) {
+						    alert("抓取到一个点");
+							var nodeID = event.cyTarget.id();   //获取到点击时元素的id
+							//获取到要删除元素的id,cyTarget代表当前事件操作的元素
+							var nodeObj = cy.$('#'+ nodeID);    //使用#和id进行拼接，形成完整的id选择器，并获取到该元素
+							//alert("点击节点"+ nodeID);
+						    
+						    //当选中图中的点之后，创建图分析算法的option
+						    var graphElement = document.getElementById("graph_select")  //父亲节点
+						    graphElement.options.length = 1;
+						    
+						    var graphSelect = $('#graph_select');
+						    var selection_1 = $('<option>firstNeighbors</option>');  //创建第一个节点
+						    var selection_2 = $('<option>breadthFirstSearch</option>');  //创建第二个节点
+						    var selection_3 = $('<option>depthFirstSearch</option>');  //创建第三个节点
+	                        var selection_4 = $('<option>pageRank</option>');  //创建第四个节点
+	                        graphSelect.append(selection_1);
+	                        graphSelect.append(selection_2);
+	                        graphSelect.append(selection_3);
+	                        graphSelect.append(selection_4);
+	                        
+	                        
+	                        var colorStr="";
+						    //字符串的每一字符的范围  
+				            var randomArr=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']; 
+				            //产生一个六位的字符串  
+						    for(var i=0;i<6;i++){  
+						        //15是范围上限，0是范围下限，两个函数保证产生出来的随机数是整数  
+						        colorStr+=randomArr[Math.ceil(Math.random()*(15-0)+0)];  
+						    }  
+						    var color = '#' + colorStr;    //拼接成一个随机色
+						    
+						    //直接给该选中的元素着色
+						    nodeObj.style({'background-color' : color});
+						    
+	                        //将上述得到的nodeID保存到sessinon中，方便客户端其它函数获取
+	                        $.ajax({
+	                            async: false,
+	                            url: "/graphanalysis/dsm/db/saveNodeId?t=" + (new Date()).getTime(),
+	                            type: "POST",
+	                            dataType: "JSON",
+	                            data: {
+	                                "nodeID" : nodeID,
+	                                "color" : color,
+	                            },
+	                            success: function (backData) {
+	                                //alert(typeof(backData.nodeID)); 
+	                                var inputElement = $('#nodeTap');
+	                                inputElement.val(backData.nodeID + "," + backData.color);
+	                            },
+	                            error: function (XMLHttpRequest, textStatus, errorThrown){
+	                                alert("返回错误");
+	                                alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+	                            }
+	                        })
+						});  //tap事件结束
 			       }  //分页if完成
 			   }else {
 			       //当选择不分页时，直接调用graph_display()函数渲染图即可
@@ -1143,6 +1084,143 @@
 		      runElement.removeAttr("disabled");
 		   }
 	    }, 1)
-	</script>        
+	</script>    
+	<script type="text/javascript">
+	    function refreshGraph(){
+	        /*设置点的颜色*/
+	        var settingNodeElement = $('#setting-node-color').val();
+	        var settingNodeColor = '#' + settingNodeElement;
+	        cy.nodes().style({'background-color': settingNodeColor});
+	        
+	        /*设置边的颜色*/
+	        var settingEdgeElement = $('#setting-edge-color').val();
+	        //alert(settingEdgeElement)
+	        var settingEdgeColor = '#' + settingEdgeElement;
+	        cy.edges().style({'line-color': settingEdgeColor});
+	        
+	        /*设置点的宽和高*/
+	        var settingNodeWidth = $('#setting-node-width').val();
+	        //alert("宽为 " + settingNodeWidth )
+	        cy.nodes({'width': Number(settingNodeWidth)});
+	        var settingNodeHeight = $('#setting-node-height').val();
+	        //alert("高为 " + settingNodeHeight );
+	        cy.nodes({'height': Number(settingNodeHeight)});
+	        
+	        /*设置点的类型*/
+	        var nodeShape = $('#setting-node-shape').find("option:selected").text()  //setting-node-shape
+	        cy.nodes().style({'shape':nodeShape});
+	        
+	        /*设置点透明度*/
+	        var settingNodeOpacity = $('#node-opacity').val();
+	        cy.nodes().style({'opacity': Number(settingNodeOpacity)});
+	        
+	        /*设置边透明度*/
+	        var settingEdgeOpacity = $('#edge-opacity').val();
+	        //alert(typeof(settingEdgeOpacity))
+	        cy.edges().style({'opacity': Number(settingEdgeOpacity)});
+	        
+	        /*设置线类型*/
+	        var edgeStyle = $('#edge-style').find("option:selected").text();
+	        cy.edges().style({'line-style': edgeStyle});
+	        
+	        /*设置点标签内容*/
+	        var nodeLabelContent = $('#node-label-content').find("option:selected").text();
+	        cy.nodes().style({'label': 'data(nodeLabelContent)'});
+	        /*设置边标签内容*/
+	        var edgeLabelContent = $('#edge-label-content').find("option:selected").text();
+	        //alert(edgeLabelContent)
+	        cy.nodes().style({'label': 'data(edgeLabelContent)'});
+	        
+	        /*设置边的宽和高*/
+	        var settingEdgeWidth = $('#setting-edge-width').val();
+	        //alert("宽为 " + settingNodeWidth )
+	        cy.edges({'width': Number(settingEdgeWidth)});
+	        var settingEdgeHeight = $('#setting-edge-height').val();
+	        cy.edges().style({'height': Number(settingEdgeHeight)});
+	        
+	        /*设置边方向*/
+	        var edgeDirection = $('#edge-direction').find("option:selected").text();
+	        cy.edges().style({'curve-style': edgeDirection});
+	        
+	        /*设置箭头形状*/
+	        var arrowShape = $('#arrow-shape').find("option:selected").text();
+	        cy.edges().style({'target-arrow-shape': ''  + arrowShape});
+	    }
+	</script> 
+	
+	<!-- 当图分析算法发生点击事件时，激活该段代码 -->
+	<script type="text/javascript">
+     /*在单选列表上增加鼠标单击事件，进行算法切换*/
+		$('#graph_select').change(function() {
+			var algorithmName = $('#graph_select').find("option:selected").text();;   //获取当前选中的元素值#graph_select
+			//alert("得到的算法为:"+algorithmName);
+		    var nodeIDAndColor = $('#nodeTap').val();   //得到点的id和color值，分别拆成id和color
+		    //alert(nodeIDAndColor);
+		    var arrNodeColor = nodeIDAndColor.split(",");  //从逗号处将整个字符串拆开
+		    var nodeID = arrNodeColor[0];     //从拆开的数组中获取到nodeID的值
+		    //alert("第一个点的序号为:" + nodeID);
+		    var color = arrNodeColor[1];      //从拆开的数组中获取到color的值
+		    var nodeObj = cy.$('#'+ nodeID);    //使用#和id进行拼接，形成完整的id选择器，并获取到该元素
+		    /* nodeObj.style({'background-color' : color});    //将选中的点的颜色设置为黑色 */
+		    //alert("得到的最近的节点为:"+ nodeID); 
+		    switch (algorithmName){
+		        case "firstNeighbors" :
+		        {
+                    nodeObj.neighborhood('node').style({'background-color' : color});   //将选中的点的邻居点全部颜色设置为黑色
+                    nodeObj.neighborhood('edge').style({'line-color' : color});   //将选中的点的邻居边全部设置为蓝色
+                    nodeObj.neighborhood('edge').style({'target-arrow-color' : color});   //将选中的点的邻居边全部设置为蓝色
+                    
+                    break;
+		        }
+		        case "breadthFirstSearch" :
+		        {
+		            var bfs = cy.elements().bfs({
+		                 roots: nodeObj,   
+		            });
+		            var path = bfs.path;   //找到的路径
+		            var found = bfs.found;   //找到的点
+		            path.style({'background-color' : color});   //给找到的边着色
+		            found.style({'background-color' : color});  //给找到的点着色
+		            break;
+		        }
+		        case "depthFirstSearch" :
+		        {
+		            var dfs = cy.elements().dfs({
+		                roots: nodeObj,
+		            });
+		            var path = dfs.path; //找到的点的路径
+		            var found = dfs.found ; //找到的点
+		            path.style({'background-color' : color});   //给找到的边着色
+		            found.style({'background-color' : color});  //给找到的点着色
+		            break;
+		        }
+		        
+		        case "pageRank" :
+		        {
+		            var pr = cy.elements().pageRank();
+		            alert(pr.rank(nodeObj));   //输出某个点的pageRank值
+		            break;
+		        }
+		        
+		        case "k-means" :
+		        {
+		            break;
+		        }
+		        case "markov" :
+		        {
+		            break;
+		        }
+		        case "hierarchical" :
+		        {
+		            break;
+		        }
+		        case "affinity" :
+		        {
+		            break;
+		        }
+		        
+		    }
+		});
+	</script>   
 </body>
 </html>

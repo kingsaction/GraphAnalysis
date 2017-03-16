@@ -1,7 +1,6 @@
 package com.uniplore.graph.dsm.db.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.sun.jndi.url.iiopname.iiopnameURLContextFactory;
 import com.uniplore.graph.dsm.db.entity.DbPO;
 import com.uniplore.graph.dsm.db.entity.DbVO;
 import com.uniplore.graph.dsm.db.entity.EdgeDataVO;
@@ -11,7 +10,6 @@ import com.uniplore.graph.dsm.db.entity.NodeVO;
 import com.uniplore.graph.dsm.db.entity.PagingVO;
 import com.uniplore.graph.dsm.db.service.IDbService;
 
-import lombok.experimental.var;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,10 +18,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
-import org.ietf.jgss.Oid;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class DbService implements IDbService {

@@ -659,6 +659,7 @@
 							
 						});
 						cy.nodes().on('tap', function(event) {
+						    //alert("在不分页时抓到一个元素");
 							var nodeID = event.cyTarget.id();   //获取到点击时元素的id
 							//获取到要删除元素的id,cyTarget代表当前事件操作的元素
 							var nodeObj = cy.$('#'+ nodeID);    //使用#和id进行拼接，形成完整的id选择器，并获取到该元素
@@ -849,8 +850,6 @@
 			           //alert('执行不分页逻辑')
 			           graph_display();
 			       }else {
-			           //创建cytoscape对象
-			           cy = cytoscape();
 			           //alert('执行分页逻辑');
 			           var  pageCount = Math.ceil(totalCount / pageText);  //得到数据库需要分页的页数
 			           //alert("分页的页数为:" + pageCount);
@@ -939,6 +938,63 @@
 		                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
 		                            pixelRatio: 'auto',
 								});
+								//这段代码存在问题，根本没有执行，这里存在很大的bug
+								cy.nodes().on('tap', function(event) {
+								    //alert("抓取到一个点");
+									var nodeID = event.cyTarget.id();   //获取到点击时元素的id
+									//获取到要删除元素的id,cyTarget代表当前事件操作的元素
+									var nodeObj = cy.$('#'+ nodeID);    //使用#和id进行拼接，形成完整的id选择器，并获取到该元素
+									//alert("点击节点"+ nodeID);
+								    
+								    //当选中图中的点之后，创建图分析算法的option
+								    var graphElement = document.getElementById("graph_select")  //父亲节点
+								    graphElement.options.length = 1;
+								    
+								    var graphSelect = $('#graph_select');
+								    var selection_1 = $('<option>firstNeighbors</option>');  //创建第一个节点
+								    var selection_2 = $('<option>breadthFirstSearch</option>');  //创建第二个节点
+								    var selection_3 = $('<option>depthFirstSearch</option>');  //创建第三个节点
+			                        var selection_4 = $('<option>pageRank</option>');  //创建第四个节点
+			                        graphSelect.append(selection_1);
+			                        graphSelect.append(selection_2);
+			                        graphSelect.append(selection_3);
+			                        graphSelect.append(selection_4);
+			                        
+			                        
+			                        var colorStr="";
+								    //字符串的每一字符的范围  
+						            var randomArr=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']; 
+						            //产生一个六位的字符串  
+								    for(var i=0;i<6;i++){  
+								        //15是范围上限，0是范围下限，两个函数保证产生出来的随机数是整数  
+								        colorStr+=randomArr[Math.ceil(Math.random()*(15-0)+0)];  
+								    }  
+								    var color = '#' + colorStr;    //拼接成一个随机色
+								    
+								    //直接给该选中的元素着色
+								    nodeObj.style({'background-color' : color});
+								    
+			                        //将上述得到的nodeID保存到sessinon中，方便客户端其它函数获取
+			                        $.ajax({
+			                            async: false,
+			                            url: "/graphanalysis/dsm/db/saveNodeId?t=" + (new Date()).getTime(),
+			                            type: "POST",
+			                            dataType: "JSON",
+			                            data: {
+			                                "nodeID" : nodeID,
+			                                "color" : color,
+			                            },
+			                            success: function (backData) {
+			                                //alert(typeof(backData.nodeID)); 
+			                                var inputElement = $('#nodeTap');
+			                                inputElement.val(backData.nodeID + "," + backData.color);
+			                            },
+			                            error: function (XMLHttpRequest, textStatus, errorThrown){
+			                                alert("返回错误");
+			                                alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+			                            }
+			                        })
+								});  //tap事件结束
 		                      },
 		                      error: function (XMLHttpRequest, textStatus, errorThrown){
 		                          alert("返回错误");
@@ -971,6 +1027,63 @@
 								//alert(backData);
 								//alert(ly);
 								cy.add(backData).layout({name : ly});  //增加点
+								//这段代码存在问题，根本没有执行，这里存在很大的bug
+								cy.nodes().on('tap', function(event) {
+								    //alert("抓取到一个点");
+									var nodeID = event.cyTarget.id();   //获取到点击时元素的id
+									//获取到要删除元素的id,cyTarget代表当前事件操作的元素
+									var nodeObj = cy.$('#'+ nodeID);    //使用#和id进行拼接，形成完整的id选择器，并获取到该元素
+									//alert("点击节点"+ nodeID);
+								    
+								    //当选中图中的点之后，创建图分析算法的option
+								    var graphElement = document.getElementById("graph_select")  //父亲节点
+								    graphElement.options.length = 1;
+								    
+								    var graphSelect = $('#graph_select');
+								    var selection_1 = $('<option>firstNeighbors</option>');  //创建第一个节点
+								    var selection_2 = $('<option>breadthFirstSearch</option>');  //创建第二个节点
+								    var selection_3 = $('<option>depthFirstSearch</option>');  //创建第三个节点
+			                        var selection_4 = $('<option>pageRank</option>');  //创建第四个节点
+			                        graphSelect.append(selection_1);
+			                        graphSelect.append(selection_2);
+			                        graphSelect.append(selection_3);
+			                        graphSelect.append(selection_4);
+			                        
+			                        
+			                        var colorStr="";
+								    //字符串的每一字符的范围  
+						            var randomArr=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']; 
+						            //产生一个六位的字符串  
+								    for(var i=0;i<6;i++){  
+								        //15是范围上限，0是范围下限，两个函数保证产生出来的随机数是整数  
+								        colorStr+=randomArr[Math.ceil(Math.random()*(15-0)+0)];  
+								    }  
+								    var color = '#' + colorStr;    //拼接成一个随机色
+								    
+								    //直接给该选中的元素着色
+								    nodeObj.style({'background-color' : color});
+								    
+			                        //将上述得到的nodeID保存到sessinon中，方便客户端其它函数获取
+			                        $.ajax({
+			                            async: false,
+			                            url: "/graphanalysis/dsm/db/saveNodeId?t=" + (new Date()).getTime(),
+			                            type: "POST",
+			                            dataType: "JSON",
+			                            data: {
+			                                "nodeID" : nodeID,
+			                                "color" : color,
+			                            },
+			                            success: function (backData) {
+			                                //alert(typeof(backData.nodeID)); 
+			                                var inputElement = $('#nodeTap');
+			                                inputElement.val(backData.nodeID + "," + backData.color);
+			                            },
+			                            error: function (XMLHttpRequest, textStatus, errorThrown){
+			                                alert("返回错误");
+			                                alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+			                            }
+			                        })
+								});  //tap事件结束
 							  }//success结束
 		                   })   //else中的ajax请求结束
 			           } //else i=除0之外的其它数结束
@@ -989,63 +1102,7 @@
 							
 						});
 						
-						//这段代码存在问题，根本没有执行，这里存在很大的bug
-						/* cy.nodes().on('tap', function(event) {
-						    alert("抓取到一个点");
-							var nodeID = event.cyTarget.id();   //获取到点击时元素的id
-							//获取到要删除元素的id,cyTarget代表当前事件操作的元素
-							var nodeObj = cy.$('#'+ nodeID);    //使用#和id进行拼接，形成完整的id选择器，并获取到该元素
-							//alert("点击节点"+ nodeID);
-						    
-						    //当选中图中的点之后，创建图分析算法的option
-						    var graphElement = document.getElementById("graph_select")  //父亲节点
-						    graphElement.options.length = 1;
-						    
-						    var graphSelect = $('#graph_select');
-						    var selection_1 = $('<option>firstNeighbors</option>');  //创建第一个节点
-						    var selection_2 = $('<option>breadthFirstSearch</option>');  //创建第二个节点
-						    var selection_3 = $('<option>depthFirstSearch</option>');  //创建第三个节点
-	                        var selection_4 = $('<option>pageRank</option>');  //创建第四个节点
-	                        graphSelect.append(selection_1);
-	                        graphSelect.append(selection_2);
-	                        graphSelect.append(selection_3);
-	                        graphSelect.append(selection_4);
-	                        
-	                        
-	                        var colorStr="";
-						    //字符串的每一字符的范围  
-				            var randomArr=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']; 
-				            //产生一个六位的字符串  
-						    for(var i=0;i<6;i++){  
-						        //15是范围上限，0是范围下限，两个函数保证产生出来的随机数是整数  
-						        colorStr+=randomArr[Math.ceil(Math.random()*(15-0)+0)];  
-						    }  
-						    var color = '#' + colorStr;    //拼接成一个随机色
-						    
-						    //直接给该选中的元素着色
-						    nodeObj.style({'background-color' : color});
-						    
-	                        //将上述得到的nodeID保存到sessinon中，方便客户端其它函数获取
-	                        $.ajax({
-	                            async: false,
-	                            url: "/graphanalysis/dsm/db/saveNodeId?t=" + (new Date()).getTime(),
-	                            type: "POST",
-	                            dataType: "JSON",
-	                            data: {
-	                                "nodeID" : nodeID,
-	                                "color" : color,
-	                            },
-	                            success: function (backData) {
-	                                //alert(typeof(backData.nodeID)); 
-	                                var inputElement = $('#nodeTap');
-	                                inputElement.val(backData.nodeID + "," + backData.color);
-	                            },
-	                            error: function (XMLHttpRequest, textStatus, errorThrown){
-	                                alert("返回错误");
-	                                alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
-	                            }
-	                        })
-						});  //tap事件结束 */
+						
 			       }  //分页if完成
 			   }else {
 			       //当选择不分页时，直接调用graph_display()函数渲染图即可

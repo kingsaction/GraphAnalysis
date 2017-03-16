@@ -990,7 +990,7 @@
 						});
 						
 						//这段代码存在问题，根本没有执行，这里存在很大的bug
-						cy.nodes().on('tap', function(event) {
+						/* cy.nodes().on('tap', function(event) {
 						    alert("抓取到一个点");
 							var nodeID = event.cyTarget.id();   //获取到点击时元素的id
 							//获取到要删除元素的id,cyTarget代表当前事件操作的元素
@@ -1045,7 +1045,7 @@
 	                                alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
 	                            }
 	                        })
-						});  //tap事件结束
+						});  //tap事件结束 */
 			       }  //分页if完成
 			   }else {
 			       //当选择不分页时，直接调用graph_display()函数渲染图即可

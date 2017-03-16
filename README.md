@@ -28,6 +28,7 @@
         * breadthFirstSearch
         * depthFirstSearch
         * pageRank
+    * 增量实现图渲染之后，不能应用任何一个图分析算法，存在bug(2017/3/16)
 * 异常处理模块
 
 #### **版本迭代历史**

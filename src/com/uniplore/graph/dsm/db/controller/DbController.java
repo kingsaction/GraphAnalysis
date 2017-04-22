@@ -46,6 +46,7 @@ public class DbController {
    */
   @RequestMapping(value = "/dbPage",method = {RequestMethod.POST})
   public String dispatcherDb(HttpServletRequest request) throws Exception {
+    System.out.println(request.getParameter("dataBaseName"));
     return "/dsm/db/dbPage";
   }
   

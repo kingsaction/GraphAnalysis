@@ -1,7 +1,6 @@
 package com.uniplore.graph.dsm.db.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.sun.jndi.url.iiopname.iiopnameURLContextFactory;
 import com.uniplore.graph.dsm.db.entity.DbPO;
 import com.uniplore.graph.dsm.db.entity.DbVO;
 import com.uniplore.graph.dsm.db.entity.EdgeDataVO;
@@ -37,6 +36,7 @@ public class DbService implements IDbService {
       } else {
         url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + "/"
           + dataBaseName;
+        System.out.println(url);
       }
       
  

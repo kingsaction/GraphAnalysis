@@ -38,6 +38,7 @@ public class DbService implements IDbService {
       } else {
         url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + "/"
           + dataBaseName;
+        System.out.println(url);
       }
       
  

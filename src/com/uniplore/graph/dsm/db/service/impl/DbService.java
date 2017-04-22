@@ -255,8 +255,10 @@ public class DbService implements IDbService {
     String jsonContent = stringBuffer.toString();
     //拼接成最后的结果
     //System.out.println("------拼接最好的结果------");
-    String outString = "[" + jsonContent + "]" ;
     connection.close();
+    String  outString = "[" + jsonContent + "]" ;
+    System.out.println("点的总数为:" + countNode);
+    System.out.println("边的总数为:" + countEdge);
     return outString;
   }
   

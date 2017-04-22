@@ -22,11 +22,15 @@ public class JDBCUtils {
       } else {
         url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + "/"
           + dataBaseName;
-        System.out.println(url);
       }
     } else if (driverName != null && driverName.contains("postgresql")) {
-      url = "jdbc:postgresql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + "/" 
-        + dataBaseName ;
+      if (dataBaseName == null) {
+        url = "jdbc:postgresql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + "/?";
+      } else {
+        url = "jdbc:postgresql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + "/" 
+          + dataBaseName ;
+      }
+      
     } else if (driverName != null && driverName.contains("pivotal")) {
       url = "jdbc:pivotal:greenplum://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() 
         + ";DatabaseName=" + dataBaseName ;

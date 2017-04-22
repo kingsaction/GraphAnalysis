@@ -65,12 +65,34 @@ public class DbService implements IDbService {
      * MySQL数据库必须采用getCatalogs()方法
      * 但是对于其他的数据库，采用的是getSchemas()方法
      * */
-    ResultSet dbNames = connection.getMetaData().getCatalogs();   
-    while (dbNames.next()) {
-      String dbName = dbNames.getString("TABLE_CAT");
-      //System.out.println("TABLE_CAT = " + dbName );  //判断是否正确的接收到表
-      dataBaseList.add(dbName);
-    }
+    ResultSet dbNames ;
+    if (dbPo.getDataBaseType().equals("MYSQL")) {
+      dbNames = connection.getMetaData().getCatalogs(); 
+      while (dbNames.next()) {
+        String dbName = dbNames.getString("TABLE_CAT");
+        //System.out.println("TABLE_CAT = " + dbName );  //判断是否正确的接收到表
+        dataBaseList.add(dbName);
+      }
+    } 
+    
+    if (dbPo.getDataBaseType().equals("POSTGRESQL") || dbPo.getDataBaseType().equals("GREENPLUM")) {
+      try {
+        PreparedStatement ps = connection   //列出所有的数据库
+            .prepareStatement("SELECT datname FROM pg_database WHERE datistemplate = false;");   
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+          dataBaseList.add(rs.getString(1));
+          System.out.println(rs.getString(1));
+        }
+        rs.close();
+        ps.close();
+
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }
+    } 
+      
+    
     
     if (dataBaseList.size() != 0) {
       connection.close();
@@ -84,6 +106,7 @@ public class DbService implements IDbService {
   
   @Override
   public List<String> showTable(DbPO dbPo,String dbName) throws Exception {
+    System.out.println("数据库为:" + dbName);
     List<String> tableList = new ArrayList<String>();
     
     dbPo.setDataBaseName(dbName);

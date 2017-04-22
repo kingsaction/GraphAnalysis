@@ -111,6 +111,7 @@ function modal_postgresql_login(){
 		        arr["ipAddress"] = ipAddress;
 		        arr["portNumber"] = portNumber;
 		        arr["connectionName"] = connectionName;
+		        arr["dataBaseName"] = dataBaseName;
 		        arr["userName"] = userName;
 		        arr["password"]= password;
 		        for (var key in arr)
@@ -122,15 +123,19 @@ function modal_postgresql_login(){
 		        }
 		        form.submit();
 				//window.location.href = "/graphanalysis/dsm/db/dbPage";  //成功上传文件之后跳转到指定的路径中	
-		}else if("用户名和密码无效" == data){
-				swal("Oops...", "用户名和密码无效", "error");
-			}else if("与数据库通信时出错，不能连接到数据库服务器，请检查服务器是否正在运行以及您是否有权访问请求的数据库" == data){
-				swal("Oops...","与数据库通信时出错，不能连接到数据库服务器，请检查服务器是否正在运行以及您是否有权访问请求的数据库","error");
-			}else{
-				swal("Oops...","数据库连接失败","error");
-			} //if语句结束    
+		}else if("数据库连接成功" == data){
+			swal("Good job!", "数据库连接成功", "success");
+		}else if("您指定的PostgreSQL数据库的用户名不存在，请重新输入数据库用户名" == data){
+			swal("Oops...", "您指定的PostgreSQL数据库的用户名不存在，请重新输入数据库用户名", "error");
+		}else if("在连接PostgreSQL数据库时没有指定相应的用户名，请您检查数据库并输入正确的用户名" == data){
+			swal("Oops...","在连接PostgreSQL数据库时没有指定相应的用户名，请您检查数据库并输入正确的用户名","error");
+		}else if ("您指定的数据库不存在，请重新输入" == data){
+			swal("Oops...","您指定的数据库不存在，请重新输入","error");
+		} else{
+			swal("Oops...","数据库连接失败","error");
+		}//if语句结束      
 			
-			}
+      }
 	})
 }
 
@@ -179,6 +184,7 @@ function modal_greenplum_login(){
 		        arr["ipAddress"] = ipAddress;
 		        arr["portNumber"] = portNumber;
 		        arr["connectionName"] = connectionName;
+		        arr["dataBaseName"] = dataBaseName;
 		        arr["userName"] = userName;
 		        arr["password"]= password;
 		        for (var key in arr)
@@ -190,15 +196,19 @@ function modal_greenplum_login(){
 		        }
 		        form.submit();
 				//window.location.href = "/graphanalysis/dsm/db/dbPage";  //成功上传文件之后跳转到指定的路径中	
-		}else if("用户名和密码无效" == data){
-				swal("Oops...", "用户名和密码无效", "error");
-			}else if("与数据库通信时出错，不能连接到数据库服务器，请检查服务器是否正在运行以及您是否有权访问请求的数据库" == data){
-				swal("Oops...","与数据库通信时出错，不能连接到数据库服务器，请检查服务器是否正在运行以及您是否有权访问请求的数据库","error");
-			}else{
-				swal("Oops...","数据库连接失败","error");
-			} //if语句结束    
+		}else if("数据库连接成功" == data){
+			swal("Good job!", "数据库连接成功", "success");
+		}else if("对于您指定的ip地址，在文件pg_hba.conf中没有对象的实体存在，SSL off" == data){
+			swal("Oops...", "对于您指定的ip地址，在文件pg_hba.conf中没有对象的实体存在，SSL off", "error");
+		}else if("在连接PostgreSQL数据库时没有指定相应的用户名，请您检查数据库并输入正确的用户名" == data){
+			swal("Oops...","在连接PostgreSQL数据库时没有指定相应的用户名，请您检查数据库并输入正确的用户名","error");
+		}else if ("您指定的数据库不存在，请重新输入" == data){
+			swal("Oops...","您指定的数据库不存在，请重新输入","error");
+		} else {
+			swal("Oops...","数据库连接失败","error");
+		}//if语句结束       
 			
-			}
+     }
 	})
 }
 

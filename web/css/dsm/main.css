@@ -21,6 +21,30 @@ body{
 	background-image: url(../../img/dsm/background.png);
 }
 
+#modal-db-postgresql {
+	width: 750px;
+	min-width: 750px;
+	height: 640px;
+	min-height: 640px;
+	background-image: url(../../img/dsm/background.png);
+}
+
+#modal-db-greenplum {
+	width: 750px;
+	min-width: 750px;
+	height: 640px;
+	min-height: 640px;
+	background-image: url(../../img/dsm/background.png);
+}
+
+#modal-db-oracle {
+	width: 600px;
+	min-width: 600px;
+	height: 640px;
+	min-height: 640px;
+	background-image: url(../../img/dsm/background.png);
+}
+
 #modal-db-text{
 	width: 600px;
 	min-width: 600px;
@@ -211,7 +235,7 @@ body{
 	background-color: #818181;
 }
 
-.mysql-infomation-modal {
+.db-title-content {
 	font-size: 22px;
 	font-weight: 600;
 }

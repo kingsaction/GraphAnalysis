@@ -28,11 +28,25 @@ public class DbService implements IDbService {
   @Override
   public String connectDataBase(DbPO dbPo) throws Exception {
     // 使用JDBC连接数据库
-    String driverName = dbPo.getDriverName();// 首先应该得到其驱动，判断究竟是何种数据库‘
+    String driverName = dbPo.getDriverName();// 首先应该得到其驱动，判断究竟是何种数据库
+    //System.out.println("驱动名为:" + driverName);
     String url = null;
+    String dataBaseName;
     if (driverName != null && driverName.contains("mysql")) {
       url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
         + "?connectTimeout=3000&socketTimeout=3000"; // 设置连接超时的时间均是3s，如果3s未连接成功则直接终止连接
+    } else if (driverName != null && driverName.contains("postgresql")) {
+      dataBaseName = dbPo.getDataBaseName();
+      url = "jdbc:postgresql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + "/" 
+        + dataBaseName ;
+    } else if (driverName != null && driverName.contains("pivotal")) {
+      dataBaseName = dbPo.getDataBaseName();
+      url = "jdbc:pivotal:greenplum://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() 
+        + ";DatabaseName=" + dataBaseName ;
+    } else if (driverName != null && driverName.contains("oracle")) {
+      dataBaseName = dbPo.getDataBaseName();
+      url = "jdbc:oracle:thin:@" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + ":" 
+        + dataBaseName ;
     }
     String user = dbPo.getUserName();
     String password = dbPo.getPassword();
@@ -46,8 +60,8 @@ public class DbService implements IDbService {
         return "数据库连接成功";
       }
     } catch (Exception ex) {
-      String message = ex.getMessage(); // 会打印出真实的数据库连接错误信息
-      if (message.contains("Access denied")) {
+      String message = ex.getMessage(); // 会打印出真实的数据库连接错误信息，只包含mysql的信息，其他的数据库不能成功连接时信息很粗略
+      if (driverName.contains("mysql") && message.contains("Access denied")) {
         return "用户名和密码无效";
       } else if (message.contains("Communications link failure")) {
         return "与数据库通信时出错，不能连接到数据库服务器，请检查服务器是否正在运行以及您是否有权访问请求的数据库";

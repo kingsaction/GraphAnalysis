@@ -10,7 +10,6 @@ import com.uniplore.graph.dsm.db.entity.NodeDataVO;
 import com.uniplore.graph.dsm.db.entity.NodeVO;
 import com.uniplore.graph.dsm.db.service.IDbService;
 
-import lombok.experimental.var;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.ietf.jgss.Oid;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,20 +30,23 @@ public class DbService implements IDbService {
     String driverName = dbPo.getDriverName();// 首先应该得到其驱动，判断究竟是何种数据库
     //System.out.println("驱动名为:" + driverName);
     String url = null;
-    String dataBaseName;
+    String dataBaseName = dbPo.getDataBaseName();
     if (driverName != null && driverName.contains("mysql")) {
-      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
-        + "?connectTimeout=3000&socketTimeout=3000"; // 设置连接超时的时间均是3s，如果3s未连接成功则直接终止连接
+      if (dataBaseName == null) {
+        url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber();
+      } else {
+        url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + "/"
+          + dataBaseName;
+      }
+      
+ 
     } else if (driverName != null && driverName.contains("postgresql")) {
-      dataBaseName = dbPo.getDataBaseName();
       url = "jdbc:postgresql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + "/" 
         + dataBaseName ;
     } else if (driverName != null && driverName.contains("pivotal")) {
-      dataBaseName = dbPo.getDataBaseName();
       url = "jdbc:pivotal:greenplum://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() 
         + ";DatabaseName=" + dataBaseName ;
     } else if (driverName != null && driverName.contains("oracle")) {
-      dataBaseName = dbPo.getDataBaseName();
       url = "jdbc:oracle:thin:@" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + ":" 
         + dataBaseName ;
     }

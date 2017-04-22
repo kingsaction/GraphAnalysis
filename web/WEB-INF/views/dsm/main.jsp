@@ -58,8 +58,8 @@
               <li><a class="waves-effect waves-light  modal-trigger" href="#modal-db-mysql">MySQL</a></li>
               <li><a class="waves-effect waves-light  modal-trigger" href="#modal-db-postgresql">PostgreSQL</a></li>
               <li><a class="waves-effect waves-light  modal-trigger" href="#modal-db-greenplum">Greenplum</a></li>
-              <li><a class="waves-effect waves-light  modal-trigger" href="#modal-db-oracle">Oracle</a></li>
-              <li><a>Microsoft SQL Server</a></li>
+              <!-- <li><a class="waves-effect waves-light  modal-trigger" href="#modal-db-oracle">Oracle</a></li> -->
+              <!-- <li><a>Microsoft SQL Server</a></li> -->
               <li><a>更多...<span class="fr">〉</span></a></li>
             </ul>
           </div>

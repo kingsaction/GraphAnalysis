@@ -9,10 +9,9 @@ import com.uniplore.graph.dsm.db.entity.NodeDataVO;
 import com.uniplore.graph.dsm.db.entity.NodeVO;
 import com.uniplore.graph.dsm.db.entity.PagingVO;
 import com.uniplore.graph.dsm.db.service.IDbService;
-
+import com.uniplore.graph.util.jdbcutils.JDBCUtils;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -27,51 +26,32 @@ public class DbService implements IDbService {
 
   @Override
   public String connectDataBase(DbPO dbPo) throws Exception {
-    // 使用JDBC连接数据库
-    String driverName = dbPo.getDriverName();// 首先应该得到其驱动，判断究竟是何种数据库
-    //System.out.println("驱动名为:" + driverName);
-    String url = null;
-    String dataBaseName = dbPo.getDataBaseName();
-    if (driverName != null && driverName.contains("mysql")) {
-      if (dataBaseName == null) {
-        url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber();
-      } else {
-        url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + "/"
-          + dataBaseName;
-        System.out.println(url);
-      }
-      
- 
-    } else if (driverName != null && driverName.contains("postgresql")) {
-      url = "jdbc:postgresql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + "/" 
-        + dataBaseName ;
-    } else if (driverName != null && driverName.contains("pivotal")) {
-      url = "jdbc:pivotal:greenplum://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() 
-        + ";DatabaseName=" + dataBaseName ;
-    } else if (driverName != null && driverName.contains("oracle")) {
-      url = "jdbc:oracle:thin:@" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber() + ":" 
-        + dataBaseName ;
-    }
-    String user = dbPo.getUserName();
-    String password = dbPo.getPassword();
     Connection connection;
     try {
-      Class.forName(driverName);
-      // 连接数据库
-      connection = DriverManager.getConnection(url, user, password);
+      connection = JDBCUtils.getConnection(dbPo);
       if (dbPo.getIpAddress().length() != 0 && connection != null) {
         connection.close();//关闭流
         return "数据库连接成功";
       }
     } catch (Exception ex) {
       String message = ex.getMessage(); // 会打印出真实的数据库连接错误信息，只包含mysql的信息，其他的数据库不能成功连接时信息很粗略
-      if (driverName.contains("mysql") && message.contains("Access denied")) {
+      System.out.println("返回的数据库连接失败的原因为:" + message);
+      if (message.contains("Access denied")) {
         return "用户名和密码无效";
       } else if (message.contains("Communications link failure")) {
         return "与数据库通信时出错，不能连接到数据库服务器，请检查服务器是否正在运行以及您是否有权访问请求的数据库";
+      } else if (message.contains("role")) {
+        return "graph_analysis";
+      } else if (message.contains("no PostgreSQL user name specified in")) {
+        return "在连接PostgreSQL数据库时没有指定相应的用户名，请您检查数据库并输入正确的用户名";
+      } else if (message.contains("pg_hba.conf")) {
+        return "对于您指定的ip地址，在文件pg_hba.conf中没有对象的实体存在，SSL off";
+      } else if (message.contains("database")) {
+        return "您指定的数据库不存在，请重新输入";
       } else {
         return "数据库连接失败";
       }
+      
     }
     return "数据库连接失败";
   }
@@ -81,17 +61,7 @@ public class DbService implements IDbService {
     //建立一数组，用于存放此ip地址下所有的数据库
     List<String> dataBaseList = new ArrayList<String>();
 
-    //使用JDBC连接数据库
-    Class.forName(dbPo.getDriverName());
-    
-    String url = null;
-    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
-      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
-        + "?connectTimeout=3000&socketTimeout=3000"; // 设置连接超时的时间均是3s，如果3s未连接成功则直接终止连接
-    }
-    // 连接数据库
-    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(),
-        dbPo.getPassword());
+    Connection connection = JDBCUtils.getConnection(dbPo);
     
     /* 功能： 连接上数据库之后，获取数据库中所有的数据库名
      * MySQL数据库必须采用getCatalogs()方法
@@ -117,18 +87,9 @@ public class DbService implements IDbService {
   @Override
   public List<String> showTable(DbPO dbPo,String dbName) throws Exception {
     List<String> tableList = new ArrayList<String>();
-    //使用JDBC连接数据库
-    Class.forName(dbPo.getDriverName());
-
-    String url = null;
-    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
-      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
-        + "/" + dbName + "?connectTimeout=3000&socketTimeout=3000";
-    }
-    //System.out.println("url为:" + url);
-    // 连接数据库
-    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
-        dbPo.getPassword());
+    
+    dbPo.setDataBaseName(dbName);
+    Connection connection = JDBCUtils.getConnection(dbPo);
     
     ResultSet tables = connection.getMetaData().getTables(null, null, "%", null);
     while (tables.next()) {
@@ -148,17 +109,10 @@ public class DbService implements IDbService {
   @Override
   public List<String> showColumn(DbPO dbPo, String dbName, String tableName) throws Exception {
     List<String> columnList = new ArrayList<String>();
-    //使用JDBC连接数据库
-    Class.forName(dbPo.getDriverName());
     
-    String url  = "";
-    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
-      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
-          + "/" + dbName  + "?connectTimeout=3000&socketTimeout=3000";
-    }
-    //System.out.println("url为:" + url);
-    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
-            dbPo.getPassword());
+    dbPo.setDataBaseName(dbName); 
+    Connection connection = JDBCUtils.getConnection(dbPo);
+    
     ResultSet columns = connection.getMetaData().getColumns(null, null, tableName, null);
     while (columns.next()) {
       String column = columns.getString("COLUMN_NAME");
@@ -181,18 +135,10 @@ public class DbService implements IDbService {
    */
   @Override
   public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
-    //首先连接数据库
-    Class.forName(dbPo.getDriverName());   //获取到数据库驱动，并连接数据库
+
+    dbPo.setDataBaseName(dbVo.getDbName());
     
-    String url = "";
-    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
-      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
-          + "/" + dbVo.getDbName()  + "?connectTimeout=3000&socketTimeout=3000";
-    }
-    //System.out.println("拼接成的url地址为:" + url);
-    
-    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
-            dbPo.getPassword());
+    Connection connection = JDBCUtils.getConnection(dbPo);
     
     //获取表中的两列
     String sourceNode = dbVo.getSourceNode();

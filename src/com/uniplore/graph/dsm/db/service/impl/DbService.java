@@ -106,18 +106,37 @@ public class DbService implements IDbService {
   
   @Override
   public List<String> showTable(DbPO dbPo,String dbName) throws Exception {
-    System.out.println("数据库为:" + dbName);
+    // System.out.println("数据库为:" + dbName);
     List<String> tableList = new ArrayList<String>();
     
     dbPo.setDataBaseName(dbName);
     Connection connection = JDBCUtils.getConnection(dbPo);
-    
-    ResultSet tables = connection.getMetaData().getTables(null, null, "%", null);
-    while (tables.next()) {
-      String table = tables.getString(3);
-      //System.out.println(table);
-      tableList.add(table);
+    if (dbPo.getDataBaseType().equals("MYSQL")) {
+      ResultSet tables = connection.getMetaData().getTables(null, null, "%", null);
+      while (tables.next()) {
+        String table = tables.getString(3);
+        //System.out.println(table);
+        tableList.add(table);
+      }
     }
+    if (dbPo.getDataBaseType().equals("POSTGRESQL") || dbPo.getDataBaseType().equals("GREENPLUM")) {
+      try {
+        PreparedStatement ps = connection   //列出指定数据库中所有的public模式下的表
+            .prepareStatement("SELECT table_name FROM information_schema.tables WHERE "
+            + "table_schema='public' ");   
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+          tableList.add(rs.getString(1));
+          System.out.println(rs.getString(1));
+        }
+        rs.close();
+        ps.close();
+
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }  
+    }
+    
     //System.out.println(tableList.size());
     if (tableList.size() != 0 ) {
       connection.close();

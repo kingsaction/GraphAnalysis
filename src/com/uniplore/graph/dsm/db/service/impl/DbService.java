@@ -273,7 +273,8 @@ public class DbService implements IDbService {
     return outString;
   }
   
-
+  
+  /*分页时采用，目的主要是填充表信息*/
   @Override
   public String paddingTableInfomation(DbPO dbPo, DbVO dbVo) throws Exception {
     //首先连接数据库
@@ -719,8 +720,8 @@ public class DbService implements IDbService {
     ResultSet set = prepareStatement.executeQuery();
     
     //构造两个HashMap，分别用来放sourceNode和targetNode
-    HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性
-    HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性
+    HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性，使用redis结构代替
+    HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性，使用redis结构代替
     StringBuffer stringBuffer = new StringBuffer();
     int countNode = (currentPage * pageCount * 2);  //点计数正确的，加入有100行记录，则最多有200个点因此采用该计数方式编号不会重合
     int countEdge = currentPage * pageCount * pageCount ; //当有100行记录时，边最多为100*100条，此时的边的编号一定不会重合，

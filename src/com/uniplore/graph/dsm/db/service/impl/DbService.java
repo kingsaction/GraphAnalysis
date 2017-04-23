@@ -33,7 +33,7 @@ public class DbService implements IDbService {
       }
     } catch (Exception ex) {
       String message = ex.getMessage(); // 会打印出真实的数据库连接错误信息，只包含mysql的信息，其他的数据库不能成功连接时信息很粗略
-      System.out.println("返回的数据库连接失败的原因为:" + message);
+      //System.out.println("返回的数据库连接失败的原因为:" + message);
       if (message.contains("Access denied")) {
         return "用户名和密码无效";
       } else if (message.contains("Communications link failure")) {

@@ -286,17 +286,7 @@ public class DbService implements IDbService {
   @Override
   public String paddingTableInfomation(DbPO dbPo, DbVO dbVo) throws Exception {
     //首先连接数据库
-    Class.forName(dbPo.getDriverName());   //获取到数据库驱动，并连接数据库
-
-    String url = "";
-    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
-      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
-        + "/" + dbVo.getDbName()  + "?connectTimeout=3000&socketTimeout=3000";
-    }
-    //System.out.println("拼接成的url地址为:" + url);
-
-    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
-        dbPo.getPassword());
+    Connection connection = JDBCUtils.getConnection(dbPo);
     
     //获取表名
     String tableName = dbVo.getTableName();
@@ -698,18 +688,7 @@ public class DbService implements IDbService {
   @Override
   public String increseGetJsonData(DbPO dbPo, DbVO dbVo, PagingVO pagingVo) throws Exception {
     // 获取到连接数据之后，得到相应的数据，该段代码中拼接的SQL应该是分页SQL
-    //首先连接数据库
-    Class.forName(dbPo.getDriverName());   //获取到数据库驱动，并连接数据库
-
-    String url = "";
-    if (dbPo.getDriverName() != null && dbPo.getDriverName().contains("mysql")) {
-      url = "jdbc:mysql://" + dbPo.getIpAddress() + ":" + dbPo.getPortNumber()
-        + "/" + dbVo.getDbName()  + "?connectTimeout=3000&socketTimeout=3000";
-    }
-    //System.out.println("拼接成的url地址为:" + url);
-
-    Connection connection = DriverManager.getConnection(url, dbPo.getUserName(), 
-        dbPo.getPassword());
+    Connection connection = JDBCUtils.getConnection(dbPo);
     
     //获取表中的两列
     String sourceNode = dbVo.getSourceNode();

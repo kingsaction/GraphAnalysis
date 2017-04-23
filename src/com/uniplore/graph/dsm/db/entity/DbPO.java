@@ -17,7 +17,6 @@ public @Data @NoArgsConstructor @AllArgsConstructor class DbPO {
   private String ipAddress;           //ip或者主机地址
   private String portNumber;          //端口号
   private String connectionName;      //连接名称，自己定
-  private String dataBaseName;       //mysql连接时不需要提供初始数据库，但是PostgreSQL和Greenplum需要
   private String userName;            //连接用户名
   private String password;            //连接密码
 }

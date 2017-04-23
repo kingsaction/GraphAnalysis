@@ -403,10 +403,8 @@
 		 var connectionName = '<%= (String) request.getParameter("connectionName")%>';
 		 var userName = '<%= (String) request.getParameter("userName")%>';
 		 var password = '<%= (String) request.getParameter("password")%>';
-		 if (dataBaseType == "GREENPLUM") {
-		     var dataBaseName = '<%= (String) request.getParameter("dataBaseName")%>';
-		     //alert("数据库名为:" + dataBaseName)
-		     $.ajax({
+		 
+		 $.ajax({
 		     url: "/graphanalysis/dsm/db/showDatabase?t=" + (new Date()).getTime(),
 		     type: "POST",
 		     dataType: "JSON",
@@ -416,7 +414,6 @@
 				"ipAddress": ipAddress,
 				"portNumber": portNumber,
 				"connectionName": connectionName,
-				"dataBaseName": dataBaseName,
 				"userName": userName,
 				"password": password,
 			},
@@ -435,36 +432,6 @@
 					alert("数据库返回错误");
 				}
 		 })
-		 }else {
-		     $.ajax({
-		     url: "/graphanalysis/dsm/db/showDatabase?t=" + (new Date()).getTime(),
-		     type: "POST",
-		     dataType: "JSON",
-		     data : {
-				"driverName" : driverName,
-				"dataBaseType" : dataBaseType,
-				"ipAddress": ipAddress,
-				"portNumber": portNumber,
-				"connectionName": connectionName,
-				"userName": userName,
-				"password": password,
-			},
-			success: function (backData){
-			     var dbNames = backData.dbNames.toString();
-			     //alert(dbNames);
-			     var arr = dbNames.split(",");   //将字符串从,处切分开
-			     var selector = $('#db_select');   //找到相应的select元素
-			     for(var i = 0 ; i < arr.length ; i++){
-			        //alert(arr[i]);   //遍历得到的字符数组
-			        selector.append('<option value="'+i+'">'+arr[i]+'</option>');  //得到的元素形式为<option value="0">information_schema</option>
-			     }
-			},
-			
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("数据库返回错误");
-				}
-		    })
-		 }
 	  })
 	</script>
 	
@@ -490,7 +457,6 @@
 			var connectionName = '<%= (String) request.getParameter("connectionName")%>';
 			var userName = '<%= (String) request.getParameter("userName")%>';
 			var password = '<%= (String) request.getParameter("password")%>';
-			//alert("选择的数据库为:" + dbName)
 	        //发送ajax请求到服务器端，得到该数据库下所有的表
 	        if(dbName != "请选择数据库"){
 	            $.ajax({

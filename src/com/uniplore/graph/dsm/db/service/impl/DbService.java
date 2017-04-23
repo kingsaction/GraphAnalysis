@@ -285,6 +285,7 @@ public class DbService implements IDbService {
   /*分页时采用，目的主要是填充表信息*/
   @Override
   public String paddingTableInfomation(DbPO dbPo, DbVO dbVo) throws Exception {
+    
     //首先连接数据库
     Connection connection = JDBCUtils.getConnection(dbPo);
     
@@ -700,6 +701,7 @@ public class DbService implements IDbService {
     Integer currentPage = pagingVo.getCurrentPage();   //第几页
     Integer pageCount = pagingVo.getPageCount();  //每页有多少数据
     
+    //该SQL语句支持MySQL和PostgreSQL
     String sql = "select " + sourceNode + "," + targetNode + " from " + tableName 
         + " LIMIT " + "" + pageCount + " OFFSET " + "" + currentPage * pageCount;   //拼接分页SQL
     System.out.println(sql);

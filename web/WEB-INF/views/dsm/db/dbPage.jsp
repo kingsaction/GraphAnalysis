@@ -806,12 +806,20 @@
 			    //当其打开时，发送ajax请求到服务器端，获取当前情况下，可能构造多少个点，可能构造多少条边
 			    //填充弹出模态框部分需要的值，需要访问数据库，获取到相应的信息
 			    var dbName = $('#db_select').find("option:selected").text(); //获取当前的选中的数据库
+			    //alert("当前选中的数据库为:" + dbName)
 			    var tableName = $('#table_select').find("option:selected").text(); //获取当前选中的表
+			    //alert("当前选中的表为:" + tableName)
 			    var sourceNode = $('#source_select').find("option:selected").text(); //获取当前选中的起始点
+			    //alert("当前选中的源点为:" + sourceNode)
 			    var targetNode = $('#target_select').find("option:selected").text(); //获取当前选中的终点
+			    //alert("当前选中的终点为:" + targetNode)
+			    
 			    var driverName =  '<%= (String) request.getParameter("driverName")%>';
+			    //alert("数据库驱动为:" + driverName)
 			    var dataBaseType = '<%= (String) request.getParameter("dataBaseType")%>';
+			    //alert("数据库类型为:" + dataBaseType)
 			    var ipAddress = '<%= (String) request.getParameter("ipAddress")%>';
+			    //alert("ip地址为:" + ipAddress)
 			    var portNumber = '<%= (String) request.getParameter("portNumber")%>';
 			    var connectionName = '<%= (String) request.getParameter("connectionName")%>';
 			    var userName = '<%= (String) request.getParameter("userName")%>';
@@ -833,9 +841,10 @@
 						  "connectionName": connectionName,
 						  "userName": userName,
 						  "password": password,
+						  "dataBaseName": dbName, 
                       },
                       success: function (backData) {
-                          //alert(typeof(backData.totalCount)); 
+                          //alert("接收到的返回值为：" + backData.totalCount); 
                           //将接受到的值设置到相应的位置
                           var totalCount = $('#total-count');
                           totalCount.html();   //先清空 
@@ -922,6 +931,7 @@
 								  "password": password,
 								  "currentPage" : i,
 								  "pageCount": pageText,
+								  "dataBaseName": dbName,
 		                      },
 		                      success: function (backData) {
 		                          //接收到部分数据后构造对象
@@ -1055,6 +1065,7 @@
 								  "password": password,
 								  "currentPage" : i,
 								  "pageCount": pageText,
+								  "dataBaseName": dbName,
 		                      },
 		                      success: function (backData) {
 								//alert("执行叠加操作");

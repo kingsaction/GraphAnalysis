@@ -686,7 +686,7 @@ public class DbService implements IDbService {
    * 版本四实现的功能: 该算法实现的也是构建图的核心算法，但是整个过程采用的是分页思想，即将数据库分页，每次只获取其中的几百行，而不是
    * 获取全部的数据库记录，由于每次请求的数据量小，所以构造字符串的速度比较快，但是在此代码中没有考虑构造的点可能会有全局重复的可能性
    * 只考虑了分页时每一页中可能重复构造点的问题，下一步将改进此算法，采用redis内存数据库作为缓存，这样便能进行全局的节点去重操作.
-   * 版本四实现存在的问题：首先没有对之前的数据进行缓存，在这里我想要全部将数据缓存到redis中。
+   * 具体的缓存结构见README.md文件中的说明
    */
   @Override
   public String increseGetJsonData(DbPO dbPo, DbVO dbVo, PagingVO pagingVo) throws Exception {

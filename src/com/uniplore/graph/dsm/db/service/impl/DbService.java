@@ -178,10 +178,13 @@ public class DbService implements IDbService {
    * 版本一实现功能:该算法是整个数据库作为数据源最重要的方法，在图中，每个小的图都是由两个点，一条边构成的，那么就需要在数据库中选出两列，在这两列上构造图，
    * 选出的这两列中的每一列都可能有很多值是重复的，对于重复的值，我们需要作为同一个点来对待，所以就需要一种数据结构来保存结果，并能快速的找到是够有
    * 重复的值存在，在此我选择了HashMap作为其数据结构，算法实现如下.该版本的代码没有实现计算节点weight的功能，其它的功能和上面两个算法都是一样的。
+   * 采用redis将已经构造好的字符串保存，当同一个ip地址在此请求相同的操作时，直接从redis中读取相应的字符串即可，这对于大数据集来说有很重要的意义
+   * 从一定程度上来说至少减少了服务器端构造字符串的时间
    */
   @Override
   public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
-
+    //连接redis数据库
+    Jedis jedis = new Jedis("192.168.101.65",6379);
     dbPo.setDataBaseName(dbVo.getDbName());
     
     Connection connection = JDBCUtils.getConnection(dbPo);
@@ -195,6 +198,11 @@ public class DbService implements IDbService {
     PreparedStatement prepareStatement = connection.prepareStatement(sql);
     ResultSet set = prepareStatement.executeQuery();
     
+    //判断当前要求的计算是否已经在前面得到过结果，如果有，则直接从redis中得到结果并返回
+    if (jedis.hexists("outStringCache", dbPo.getIpAddress() + ":" + sql)) {
+      String outString = jedis.hget("outStringCache", dbPo.getIpAddress() + ":" + sql);
+      return outString;     //如果结果已经缓存在redis中，则直接跳过繁琐的构造过程，直接从redis中取出结果即可
+    }
     //构造两个HashMap，分别用来放sourceNode和targetNode
     HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性
     HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性
@@ -280,11 +288,15 @@ public class DbService implements IDbService {
     //System.out.println("------拼接最好的结果------");
     connection.close();
     String  outString = "[" + jsonContent + "]" ;
+    //将结果缓存起来
+    String outStringCache = dbPo.getIpAddress() + ":" + sql;
+    jedis.hset("outStringCache", outStringCache, outString);
+    
     //System.out.println("点的总数为:" + countNode);
     //System.out.println("边的总数为:" + countEdge);
-    File file = new File("F:/test.json");
-    FileWriter fileWriter = new FileWriter(file);
-    fileWriter.write(outString);
+    //File file = new File("F:/test.json");
+    //FileWriter fileWriter = new FileWriter(file);
+    //fileWriter.write(outString);
     System.out.println("构造JSON字符串结束");
     return outString;
   }
@@ -716,6 +728,12 @@ public class DbService implements IDbService {
     String sql = "select " + sourceNode + "," + targetNode + " from " + tableName 
         + " LIMIT " + "" + pageText + " OFFSET " + "" + currentPage * pageText;   //拼接分页SQL
     System.out.println(sql);   //输出当前执行的SQL语句
+    
+    //判断是否已经缓存了该SQL语句的结果，如果缓存了，则直接返回字符串
+    if (jedis.hexists("outStringCache", dbPo.getIpAddress() + ":" + sql)) {
+      String outString = jedis.hget("outStringCache", dbPo.getIpAddress() + ":" + sql);
+      return outString;
+    }
     PreparedStatement prepareStatement = connection.prepareStatement(sql);
     ResultSet set = prepareStatement.executeQuery();
     
@@ -840,10 +858,15 @@ public class DbService implements IDbService {
     String outString = "[" + jsonContent + "]" ;
     //System.out.println(outString);
     connection.close();
-    File file = new File("F:/test.json");
-    FileWriter fileWriter = new FileWriter(file);
-    fileWriter.write(outString);
+    //File file = new File("F:/test.json");
+    //FileWriter fileWriter = new FileWriter(file);
+    //fileWriter.write(outString);
     System.out.println("构造JSON字符串结束");
+    
+    //实际上当数据量大时，每次构造字符串也是浪费很多的时间，所以最好是将最后狗够成的字符串缓存起来供下次使用
+    //构造一个缓存key，只要是同一个ip，并且SQL语句一样，则直接跳过上面的构造，直接从数据库中返回结果
+    String outStingCache = dbPo.getIpAddress() + ":" + sql ;   //拼接成一个唯一的key
+    jedis.hset("outStringCache", outStingCache, outString);    //将结果缓存到数据库中
     return outString;
   }
 }

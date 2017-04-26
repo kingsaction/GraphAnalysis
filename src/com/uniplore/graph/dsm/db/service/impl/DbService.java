@@ -13,6 +13,8 @@ import com.uniplore.graph.util.jdbcutils.JDBCUtils;
 
 import redis.clients.jedis.Jedis;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -131,7 +133,7 @@ public class DbService implements IDbService {
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
           tableList.add(rs.getString(1));
-          System.out.println(rs.getString(1));
+          //System.out.println(rs.getString(1));
         }
         rs.close();
         ps.close();
@@ -278,8 +280,12 @@ public class DbService implements IDbService {
     //System.out.println("------拼接最好的结果------");
     connection.close();
     String  outString = "[" + jsonContent + "]" ;
-    System.out.println("点的总数为:" + countNode);
-    System.out.println("边的总数为:" + countEdge);
+    //System.out.println("点的总数为:" + countNode);
+    //System.out.println("边的总数为:" + countEdge);
+    File file = new File("F:/test.json");
+    FileWriter fileWriter = new FileWriter(file);
+    fileWriter.write(outString);
+    System.out.println("构造JSON字符串结束");
     return outString;
   }
   
@@ -689,7 +695,7 @@ public class DbService implements IDbService {
    * 具体的缓存结构见README.md文件中的说明
    */
   @Override
-  public String increseGetJsonData(DbPO dbPo, DbVO dbVo, PagingVO pagingVo) throws Exception {
+  public synchronized String increseGetJsonData(DbPO dbPo, DbVO dbVo, PagingVO pagingVo) throws Exception {
     //连接redis缓存数据库
     Jedis jedis = new Jedis("192.168.101.65",6379);
 
@@ -709,7 +715,7 @@ public class DbService implements IDbService {
     //该SQL语句支持MySQL和PostgreSQL
     String sql = "select " + sourceNode + "," + targetNode + " from " + tableName 
         + " LIMIT " + "" + pageCount + " OFFSET " + "" + currentPage * pageCount;   //拼接分页SQL
-    System.out.println(sql);
+    System.out.println(sql);   //输出当前执行的SQL语句
     PreparedStatement prepareStatement = connection.prepareStatement(sql);
     ResultSet set = prepareStatement.executeQuery();
     
@@ -815,6 +821,10 @@ public class DbService implements IDbService {
     //System.out.println("------拼接最好的结果------");
     String outString = "[" + jsonContent + "]" ;
     connection.close();
+    File file = new File("F:/test.json");
+    FileWriter fileWriter = new FileWriter(file);
+    fileWriter.write(outString);
+    System.out.println("构造JSON字符串结束");
     return outString;
   }
 }

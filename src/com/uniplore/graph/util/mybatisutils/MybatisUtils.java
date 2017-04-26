@@ -181,5 +181,6 @@ public class MybatisUtils implements DataSourceFactory {
     
     // 参考资料 http://stackoverflow.com/questions/22517318/cant-find-some-mybatis-classes-to-import-in-getting-started-guide
     // mybatis中获取session http://www.programcreek.com/java-api-examples/index.php?class=org.apache.ibatis.session.SqlSession&method=getConnection
+    // Druidp配置，不适用Spring，使用Java代码实现 http://www.itdadao.com/articles/c15a617684p0.html
   }
 }

@@ -9,12 +9,11 @@ import com.uniplore.graph.dsm.db.entity.NodeDataVO;
 import com.uniplore.graph.dsm.db.entity.NodeVO;
 import com.uniplore.graph.dsm.db.entity.PagingVO;
 import com.uniplore.graph.dsm.db.service.IDbService;
-import com.uniplore.graph.util.jdbcutils.JDBCUtils;
+//import com.uniplore.graph.util.jdbcutils.JDBCUtils;   //不再采用JDBC连接
+import com.uniplore.graph.util.mybatisutils.MybatisUtils;
 
-import redis.clients.jedis.Jedis;
-
-import java.io.File;
-import java.io.FileWriter;
+//import java.io.File;
+//import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,6 +23,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import redis.clients.jedis.Jedis;
+
+
 
 @Service
 public class DbService implements IDbService {
@@ -32,7 +34,8 @@ public class DbService implements IDbService {
   public String connectDataBase(DbPO dbPo) throws Exception {
     Connection connection;
     try {
-      connection = JDBCUtils.getConnection(dbPo);
+      //connection = JDBCUtils.getConnection(dbPo);
+      connection = MybatisUtils.getConnection(dbPo);
       if (dbPo.getIpAddress().length() != 0 && connection != null) {
         connection.close();//关闭流
         return "数据库连接成功";
@@ -65,7 +68,8 @@ public class DbService implements IDbService {
     //建立一数组，用于存放此ip地址下所有的数据库
     List<String> dataBaseList = new ArrayList<String>();
 
-    Connection connection = JDBCUtils.getConnection(dbPo);
+    //Connection connection = JDBCUtils.getConnection(dbPo);
+    Connection connection = MybatisUtils.getConnection(dbPo);
     
     /* 功能： 连接上数据库之后，获取数据库中所有的数据库名
      * MySQL数据库必须采用getCatalogs()方法
@@ -116,7 +120,9 @@ public class DbService implements IDbService {
     List<String> tableList = new ArrayList<String>();
     
     dbPo.setDataBaseName(dbName);
-    Connection connection = JDBCUtils.getConnection(dbPo);
+    //Connection connection = JDBCUtils.getConnection(dbPo);
+    Connection connection = MybatisUtils.getConnection(dbPo);
+    
     if (dbPo.getDataBaseType().equals("MYSQL")) {
       ResultSet tables = connection.getMetaData().getTables(null, null, "%", null);
       while (tables.next()) {
@@ -157,8 +163,8 @@ public class DbService implements IDbService {
     List<String> columnList = new ArrayList<String>();
     
     dbPo.setDataBaseName(dbName); 
-    Connection connection = JDBCUtils.getConnection(dbPo);
-    
+    //Connection connection = JDBCUtils.getConnection(dbPo);
+    Connection connection = MybatisUtils.getConnection(dbPo);
     ResultSet columns = connection.getMetaData().getColumns(null, null, tableName, null);
     while (columns.next()) {
       String column = columns.getString("COLUMN_NAME");
@@ -187,8 +193,8 @@ public class DbService implements IDbService {
     Jedis jedis = new Jedis("192.168.101.65",6379);
     dbPo.setDataBaseName(dbVo.getDbName());
     
-    Connection connection = JDBCUtils.getConnection(dbPo);
-    
+    //Connection connection = JDBCUtils.getConnection(dbPo);
+    Connection connection = MybatisUtils.getConnection(dbPo);
     //获取表中的两列
     String sourceNode = dbVo.getSourceNode();
     String targetNode = dbVo.getTargetNode();
@@ -307,8 +313,8 @@ public class DbService implements IDbService {
   public String paddingTableInfomation(DbPO dbPo, DbVO dbVo) throws Exception {
     
     //首先连接数据库
-    Connection connection = JDBCUtils.getConnection(dbPo);
-    
+    //Connection connection = JDBCUtils.getConnection(dbPo);
+    Connection connection = MybatisUtils.getConnection(dbPo);
     //获取表名
     String tableName = dbVo.getTableName();
     String sql = "select " + " count(*) " + " AS totalCount " + " from " + tableName;   //统计行数
@@ -712,8 +718,8 @@ public class DbService implements IDbService {
     Jedis jedis = new Jedis("192.168.101.65",6379);
 
     // 获取到连接数据之后，得到相应的数据，该段代码中拼接的SQL应该是分页SQL
-    Connection connection = JDBCUtils.getConnection(dbPo);
-    
+    //Connection connection = JDBCUtils.getConnection(dbPo);
+    Connection connection = MybatisUtils.getConnection(dbPo);
     //获取表中的两列
     String sourceNode = dbVo.getSourceNode();
     String targetNode = dbVo.getTargetNode();

@@ -9,6 +9,7 @@ import com.uniplore.graph.dsm.db.entity.NodeDataVO;
 import com.uniplore.graph.dsm.db.entity.NodeVO;
 import com.uniplore.graph.dsm.db.service.IDbService;
 import com.uniplore.graph.util.jdbcutils.JDBCUtils;
+import com.uniplore.graph.util.mybatisutils.MybatisUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +27,8 @@ public class DbService implements IDbService {
   public String connectDataBase(DbPO dbPo) throws Exception {
     Connection connection;
     try {
-      connection = JDBCUtils.getConnection(dbPo);
+      //connection = JDBCUtils.getConnection(dbPo);
+      connection = MybatisUtils.getConnection(dbPo);
       if (dbPo.getIpAddress().length() != 0 && connection != null) {
         connection.close();//关闭流
         return "数据库连接成功";
@@ -59,8 +61,8 @@ public class DbService implements IDbService {
     //建立一数组，用于存放此ip地址下所有的数据库
     List<String> dataBaseList = new ArrayList<String>();
 
-    Connection connection = JDBCUtils.getConnection(dbPo);
-    
+    //Connection connection = JDBCUtils.getConnection(dbPo);
+    Connection connection = MybatisUtils.getConnection(dbPo);
     /* 功能： 连接上数据库之后，获取数据库中所有的数据库名
      * MySQL数据库必须采用getCatalogs()方法
      * 但是对于其他的数据库，采用的是getSchemas()方法

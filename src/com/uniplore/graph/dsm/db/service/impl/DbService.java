@@ -695,7 +695,8 @@ public class DbService implements IDbService {
    * 具体的缓存结构见README.md文件中的说明
    */
   @Override
-  public synchronized String increseGetJsonData(DbPO dbPo, DbVO dbVo, PagingVO pagingVo) throws Exception {
+  public synchronized String increseGetJsonData(DbPO dbPo, DbVO dbVo, PagingVO pagingVo) 
+      throws Exception {
     //连接redis缓存数据库
     Jedis jedis = new Jedis("192.168.101.65",6379);
 

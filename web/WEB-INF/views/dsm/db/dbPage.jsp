@@ -884,7 +884,7 @@
 			       //获取每一页数据条数
 			       var pageTextString = $('#page-text').val();   //pageTextString为String类型
 			       //alert(pageTextString);
-			       var pageText = Number(pageTextString);   //获取到每一页的数据条数，pageText为整型
+			       var pageText = Number(pageTextString);   //获取到每一页的包含的记录数
 			       //alert(typeof(pageText));
 			       //alert(pageText);
 			       //判断
@@ -930,7 +930,7 @@
 								  "userName": userName,
 								  "password": password,
 								  "currentPage" : i,
-								  "pageCount": pageText,
+								  "pageText": pageText,
 								  "dataBaseName": dbName,
 		                      },
 		                      success: function (backData) {
@@ -1064,7 +1064,7 @@
 								  "userName": userName,
 								  "password": password,
 								  "currentPage" : i,
-								  "pageCount": pageText,
+								  "pageText": pageText,
 								  "dataBaseName": dbName,
 		                      },
 		                      success: function (backData) {

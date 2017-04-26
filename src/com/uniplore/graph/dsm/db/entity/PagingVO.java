@@ -12,5 +12,5 @@ import lombok.ToString;
  */
 public @ToString @Data @NoArgsConstructor @AllArgsConstructor class PagingVO {
   private Integer currentPage ;  //当前页，当分页时，该变量表示当前是哪一页
-  private Integer pageCount;     //查询返回的行数，也就是每一页包含多少行数据
+  private Integer pageText;     //查询返回的行数，也就是每一页包含多少行数据
 }

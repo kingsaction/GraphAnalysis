@@ -689,10 +689,9 @@ public class DbService implements IDbService {
   } */
   
   /**
-   * 版本四实现的功能: 该算法实现的也是构建图的核心算法，但是整个过程采用的是分页思想，即将数据库分页，每次只获取其中的几百行，而不是
-   * 获取全部的数据库记录，由于每次请求的数据量小，所以构造字符串的速度比较快，但是在此代码中没有考虑构造的点可能会有全局重复的可能性
-   * 只考虑了分页时每一页中可能重复构造点的问题，下一步将改进此算法，采用redis内存数据库作为缓存，这样便能进行全局的节点去重操作.
-   * 具体的缓存结构见README.md文件中的说明
+   * 版本四实现的功能: 该算法实现的也是构建图的核心算法，但是整个过程采用的是分页思想，即将数据库分页，每次只获取其中的一部分行(由用户指定)，而不是
+   * 获取全部的数据库记录，由于每次请求的数据量小，所以构造字符串的速度比较快(提高后台构造字符串的速度)，
+   * 采用redis内存数据库作为缓存，这样便能进行全局的节点去重操作.
    */
   @Override
   public synchronized String increseGetJsonData(DbPO dbPo, DbVO dbVo, PagingVO pagingVo) 
@@ -711,11 +710,11 @@ public class DbService implements IDbService {
     
     //获取分页数据信息
     Integer currentPage = pagingVo.getCurrentPage();   //第几页
-    Integer pageCount = pagingVo.getPageCount();  //每页有多少数据
+    Integer pageText = pagingVo.getPageText();  //每页有多少数据
     
     //该SQL语句支持MySQL和PostgreSQL
     String sql = "select " + sourceNode + "," + targetNode + " from " + tableName 
-        + " LIMIT " + "" + pageCount + " OFFSET " + "" + currentPage * pageCount;   //拼接分页SQL
+        + " LIMIT " + "" + pageText + " OFFSET " + "" + currentPage * pageText;   //拼接分页SQL
     System.out.println(sql);   //输出当前执行的SQL语句
     PreparedStatement prepareStatement = connection.prepareStatement(sql);
     ResultSet set = prepareStatement.executeQuery();
@@ -723,13 +722,15 @@ public class DbService implements IDbService {
     //构造两个HashMap，分别用来放sourceNode和targetNode
     //HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性，使用redis结构代替
     //HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性，使用redis结构代替
-    //构造两个字符串，这两个字符串分别表示构造成的sourceNode和构造成的targetNode
-    String sourceNodeKey =  null;
-    String targetNodeKey =  null;
-    StringBuffer stringBuffer = new StringBuffer();
     
-    int countNode = (currentPage * pageCount * 2);  //点计数正确的，加入有100行记录，则最多有200个点因此采用该计数方式编号不会重合
-    int countEdge = currentPage * pageCount * pageCount ; //当有100行记录时，边最多为100*100条，此时的边的编号一定不会重合，
+    //构造两个字符串，这两个字符串分别表示构造成的sourceNode和构造成的targetNode
+    String sourceNodeKey =  null;    //存放在redis中key
+    String targetNodeKey =  null;
+    //StringBuffer stringBuffer = new StringBuffer();
+    StringBuilder stringBuilder = new  StringBuilder();
+    
+    int countNode = (currentPage * pageText * 2);  //点计数正确的，加入有100行记录，则最多有200个点因此采用该计数方式编号不会重合
+    int countEdge = currentPage * pageText * pageText ; //当有100行记录时，边最多为100*100条，此时的边的编号一定不会重合，
                                                           //按照这样的计算，每页最多可有大约40000条记录，远远超出系统可表示范围
     while (set.next()) {  /*经过该部分测试可以知道，当前返回的数据是一行行的返回的*/
       //***************************************节点一处理.******************************************
@@ -743,11 +744,11 @@ public class DbService implements IDbService {
       
       if (node1 != null) {
         sourceNodeKey = "sourceNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
-          + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + dbVo.getSourceNode() 
-            + node1;
+          + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + dbVo.getSourceNode()
+            + ":" + node1;
         //判断node1的键知否已经被包含在mapSourceNode中
         //if (mapSourceNode.containsKey(node1)) {
-        if (jedis.hexists("sourceNode", sourceNodeKey)) {
+        if (jedis.hexists("sourceNode", sourceNodeKey)) {  //不必再构造该点
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化，也不需要将该数据再次加入到StringBuffer中
           //得到该key下的value值，也就是id值
           //nodeID1 = (String)mapSourceNode.get(node1);  //根据其key获取value的值
@@ -755,6 +756,12 @@ public class DbService implements IDbService {
           data1 = new NodeDataVO(nodeID1,node1,1);
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
+          /* if (!(stringBuffer.toString().contains(jsonString1))) {
+           stringBuffer.append(jsonString1);
+          }*/
+          if (!(stringBuilder.toString().contains(jsonString1))) {
+            stringBuilder.append(jsonString1);
+          }
           //mapSourceNode.put(node1, nodeID1);
         } else {
           //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
@@ -766,7 +773,8 @@ public class DbService implements IDbService {
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
           //mapSourceNode.put(node1, nodeID1);
           jedis.hset("sourceNode", sourceNodeKey, nodeID1);
-          stringBuffer.append(jsonString1 + ",");   //将该数据追加到输出中
+          //stringBuffer.append(jsonString1 + ",");   //将该数据追加到输出中
+          stringBuilder.append(jsonString1 + ",");
         }
       }
       //***************************************节点二处理.******************************************
@@ -775,13 +783,13 @@ public class DbService implements IDbService {
       if (node2 != null) {
         targetNodeKey = "targetNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
           + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + dbVo.getSourceNode() 
-            + node2;
+            + ":" + node2;
         //targetNode的属性值
         NodeDataVO data2 = null;
         String jsonString2 = null;
         //判断node1的键知否已经被包含在mapSourceNode中
         //if (mapTargetNode.containsKey(node2)) {
-        if (jedis.hexists("targetNode", sourceNodeKey)) {
+        if (jedis.hexists("targetNode", targetNodeKey)) {
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化
           //得到该key下的value值，也就是id值
           //nodeID2 = (String)mapTargetNode.get(node2);  //根据其key获取value的值
@@ -790,6 +798,12 @@ public class DbService implements IDbService {
           NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
           //mapTargetNode.put(node2, nodeID2);
+          /*if (!(stringBuffer.toString().contains(jsonString2))) {
+            stringBuffer.append(jsonString2);
+          }*/
+          if (!(stringBuilder.toString().contains(jsonString2))) {
+            stringBuilder.append(jsonString2);
+          }
         } else {
           //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
           countNode++;
@@ -800,7 +814,8 @@ public class DbService implements IDbService {
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
           //mapTargetNode.put(node2, nodeID2);
           jedis.hset("targetNode", targetNodeKey, nodeID2);
-          stringBuffer.append(jsonString2 + ",");  //将该数据追加到输出中
+          //stringBuffer.append(jsonString2 + ",");  //将该数据追加到输出中
+          stringBuilder.append(jsonString2 + ",");
         }
       }
       //***************************************边处理.******************************************
@@ -814,13 +829,16 @@ public class DbService implements IDbService {
         EdgeDataVO data3 = new EdgeDataVO(edgeID1, nodeID1, nodeID2, 1);
         EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
         String jsonString3 = JSON.toJSONString(edgeVo);
-        stringBuffer.append(jsonString3 + ",");  //将该数据追加到输出中
+        //stringBuffer.append(jsonString3 + ",");  //将该数据追加到输出中
+        stringBuilder.append(jsonString3 + ",");  //将该数据追加到输出中
       }
     }
-    String jsonContent = stringBuffer.toString();
+    //String jsonContent = stringBuffer.toString();
+    String jsonContent = stringBuilder.toString();
     //拼接成最后的结果
     //System.out.println("------拼接最好的结果------");
     String outString = "[" + jsonContent + "]" ;
+    //System.out.println(outString);
     connection.close();
     File file = new File("F:/test.json");
     FileWriter fileWriter = new FileWriter(file);

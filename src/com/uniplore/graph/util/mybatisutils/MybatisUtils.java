@@ -1,7 +1,6 @@
 package com.uniplore.graph.util.mybatisutils;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.uniplore.graph.dsm.db.entity.DbPO;
 import java.sql.Connection;
 import java.util.Properties;
@@ -20,25 +19,24 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 
 public class MybatisUtils implements DataSourceFactory {
-  private Properties properties;
+  private Properties properties;   //初始化的配置参数，包括数据库用户名、数据库密码、数据库用户名、数据库url
   
   @Override
   public DataSource getDataSource() {
-    /* MyBatis自带的数据库连接池
-    PooledDataSource pooledDataSource = new PooledDataSource();
-    pooledDataSource.setDriver(properties.getProperty("driverName"));
-    pooledDataSource.setUrl(properties.getProperty("url"));
-    pooledDataSource.setUsername(properties.getProperty("userName"));
-    pooledDataSource.setPassword(properties.getProperty("password"));
-    return pooledDataSource;
-    */
-    //阿里巴巴druid连接池
-    DruidDataSource druidDataSource = new DruidDataSource();
-    druidDataSource.setDriverClassName(properties.getProperty("driverName"));
-    druidDataSource.setUrl(properties.getProperty("url"));
-    druidDataSource.setUsername(properties.getProperty("userName"));
-    druidDataSource.setPassword(properties.getProperty("password"));
-    return druidDataSource;
+    //MyBatis自带的数据库连接池
+    //PooledDataSource dataSource = new PooledDataSource();
+    //dataSource.setDriver(properties.getProperty("driverName"));
+    //dataSource.setUrl(properties.getProperty("url"));
+    //dataSource.setUsername(properties.getProperty("userName"));
+    //dataSource.setPassword(properties.getProperty("password"));
+    //return dataSource;
+    
+    //本例采用阿里巴巴druid连接池，当然你也可以采用c3p0、DBCP等连接池，但是Druid的性能最好
+    DruidDataSource dataSource = new DruidDataSource();
+    dataSource.setDriverClassName(properties.getProperty("driverName"));
+    dataSource.setUrl(properties.getProperty("url"));
+    dataSource.setUsername(properties.getProperty("userName"));
+    return dataSource;
     
   }
 

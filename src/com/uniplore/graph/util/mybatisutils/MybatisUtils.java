@@ -1,5 +1,7 @@
 package com.uniplore.graph.util.mybatisutils;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.uniplore.graph.dsm.db.entity.DbPO;
 import java.sql.Connection;
 import java.util.Properties;
@@ -22,12 +24,22 @@ public class MybatisUtils implements DataSourceFactory {
   
   @Override
   public DataSource getDataSource() {
+    /* MyBatis自带的数据库连接池
     PooledDataSource pooledDataSource = new PooledDataSource();
     pooledDataSource.setDriver(properties.getProperty("driverName"));
     pooledDataSource.setUrl(properties.getProperty("url"));
     pooledDataSource.setUsername(properties.getProperty("userName"));
     pooledDataSource.setPassword(properties.getProperty("password"));
     return pooledDataSource;
+    */
+    //阿里巴巴druid连接池
+    DruidDataSource druidDataSource = new DruidDataSource();
+    druidDataSource.setDriverClassName(properties.getProperty("driverName"));
+    druidDataSource.setUrl(properties.getProperty("url"));
+    druidDataSource.setUsername(properties.getProperty("userName"));
+    druidDataSource.setPassword(properties.getProperty("password"));
+    return druidDataSource;
+    
   }
 
   @Override
@@ -81,10 +93,10 @@ public class MybatisUtils implements DataSourceFactory {
     Environment environment = new Environment("development", transactionFactory, dataSource);
     Configuration config = new Configuration(environment);
     SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-    SqlSession sesssion = sqlSessionFactory.openSession();
+    SqlSession session = sqlSessionFactory.openSession();
     Connection connection = null;
     try {
-      connection = sesssion.getConnection();
+      connection = session.getConnection();
     } catch (Exception ex) {
       throw new RuntimeException(ex.getMessage());
     }

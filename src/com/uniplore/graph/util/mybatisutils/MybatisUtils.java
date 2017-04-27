@@ -140,47 +140,4 @@ public class MybatisUtils implements DataSourceFactory {
     SqlSession sesssion = sqlSessionFactory.openSession();
     return sesssion;
   }
-  
-  /**
-   * 功能: 测试上述代码是否能够正常工作.
-   * @param args  主函数参数
-   */
-  public static void main(String[] args) {
-    Properties prop = new Properties();
-    prop.setProperty("driverName", "com.mysql.jdbc.Driver");
-    prop.setProperty("url", "jdbc:mysql://192.168.100.172:3306");
-    prop.setProperty("userName", "root");
-    prop.setProperty("password", "mysql");
-    
-    
-    /*
-    MybatisUtils mybatisUtils = new MybatisUtils();
-    mybatisUtils.setProperties(prop);
-    DataSource dataSource = mybatisUtils.getDataSource();*/
-    /*try {
-      connection = dataSource.getConnection();
-      System.out.println(connection);
-    } catch (SQLException ex) {
-      String message = ex.getMessage();
-      System.out.println(message);
-    }*/
-    //System.out.println(dataSource == null ? "dataSource为空" : "dataSource不为空") ;
-    /*TransactionFactory transactionFactory = new JdbcTransactionFactory();
-    Environment environment = new Environment("development", transactionFactory, dataSource);
-    Configuration configuration = new Configuration(environment);
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-    SqlSession session = sqlSessionFactory.openSession();
-    System.out.println("session:" + session);
-    try {
-      Connection connection = session.getConnection();
-      System.out.println(connection);
-    } catch (Exception ex) {
-      String message = ex.getMessage();
-      System.out.println(message);
-    }*/
-    
-    // 参考资料 http://stackoverflow.com/questions/22517318/cant-find-some-mybatis-classes-to-import-in-getting-started-guide
-    // mybatis中获取session http://www.programcreek.com/java-api-examples/index.php?class=org.apache.ibatis.session.SqlSession&method=getConnection
-    // Druidp配置，不适用Spring，使用Java代码实现 http://www.itdadao.com/articles/c15a617684p0.html
-  }
 }

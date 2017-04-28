@@ -181,14 +181,18 @@ public class DbService implements IDbService {
   }
 
   /**
-   * 版本一实现功能:该算法是整个数据库作为数据源最重要的方法，在图中，每个小的图都是由两个点，一条边构成的，那么就需要在数据库中选出两列，在这两列上构造图，
+   * 2016/12 ~ 2017/4/26版本一实现功能:该算法是整个数据库作为数据源最重要的方法，在图中，每个小的图都是由两个点，一条边构成的，那么就需要在数据库中选出两列，在这两列上构造图，
    * 选出的这两列中的每一列都可能有很多值是重复的，对于重复的值，我们需要作为同一个点来对待，所以就需要一种数据结构来保存结果，并能快速的找到是够有
    * 重复的值存在，在此我选择了HashMap作为其数据结构，算法实现如下.该版本的代码没有实现计算节点weight的功能，其它的功能和上面两个算法都是一样的。
    * 采用redis将已经构造好的字符串保存，当同一个ip地址在此请求相同的操作时，直接从redis中读取相应的字符串即可，这对于大数据集来说有很重要的意义
    * 从一定程度上来说至少减少了服务器端构造字符串的时间
+   * 2017/4/27 对版本一构造图的算法进行修改，修改的内容为: 在构造图的算法中，会要求用户指定两列，之前版本一的处理是对于不同的两列，如果其中
+   * 每一列出现相同的值，那么不会重新构造，研究Cytoscape的生成图算法，发现: 当两列中任意一列与另外的一列有重复也不会去构造，算法修改的部分很简单
+   * 首先需要重新设计redis缓存结构，在hash的key中不再标记列名，其它的部分不发生变化
    */
   @Override
   public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
+    System.out.println("进入到新构造的算法中");
     //连接redis数据库
     Jedis jedis = new Jedis("192.168.101.65",6379);
     dbPo.setDataBaseName(dbVo.getDbName());
@@ -204,15 +208,20 @@ public class DbService implements IDbService {
     PreparedStatement prepareStatement = connection.prepareStatement(sql);
     ResultSet set = prepareStatement.executeQuery();
     
-    //判断当前要求的计算是否已经在前面得到过结果，如果有，则直接从redis中得到结果并返回
+    //判断当前要求的计算是否已经在前面得到过结果，如果有，则直接从redis中得到结果并返回，这里实际上存在问题:
+    //当数据库中的数据发生变化，实际上在构造图的过程中是不会反应出这种更新的，这与分析本身有关，OLAP的分析本身就
+    //数据就是不会被更新的，这和流计算等有明显的差异
     if (jedis.hexists("outStringCache", dbPo.getIpAddress() + ":" + sql)) {
       String outString = jedis.hget("outStringCache", dbPo.getIpAddress() + ":" + sql);
       return outString;     //如果结果已经缓存在redis中，则直接跳过繁琐的构造过程，直接从redis中取出结果即可
     }
     //构造两个HashMap，分别用来放sourceNode和targetNode
-    HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性
-    HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性
-    StringBuffer stringBuffer = new StringBuffer();
+    //HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性
+    //HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性
+    String sourceNodeKey = null;
+    String targetNodeKey = null;
+    //StringBuffer stringBuffer = new StringBuffer();
+    StringBuilder stringBuilder = new StringBuilder();   //用非线程阻塞的StringBuilder，效率更高
     int countNode = 0;  //点计数
     int countEdge = 0 ; //边计数
     while (set.next()) {  /*经过该部分测试可以知道，当前返回的数据是一行行的返回的*/
@@ -225,16 +234,24 @@ public class DbService implements IDbService {
       NodeDataVO data1 = null;
       String jsonString1 = null;
       
-      if (node1 != null) { 
+      if (node1 != null) {
+        sourceNodeKey = "sourceNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
+          + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + dbVo.getSourceNode()
+            + ":" + node1;
         //判断node1的键知否已经被包含在mapSourceNode中
-        if (mapSourceNode.containsKey(node1)) {
+        /*if (mapSourceNode.containsKey(node1)) {*/
+        if (jedis.hexists("sourceNode", sourceNodeKey)) {
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化，也不需要将该数据再次加入到StringBuffer中
           //得到该key下的value值，也就是id值
-          nodeID1 = (String)mapSourceNode.get(node1);  //根据其key获取value的值
+          //nodeID1 = (String)mapSourceNode.get(node1);  //根据其key获取value的值
+          nodeID1 = jedis.hget("sourceNode", sourceNodeKey);  //根据其key获取value的值
           data1 = new NodeDataVO(nodeID1,node1,1);
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
-          mapSourceNode.put(node1, nodeID1);
+          //mapSourceNode.put(node1, nodeID1);
+          if (!(stringBuilder.toString().contains(jsonString1))) {
+            stringBuilder.append(jsonString1);
+          }
         } else {
           //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
           countNode++;
@@ -243,26 +260,35 @@ public class DbService implements IDbService {
           data1 = new NodeDataVO(nodeID1, node1, 1);
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
-          mapSourceNode.put(node1, nodeID1);
-          stringBuffer.append(jsonString1 + ",");   //将该数据追加到输出中
+          //mapSourceNode.put(node1, nodeID1);   
+          jedis.hset("sourceNode", sourceNodeKey, nodeID1); //将NodeID1加入到redis缓存中
+          stringBuilder.append(jsonString1 + ",");   //将该数据追加到输出中
         }
       }
       //***************************************节点二处理.******************************************
       
       String nodeID2 = null;
       if (node2 != null) {
+        targetNodeKey = "targetNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
+          + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + dbVo.getSourceNode()
+            + ":" + node2;
         //targetNode的属性值
         NodeDataVO data2 = null;
         String jsonString2 = null;
         //判断node1的键知否已经被包含在mapSourceNode中
-        if (mapTargetNode.containsKey(node2)) {
+        /*if (mapTargetNode.containsKey(node2)) {*/
+        if (jedis.hexists("targetNode", targetNodeKey)) {
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化
           //得到该key下的value值，也就是id值
-          nodeID2 = (String)mapTargetNode.get(node2);  //根据其key获取value的值
+          //nodeID2 = (String)mapTargetNode.get(node2);  //根据其key获取value的值
+          nodeID2 = jedis.hget("targetNode", targetNodeKey); //根据其key获取value的值
           data2 = new NodeDataVO(nodeID2,node2,1);
           NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
-          mapTargetNode.put(node2, nodeID2);
+          //mapTargetNode.put(node2, nodeID2);
+          if (!(stringBuilder.toString().contains(jsonString2))) {
+            stringBuilder.append(jsonString2);
+          }
         } else {
           //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
           countNode++;
@@ -271,8 +297,9 @@ public class DbService implements IDbService {
           data2 = new NodeDataVO(nodeID2, node2, 1);
           NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
-          mapTargetNode.put(node2, nodeID2);
-          stringBuffer.append(jsonString2 + ",");  //将该数据追加到输出中
+          //mapTargetNode.put(node2, nodeID2);
+          jedis.hset("targetNode", targetNodeKey, nodeID2);
+          stringBuilder.append(jsonString2 + ",");  //将该数据追加到输出中
         }
       }
       //***************************************边处理.******************************************
@@ -286,10 +313,10 @@ public class DbService implements IDbService {
         EdgeDataVO data3 = new EdgeDataVO(edgeID1, nodeID1, nodeID2, 1);
         EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
         String jsonString3 = JSON.toJSONString(edgeVo);
-        stringBuffer.append(jsonString3 + ",");  //将该数据追加到输出中
+        stringBuilder.append(jsonString3 + ",");  //将该数据追加到输出中
       }
     }
-    String jsonContent = stringBuffer.toString();
+    String jsonContent = stringBuilder.toString();
     //拼接成最后的结果
     //System.out.println("------拼接最好的结果------");
     connection.close();

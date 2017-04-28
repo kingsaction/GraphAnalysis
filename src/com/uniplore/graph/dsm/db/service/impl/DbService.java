@@ -749,6 +749,9 @@ public class DbService implements IDbService {
    * 版本四实现的功能: 该算法实现的也是构建图的核心算法，但是整个过程采用的是分页思想，即将数据库分页，每次只获取其中的一部分行(由用户指定)，而不是
    * 获取全部的数据库记录，由于每次请求的数据量小，所以构造字符串的速度比较快(提高后台构造字符串的速度)，
    * 采用redis内存数据库作为缓存，这样便能进行全局的节点去重操作.
+   * 2017/4/28 上午 对版本一构造图的算法进行修改，修改的内容为: 在构造图的算法中，会要求用户指定两列，之前版本一的处理是对于不同的两列，如果其中
+   * 每一列出现相同的值，那么不会重新构造，研究Cytoscape的生成图算法，发现: 当两列中任意一列与另外的一列有重复也不会去构造，算法修改的部分很简单
+   * 首先需要重新设计redis缓存结构，在hash的key中不再标记列名，其它的部分不发生变化
    */
   @Override
   public synchronized String increseGetJsonData(DbPO dbPo, DbVO dbVo, PagingVO pagingVo) 
@@ -774,11 +777,11 @@ public class DbService implements IDbService {
         + " LIMIT " + "" + pageText + " OFFSET " + "" + currentPage * pageText;   //拼接分页SQL
     System.out.println(sql);   //输出当前执行的SQL语句
     
-    //判断是否已经缓存了该SQL语句的结果，如果缓存了，则直接返回字符串
-    if (jedis.hexists("outStringCache", dbPo.getIpAddress() + ":" + sql)) {
+    //判断是否已经缓存了该SQL语句的结果，如果缓存了，则直接返回字符串，注释掉读缓存的版本，这样直接从缓存中读出结果会加重浏览器解析字符串的负担
+    /*if (jedis.hexists("outStringCache", dbPo.getIpAddress() + ":" + sql)) {
       String outString = jedis.hget("outStringCache", dbPo.getIpAddress() + ":" + sql);
       return outString;
-    }
+    }*/
     PreparedStatement prepareStatement = connection.prepareStatement(sql);
     ResultSet set = prepareStatement.executeQuery();
     

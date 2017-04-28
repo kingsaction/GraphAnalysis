@@ -186,13 +186,13 @@ public class DbService implements IDbService {
    * 重复的值存在，在此我选择了HashMap作为其数据结构，算法实现如下.该版本的代码没有实现计算节点weight的功能，其它的功能和上面两个算法都是一样的。
    * 采用redis将已经构造好的字符串保存，当同一个ip地址在此请求相同的操作时，直接从redis中读取相应的字符串即可，这对于大数据集来说有很重要的意义
    * 从一定程度上来说至少减少了服务器端构造字符串的时间
-   * 2017/4/27 对版本一构造图的算法进行修改，修改的内容为: 在构造图的算法中，会要求用户指定两列，之前版本一的处理是对于不同的两列，如果其中
+   * 2017/4/28 上午 对版本一构造图的算法进行修改，修改的内容为: 在构造图的算法中，会要求用户指定两列，之前版本一的处理是对于不同的两列，如果其中
    * 每一列出现相同的值，那么不会重新构造，研究Cytoscape的生成图算法，发现: 当两列中任意一列与另外的一列有重复也不会去构造，算法修改的部分很简单
    * 首先需要重新设计redis缓存结构，在hash的key中不再标记列名，其它的部分不发生变化
    */
   @Override
   public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
-    System.out.println("进入到新构造的算法中");
+    //System.out.println("进入到新构造的算法中");
     //连接redis数据库
     Jedis jedis = new Jedis("192.168.101.65",6379);
     dbPo.setDataBaseName(dbVo.getDbName());
@@ -332,6 +332,7 @@ public class DbService implements IDbService {
     //System.out.println("------拼接最好的结果------");
     connection.close();
     String  outString = "[" + jsonContent + "]" ;
+    //System.out.println(outString);
     //将结果缓存起来
     String outStringCache = dbPo.getIpAddress() + ":" + sql;
     jedis.hset("outStringCache", outStringCache, outString);

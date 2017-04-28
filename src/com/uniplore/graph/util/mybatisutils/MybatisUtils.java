@@ -36,6 +36,7 @@ public class MybatisUtils implements DataSourceFactory {
     dataSource.setDriverClassName(properties.getProperty("driverName"));
     dataSource.setUrl(properties.getProperty("url"));
     dataSource.setUsername(properties.getProperty("userName"));
+    dataSource.setPassword(properties.getProperty("password"));
     return dataSource;
     
   }
@@ -97,8 +98,6 @@ public class MybatisUtils implements DataSourceFactory {
       connection = session.getConnection();
     } catch (Exception ex) {
       throw new RuntimeException(ex.getMessage());
-    } finally {
-      session.close();
     }
     return connection;
   }

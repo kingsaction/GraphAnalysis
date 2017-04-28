@@ -97,6 +97,8 @@ public class MybatisUtils implements DataSourceFactory {
       connection = session.getConnection();
     } catch (Exception ex) {
       throw new RuntimeException(ex.getMessage());
+    } finally {
+      session.close();
     }
     return connection;
   }

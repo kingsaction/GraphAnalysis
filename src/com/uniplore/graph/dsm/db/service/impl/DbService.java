@@ -218,8 +218,9 @@ public class DbService implements IDbService {
     //构造两个HashMap，分别用来放sourceNode和targetNode
     //HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性
     //HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性
-    String sourceNodeKey = null;
-    String targetNodeKey = null;
+    //String sourceNodeKey = null;   //存放source节点的key值
+    //String targetNodeKey = null;   //存放target节点的key值
+    String nodeKey = null;  //现在不再区分sourceNode和targetNode
     //StringBuffer stringBuffer = new StringBuffer();
     StringBuilder stringBuilder = new StringBuilder();   //用非线程阻塞的StringBuilder，效率更高
     int countNode = 0;  //点计数
@@ -235,16 +236,20 @@ public class DbService implements IDbService {
       String jsonString1 = null;
       
       if (node1 != null) {
-        sourceNodeKey = "sourceNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
+        /*sourceNodeKey = "sourceNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
           + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + dbVo.getSourceNode()
-            + ":" + node1;
+            + ":" + node1;*/
+        nodeKey = "node:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
+          + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + ":" + node1;
         //判断node1的键知否已经被包含在mapSourceNode中
         /*if (mapSourceNode.containsKey(node1)) {*/
-        if (jedis.hexists("sourceNode", sourceNodeKey)) {
+        /*if (jedis.hexists("sourceNode", sourceNodeKey)) {*/
+        if (jedis.hexists("node", nodeKey)) {
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化，也不需要将该数据再次加入到StringBuffer中
           //得到该key下的value值，也就是id值
           //nodeID1 = (String)mapSourceNode.get(node1);  //根据其key获取value的值
-          nodeID1 = jedis.hget("sourceNode", sourceNodeKey);  //根据其key获取value的值
+          //nodeID1 = jedis.hget("sourceNode", sourceNodeKey);  //根据其key获取value的值
+          nodeID1 = jedis.hget("node",nodeKey);  //根据其key获取value的值
           data1 = new NodeDataVO(nodeID1,node1,1);
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
@@ -261,7 +266,8 @@ public class DbService implements IDbService {
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
           //mapSourceNode.put(node1, nodeID1);   
-          jedis.hset("sourceNode", sourceNodeKey, nodeID1); //将NodeID1加入到redis缓存中
+          //jedis.hset("sourceNode", sourceNodeKey, nodeID1); //将NodeID1加入到redis缓存中
+          jedis.hset("node", nodeKey, nodeID1); //将NodeID1加入到redis缓存中
           stringBuilder.append(jsonString1 + ",");   //将该数据追加到输出中
         }
       }
@@ -269,19 +275,23 @@ public class DbService implements IDbService {
       
       String nodeID2 = null;
       if (node2 != null) {
-        targetNodeKey = "targetNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
+        /*targetNodeKey = "targetNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
           + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + dbVo.getSourceNode()
-            + ":" + node2;
+            + ":" + node2;*/
+        nodeKey = "node:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
+          + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + ":" + node2;
         //targetNode的属性值
         NodeDataVO data2 = null;
         String jsonString2 = null;
         //判断node1的键知否已经被包含在mapSourceNode中
         /*if (mapTargetNode.containsKey(node2)) {*/
-        if (jedis.hexists("targetNode", targetNodeKey)) {
+        /*if (jedis.hexists("targetNode", targetNodeKey)) {*/
+        if (jedis.hexists("node", nodeKey)) {
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化
           //得到该key下的value值，也就是id值
           //nodeID2 = (String)mapTargetNode.get(node2);  //根据其key获取value的值
-          nodeID2 = jedis.hget("targetNode", targetNodeKey); //根据其key获取value的值
+          //nodeID2 = jedis.hget("targetNode", targetNodeKey); //根据其key获取value的值
+          nodeID2 = jedis.hget("node", nodeKey); //根据其key获取value的值
           data2 = new NodeDataVO(nodeID2,node2,1);
           NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
@@ -298,7 +308,8 @@ public class DbService implements IDbService {
           NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
           //mapTargetNode.put(node2, nodeID2);
-          jedis.hset("targetNode", targetNodeKey, nodeID2);
+          //jedis.hset("targetNode", targetNodeKey, nodeID2);
+          jedis.hset("node", nodeKey, nodeID2);
           stringBuilder.append(jsonString2 + ",");  //将该数据追加到输出中
         }
       }
@@ -775,8 +786,9 @@ public class DbService implements IDbService {
     //HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性，使用redis结构代替
     
     //构造两个字符串，这两个字符串分别表示构造成的sourceNode和构造成的targetNode
-    String sourceNodeKey =  null;    //存放在redis中key
-    String targetNodeKey =  null;
+    //String sourceNodeKey =  null;    //存放在redis中key
+    //String targetNodeKey =  null;
+    String nodeKey = null;
     //StringBuffer stringBuffer = new StringBuffer();
     StringBuilder stringBuilder = new  StringBuilder();
     
@@ -794,16 +806,20 @@ public class DbService implements IDbService {
       String jsonString1 = null;
       
       if (node1 != null) {
-        sourceNodeKey = "sourceNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
+        /*sourceNodeKey = "sourceNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
           + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + dbVo.getSourceNode()
-            + ":" + node1;
+            + ":" + node1;*/
+        nodeKey = "node:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
+          + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + ":" + node1;
         //判断node1的键知否已经被包含在mapSourceNode中
         //if (mapSourceNode.containsKey(node1)) {
-        if (jedis.hexists("sourceNode", sourceNodeKey)) {  //不必再构造该点
+        /*if (jedis.hexists("sourceNode", sourceNodeKey)) {  //不必再构造该点*/ 
+        if (jedis.hexists("node", nodeKey)) {
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化，也不需要将该数据再次加入到StringBuffer中
           //得到该key下的value值，也就是id值
           //nodeID1 = (String)mapSourceNode.get(node1);  //根据其key获取value的值
-          nodeID1 = jedis.hget("sourceNode", sourceNodeKey);   //根据key得到相应的value值
+          //nodeID1 = jedis.hget("sourceNode", sourceNodeKey);   //根据key得到相应的value值
+          nodeID1 = jedis.hget("node", nodeKey);   //根据key得到相应的value值
           data1 = new NodeDataVO(nodeID1,node1,1);
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
@@ -823,7 +839,8 @@ public class DbService implements IDbService {
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
           //mapSourceNode.put(node1, nodeID1);
-          jedis.hset("sourceNode", sourceNodeKey, nodeID1);
+          //jedis.hset("sourceNode", sourceNodeKey, nodeID1);
+          jedis.hset("node", nodeKey, nodeID1);
           //stringBuffer.append(jsonString1 + ",");   //将该数据追加到输出中
           stringBuilder.append(jsonString1 + ",");
         }
@@ -832,19 +849,23 @@ public class DbService implements IDbService {
       
       String nodeID2 = null;
       if (node2 != null) {
-        targetNodeKey = "targetNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
+        /*targetNodeKey = "targetNode:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
           + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + dbVo.getSourceNode() 
-            + ":" + node2;
+            + ":" + node2;*/
+        nodeKey = "node:" + dbPo.getIpAddress() + ":" + dbPo.getDataBaseName() 
+          + ":" + dbPo.getDataBaseType() + ":" + dbVo.getTableName() + ":" + ":" + node2;
         //targetNode的属性值
         NodeDataVO data2 = null;
         String jsonString2 = null;
         //判断node1的键知否已经被包含在mapSourceNode中
         //if (mapTargetNode.containsKey(node2)) {
-        if (jedis.hexists("targetNode", targetNodeKey)) {
+        /*if (jedis.hexists("targetNode", targetNodeKey)) {*/
+        if (jedis.hexists("node", nodeKey)) {
           //如果已经被包含，此时说明该点已经存在，count计数器不会发生任何的变化
           //得到该key下的value值，也就是id值
           //nodeID2 = (String)mapTargetNode.get(node2);  //根据其key获取value的值
-          nodeID2 = jedis.hget("targetNode", targetNodeKey);   //根据key得到相应的value值
+          //nodeID2 = jedis.hget("targetNode", targetNodeKey);   //根据key得到相应的value值
+          nodeID2 = jedis.hget("node", nodeKey);   //根据key得到相应的value值
           data2 = new NodeDataVO(nodeID2,node2,1);
           NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
@@ -864,7 +885,8 @@ public class DbService implements IDbService {
           NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
           //mapTargetNode.put(node2, nodeID2);
-          jedis.hset("targetNode", targetNodeKey, nodeID2);
+          //jedis.hset("targetNode", targetNodeKey, nodeID2);
+          jedis.hset("node", nodeKey, nodeID2);
           //stringBuffer.append(jsonString2 + ",");  //将该数据追加到输出中
           stringBuilder.append(jsonString2 + ",");
         }

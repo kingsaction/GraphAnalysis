@@ -189,6 +189,8 @@ public class DbService implements IDbService {
    * 2017/4/28 上午 对版本一构造图的算法进行修改，修改的内容为: 在构造图的算法中，会要求用户指定两列，之前版本一的处理是对于不同的两列，如果其中
    * 每一列出现相同的值，那么不会重新构造，研究Cytoscape的生成图算法，发现: 当两列中任意一列与另外的一列有重复也不会去构造，算法修改的部分很简单
    * 首先需要重新设计redis缓存结构，在hash的key中不再标记列名，其它的部分不发生变化
+   * 2017/4/29 给节点增加权重，在图论中也称为顶点的度，度的计算方法为：边的权重之和，由于目前对于边的权重没有合适的计算方法，因此我将其全部认为是1
+   * 所以节点的度或者权重衡量就是与点关联的边的数目
    */
   @Override
   public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
@@ -257,18 +259,45 @@ public class DbService implements IDbService {
           if (!(stringBuilder.toString().contains(jsonString1))) {
             stringBuilder.append(jsonString1);
           }
+          if (node2 != null) {    //如果此时node2的值不为空，也就是node1和node2之间存在一条边，此时需要更新node1的点的weight
+            //下面的代码给重复的节点赋予新的权值
+            //将上述的对象拆解为一个个的字符串，这些字符串中既含有点的数据，也含有边的数据
+            String[] sb =  stringBuilder.toString().split(";");   //对stringBuffer中的数据进行合理的分割
+            stringBuilder = new StringBuilder() ; //将stringBuffer的值全部清空，后面会重新构造
+            for (int i = 0 ; i < sb.length ; i++) {  //遍历上述的数组
+              if (!sb[i].contains("source")) {   //判断转成的字符串是否包含source字段，如果不包含，则说明是节点类型，而不是边类型
+                NodeVO object = JSON.parseObject(sb[i], NodeVO.class);  //将字符串转换为NodeVO类型
+                if (object.getData().getId().equals(nodeID1)) {
+                  //再次判断得到的这个节点的id是否和我们在上面得到的nodeID1一样
+                  //如果一样，得到该节点的权值，并在原来值的基础上加1
+                  object.getData().setWeight(object.getData().getWeight() + 1);   //权值在原值的基础上加1
+                  String jsonString = JSON.toJSONString(object);   //将该对象再次转换成JSON字符串
+                  sb[i] = jsonString;    //当节点的weight发生变化时，完成节点度的修改，并将该字符串重新写回
+                  break;   //结束整个循环
+                }
+              } 
+            }  //for
+            //遍历数组重新加入到StringBuffer中
+            for (String s : sb) {
+              stringBuilder.append(s + ";");
+            }
+          }   //node2 != null
         } else {
           //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
           countNode++;
           //构造节点对象
           nodeID1 = "n" + countNode;   //拼接节点的编号
-          data1 = new NodeDataVO(nodeID1, node1, 1);
+          if (node2 != null) {   //如果node2的值为空，那么我们在初始化node1节点的weight值应该设置为0
+            data1 = new NodeDataVO(nodeID1, node1, 1);
+          } else {
+            data1 = new NodeDataVO(nodeID1, node1, 0);
+          }
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
           //mapSourceNode.put(node1, nodeID1);   
           //jedis.hset("sourceNode", sourceNodeKey, nodeID1); //将NodeID1加入到redis缓存中
           jedis.hset("node", nodeKey, nodeID1); //将NodeID1加入到redis缓存中
-          stringBuilder.append(jsonString1 + ",");   //将该数据追加到输出中
+          stringBuilder.append(jsonString1 + ";");   //将该数据追加到输出中
         }
       }
       //***************************************节点二处理.******************************************
@@ -299,18 +328,46 @@ public class DbService implements IDbService {
           if (!(stringBuilder.toString().contains(jsonString2))) {
             stringBuilder.append(jsonString2);
           }
+          
+          if (node1 != null) {   //如果节点1的值为空，则美有必要去改变其权值，该if语句中所有内容都是在改变已经存在的节点的权值
+            //下面的代码给重复的节点赋予新的权值
+            //将上述的对象拆解为一个个的字符串，这些字符串中既含有点的数据，也含有边的数据
+            String[] sb =  stringBuilder.toString().split(";");   
+            stringBuilder = new StringBuilder() ; //将stringBuffer的值全部清空，后面会重新构造
+            for (int i = 0 ; i < sb.length ; i++) { //遍历上述的数组
+              if (!sb[i].contains("source")) {   //判断obj是否为节点类型
+                NodeVO object = JSON.parseObject(sb[i], NodeVO.class);
+                if (object.getData().getId().equals(nodeID2)) {
+                  //再次判断得到的这个节点的id是否和我们在上面得到的nodeID1一样
+                  //如果一样，得到该节点的权值，并在原来值的基础上加1
+                  object.getData().setWeight(object.getData().getWeight() + 1);   //权值在原值的基础上加1
+                  String jsonString = JSON.toJSONString(object);   //将该对象再次转换成JSON字符串
+                  sb[i] = jsonString;    //当节点的weight发生变化时，完成节点度的修改，并将该字符串重新写回
+                  break;   //结束整个循环
+                }
+              }  
+            }  //for
+            //遍历数组重新加入到StringBuffer中
+            for (String s : sb) {
+              stringBuilder.append(s + ";");
+            }
+          }  //node1 != null 结束
         } else {
           //没有被包含，则首先计数要加1，并且根据其计数重新构造，并把该节点加入到hashmap中
           countNode++;
           //构造节点对象
           nodeID2 = "n" + countNode;   //拼接节点的编号
-          data2 = new NodeDataVO(nodeID2, node2, 1);
+          if ( node1 != null) {   //如果node1的值为空，说明该节点没有与之相连的节点，此时只能将weight设置为0
+            data2 = new NodeDataVO(nodeID2, node2, 1);
+          } else {
+            data2 = new NodeDataVO(nodeID2, node2, 0);
+          }
           NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
           //mapTargetNode.put(node2, nodeID2);
           //jedis.hset("targetNode", targetNodeKey, nodeID2);
           jedis.hset("node", nodeKey, nodeID2);
-          stringBuilder.append(jsonString2 + ",");  //将该数据追加到输出中
+          stringBuilder.append(jsonString2 + ";");  //将该数据追加到输出中
         }
       }
       //***************************************边处理.******************************************
@@ -330,8 +387,9 @@ public class DbService implements IDbService {
     String jsonContent = stringBuilder.toString();
     //拼接成最后的结果
     //System.out.println("------拼接最好的结果------");
+    String jsonContentOutput = jsonContent.replace(";", ",");   //替换;为,
     connection.close();
-    String  outString = "[" + jsonContent + "]" ;
+    String outString = "[" + jsonContentOutput + "]" ;
     //System.out.println(outString);
     //将结果缓存起来
     String outStringCache = dbPo.getIpAddress() + ":" + sql;
@@ -752,6 +810,7 @@ public class DbService implements IDbService {
    * 2017/4/28 上午 对版本一构造图的算法进行修改，修改的内容为: 在构造图的算法中，会要求用户指定两列，之前版本一的处理是对于不同的两列，如果其中
    * 每一列出现相同的值，那么不会重新构造，研究Cytoscape的生成图算法，发现: 当两列中任意一列与另外的一列有重复也不会去构造，算法修改的部分很简单
    * 首先需要重新设计redis缓存结构，在hash的key中不再标记列名，其它的部分不发生变化
+   * 2017/4/29 分页代码不能计算度，不正确
    */
   @Override
   public synchronized String increseGetJsonData(DbPO dbPo, DbVO dbVo, PagingVO pagingVo) 

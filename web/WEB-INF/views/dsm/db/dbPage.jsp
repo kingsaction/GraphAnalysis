@@ -638,6 +638,7 @@
 										selector : 'node',
 										style : {
 										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
 											/* 'background-color' : 'red',
 											
 											'width': 2,
@@ -943,6 +944,7 @@
 												selector : 'node',
 												style : {
 												    'label' : 'data(name)',
+												    /* 'label' : 'data(weight)', */
 													/* 'background-color' : 'red',
 													
 													'width': 2,

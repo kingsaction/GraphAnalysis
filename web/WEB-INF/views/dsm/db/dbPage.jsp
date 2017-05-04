@@ -290,6 +290,7 @@
 					         <option>haystack</option>
 			                 <option>bezier</option>
 						     <option>unbundled-bezier</option>
+						     <option>segments</option>
 							 </select>
 					      </li>
 					      <li  style="margin-bottom: 10px;">

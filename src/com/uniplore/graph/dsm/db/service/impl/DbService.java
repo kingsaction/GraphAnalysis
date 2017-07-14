@@ -196,7 +196,7 @@ public class DbService implements IDbService {
   public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
     //System.out.println("进入到新构造的算法中");
     //连接redis数据库
-    Jedis jedis = new Jedis("192.168.101.65",6379);
+    Jedis jedis = new Jedis("192.168.101.44",6379);
     dbPo.setDataBaseName(dbVo.getDbName());
     
     //Connection connection = JDBCUtils.getConnection(dbPo);
@@ -816,7 +816,7 @@ public class DbService implements IDbService {
   public synchronized String increseGetJsonData(DbPO dbPo, DbVO dbVo, PagingVO pagingVo) 
       throws Exception {
     //连接redis缓存数据库
-    Jedis jedis = new Jedis("192.168.101.65",6379);
+    Jedis jedis = new Jedis("192.168.101.44",6379);
 
     // 获取到连接数据之后，得到相应的数据，该段代码中拼接的SQL应该是分页SQL
     //Connection connection = JDBCUtils.getConnection(dbPo);

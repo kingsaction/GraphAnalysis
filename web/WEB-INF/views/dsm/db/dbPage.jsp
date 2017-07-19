@@ -404,7 +404,8 @@
 		 var connectionName = '<%= (String) request.getParameter("connectionName")%>';
 		 var userName = '<%= (String) request.getParameter("userName")%>';
 		 var password = '<%= (String) request.getParameter("password")%>';
-		 if (dataBaseType == "GREENPLUM") {
+		 
+		 if (dataBaseType == "GREENPLUM" || dataBaseType == "POSTGRESQL") {
 		     var dataBaseName = '<%= (String) request.getParameter("dataBaseName")%>';
 		     //alert("数据库名为:" + dataBaseName)
 		     $.ajax({

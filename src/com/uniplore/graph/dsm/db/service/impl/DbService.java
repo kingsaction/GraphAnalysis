@@ -68,6 +68,8 @@ public class DbService implements IDbService {
     //建立一数组，用于存放此ip地址下所有的数据库
     List<String> dataBaseList = new ArrayList<String>();
 
+    System.out.println("接收到的数据库信息为:" + dbPo.toString());
+    
     //Connection connection = JDBCUtils.getConnection(dbPo);
     Connection connection = MybatisUtils.getConnection(dbPo);
     
@@ -92,7 +94,7 @@ public class DbService implements IDbService {
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
           dataBaseList.add(rs.getString(1));
-          System.out.println(rs.getString(1));
+          System.out.println("哈哈" + rs.getString(1));
         }
         rs.close();
         ps.close();

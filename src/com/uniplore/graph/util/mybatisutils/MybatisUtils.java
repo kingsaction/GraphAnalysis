@@ -37,6 +37,7 @@ public class MybatisUtils implements DataSourceFactory {
     dataSource.setUrl(properties.getProperty("url"));
     dataSource.setUsername(properties.getProperty("userName"));
     dataSource.setPassword(properties.getProperty("password"));
+    dataSource.setMaxWait(1000);
     return dataSource;
     
   }

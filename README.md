@@ -17,7 +17,7 @@
     * 权限管理(未完成)
 * 数据源模块
     * 支持数据库
-        * 目前数据库支持MySQL、PostgreSQL、Greenplum(2017/4/26)，后期会考虑OrientDB
+        * 目前数据库支持MySQL、PostgreSQL、Greenplum(2017/4/26)、pipelineDB(2017-7-10)，OrientDB
     * 支持文件格式，txt、csv、JSON
         * 目前只支持JSON数据格式
 * 图展示模块

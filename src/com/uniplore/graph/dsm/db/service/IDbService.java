@@ -6,6 +6,9 @@ import com.uniplore.graph.dsm.db.entity.PagingVO;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 public interface IDbService {
 
   public String connectDataBase(DbPO dbPo)throws Exception;

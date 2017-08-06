@@ -1,10 +1,14 @@
 package com.uniplore.graph.dsm.db.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.uniplore.graph.dsm.db.dao.IBufferEdgeDao;
+import com.uniplore.graph.dsm.db.dao.IBufferNodeDao;
 import com.uniplore.graph.dsm.db.entity.DbPO;
 import com.uniplore.graph.dsm.db.entity.DbVO;
+import com.uniplore.graph.dsm.db.entity.Edge;
 import com.uniplore.graph.dsm.db.entity.EdgeDataVO;
 import com.uniplore.graph.dsm.db.entity.EdgeVO;
+import com.uniplore.graph.dsm.db.entity.Node;
 import com.uniplore.graph.dsm.db.entity.NodeDataVO;
 import com.uniplore.graph.dsm.db.entity.NodeVO;
 import com.uniplore.graph.dsm.db.entity.PagingVO;
@@ -18,18 +22,30 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 //import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import redis.clients.jedis.Jedis;
 
 
-
 @Service
+@Transactional
 public class DbService implements IDbService {
 
+  @Autowired
+  private IBufferNodeDao bufferNodeDao;
+  
+  @Autowired
+  private IBufferEdgeDao bufferEdgeDao;
+  
   @Override
   public String connectDataBase(DbPO dbPo) throws Exception {
     Connection connection;
@@ -193,6 +209,9 @@ public class DbService implements IDbService {
    * 首先需要重新设计redis缓存结构，在hash的key中不再标记列名，其它的部分不发生变化
    * 2017/4/29 给节点增加权重，在图论中也称为顶点的度，度的计算方法为：边的权重之和，由于目前对于边的权重没有合适的计算方法，因此我将其全部认为是1
    * 所以节点的度或者权重衡量就是与点关联的边的数目
+   * 
+   * 2017-8-4 修改该函数，在构造点和边时，增加中间数据库层操作，将边和点的信息全部保存在中间数据库中，方便后续
+   * 进行抽样、增量等操作
    */
   @Override
   public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
@@ -219,11 +238,22 @@ public class DbService implements IDbService {
       String outString = jedis.hget("outStringCache", dbPo.getIpAddress() + ":" + sql);
       return outString;     //如果结果已经缓存在redis中，则直接跳过繁琐的构造过程，直接从redis中取出结果即可
     }
+    
+    //删除中间数据库层中node表中的所有数据
+    bufferNodeDao.deleteNodeData();
+    //删除中间数据库层中edge表中的所有数据
+    bufferEdgeDao.deleteEdgeData();
+    
     //构造两个HashMap，分别用来放sourceNode和targetNode
     //HashMap<String, Object> mapSourceNode = new HashMap<String, Object>();  //用来存放源点的name属性
     //HashMap<String, Object> mapTargetNode = new HashMap<String, Object>();  //用来存放终点的name属性
     //String sourceNodeKey = null;   //存放source节点的key值
     //String targetNodeKey = null;   //存放target节点的key值
+    
+    //填充中间层数据库时，首先还是全部转换为内存操作，将结果全部放入到Map中，全部工作完成之后，再将结果写入数据库
+    Map<String, Node> nodeMap = new HashMap<String, Node>();
+    Map<String, Edge> edgeMap = new HashMap<String, Edge>();
+    
     String nodeKey = null;  //现在不再区分sourceNode和targetNode
     //StringBuffer stringBuffer = new StringBuffer();
     StringBuilder stringBuilder = new StringBuilder();   //用非线程阻塞的StringBuilder，效率更高
@@ -256,6 +286,12 @@ public class DbService implements IDbService {
           nodeID1 = jedis.hget("node",nodeKey);  //根据其key获取value的值
           data1 = new NodeDataVO(nodeID1,node1,1);
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
+         
+          //按照nodeID作为键，将点写入
+          //构建一个Node节点
+          Node node = new Node(nodeID1, node1, data1.getWeight(), true);
+          nodeMap.put(nodeID1, node);
+          
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
           //mapSourceNode.put(node1, nodeID1);
           if (!(stringBuilder.toString().contains(jsonString1))) {
@@ -273,6 +309,9 @@ public class DbService implements IDbService {
                   //再次判断得到的这个节点的id是否和我们在上面得到的nodeID1一样
                   //如果一样，得到该节点的权值，并在原来值的基础上加1
                   object.getData().setWeight(object.getData().getWeight() + 1);   //权值在原值的基础上加1
+                  Node node3 = new Node(nodeID1, node1, object.getData().getWeight(), true);
+                  nodeMap.put(nodeID1,node3);
+                  
                   String jsonString = JSON.toJSONString(object);   //将该对象再次转换成JSON字符串
                   sb[i] = jsonString;    //当节点的weight发生变化时，完成节点度的修改，并将该字符串重新写回
                   break;   //结束整个循环
@@ -295,6 +334,9 @@ public class DbService implements IDbService {
             data1 = new NodeDataVO(nodeID1, node1, 0);
           }
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
+          //将data1数据写入到数据库中
+          Node node = new Node(nodeID1, node1, data1.getWeight(), true);
+          nodeMap.put(nodeID1, node);
           jsonString1 = JSON.toJSONString(nodeVo1);    //构造出第一个节点
           //mapSourceNode.put(node1, nodeID1);   
           //jedis.hset("sourceNode", sourceNodeKey, nodeID1); //将NodeID1加入到redis缓存中
@@ -325,6 +367,11 @@ public class DbService implements IDbService {
           nodeID2 = jedis.hget("node", nodeKey); //根据其key获取value的值
           data2 = new NodeDataVO(nodeID2,node2,1);
           NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
+          
+          //将数据写入到nodeMap中，中间数据库层处理
+          Node node = new Node(nodeID2, node2, data2.getWeight(),true);
+          nodeMap.put(nodeID2, node);
+          
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
           //mapTargetNode.put(node2, nodeID2);
           if (!(stringBuilder.toString().contains(jsonString2))) {
@@ -343,6 +390,11 @@ public class DbService implements IDbService {
                   //再次判断得到的这个节点的id是否和我们在上面得到的nodeID1一样
                   //如果一样，得到该节点的权值，并在原来值的基础上加1
                   object.getData().setWeight(object.getData().getWeight() + 1);   //权值在原值的基础上加1
+                  
+                  //将数据写入到中间数据库层
+                  Node node3 = new Node(nodeID2, node2, object.getData().getWeight(), true);
+                  nodeMap.put(nodeID2, node3);
+                  
                   String jsonString = JSON.toJSONString(object);   //将该对象再次转换成JSON字符串
                   sb[i] = jsonString;    //当节点的weight发生变化时，完成节点度的修改，并将该字符串重新写回
                   break;   //结束整个循环
@@ -365,6 +417,11 @@ public class DbService implements IDbService {
             data2 = new NodeDataVO(nodeID2, node2, 0);
           }
           NodeVO nodeVo2 = new NodeVO(data2, "nodes",false,false,true,false,false,true,"");
+          
+          //将数据写入到中间数据库层
+          Node node = new Node(nodeID2, node2, data2.getWeight(), true);
+          nodeMap.put(nodeID2, node);
+          
           jsonString2 = JSON.toJSONString(nodeVo2);    //构造出第一个节点
           //mapTargetNode.put(node2, nodeID2);
           //jedis.hset("targetNode", targetNodeKey, nodeID2);
@@ -382,17 +439,41 @@ public class DbService implements IDbService {
         String edgeID1 = "e" + countEdge;
         EdgeDataVO data3 = new EdgeDataVO(edgeID1, nodeID1, nodeID2, 1);
         EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
+        
+        //将边数据写入到中间数据库层
+        Edge edge = new Edge(edgeID1, nodeID1, nodeID2);
+        edgeMap.put(edgeID1, edge);
+        
         String jsonString3 = JSON.toJSONString(edgeVo);
         stringBuilder.append(jsonString3 + ",");  //将该数据追加到输出中
       }
     }
+    
+    //构建边和点完成之后，应该将上述的数据全部写回到中间数据库层中
+    //遍历nodeMap，将数据插入到数据库中
+    Iterator<Entry<String, Node>> nodeIterator = nodeMap.entrySet().iterator();
+    while(nodeIterator.hasNext()){
+    	Entry<String, Node> nodeEntry = nodeIterator.next();
+        Node node = nodeEntry.getValue();
+        bufferNodeDao.insertNodeData(node);
+    }
+    
+    //遍历edgemap，将数据插入到数据库中
+    Iterator<Entry<String, Edge>> edgeIterator = edgeMap.entrySet().iterator();
+    while(edgeIterator.hasNext()){
+    	Entry<String, Edge> edgeEntry = edgeIterator.next();
+    	Edge edge = edgeEntry.getValue();
+        bufferEdgeDao.insertEdgeData(edge);
+    }
+    
+    
     String jsonContent = stringBuilder.toString();
     //拼接成最后的结果
     //System.out.println("------拼接最好的结果------");
     String jsonContentOutput = jsonContent.replace(";", ",");   //替换;为,
     connection.close();
     String outString = "[" + jsonContentOutput + "]" ;
-    //System.out.println(outString);
+    System.out.println(outString);
     //将结果缓存起来
     String outStringCache = dbPo.getIpAddress() + ":" + sql;
     jedis.hset("outStringCache", outStringCache, outString);

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace :必须与对应接口全类名一致 id: 必须与对应接口的某个对应的方法名一致 -->
+
+<mapper namespace="com.uniplore.graph.dsm.db.mapper.BufferEdgeMapper">
+   
+	<!-- edge表中持久层实体和数据库表之间的映射关系 -->
+	<resultMap type="com.uniplore.graph.dsm.db.entity.Edge"
+		id="edgeResult">
+		<id column="id" property="id" />   <!-- 主键 -->
+	    <result property="sourceNode" column="source_node"/>
+	    <result property="targetNode" column="target_node"/>
+	</resultMap>
+	
+	<!-- 删除中间数据库层edge表中所有的数据 -->
+	<delete id="deleteEdgeData">
+	    delete from edge
+	</delete>
+	
+	<!-- 插入边数据 -->
+	<insert id="insertEdgeData" parameterType="com.uniplore.graph.dsm.db.entity.Edge">
+	    insert into edge(id,source_node,target_node) values
+	                    (#{id},#{sourceNode},#{targetNode})
+	</insert>
+</mapper>

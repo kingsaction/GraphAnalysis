@@ -95,7 +95,10 @@
 		    别名就是POJO类名(首字母大小写均可，通常情况下为小写)
 		-->
 		<property name="typeAliasesPackage">
-		  <value>com.uniplore.graph.ms.sign.entity</value>
+		  <value>
+		      com.uniplore.graph.ms.sign.entity
+		      com.uniplore.graph.dsm.db.entity
+		  </value>
 		</property>
 		<!-- 
 		     mapperLocations:它表示我们的Mapper文件存放的位置，当我们的Mapper文件跟对应的Mapper接口处于同一个位置的时候
@@ -105,6 +108,7 @@
 		  <value>
 		     classpath:com/uniplore/graph/ms/sign/mapper/*Mapper.xml
 		     classpath:com/uniplore/graph/ms/login/mapper/*Mapper.xml
+		     classpath:com/uniplore/graph/dsm/db/mapper/*Mapper.xml
 		  </value>
 		</property>
     </bean>
@@ -121,6 +125,7 @@
 			<value>
 				com.uniplore.graph.ms.sign.mapper
 				com.uniplore.graph.ms.login.mapper
+				com.uniplore.graph.dsm.db.mapper
 			</value>
 		</property>
 		

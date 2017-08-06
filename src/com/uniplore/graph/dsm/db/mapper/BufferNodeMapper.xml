@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace :必须与对应接口全类名一致 id: 必须与对应接口的某个对应的方法名一致 -->
+
+<mapper namespace="com.uniplore.graph.dsm.db.mapper.BufferNodeMapper">
+    
+    <!-- node表持久层实体和数据库表的映射关系 -->
+    <resultMap type="com.uniplore.graph.dsm.db.entity.Node"
+		id="nodeResult">
+		<id column="id" property="id" />   <!-- 主键 -->
+	    <result property="nodeName" column="node_name"/>
+	    <result property="nodeDegree" column="node_degree"/>
+	    <result property="nodeState" column="node_state"/>
+	</resultMap>
+	
+	<!-- 删除中间层数据库Node表中所有的数据 -->
+	<delete id="deleteNodeData">
+	    delete from node
+	</delete>
+	
+	<!-- 向node表中插入数据 -->
+	<insert id="insertNodeData" parameterType="com.uniplore.graph.dsm.db.entity.Node">
+	    insert into node(id,node_name,node_degree,node_state) values(#{id},#{nodeName},#{nodeDegree},#{nodeState})
+	</insert>
+</mapper>

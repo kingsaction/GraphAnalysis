@@ -23,6 +23,8 @@ import java.io.IOException;
 
 import org.jblas.DoubleMatrix;
 
+import com.pivotal.jdbc.greenplumbase.dddt.a;
+
 /**     
  * 版权所有  2017-ACMIS Lab  
  * 项目名称  graphanalysis       
@@ -85,6 +87,16 @@ public class JblasTest {
 		//矩阵的转置运算
 		/*DoubleMatrix a = new DoubleMatrix(5); 
 		a.transpose();   //计算a矩阵的转置*/
+		
+		//测试使用随机函数创建矩阵
+		/*DoubleMatrix aDoubleMatrix = DoubleMatrix.randn(5);   //创建列向量
+		System.out.println(aDoubleMatrix);*/
+		
+		//测试使用随机函数创建矩阵
+		/*DoubleMatrix aDoubleMatrix  = DoubleMatrix.rand(3, 2);  //产生3行两列的矩阵，其中数字全部用0.0-1.0之间的数字填充
+		System.out.println(aDoubleMatrix);*/
+		
+		
 		
 		//1. 重点API 这个功能十分的有用，目前我的项目中就需要动态的给矩阵的每一个元素赋值，并得到这个矩阵
 		/*DoubleMatrix a = new DoubleMatrix(10, 5);

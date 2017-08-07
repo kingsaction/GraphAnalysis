@@ -17,7 +17,7 @@
  * Geometry(按照矩阵的行或者列进行规范化，规范化是指每一行或列都是单位长度),该类非常有用,
  * MatrixFunction(求绝对值、平方、取近似值等函数都在这个包中)
  */
-package com.uniplore.graph.matrix.test;
+package com.uniplore.graph.matrix;
 
 import java.io.IOException;
 

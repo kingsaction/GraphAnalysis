@@ -218,7 +218,7 @@ body {
 	width: 90%;
 	height: 105px;
 	margin-left: 24px;
-	margin-top: 24px;
+	margin-top: 10px;
 	margin-right: 30px;
 	
 }
@@ -240,8 +240,8 @@ body {
 }
 #setting-tabs ul {
 	width: 90%;
-	height: calc(100% - 105px);
+	height: calc(100% - 50px);
 	margin-left: 24px;
-	margin-top: 24px;
+	margin-top: 10px;
 	margin-right: 30px;
 }

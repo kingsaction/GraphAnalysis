@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace :必须与对应接口全类名一致 id: 必须与对应接口的某个对应的方法名一致 -->
+
+<mapper namespace="com.uniplore.graph.sampling.mapper.SamplingMapper">
+
+    <resultMap type="com.uniplore.graph.sampling.entity.Nodes"
+		id="nodeResult">
+		<id column="id" property="id"/>  <!-- 主键 -->
+		<result property="nodeName" column="node_name"/> <!-- 节点名字 -->
+		<result property="nodeDegree" column="node_degree"/>  <!-- 节点的度 -->
+		<result property="nodeState" column="node_state"/>  <!-- 节点状态 -->
+	</resultMap>
+	
+	<resultMap type="com.uniplore.graph.sampling.entity.Edges" id="edgeResult">
+	    <id column="id" property="id" />
+	    <result property="sourceNode" column="source_node"/>
+	    <result property="targetNode" column="target_node"/>
+	</resultMap>
+	
+	<!-- 查询点表中总数据量，并同时获取每一条记录 -->
+	<select id="listNodeAllData" resultMap="nodeResult">
+	    select * from node
+	</select>
+	
+	<!-- 查询边表中总数据量，并同时获取每一条记录 -->
+	<select id="listEdgeAllData" resultMap="edgeResult">
+	    select * from edge
+	</select>
+</mapper>

@@ -8,10 +8,14 @@
 */ 
 package com.uniplore.graph.sampling.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.uniplore.graph.sampling.service.ISampleService;
 
 /**     
  * 版权所有  2017-ACMIS Lab  
@@ -31,17 +35,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/sampling")
 public class SampleController {
 	
+	@Autowired
+	private ISampleService sample;
 	/**
 	 * 
 	 * @Title  nodeSampling  
-	 * @Description TODO  点抽样算法  
+	 * @Description TODO  点抽样算法，均匀随机的进行点抽样，假设抽样的规模为15%，后续我们会调整这个参数，
+	 *                      测试不同抽样规模对抽样算法性能的影响
 	 * @return  返回JSON字符串，交给前端渲染展示
 	 * @throws Exception  统一异常处理
 	 */
 	@RequestMapping(value = "/NSampling", method = {RequestMethod.POST})
 	public @ResponseBody String nodeSampling() throws Exception{
-		System.out.println("哈哈，选中了点抽样算法");
-		return null;
+		//System.out.println("选中了点抽样算法");
+		String nodeSamplig = sample.nodeSamplig();
+		
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(nodeSamplig);
+	    String outputString = parse.toString();
+	    System.out.println("哈哈返回的字符串为：" + outputString);
+		return outputString;
 	}
 	
 	/**
@@ -53,7 +66,7 @@ public class SampleController {
 	 */
 	@RequestMapping(value = "/ESampling", method = {RequestMethod.POST})
 	public @ResponseBody String edgeSampling() throws Exception{
-		System.out.println("哈哈，选中了边抽样算法");
+		//System.out.println("选中了边抽样算法");
 		return null;
 	}
 	
@@ -66,7 +79,7 @@ public class SampleController {
 	 */
 	@RequestMapping(value = "/TSampling", method = {RequestMethod.POST})
 	public @ResponseBody String topologySampling() throws Exception{
-		System.out.println("哈哈，选中了拓扑抽样算法");
+		//System.out.println("选中了拓扑抽样算法");
 		return null;
 	}
 	
@@ -79,7 +92,7 @@ public class SampleController {
 	 */
 	@RequestMapping(value = "/RWSampling", method = {RequestMethod.POST})
 	public @ResponseBody String randomWalkSampling() throws Exception{
-		System.out.println("哈哈，选中了随机游走抽样算法");
+		//System.out.println("选中了随机游走抽样算法");
 		return null;
 	}
 	
@@ -92,7 +105,7 @@ public class SampleController {
 	 */
 	@RequestMapping(value = "/FFSampling", method = {RequestMethod.POST})
 	public @ResponseBody String forestFireSampling() throws Exception{
-		System.out.println("哈哈，选中了森林火灾抽样算法");
+		//System.out.println("选中了森林火灾抽样算法");
 		return null;
 	}
 	
@@ -105,7 +118,7 @@ public class SampleController {
 	 */
 	@RequestMapping(value = "/EiSampling", method = {RequestMethod.POST})
 	public @ResponseBody String edgeISampling() throws Exception{
-		System.out.println("哈哈，改进后的边抽样算法");
+		//System.out.println("改进后的边抽样算法");
 		return null;
 	}
 	
@@ -118,7 +131,7 @@ public class SampleController {
 	 */
 	@RequestMapping(value = "/SNSampling", method = {RequestMethod.POST})
 	public @ResponseBody String streamingNodeSampling() throws Exception{
-		System.out.println("哈哈，流式点抽样算法");
+		//System.out.println("流式点抽样算法");
 		return null;
 	}
 	
@@ -131,7 +144,7 @@ public class SampleController {
 	 */
 	@RequestMapping(value = "/SESampling", method = {RequestMethod.POST})
 	public @ResponseBody String streamingEdgeSampling() throws Exception{
-		System.out.println("哈哈，流式边抽样算法");
+		//System.out.println("流式边抽样算法");
 		return null;
 	}
 	
@@ -144,7 +157,7 @@ public class SampleController {
 	 */
 	@RequestMapping(value = "/STSampling", method = {RequestMethod.POST})
 	public @ResponseBody String streamingTopologySampling() throws Exception{
-		System.out.println("哈哈，流式拓扑结构抽样算法");
+		//System.out.println("流式拓扑结构抽样算法");
 		return null;
 	}
 	

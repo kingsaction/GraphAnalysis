@@ -290,7 +290,7 @@ public class DbService implements IDbService {
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
          
           //按照nodeID作为键，将点写入
-          //构建一个Node节点
+          //构建一个Node节点，该节点存放在中间层数据库中
           Node node = new Node(nodeID1, node1, data1.getWeight(), true);
           nodeMap.put(nodeID1, node);
           

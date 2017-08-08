@@ -1,41 +1,36 @@
 /**    
 * @Title         Edges.java  
-* @Package       com.uniplore.graph.dsm.db.entity  
+* @Package       com.uniplore.graph.sampling.entity  
 * @Description   TODO(用一句话描述该文件做什么)  
 * @author        朱君鹏     
-* @date          2017年8月5日 下午3:25:55  
+* @date          2017年8月8日 上午10:09:53  
 * @version       1.0    
 */ 
-package com.uniplore.graph.dsm.db.entity;
+package com.uniplore.graph.sampling.entity;
 
   
 /**     
  * 版权所有  2017-ACMIS Lab  
  * 项目名称  graphanalysis       
  * 类描述  
- * 类名称    com.uniplore.graph.dsm.db.entity.Edge       
+ * 类名称    com.uniplore.graph.sampling.entity.Edges       
  * 创建人    朱君鹏
- * 创建时间  2017年8月5日 下午3:25:55     
+ * 创建时间  2017年8月8日 上午10:09:53     
  * 修改人  
- * 修改时间  2017年8月5日 下午3:25:55     
+ * 修改时间  2017年8月8日 上午10:09:53     
  * 修改备注     
- * @version  1.0    
- * create table edge(
-	id varchar(50) PRIMARY KEY,          -- 自增主键
-	source_node varchar(50),             -- 起始点
-	target_node varchar(50)              -- 终点
-   );  
+ * @version  1.0      
  */
 
-public class Edge {
+public class Edges {
 	private String id;
-	private String sourceNode ;
+	private String sourceNode;
 	private String targetNode;
-	public Edge() {
+	public Edges() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Edge(String id, String sourceNode, String targetNode) {
+	public Edges(String id, String sourceNode, String targetNode) {
 		super();
 		this.id = id;
 		this.sourceNode = sourceNode;

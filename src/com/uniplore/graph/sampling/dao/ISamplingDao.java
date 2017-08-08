@@ -29,17 +29,19 @@ import com.uniplore.graph.sampling.entity.Nodes;
 public interface ISamplingDao {
 	/**  
 	 * @Title  listNodeAllData  
-	 * @Description TODO(这里用一句话描述这个方法的作用)  
-	 * @return   
-	 * @throws Exception 
+	 * @Description TODO 列出所有的点数据  
+	 * @return  返回List
+	 * @throws Exception  统一异常处理
 	 */ 
 	public List<Nodes> listNodeAllData() throws Exception;
 
-	/**  
+	/**
+	 * 
 	 * @Title  listEdgeAllData  
-	 * @Description TODO(这里用一句话描述这个方法的作用)  
-	 * @return   
-	 */ 
+	 * @Description TODO 列出所有的边数据  
+	 * @return  返回List
+	 * @throws Exception  统一异常处理
+	 */
 	public List<Edges> listEdgeAllData() throws Exception;
 
 }

@@ -26,7 +26,7 @@ public interface ISampleService {
 
 	/**  
 	 * @Title  nodeSamplig  
-	 * @Description TODO(这里用一句话描述这个方法的作用)     
+	 * @Description TODO 点抽样service方法   
 	 */ 
 	public String nodeSamplig() throws Exception;
 

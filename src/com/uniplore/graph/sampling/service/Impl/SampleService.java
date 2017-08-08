@@ -51,6 +51,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class SampleService implements ISampleService {
+	
 	@Autowired
 	private ISamplingDao samplingDao;
 	/**  

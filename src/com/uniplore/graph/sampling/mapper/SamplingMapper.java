@@ -30,14 +30,14 @@ public interface SamplingMapper {
 
 	/**  
 	 * @Title  listNodeAllData  
-	 * @Description TODO(这里用一句话描述这个方法的作用)  
+	 * @Description TODO  
 	 * @return   
 	 */ 
 	public List<Nodes> listNodeAllData()throws Exception;
 
 	/**  
 	 * @Title  listEdgeAllData  
-	 * @Description TODO(这里用一句话描述这个方法的作用)  
+	 * @Description TODO  
 	 * @return   
 	 */ 
 	public List<Edges> listEdgeAllData() throws Exception;

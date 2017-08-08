@@ -252,6 +252,9 @@
 								  <option>Random Walk Sampling</option>
 								  <option>Forest Fire Sampling</option>
 								  <option>ES-i</option>
+								  <option>Streaming Node Sampling</option>
+								  <option>Streaming Edge Sampling</option>
+								  <option>Streaming Topology Sampling</option>
 								  <option>MCL Algorithm</option>
 								  <option>Incremental MCL Algorithm</option>
 								  <option>Spectral Cluster Algorithm</option>
@@ -1456,6 +1459,55 @@
 		            })
 		            break;
 		        }
+		        
+		        case "Streaming Node Sampling" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/SNSampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                        }
+		            })
+		            break;
+		        }
+		        
+		        case "Streaming Edge Sampling" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/SESampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                        }
+		            })
+		            break;
+		        }
+		        
+		        case "Streaming Topology Sampling" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/STSampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                        }
+		            })
+		            break;
+		        }
+		        
 		        case "MCL Algorithm" :
 		        {
 		            $.ajax({

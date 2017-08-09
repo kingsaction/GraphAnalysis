@@ -60,5 +60,21 @@ public class SamplingDao implements ISamplingDao{
 	public Edges selectOneEdge(Long nextLong) throws Exception {
 		return samplingMapper.selectOneEdge(nextLong);
 	}
+	/**  
+	 * @see com.uniplore.graph.sampling.dao.ISamplingDao#getNeighbor(com.uniplore.graph.sampling.entity.Nodes)  
+	 */  
+	
+	@Override
+	public List<Edges> getNeighbor(Nodes node) throws Exception {
+		return samplingMapper.getNeighbor(node);
+	}
+	/**  
+	 * @see com.uniplore.graph.sampling.dao.ISamplingDao#selectOneNode(long)  
+	 */  
+	
+	@Override
+	public Nodes selectOneNode(Long nextLong) throws Exception {
+		return samplingMapper.selectOneNode(nextLong);
+	}
 
 }

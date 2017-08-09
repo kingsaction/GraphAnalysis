@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.uniplore.graph.sampling.service.ISampleService;
 
@@ -41,7 +40,11 @@ public class SampleController {
 	 * 
 	 * @Title  nodeSampling  
 	 * @Description TODO  点抽样算法，均匀随机的进行点抽样，假设抽样的规模为15%，后续会调整这个参数，
-	 *                      测试不同抽样规模对抽样算法性能的影响
+	 *                      测试不同抽样规模对抽样算法性能的影响。在经典的点抽样算法中，点被独立均匀随机的选择
+	 *                      ，首先随机的得到所有的抽样点，然后将这些点组成的所有边抽出。点抽样是符合直觉的并且是相对
+	 *                      比较直接的，这个工作在2005年被提出。相似的工作在2006年再次指出，点随机抽样能够很好的
+	 *                      抓住不同的点的度，但是很明显的缺陷是，点随机抽样不能很好的保留原图的连通性，因此在图聚类中
+	 *                      ，不推荐使用
 	 * @return  返回JSON字符串，交给前端渲染展示
 	 * @throws Exception  统一异常处理
 	 */
@@ -61,7 +64,10 @@ public class SampleController {
 	 * 
 	 * @Title  edgeSampling  
 	 * @Description TODO 边抽样算法，均匀随机的进行边抽样，假设抽样的规模为15%，后续会调整这个参数
-	 *                     测试不同抽样规模对抽样算法性能的影响
+	 *                     测试不同抽样规模对抽样算法性能的影响。在经典的边随机抽样算法中，边被均匀、独立
+	 *                     随机的抽取出来。因为边随机抽样主要集中在边的随机选择上，点只是当边被选择之后，
+	 *                     包含的点也随之被加入到样本中。很显然，边随机抽样不能很好的保持图的属性，由于边被独立的选择
+	 *                     ，因此对于聚类和连通性都不能很好的保留。
 	 * @return  返回JSON字符串，交给前端渲染展示
 	 * @throws Exception   统一异常处理
 	 */
@@ -79,41 +85,27 @@ public class SampleController {
 	/**
 	 * 
 	 * @Title  topologySampling  
-	 * @Description TODO 拓扑抽样算法  
+	 * @Description TODO 拓扑抽样算法，由于NS和ES算法本身的局限性，研究者们都在研究其它的基于拓扑结构的抽样
+	 *                     ，比如使用宽度优先遍历技术（无放回抽样）、随机游走（有放回抽样），在这个算法中主要是
+	 *                     考虑基于宽度优先遍历的拓扑结构抽样算法。算法首先还是每次随机的抽取一个点，并且被抽取
+	 *                     之后的点状态要设置为0，标志此次抽样是无放回抽样技术，并且每次抽样希望能够在抽取完一个点
+	 *                     后，能够将该点的邻居点也抽取出来（注意只抽取其中的一部分邻居点，通常情况下是两个邻居点，
+	 *                     目前基于拓扑结构的抽样技术中，最好的就是FFS算法，在2006年被提出）。本段代码主要实现基于拓扑结构
+	 *                     的抽样算法，将宽度优先遍历思想和FFS算法的思想结合在一起。
 	 * @return  返回JSON字符串，交给前端渲染展示
 	 * @throws Exception  统一异常处理
 	 */
 	@RequestMapping(value = "/TSampling", method = {RequestMethod.POST})
 	public @ResponseBody String topologySampling() throws Exception{
 		//System.out.println("选中了拓扑抽样算法");
-		return null;
+		String topologySampling = sample.topologySampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(topologySampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
 	}
 	
-	/**
-	 * 
-	 * @Title  randomWalkSampling  
-	 * @Description TODO 随机游走抽样算法  
-	 * @return  返回JSON字符串，交给前端渲染展示
-	 * @throws Exception  统一异常处理
-	 */
-	@RequestMapping(value = "/RWSampling", method = {RequestMethod.POST})
-	public @ResponseBody String randomWalkSampling() throws Exception{
-		//System.out.println("选中了随机游走抽样算法");
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @Title  forestFireSampling  
-	 * @Description TODO 森林火灾抽样算法  
-	 * @return  返回JSON字符串，交给前端渲染展示
-	 * @throws Exception   统一异常处理
-	 */
-	@RequestMapping(value = "/FFSampling", method = {RequestMethod.POST})
-	public @ResponseBody String forestFireSampling() throws Exception{
-		//System.out.println("选中了森林火灾抽样算法");
-		return null;
-	}
 	
 	/**
 	 * 

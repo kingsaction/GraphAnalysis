@@ -8,7 +8,6 @@
 */ 
 package com.uniplore.graph.sampling.entity;
 
-  
 /**     
  * 版权所有  2017-ACMIS Lab  
  * 项目名称  graphanalysis       
@@ -72,5 +71,4 @@ public class Nodes {
 		this.id = id;
 		this.nodeName = nodeName;
 	}
-	
 }

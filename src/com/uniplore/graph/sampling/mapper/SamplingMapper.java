@@ -30,15 +30,15 @@ public interface SamplingMapper {
 
 	/**  
 	 * @Title  listNodeAllData  
-	 * @Description TODO  
-	 * @return   
+	 * @Description TODO  列出所有点表当中的数据
+	 * @return  返回点表中所有的点
 	 */ 
 	public List<Nodes> listNodeAllData()throws Exception;
 
 	/**  
 	 * @Title  listEdgeAllData  
-	 * @Description TODO  
-	 * @return   
+	 * @Description TODO  列出所有边表当中的数据
+	 * @return   返回边表中所有的边
 	 */ 
 	public List<Edges> listEdgeAllData() throws Exception;
 
@@ -49,5 +49,21 @@ public interface SamplingMapper {
 	 * @return  返回选出的边的信息
 	 */ 
 	public Edges selectOneEdge(Long nextLong)throws Exception;
+
+	/**  
+	 * @Title  getNeighbor  
+	 * @Description TODO 得到某个指定点的邻居点  
+	 * @param node   由用户指定的点
+	 * @return    返回所有的邻居点
+	 */ 
+	public List<Edges> getNeighbor(Nodes node)throws Exception;
+
+	/**  
+	 * @Title  selectOneNode  
+	 * @Description TODO 根据指定的随机数随机选择一个点  
+	 * @param nextLong  随机程序产生
+	 * @return  返回指定的一个点
+	 */  
+	public Nodes selectOneNode(Long nextLong) throws Exception;
 
 }

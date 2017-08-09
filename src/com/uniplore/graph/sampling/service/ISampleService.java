@@ -24,10 +24,13 @@ package com.uniplore.graph.sampling.service;
 
 public interface ISampleService {
 
-	/**  
-	 * @Title  nodeSamplig  
-	 * @Description TODO 点抽样service方法   
-	 */ 
+	/**
+	 * 
+	 * @Title  nodeSampling  
+	 * @Description TODO 点随机抽样算法  
+	 * @return
+	 * @throws Exception  统一异常处理
+	 */
 	public String nodeSampling() throws Exception;
 
 	/**  
@@ -42,5 +45,12 @@ public interface ISampleService {
 	 * @return   
 	 */ 
 	public String edgeISampling() throws Exception;
+
+	/**  
+	 * @Title  topologySampling  
+	 * @Description TODO 基于拓扑结构的抽样技术
+	 * @return   
+	 */ 
+	public String topologySampling() throws Exception;
 
 }

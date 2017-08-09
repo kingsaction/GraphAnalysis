@@ -31,7 +31,18 @@
 	    select * from edge
 	</select>
 	
+	<!-- 随机抽取边表中的一条记录 -->
 	<select id="selectOneEdge" resultMap="edgeResult" parameterType="java.lang.Long">
 	    select * from edge limit 1 offset #{nextLong}
 	</select>
+	
+	<!-- 获取某个指定点的所有邻居点 -->
+	<select id="getNeighbor" resultMap="edgeResult" parameterType="com.uniplore.graph.sampling.entity.Nodes">
+	    select * from edge where source_node_id=#{id} or target_node_id=#{id}
+	</select>
+	
+    <!-- 随机抽取点表中的一条记录 -->
+    <select id="selectOneNode" resultMap="nodeResult" parameterType="Long">
+        select * from node limit 1 offset #{nextLong}
+    </select>
 </mapper>

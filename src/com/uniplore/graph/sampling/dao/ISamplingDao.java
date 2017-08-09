@@ -51,5 +51,24 @@ public interface ISamplingDao {
 	 * @return   
 	 */ 
 	public Edges selectOneEdge(Long nextLong) throws Exception;
+	
+	/**
+	 * 
+	 * @Title  getNeighbor  
+	 * @Description TODO 得到某个指定点的所有的邻居点  
+	 * @param node   由用户指定的点
+	 * @return  返回所有的邻居点
+	 * @throws Exception  统一异常处理
+	 */
+    public List<Edges> getNeighbor(Nodes node) throws Exception;
+
+	/**  
+	 * @Title  selectOneNode  
+	 * @Description TODO 根据指定的随机数，随机选择一个点  
+	 * @param nextLong
+	 * @return   
+	 */ 
+	public Nodes selectOneNode(Long nextLong) throws Exception;
+		
 
 }

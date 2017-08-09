@@ -28,6 +28,19 @@ public interface ISampleService {
 	 * @Title  nodeSamplig  
 	 * @Description TODO 点抽样service方法   
 	 */ 
-	public String nodeSamplig() throws Exception;
+	public String nodeSampling() throws Exception;
+
+	/**  
+	 * @Title  edgeSampling  
+	 * @Description TODO 边抽样service方法   
+	 */ 
+	public String edgeSampling() throws Exception;
+
+	/**  
+	 * @Title  edgeISampling  
+	 * @Description TODO 改进边抽样service方法 
+	 * @return   
+	 */ 
+	public String edgeISampling() throws Exception;
 
 }

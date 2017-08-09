@@ -44,4 +44,12 @@ public interface ISamplingDao {
 	 */
 	public List<Edges> listEdgeAllData() throws Exception;
 
+	/**  
+	 * @Title  selectOneEdge  
+	 * @Description TODO(这里用一句话描述这个方法的作用)  
+	 * @param nextLong
+	 * @return   
+	 */ 
+	public Edges selectOneEdge(Long nextLong) throws Exception;
+
 }

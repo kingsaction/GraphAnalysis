@@ -52,5 +52,13 @@ public class SamplingDao implements ISamplingDao{
 	public List<Edges> listEdgeAllData() throws Exception {
 		return samplingMapper.listEdgeAllData();
 	}
+	/**  
+	 * @see com.uniplore.graph.sampling.dao.ISamplingDao#selectOneEdge(long)  
+	 */  
+	
+	@Override
+	public Edges selectOneEdge(Long nextLong) throws Exception {
+		return samplingMapper.selectOneEdge(nextLong);
+	}
 
 }

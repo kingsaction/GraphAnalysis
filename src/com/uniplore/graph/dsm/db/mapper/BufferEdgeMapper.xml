@@ -9,8 +9,11 @@
 	<resultMap type="com.uniplore.graph.dsm.db.entity.Edge"
 		id="edgeResult">
 		<id column="id" property="id" />   <!-- 主键 -->
-	    <result property="sourceNode" column="source_node"/>
-	    <result property="targetNode" column="target_node"/>
+	    <result property="sourceNodeID" column="source_node_id"/>
+	    <result property="targetNodeID" column="target_node_id"/>
+	    <result property="sourceNodeName" column="source_node_name"/>
+	    <result property="targetNodeName" column="target_node_name"/>
+	    <result property="edgeState" column="edge_state"/>
 	</resultMap>
 	
 	<!-- 删除中间数据库层edge表中所有的数据 -->
@@ -20,7 +23,7 @@
 	
 	<!-- 插入边数据 -->
 	<insert id="insertEdgeData" parameterType="com.uniplore.graph.dsm.db.entity.Edge">
-	    insert into edge(id,source_node,target_node) values
-	                    (#{id},#{sourceNode},#{targetNode})
+	    insert into edge(id,source_node_id,target_node_id,source_node_name,target_node_name,edge_state) 
+	    values(#{id},#{sourceNodeID},#{targetNodeID},#{sourceNodeName},#{targetNodeName},#{edgeState})
 	</insert>
 </mapper>

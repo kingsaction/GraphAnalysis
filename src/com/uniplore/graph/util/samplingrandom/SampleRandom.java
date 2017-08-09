@@ -44,8 +44,8 @@ public class SampleRandom {
 			if(randomSet.size() == randomNumCount){   //如果生成的随机数指定的个数，整个循环结束
 				break;
 			}else{
-				long nextInt = ThreadLocalRandom.current().nextLong(randomMAX); //生成的随机数范围在[0,randomMAX-1]范围内
-				randomSet.add(nextInt);   //将上成的随机数加入到HashSet中，如果随机数重复，则不会被加入
+				long nextLong = ThreadLocalRandom.current().nextLong(randomMAX); //生成的随机数范围在[0,randomMAX-1]范围内
+				randomSet.add(nextLong);   //将上成的随机数加入到HashSet中，如果随机数重复，则不会被加入
 			}
 		}
 		
@@ -53,7 +53,7 @@ public class SampleRandom {
 		Iterator<Long> iterator = randomSet.iterator();
 		while(iterator.hasNext()){
 			Long next = iterator.next();
-			//System.out.println(next);
+			System.out.println(next);
 		}
 		
 		/*Object[] array = randomSet.toArray();

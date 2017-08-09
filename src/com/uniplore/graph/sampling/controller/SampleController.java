@@ -40,7 +40,7 @@ public class SampleController {
 	/**
 	 * 
 	 * @Title  nodeSampling  
-	 * @Description TODO  点抽样算法，均匀随机的进行点抽样，假设抽样的规模为15%，后续我们会调整这个参数，
+	 * @Description TODO  点抽样算法，均匀随机的进行点抽样，假设抽样的规模为15%，后续会调整这个参数，
 	 *                      测试不同抽样规模对抽样算法性能的影响
 	 * @return  返回JSON字符串，交给前端渲染展示
 	 * @throws Exception  统一异常处理
@@ -48,26 +48,32 @@ public class SampleController {
 	@RequestMapping(value = "/NSampling", method = {RequestMethod.POST})
 	public @ResponseBody String nodeSampling() throws Exception{
 		//System.out.println("选中了点抽样算法");
-		String nodeSamplig = sample.nodeSamplig();
+		String nodeSamplig = sample.nodeSampling();
 		
 		//将上述字符串重新解析
 	    Object parse = JSON.parse(nodeSamplig);
 	    String outputString = parse.toString();
-	    System.out.println("哈哈返回的字符串为：" + outputString);
+	    //System.out.println("返回的字符串为：" + outputString);
 		return outputString;
 	}
 	
 	/**
 	 * 
 	 * @Title  edgeSampling  
-	 * @Description TODO 边抽样算法
+	 * @Description TODO 边抽样算法，均匀随机的进行边抽样，假设抽样的规模为15%，后续会调整这个参数
+	 *                     测试不同抽样规模对抽样算法性能的影响
 	 * @return  返回JSON字符串，交给前端渲染展示
 	 * @throws Exception   统一异常处理
 	 */
 	@RequestMapping(value = "/ESampling", method = {RequestMethod.POST})
 	public @ResponseBody String edgeSampling() throws Exception{
 		//System.out.println("选中了边抽样算法");
-		return null;
+		String edgeSampling = sample.edgeSampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(edgeSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
 	}
 	
 	/**
@@ -112,14 +118,22 @@ public class SampleController {
 	/**
 	 * 
 	 * @Title  edgeISampling  
-	 * @Description TODO 改进后的边抽样算法  
+	 * @Description TODO 改进后的边抽样算法，该抽样算法是在edgeSampling()算法的基础之上改进的，改进之后的效果
+	 *                     相当的好，其实这个算法首先应用了EdgeSampling()算法的思想，之后有应用了nodeSampling()
+	 *                     算法的思想，这样得出的图保留了更多图本身的属性
 	 * @return 返回JSON字符串，交给前端渲染展示
 	 * @throws Exception  统一异常处理
 	 */
 	@RequestMapping(value = "/EiSampling", method = {RequestMethod.POST})
 	public @ResponseBody String edgeISampling() throws Exception{
 		//System.out.println("改进后的边抽样算法");
-		return null;
+		String edgeISampling = sample.edgeISampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(edgeISampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+	    //System.out.println("整个过程结束");
+		return outputString;
 	}
 	
 	/**

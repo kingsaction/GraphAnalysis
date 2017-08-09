@@ -24,17 +24,24 @@ package com.uniplore.graph.sampling.entity;
 
 public class Edges {
 	private String id;
-	private String sourceNode;
-	private String targetNode;
+	private String sourceNodeID;
+	private String targetNodeID;
+	private String sourceNodeName;
+	private String targetNodeName;
+	private Boolean edgeState;
 	public Edges() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Edges(String id, String sourceNode, String targetNode) {
+	public Edges(String id, String sourceNodeID, String targetNodeID, String sourceNodeName, String targetNodeName,
+			Boolean edgeState) {
 		super();
 		this.id = id;
-		this.sourceNode = sourceNode;
-		this.targetNode = targetNode;
+		this.sourceNodeID = sourceNodeID;
+		this.targetNodeID = targetNodeID;
+		this.sourceNodeName = sourceNodeName;
+		this.targetNodeName = targetNodeName;
+		this.edgeState = edgeState;
 	}
 	public String getId() {
 		return id;
@@ -42,21 +49,40 @@ public class Edges {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getSourceNode() {
-		return sourceNode;
+	public String getSourceNodeID() {
+		return sourceNodeID;
 	}
-	public void setSourceNode(String sourceNode) {
-		this.sourceNode = sourceNode;
+	public void setSourceNodeID(String sourceNodeID) {
+		this.sourceNodeID = sourceNodeID;
 	}
-	public String getTargetNode() {
-		return targetNode;
+	public String getTargetNodeID() {
+		return targetNodeID;
 	}
-	public void setTargetNode(String targetNode) {
-		this.targetNode = targetNode;
+	public void setTargetNodeID(String targetNodeID) {
+		this.targetNodeID = targetNodeID;
+	}
+	public String getSourceNodeName() {
+		return sourceNodeName;
+	}
+	public void setSourceNodeName(String sourceNodeName) {
+		this.sourceNodeName = sourceNodeName;
+	}
+	public String getTargetNodeName() {
+		return targetNodeName;
+	}
+	public void setTargetNodeName(String targetNodeName) {
+		this.targetNodeName = targetNodeName;
+	}
+	public Boolean getEdgeState() {
+		return edgeState;
+	}
+	public void setEdgeState(Boolean edgeState) {
+		this.edgeState = edgeState;
 	}
 	@Override
 	public String toString() {
-		return "Edges [id=" + id + ", sourceNode=" + sourceNode + ", targetNode=" + targetNode + "]";
-	}
-	
+		return "Edges [id=" + id + ", sourceNodeID=" + sourceNodeID + ", targetNodeID=" + targetNodeID
+				+ ", sourceNodeName=" + sourceNodeName + ", targetNodeName=" + targetNodeName + ", edgeState="
+				+ edgeState + "]";
+	}	
 }

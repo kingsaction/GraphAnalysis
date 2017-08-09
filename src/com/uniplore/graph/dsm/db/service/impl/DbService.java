@@ -443,7 +443,7 @@ public class DbService implements IDbService {
         EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
         
         //将边数据写入到中间数据库层
-        Edge edge = new Edge(edgeID1, nodeID1, nodeID2);
+        Edge edge = new Edge(edgeID1, nodeID1, nodeID2,node1,node2,true);
         edgeMap.put(edgeID1, edge);
         
         String jsonString3 = JSON.toJSONString(edgeVo);

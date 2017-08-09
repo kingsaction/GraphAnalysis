@@ -42,4 +42,12 @@ public interface SamplingMapper {
 	 */ 
 	public List<Edges> listEdgeAllData() throws Exception;
 
+	/**  
+	 * @Title  selectOneEdge  
+	 * @Description TODO 从边表中根据指定的编号选出一条边
+	 * @param nextLong  参数指的是要选出的边的位置品偏移
+	 * @return  返回选出的边的信息
+	 */ 
+	public Edges selectOneEdge(Long nextLong)throws Exception;
+
 }

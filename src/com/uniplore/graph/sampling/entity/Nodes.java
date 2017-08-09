@@ -67,5 +67,10 @@ public class Nodes {
 		return "Nodes [id=" + id + ", nodeName=" + nodeName + ", nodeDegree=" + nodeDegree + ", nodeState=" + nodeState
 				+ "]";
 	}
+	public Nodes(String id, String nodeName) {
+		super();
+		this.id = id;
+		this.nodeName = nodeName;
+	}
 	
 }

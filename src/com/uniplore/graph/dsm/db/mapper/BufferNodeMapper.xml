@@ -21,6 +21,7 @@
 	
 	<!-- 向node表中插入数据 -->
 	<insert id="insertNodeData" parameterType="com.uniplore.graph.dsm.db.entity.Node">
-	    insert into node(id,node_name,node_degree,node_state) values(#{id},#{nodeName},#{nodeDegree},#{nodeState})
+	    insert into node(id,node_name,node_degree,node_state) 
+	                values(#{id},#{nodeName},#{nodeDegree},#{nodeState})
 	</insert>
 </mapper>

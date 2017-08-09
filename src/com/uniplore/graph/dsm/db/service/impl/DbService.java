@@ -212,6 +212,7 @@ public class DbService implements IDbService {
    * 
    * 2017-8-4 修改该函数，在构造点和边时，增加中间数据库层操作，将边和点的信息全部保存在中间数据库中，方便后续
    * 进行抽样、增量等操作
+   * 2016-8-6 增加了中间数据库层完成
    */
   @Override
   public String dbDataFormatJson(DbPO dbPo, DbVO dbVo) throws Exception {
@@ -250,7 +251,8 @@ public class DbService implements IDbService {
     //String sourceNodeKey = null;   //存放source节点的key值
     //String targetNodeKey = null;   //存放target节点的key值
     
-    //填充中间层数据库时，首先还是全部转换为内存操作，将结果全部放入到Map中，全部工作完成之后，再将结果写入数据库
+    //填充中间层数据库时，首先还是全部转换为内存操作，将结果全部放入到Map中，
+    //全部工作完成之后，再将结果写入数据库，如果不能全部放入内存呢？此时该怎么处理
     Map<String, Node> nodeMap = new HashMap<String, Node>();
     Map<String, Edge> edgeMap = new HashMap<String, Edge>();
     
@@ -288,7 +290,7 @@ public class DbService implements IDbService {
           NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
          
           //按照nodeID作为键，将点写入
-          //构建一个Node节点
+          //构建一个Node节点，该节点存放在中间层数据库中
           Node node = new Node(nodeID1, node1, data1.getWeight(), true);
           nodeMap.put(nodeID1, node);
           
@@ -441,7 +443,7 @@ public class DbService implements IDbService {
         EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
         
         //将边数据写入到中间数据库层
-        Edge edge = new Edge(edgeID1, nodeID1, nodeID2);
+        Edge edge = new Edge(edgeID1, nodeID1, nodeID2,node1,node2,true);
         edgeMap.put(edgeID1, edge);
         
         String jsonString3 = JSON.toJSONString(edgeVo);
@@ -450,7 +452,7 @@ public class DbService implements IDbService {
     }
     
     //构建边和点完成之后，应该将上述的数据全部写回到中间数据库层中
-    //遍历nodeMap，将数据插入到数据库中
+    //遍历nodeMap，将数据插入到数据库中，隐藏的中间层
     Iterator<Entry<String, Node>> nodeIterator = nodeMap.entrySet().iterator();
     while(nodeIterator.hasNext()){
     	Entry<String, Node> nodeEntry = nodeIterator.next();
@@ -458,7 +460,7 @@ public class DbService implements IDbService {
         bufferNodeDao.insertNodeData(node);
     }
     
-    //遍历edgemap，将数据插入到数据库中
+    //遍历edgemap，将数据插入到数据库中，隐藏的中间层
     Iterator<Entry<String, Edge>> edgeIterator = edgeMap.entrySet().iterator();
     while(edgeIterator.hasNext()){
     	Entry<String, Edge> edgeEntry = edgeIterator.next();

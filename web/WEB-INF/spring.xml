@@ -98,6 +98,7 @@
 		  <value>
 		      com.uniplore.graph.ms.sign.entity
 		      com.uniplore.graph.dsm.db.entity
+		      com.uniplore.graph.sampling.entity
 		  </value>
 		</property>
 		<!-- 
@@ -109,6 +110,7 @@
 		     classpath:com/uniplore/graph/ms/sign/mapper/*Mapper.xml
 		     classpath:com/uniplore/graph/ms/login/mapper/*Mapper.xml
 		     classpath:com/uniplore/graph/dsm/db/mapper/*Mapper.xml
+		     classpath:com/uniplore/graph/sampling/mapper/*Mapper.xml
 		  </value>
 		</property>
     </bean>
@@ -126,6 +128,7 @@
 				com.uniplore.graph.ms.sign.mapper
 				com.uniplore.graph.ms.login.mapper
 				com.uniplore.graph.dsm.db.mapper
+				com.uniplore.graph.sampling.mapper
 			</value>
 		</property>
 		

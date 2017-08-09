@@ -203,7 +203,7 @@
 			<ul class="collapsible" data-collapsible="accordion" style="margin: 0; padding: 0;">
 				<li>
 					<div class="collapsible-header">
-						<i class="icon-foursquare"></i>ALOGRITHM
+						<i class="icon-foursquare"></i>遍历算法
 					</div>
 					<div class="collapsible-body" id="alogrithm-tabs">
 					
@@ -211,7 +211,7 @@
 					<li>
 						<div>
 							<select class="browser-default" id="graph_select">
-								<option value="" selected>请选择图分析算法</option>
+								<option value="" selected>请选择遍历算法</option>
 							</select>
 						</div>
 					</li>
@@ -236,9 +236,39 @@
 					  </ul> -->
 					</div>
 				</li>
+				<li>  <!-- 抽样的li标签开始 -->
+				    <div class="collapsible-header">
+						<i class="icon-cut"></i>抽样与聚类算法
+					</div>
+					<div class="collapsible-body">
+					  <ul>
+					    <li>
+						  <div style="height:70px; margin-left: 24px;margin-top: 20px;margin-right: 30px;" >
+							  <select class="browser-default" id="sampling_cluster_select">
+								  <option value="" selected>请选择算法</option>
+								  <option>Node Sampling</option>
+								  <option>Edge Sampling</option>
+								  <option>Topology Sampling</option>
+								  <option>Random Walk Sampling</option>
+								  <option>Forest Fire Sampling</option>
+								  <option>ES-i</option>
+								  <option>Streaming Node Sampling</option>
+								  <option>Streaming Edge Sampling</option>
+								  <option>Streaming Topology Sampling</option>
+								  <option>MCL Algorithm</option>
+								  <option>Incremental MCL Algorithm</option>
+								  <option>Spectral Cluster Algorithm</option>
+							  </select>
+						  </div>
+					    </li>
+				      </ul>
+					</div>
+				</li> <!-- 抽样的li标签结束 -->
+				
+				
 				<li>
 					<div class="collapsible-header">
-						<i class="icon-cogs"></i>SETTING
+						<i class="icon-cogs"></i>图显示设置
 					</div>
 					<div class="collapsible-body" id="setting-tabs">
 						<ul>
@@ -1254,7 +1284,7 @@
 	    }
 	</script> 
 	
-	<!-- 当图分析算法发生点击事件时，激活该段代码 -->
+	<!-- 当图遍历算法发生点击事件时，激活该段代码 -->
 	<script type="text/javascript">
      /*在单选列表上增加鼠标单击事件，进行算法切换*/
 		$('#graph_select').change(function() {
@@ -1325,6 +1355,734 @@
 		            break;
 		        }
 		        
+		    }
+		});
+	</script>
+	
+	
+	
+	<!-- 当图抽样或者聚类算法被选中时，激活下面的代码 -->
+	<script type="text/javascript">
+     /*在单选列表上增加鼠标单击事件，进行算法切换*/
+		$('#sampling_cluster_select').change(function() {
+			var algorithmName = $('#sampling_cluster_select').find("option:selected").text();;   //获取当前选中的元素值#graph_select
+		    switch (algorithmName){
+		        case "Node Sampling" :
+		        {
+		            //根据选中的不同的算法，拼接出不同的url，并将相应的url传递到控制器
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/NSampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            //接收到部分数据后构造对象
+                            //alert("返回的数据为：" + backData);
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											/* 'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20,  */
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											 */
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+                    break;
+		        }
+		        case "Edge Sampling" :
+		        {
+		            //根据选中的不同的算法，拼接出不同的url，并将相应的url传递到控制器
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/ESampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											/* 'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20,  */
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											 */
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+		            break;
+		        }
+		        case "Topology Sampling" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/TSampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                        }
+		            })
+		            break;
+		        }
+		        case "Random Walk Sampling" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/RWSampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											/* 'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20,  */
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											 */
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+		            break;
+		        }
+		        case "Forest Fire Sampling" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/FFSampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											/* 'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20,  */
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											 */
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+		            break;
+		        }
+		        case "ES-i" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/EiSampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											/* 'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20,  */
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											 */
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+		            break;
+		        }
+		        
+		        case "Streaming Node Sampling" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/SNSampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											/* 'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20,  */
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											 */
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+		            break;
+		        }
+		        
+		        case "Streaming Edge Sampling" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/SESampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											/* 'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20,  */
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											 */
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+		            break;
+		        }
+		        
+		        case "Streaming Topology Sampling" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/STSampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											/* 'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20,  */
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											 */
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+		            break;
+		        }
+		        
+		        case "MCL Algorithm" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/algorithms/MCLAlgorithm?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											/* 'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20,  */
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											 */
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+		            break;
+		        }
+		        case "Incremental MCL Algorithm" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/algorithms/IMCLAlgorithm?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											/* 'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20,  */
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											 */
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+		            break;
+		        }
+		         case "Spectral Cluster Algorithm" :
+		        {
+		            $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/algorithms/SCAlgorithm?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											/* 'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'ellipse',
+											'width': 10,
+											'height': 20,  */
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    /* 'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#ccc',
+											'target-arrow-color' : '#ccc',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											 */
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+		            break;
+		        }
 		    }
 		});
 	</script>   

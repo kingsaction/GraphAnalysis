@@ -27,15 +27,15 @@ public interface IBufferEdgeDao {
 
 	/**  
 	 * @Title  insertEdgeData  
-	 * @Description TODO(这里用一句话描述这个方法的作用)  
+	 * @Description TODO   插入点数据
 	 * @param edge   
 	 */ 
-	public void insertEdgeData(Edge edge);
+	public void insertEdgeData(Edge edge)throws Exception;
 
 	/**  
 	 * @Title  deleteEdgeData  
-	 * @Description TODO(这里用一句话描述这个方法的作用)     
+	 * @Description TODO   删除边数据
 	 */ 
-	public void deleteEdgeData();
+	public void deleteEdgeData()throws Exception;
 
 }

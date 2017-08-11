@@ -25,10 +25,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -685,13 +688,156 @@ public class SampleService implements ISampleService {
 
 	/**  
 	 * @see com.uniplore.graph.sampling.service.ISampleService#randomWalkSampling()
-	 * 基于随机游走的抽样算法  
+	 * 基于随机游走的抽样算法
 	 */  
 	
 	@Override
 	public String randomWalkSampling() throws Exception {
+		int nodePage = 1 ;    //标识第几页，从第一页开始
+		int nodePageSize = 1000;  //标识点表每一页包含的记录数，设置为1000
+		long nodeTotal = 0; //保存点表中总的记录数
+		long nodePageTotalNumber = 1 ; //记录点表分页之后的总页数
+		long sampleNodeCount = 0;   //抽样的点的总数目
+	    double proportion = 0.15;  //代表要取出的点的比例，目前设置为要取出15%的点
+	         
+		while(nodePage <= nodePageTotalNumber){  //如果当前页数小于等于总的页数时，执行循环
+			PageHelper.startPage(nodePage, nodePageSize);   //分页
+			List<Nodes> listNodeAllData = samplingDao.listNodeAllData();
+			
+	        //获取数据库中点表的总记录数，并且在整个循环中，该段代码只在获取第一页时被执行一次即可
+			if(nodePage == 1){   //只有在获取第一页时，才计算总记录数
+				PageInfo<Nodes> pageInfo = new PageInfo<Nodes>(listNodeAllData);
+		        nodeTotal = pageInfo.getTotal(); //获取总记录数
+		        //System.out.println("总记录数为:" + total);
+		        nodePageTotalNumber = nodeTotal/1000 + 1; //总页数要加1，因为可能有不满一页的情况存在
+		        //System.out.println("当前查询的点表总页数为:" + nodePageTotalNumber);
+			}
+			
+			//生成一组随机数，这组随机数表示要取出的点
+		    sampleNodeCount = (long) ((nodeTotal * proportion) + 1) ;
+		    nodePage++;  //加1结束整个while循环
+		} //抽样点的个数统计完毕
 		
-		return null;
+		int edgePage = 1;   //标识第几页，从第一页开始
+		int edgePageSize = 1000; //标识边表每一页包含的记录数，初始设置为1000
+		long edgeTotal = 0 ; //保存边表中的总记录数目
+		long edgePageTotalNumber = 1 ; //记录边表分页之后的总页数
+		
+		
+		while(edgePage <= edgePageTotalNumber){  //边总数统计开始
+			PageHelper.startPage(edgePage,edgePageSize);
+			List<Edges> listEdgeAllData = samplingDao.listEdgeAllData();
+			
+			//获取数据库中边表的总记录数，并且在整个循环中，该段代码只在获取第一页时被执行一次即可
+			if(edgePage == 1){   //只有在获取第一页时，才计算总记录数
+				PageInfo<Edges> pageInfo = new PageInfo<Edges>(listEdgeAllData);
+		        edgeTotal = pageInfo.getTotal(); //获取边表中的总记录数
+		        edgePageTotalNumber = edgeTotal/1000 + 1; //总页数要加1，因为可能有不满一页的情况存在
+			}
+			edgePage++;
+		}  //边总数统计完毕
+		
+		//在点表当中随机抽取一个点，并且是不放回抽样
+		Map<String, Nodes> nodeMap = new HashMap<String, Nodes>(); //将抽取出来的点存放在Map中
+        Map<String, Edges> edgeMap = new HashMap<String, Edges>(); //将抽取出来的边存放在Map中
+        
+        Set<Long> randomSet = new HashSet<Long>();    //存放随机抽取的随机数
+		while(true){
+			if(nodeMap.size() == sampleNodeCount || edgeMap.size() == edgeTotal){
+				//当点的总数得到抽样要求时，停止循环  或者  当抽取的边的数目等于边的总数时，停止抽样过程
+				break;
+			}else {
+				Long nextLong = null ;
+				while(true){
+					nextLong = ThreadLocalRandom.current().nextLong(nodeTotal);  //产生一个随机数
+					//根据该随机数，从指定的点表中抽取出一条记录
+					if(!randomSet.contains(nextLong)){
+						randomSet.add(nextLong);   //如果在当前不包含该随机数，则使用该随机数，否则继续抽取随机数
+						break;
+					}else {
+						continue;
+					}
+				}  //选择随机数结束
+				Nodes nodes = samplingDao.selectOneNode(nextLong);
+				//将得到的点加入到点表中
+				nodeMap.put(nodes.getId(), nodes);
+				//获取该点所有的邻居边 
+				List<Edges> neighborList = samplingDao.getNeighbor(nodes);
+				Queue<Nodes> nodeQueue = new LinkedList<Nodes>();   //将LinkedList当做队列来使用 
+				
+				//将邻居点放入Stack中
+				for (Edges edges : neighborList) {
+					//遍历上述list，并将点放入到Stack中
+					nodeQueue.add(new Nodes(edges.getSourceNodeID(), edges.getSourceNodeName()));
+					nodeQueue.add(new Nodes(edges.getTargetNodeID(), edges.getTargetNodeName()));
+					nodeMap.put(edges.getSourceNodeID(), new Nodes(edges.getSourceNodeID(), edges.getSourceNodeName()));
+					nodeMap.put(edges.getTargetNodeID(), new Nodes(edges.getTargetNodeID(), edges.getTargetNodeName()));
+					edgeMap.put(edges.getId(), edges);
+				}
+				//System.out.println("第一次队列操作结束");
+				
+				//操作上述Stack，把并所有的目标点加入到nodeMap中，并把所有的边加入到edgeList中
+				while(nodeMap.size() != sampleNodeCount && !nodeQueue.isEmpty()){
+					//一直取出所有的点
+					Nodes removeNode = nodeQueue.remove();   //弹出一个点
+					List<Edges> neighbor = samplingDao.getNeighbor(removeNode);
+					//遍历上述所有的边，并取出其中所有的点和边
+					for (Edges edges : neighbor) {
+						edgeMap.put(edges.getId(), edges); 
+						if (nodeMap.containsKey(edges.getSourceNodeID())) {
+							//说明该点已经存在，不再加入
+							continue;
+						}else {
+							nodeMap.put(edges.getSourceNodeID(), new Nodes(edges.getSourceNodeID(), edges.getSourceNodeName()));
+							nodeQueue.add(new Nodes(edges.getSourceNodeID(), edges.getSourceNodeName()));
+						}
+						
+					    if (nodeMap.containsKey(edges.getTargetNodeID())) {
+							//说明target存在，不再加入
+					    	continue;
+						}else {
+							nodeMap.put(edges.getTargetNodeID(), new Nodes(edges.getTargetNodeID(), edges.getTargetNodeName()));
+						    nodeQueue.add(new Nodes(edges.getTargetNodeID(), edges.getTargetNodeName()));
+						}
+						
+					}
+					//System.out.println("队列操作正在循环");
+				}
+			}
+		}   //抽样结束
+		System.out.println("抽出的点的个数为:" + nodeMap.size());
+		System.out.println("抽出的边的个数为:" + edgeMap.size());
+		
+		//System.out.println("抽样结束，开始生成JSON格式数据");
+		//将抽样出的点和边构造成JSON格式
+		//构造出JSON字符串，并将结果返回给控制器用于展示
+	    StringBuilder jsonString = new StringBuilder();
+		//遍历nodeMap，将所有的数据取出，构造成JSON
+		Iterator<Entry<String, Nodes>> nodeIterator = nodeMap.entrySet().iterator();
+		while(nodeIterator.hasNext()){
+			Entry<String, Nodes> entryNode = nodeIterator.next();
+			String key = entryNode.getKey();
+			Nodes value = entryNode.getValue();
+			NodeDataVO data = new NodeDataVO(key,value.getNodeName(),value.getNodeDegree());
+			NodeVO nodeVo1 = new NodeVO(data, "nodes",false,false,true,false,false,true,"");
+			String jsonString1 = JSON.toJSONString(nodeVo1);
+			jsonString.append(jsonString1 + ",");
+		}
+		
+		Iterator<Entry<String, Edges>> edgeIterator = edgeMap.entrySet().iterator();
+		while(edgeIterator.hasNext()){
+			Entry<String, Edges> entryEdge = edgeIterator.next();
+			String key = entryEdge.getKey();
+			Edges value = entryEdge.getValue();
+			
+			EdgeDataVO data = new EdgeDataVO(value.getId(), value.getSourceNodeID(), value.getTargetNodeID(), 1);
+			EdgeVO edgeVo = new EdgeVO(data, "edges",false,false,true,false,false,true,"");
+			String jsonString1 = JSON.toJSONString(edgeVo);
+			jsonString.append(jsonString1 + ",");
+		}
+		
+		String jsonOutput = "[" + jsonString + "]" ;
+		return jsonOutput;
 	}
 
 	/**  

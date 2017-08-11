@@ -1,7 +1,7 @@
 /**    
 * @Title         SampleService.java  
 * @Package       com.uniplore.graph.sampling.service.Impl  
-* @Description   TODO(用一句话描述该文件做什么)  
+* @Description   TODO 抽样算法的实现类 
 * @author        朱君鹏     
 * @date          2017年8月8日 上午9:57:57  
 * @version       1.0    
@@ -21,9 +21,6 @@ import com.uniplore.graph.sampling.entity.Edges;
 import com.uniplore.graph.sampling.entity.Nodes;
 import com.uniplore.graph.sampling.service.ISampleService;
 import com.uniplore.graph.util.samplingrandom.SampleRandom;
-
-import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,7 +32,6 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 /**     
  * 版权所有  2017-ACMIS Lab  

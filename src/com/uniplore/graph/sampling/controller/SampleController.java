@@ -62,6 +62,45 @@ public class SampleController {
 	
 	/**
 	 * 
+	 * @Title  randomPageRankNodeSampling  
+	 * @Description TODO 随机PageRank节点抽样算法，有偏抽样算法，每个节点被取出的概率不同，根据PageRank
+	 *                     计算节点的重要性，根据重要性进行抽样  
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/RPNSampling" , method = {RequestMethod.POST})
+	public @ResponseBody String randomPageRankNodeSampling()throws Exception{
+		//System.out.println("选中了随机PageRank点抽样算法");
+		String randomPageRankNodeSampling = sample.randomPageRankNodeSampling();
+		
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(randomPageRankNodeSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
+	}
+	
+	/**
+	 * 
+	 * @Title  randomDegreeNodeSampling  随机度点抽样算法
+	 * @Description TODO   该算法是有偏抽样算法，根据节点的度来确定每个点
+	 *                       被抽到的概率  
+	 * @return 返回JSON字符串，用于前端渲染
+	 * @throws Exception 统一异常处理
+	 */ 
+	@RequestMapping(value = "/RDNSampling" ,method = {RequestMethod.POST})
+	public @ResponseBody String randomDegreeNodeSampling() throws Exception{
+		//System.out.println("选中了随机度点抽样算法");
+		String randomDegreeNodeSampling = sample.randomDegreeNodeSampling();
+		
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(randomDegreeNodeSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
+	}
+	/**
+	 * 
 	 * @Title  edgeSampling  
 	 * @Description TODO 边抽样算法，均匀随机的进行边抽样，假设抽样的规模为15%，后续会调整这个参数
 	 *                     测试不同抽样规模对抽样算法性能的影响。在经典的边随机抽样算法中，边被均匀、独立
@@ -106,7 +145,41 @@ public class SampleController {
 		return outputString;
 	}
 	
+	/**
+	 *
+	 * @Title  randomWalkSampling  
+	 * @Description TODO 基于随机游走的抽样算法  
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/RWSampling" , method = {RequestMethod.POST})
+	public @ResponseBody String randomWalkSampling() throws Exception{
+		//System.out.println("选中了拓扑抽样算法");
+		String randomWalkSampling = sample.randomWalkSampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(randomWalkSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
+	}
 	
+	/**
+	 * 
+	 * @Title  forestFireSampling  森林火灾抽样算法
+	 * @Description TODO 森林火灾抽样算法  
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/FFSampling", method = {RequestMethod.POST})
+	public @ResponseBody String forestFireSampling() throws Exception{
+		//System.out.println("选中了森林火灾抽样算法");
+		String forestFireSampling = sample.forestFireSampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(forestFireSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
+	}
 	/**
 	 * 
 	 * @Title  edgeISampling  
@@ -138,7 +211,13 @@ public class SampleController {
 	@RequestMapping(value = "/SNSampling", method = {RequestMethod.POST})
 	public @ResponseBody String streamingNodeSampling() throws Exception{
 		//System.out.println("流式点抽样算法");
-		return null;
+		String streamingNodeSampling = sample.streamingNodeSampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(streamingNodeSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+	    //System.out.println("整个过程结束");
+		return outputString;
 	}
 	
 	/**
@@ -150,8 +229,14 @@ public class SampleController {
 	 */
 	@RequestMapping(value = "/SESampling", method = {RequestMethod.POST})
 	public @ResponseBody String streamingEdgeSampling() throws Exception{
-		//System.out.println("流式边抽样算法");
-		return null;
+		//System.out.println("流式点抽样算法");
+		String streamingEdgeSampling = sample.streamingEdgeSampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(streamingEdgeSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+	    //System.out.println("整个过程结束");
+		return outputString;
 	}
 	
 	/**
@@ -164,7 +249,13 @@ public class SampleController {
 	@RequestMapping(value = "/STSampling", method = {RequestMethod.POST})
 	public @ResponseBody String streamingTopologySampling() throws Exception{
 		//System.out.println("流式拓扑结构抽样算法");
-		return null;
+		String streamingTopologySampling = sample.streamingTopologySampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(streamingTopologySampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+	    //System.out.println("整个过程结束");
+		return outputString;
 	}
 	
 	

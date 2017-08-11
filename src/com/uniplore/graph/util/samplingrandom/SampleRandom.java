@@ -11,6 +11,7 @@ package com.uniplore.graph.util.samplingrandom;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**     
@@ -38,6 +39,7 @@ public class SampleRandom {
 	 * @return
 	 */
 	public static HashSet<Long> randomSampling(Long randomNumCount , Long randomMAX){
+		
 		//生成随机数，服从均匀分布 http://blog.csdn.net/liyuanbhu/article/details/8630677
 		HashSet<Long> randomSet = new HashSet<Long>();
 		while(true){
@@ -65,7 +67,25 @@ public class SampleRandom {
 		return randomSet;
 	}
 	
+	//用于生成int类型的随机数
+	public static HashSet<Integer> randomSamplingInt(int randomNumCount , int randomMAX){
+		Random random = new Random();
+		HashSet<Integer> randomSet = new HashSet<Integer>();  //保存随机的数据集
+		
+		while(true){
+			if (randomSet.size() == randomNumCount) {
+				break;
+			}else {
+				int nextInt = random.nextInt(randomMAX);
+				randomSet.add(nextInt);
+			}
+		}
+		
+		return randomSet;
+	}
+	
 	public static void main(String[] args) {
 		randomSampling((long)10, (long)100);
+		randomSamplingInt(10, 100);
 	}
 }

@@ -557,7 +557,8 @@ public class SampleService implements ISampleService {
 	 * @Description TODO  随机度节点抽样算法，该算法偏向度更大的点，每个节点抽样的概率用节点的度来衡量
 	 *                      目前该算法只实现针对小规模数据的有偏抽样，请注意，该算法与典型的NodeSampling算法不同
 	 *                      ，之前算法是均匀随机的进行抽样。本段代码只适用于static graph，对于大规模的图数据实现
-	 *                      有偏抽样比较复杂，后续会想办法改进
+	 *                      有偏抽样比较复杂，后续会想办法改进。如果我能将构造出的新的数据存放到数据库中，这样就
+	 *                      能够支持大规模的图数据不均匀抽样，该问题算是解决了，目前不会更新代码
 	 * @return  返回JSON字符串，用于前端展示
 	 * @throws Exception  统一异常处理
 	 */
@@ -687,7 +688,8 @@ public class SampleService implements ISampleService {
 	}
 
 	/**  
-	 * @see com.uniplore.graph.sampling.service.ISampleService#randomWalkSampling()  
+	 * @see com.uniplore.graph.sampling.service.ISampleService#randomWalkSampling()
+	 * 基于随机游走的抽样算法  
 	 */  
 	
 	@Override
@@ -697,7 +699,8 @@ public class SampleService implements ISampleService {
 	}
 
 	/**  
-	 * @see com.uniplore.graph.sampling.service.ISampleService#forestFireSampling()  
+	 * @see com.uniplore.graph.sampling.service.ISampleService#forestFireSampling()
+	 * 森林火灾抽样算法  
 	 */  
 	
 	@Override

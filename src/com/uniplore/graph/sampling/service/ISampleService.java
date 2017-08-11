@@ -28,29 +28,89 @@ public interface ISampleService {
 	 * 
 	 * @Title  nodeSampling  
 	 * @Description TODO 点随机抽样算法  
-	 * @return
+	 * @return  返回JSON字符串，用于前端展示
 	 * @throws Exception  统一异常处理
 	 */
 	public String nodeSampling() throws Exception;
 
 	/**  
 	 * @Title  edgeSampling  
-	 * @Description TODO 边抽样service方法   
+	 * @Description TODO 边抽样service方法
+     * @return   返回JSON字符串，用于前端展示 
+	 * @throws Exception  统一异常处理 
 	 */ 
 	public String edgeSampling() throws Exception;
 
 	/**  
 	 * @Title  edgeISampling  
 	 * @Description TODO 改进边抽样service方法 
-	 * @return   
+	 * @return   返回JSON字符串，用于前端展示
+	 * @throws Exception  统一异常处理
 	 */ 
 	public String edgeISampling() throws Exception;
 
 	/**  
 	 * @Title  topologySampling  
 	 * @Description TODO 基于拓扑结构的抽样技术
-	 * @return   
+	 * @return  返回JSON字符串，用于前端展示
+	 * @throws Exception  统一异常处理
 	 */ 
 	public String topologySampling() throws Exception;
+
+	/**  
+	 * @Title  randomDegreeNodeSampling  
+	 * @Description TODO 随机度节点抽样算法  
+	 * @return 返回JSON字符串，用于前端展示
+	 * @throws Exception  统一异常处理
+	 */ 
+	public String randomDegreeNodeSampling() throws Exception;
+
+	/**  
+	 * @Title  randomPageRankNodeSampling  
+	 * @Description TODO 随机PageRank节点抽样算法  
+	 * @return   返回JSON字符串，用于前端渲染
+	 * @throws Exception  统一异常处理
+	 */ 
+	public String randomPageRankNodeSampling() throws Exception;
+
+	/**  
+	 * @Title  randomWalkSampling  
+	 * @Description TODO 基于随机游走的抽样算法
+	 * @return  返回JSON字符串，用于前端渲染
+	 * @throws Exception  统一异常处理
+	 */ 
+	public String randomWalkSampling() throws Exception;
+
+	/**  
+	 * @Title  forestFireSampling  
+	 * @Description TODO 森林火灾抽样算法
+	 * @return  返回JSON字符串，用于前端渲染
+	 
+	 */ 
+	public String forestFireSampling() throws Exception;
+
+	/**  
+	 * @Title  streamingNodeSampling  
+	 * @Description TODO 流式点抽样算法  
+	 * @return   返回JSON字符串，用于前端渲染
+	  * @throws Exception  统一异常处理
+	 */ 
+	public String streamingNodeSampling() throws Exception;
+
+	/**  
+	 * @Title  streamingEdgeSampling  
+	 * @Description TODO 流式边抽样算法
+	 * @throws Exception  统一异常处理
+	 * @return   返回JSON字符串，用于前端渲染
+	 */ 
+	public String streamingEdgeSampling() throws Exception;
+
+	/**  
+	 * @Title  streamingTopologySampling  
+	 * @Description TODO 流式拓扑结构抽样算法
+	 * @throws Exception  统一异常处理
+	 * @return    返回JSON字符串，用于前端渲染
+	 */ 
+	public String streamingTopologySampling() throws Exception;
 
 }

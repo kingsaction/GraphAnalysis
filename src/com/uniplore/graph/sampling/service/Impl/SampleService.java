@@ -805,9 +805,8 @@ public class SampleService implements ISampleService {
 				}
 			}
 		}   //抽样结束
-		System.out.println("抽出的点的个数为:" + nodeMap.size());
-		System.out.println("抽出的边的个数为:" + edgeMap.size());
-		
+		//System.out.println("抽出的点的个数为:" + nodeMap.size());
+		//System.out.println("抽出的边的个数为:" + edgeMap.size());
 		//System.out.println("抽样结束，开始生成JSON格式数据");
 		//将抽样出的点和边构造成JSON格式
 		//构造出JSON字符串，并将结果返回给控制器用于展示

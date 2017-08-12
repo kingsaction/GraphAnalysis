@@ -809,8 +809,40 @@ public class SampleService implements ISampleService {
 				}
 			}
 		}   //抽样结束
-		//System.out.println("抽出的点的个数为:" + nodeMap.size());
-		//System.out.println("抽出的边的个数为:" + edgeMap.size());
+		//开始边表的遍历，当sourceNode和targetNode都是上面抽样出来的点时，这条边要被抽出
+		int edgePageNode = 1;   //标识第几页，从第一页开始
+		int edgePageSizeNode = 1000; //标识边表每一页包含的记录数，初始设置为1000
+		long edgeTotalNode = 0 ; //保存边表中的总记录数目
+		long edgePageTotalNumberNode = 1 ; //记录边表分页之后的总页数
+		
+		
+		while(edgePageNode <= edgePageTotalNumberNode){  //边表抽样开始
+			PageHelper.startPage(edgePageNode,edgePageSizeNode);
+			List<Edges> listEdgeAllData = samplingDao.listEdgeAllData();
+			
+			//获取数据库中边表的总记录数，并且在整个循环中，该段代码只在获取第一页时被执行一次即可
+			if(edgePageNode == 1){   //只有在获取第一页时，才计算总记录数
+				PageInfo<Edges> pageInfo = new PageInfo<Edges>(listEdgeAllData);
+		        edgeTotalNode = pageInfo.getTotal(); //获取边表中的总记录数
+		        //System.out.println("总记录数为:" + total);
+		        edgePageTotalNumberNode = edgeTotalNode/1000 + 1; //总页数要加1，因为可能有不满一页的情况存在
+		        //System.out.println("当前查询的边表总页数为:" + edgePageTotalNumber);
+			}
+			
+			int edgePageSizePer = listEdgeAllData.size();
+			for (int i = 0; i < edgePageSizePer; i++) {
+				Edges edges = listEdgeAllData.get(i);
+				if (nodeMap.containsKey(edges.getSourceNodeID()) && nodeMap.containsKey(edges.getTargetNodeID())) {
+					//此时该条边应该被取出
+					edgeMap.put(edges.getId(), edges);
+				}else {
+					continue;
+				}
+			}
+			edgePageNode++;
+		}  //边表的抽样完毕
+		System.out.println("抽出的点的个数为:" + nodeMap.size());
+	    System.out.println("抽出的边的个数为:" + edgeMap.size());
 		//System.out.println("抽样结束，开始生成JSON格式数据");
 		//将抽样出的点和边构造成JSON格式
 		//构造出JSON字符串，并将结果返回给控制器用于展示

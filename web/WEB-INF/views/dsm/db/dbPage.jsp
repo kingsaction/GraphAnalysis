@@ -1392,14 +1392,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -1407,13 +1407,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -1457,14 +1457,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -1472,13 +1472,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -1521,14 +1521,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -1536,13 +1536,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -1585,14 +1585,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -1600,13 +1600,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -1648,14 +1648,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -1663,13 +1663,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -1711,14 +1711,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -1726,13 +1726,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -1774,14 +1774,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -1789,13 +1789,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -1837,14 +1837,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -1852,13 +1852,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -1900,14 +1900,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -1915,13 +1915,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -1964,14 +1964,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -1979,13 +1979,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -2028,14 +2028,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -2043,13 +2043,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -2092,14 +2092,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -2107,13 +2107,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -2155,14 +2155,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -2170,13 +2170,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],
@@ -2218,14 +2218,14 @@
 										style : {
 										    'label' : 'data(name)',
 										    /* 'label' : 'data(weight)', */
-											/* 'background-color' : 'red',
+											'background-color' : 'red',
 											
 											'width': 2,
 											'opacity': .9,
 											'size': 60,
-											'shape': 'ellipse',
-											'width': 10,
-											'height': 20,  */
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
 										}
 									},
 	
@@ -2233,13 +2233,13 @@
 										selector : 'edge',
 										style : {
 										    'label': 'data(name)',
-										    /* 'target-arrow-shape' : 'triangle',
+										    'target-arrow-shape' : 'triangle',
 											'width' : 4,
-											'line-color' : '#ccc',
-											'target-arrow-color' : '#ccc',
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
 											'opacity': 2,
 											'curve-style': 'bezier', //设置边到底是有向还是无向边
-											 */
+											
 										}
 									}
 								],

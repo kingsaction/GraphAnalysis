@@ -743,7 +743,7 @@ public class SampleService implements ISampleService {
         
         Set<Long> randomSet = new HashSet<Long>();    //存放随机抽取的随机数
 		while(true){
-			if(nodeMap.size() == sampleNodeCount || edgeMap.size() == edgeTotal){
+			if(nodeMap.size() >= sampleNodeCount || edgeMap.size() == edgeTotal){
 				//当点的总数得到抽样要求时，停止循环  或者  当抽取的边的数目等于边的总数时，停止抽样过程
 				break;
 			}else {
@@ -777,27 +777,31 @@ public class SampleService implements ISampleService {
 				//System.out.println("第一次队列操作结束");
 				
 				//操作上述Stack，把并所有的目标点加入到nodeMap中，并把所有的边加入到edgeList中
-				while(nodeMap.size() != sampleNodeCount && !nodeQueue.isEmpty()){
+				while(nodeMap.size() <= sampleNodeCount && !nodeQueue.isEmpty()){
 					//一直取出所有的点
 					Nodes removeNode = nodeQueue.remove();   //弹出一个点
 					List<Edges> neighbor = samplingDao.getNeighbor(removeNode);
 					//遍历上述所有的边，并取出其中所有的点和边
 					for (Edges edges : neighbor) {
-						edgeMap.put(edges.getId(), edges); 
+						//edgeMap.put(edges.getId(), edges); 
 						if (nodeMap.containsKey(edges.getSourceNodeID())) {
 							//说明该点已经存在，不再加入
-							continue;
-						}else {
+						}else if(nodeMap.size() <= sampleNodeCount){
 							nodeMap.put(edges.getSourceNodeID(), new Nodes(edges.getSourceNodeID(), edges.getSourceNodeName()));
+							edgeMap.put(edges.getId(), edges);
 							nodeQueue.add(new Nodes(edges.getSourceNodeID(), edges.getSourceNodeName()));
+						}else{
+							break;
 						}
 						
 					    if (nodeMap.containsKey(edges.getTargetNodeID())) {
 							//说明target存在，不再加入
-					    	continue;
-						}else {
+						}else if(nodeMap.size() <= sampleNodeCount){
 							nodeMap.put(edges.getTargetNodeID(), new Nodes(edges.getTargetNodeID(), edges.getTargetNodeName()));
-						    nodeQueue.add(new Nodes(edges.getTargetNodeID(), edges.getTargetNodeName()));
+							edgeMap.put(edges.getId(), edges);
+							nodeQueue.add(new Nodes(edges.getTargetNodeID(), edges.getTargetNodeName()));
+						}else {
+							break;
 						}
 						
 					}
@@ -805,8 +809,8 @@ public class SampleService implements ISampleService {
 				}
 			}
 		}   //抽样结束
-		//System.out.println("抽出的点的个数为:" + nodeMap.size());
-		//System.out.println("抽出的边的个数为:" + edgeMap.size());
+		System.out.println("抽出的点的个数为:" + nodeMap.size());
+		System.out.println("抽出的边的个数为:" + edgeMap.size());
 		//System.out.println("抽样结束，开始生成JSON格式数据");
 		//将抽样出的点和边构造成JSON格式
 		//构造出JSON字符串，并将结果返回给控制器用于展示

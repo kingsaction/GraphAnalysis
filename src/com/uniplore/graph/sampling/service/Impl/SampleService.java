@@ -688,7 +688,7 @@ public class SampleService implements ISampleService {
 
 	/**  
 	 * @see com.uniplore.graph.sampling.service.ISampleService#randomWalkSampling()
-	 * 基于随机游走的抽样算法
+	 * 基于随机游走的抽样算法，在这个过程中实际上使用了宽度优先搜索技术(BFS Breadth First Search)
 	 */  
 	
 	@Override
@@ -758,6 +758,7 @@ public class SampleService implements ISampleService {
 						continue;
 					}
 				}  //选择随机数结束
+				
 				Nodes nodes = samplingDao.selectOneNode(nextLong);
 				//将得到的点加入到点表中
 				nodeMap.put(nodes.getId(), nodes);
@@ -765,21 +766,25 @@ public class SampleService implements ISampleService {
 				List<Edges> neighborList = samplingDao.getNeighbor(nodes);
 				Queue<Nodes> nodeQueue = new LinkedList<Nodes>();   //将LinkedList当做队列来使用 
 				
-				//将邻居点放入Stack中
+				//下面过程实际上使用了深度优先搜索技术
+				//将邻居点放入Queue中
 				for (Edges edges : neighborList) {
 					//遍历上述list，并将点放入到Stack中
 					nodeQueue.add(new Nodes(edges.getSourceNodeID(), edges.getSourceNodeName()));
 					nodeQueue.add(new Nodes(edges.getTargetNodeID(), edges.getTargetNodeName()));
+					
+					//将所有的邻居点及其相应的边全部加入到nodeMap和edgeMap中
 					nodeMap.put(edges.getSourceNodeID(), new Nodes(edges.getSourceNodeID(), edges.getSourceNodeName()));
 					nodeMap.put(edges.getTargetNodeID(), new Nodes(edges.getTargetNodeID(), edges.getTargetNodeName()));
 					edgeMap.put(edges.getId(), edges);
 				}
 				//System.out.println("第一次队列操作结束");
 				
-				//操作上述Stack，把并所有的目标点加入到nodeMap中，并把所有的边加入到edgeList中
+				//操作上述Queue，把并所有的目标点加入到nodeMap中，并把所有的边加入到edgeList中
 				while(nodeMap.size() <= sampleNodeCount && !nodeQueue.isEmpty()){
-					//一直取出所有的点
+					//按照进入队列的顺序将邻居点依次取出
 					Nodes removeNode = nodeQueue.remove();   //弹出一个点
+					//找到所有从队列中弹出的点的邻居边
 					List<Edges> neighbor = samplingDao.getNeighbor(removeNode);
 					//遍历上述所有的边，并取出其中所有的点和边
 					for (Edges edges : neighbor) {
@@ -841,6 +846,7 @@ public class SampleService implements ISampleService {
 			}
 			edgePageNode++;
 		}  //边表的抽样完毕
+		
 		System.out.println("抽出的点的个数为:" + nodeMap.size());
 	    System.out.println("抽出的边的个数为:" + edgeMap.size());
 		//System.out.println("抽样结束，开始生成JSON格式数据");

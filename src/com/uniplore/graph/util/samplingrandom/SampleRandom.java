@@ -7,8 +7,6 @@
 * @version       1.0    
 */ 
 package com.uniplore.graph.util.samplingrandom;
-
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;

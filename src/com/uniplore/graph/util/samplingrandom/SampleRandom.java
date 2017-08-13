@@ -55,7 +55,7 @@ public class SampleRandom {
 		Iterator<Long> iterator = randomSet.iterator();
 		while(iterator.hasNext()){
 			Long next = iterator.next();
-			System.out.println(next);
+			//System.out.println(next);
 		}
 		
 		/*Object[] array = randomSet.toArray();

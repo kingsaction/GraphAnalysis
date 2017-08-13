@@ -124,29 +124,33 @@ public class SampleController {
 	/**
 	 * 
 	 * @Title  topologySampling  
-	 * @Description TODO 拓扑抽样算法，由于NS和ES算法本身的局限性，研究者们都在研究其它的基于拓扑结构的抽样
-	 *                     ，比如使用宽度优先遍历技术（无放回抽样）、随机游走（有放回抽样），在这个算法中主要是
-	 *                     考虑基于宽度优先遍历的拓扑结构抽样算法。算法首先还是每次随机的抽取一个点，并且被抽取
-	 *                     之后的点状态要设置为0，标志此次抽样是无放回抽样技术，并且每次抽样希望能够在抽取完一个点
-	 *                     后，能够将该点的邻居点也抽取出来（注意只抽取其中的一部分邻居点，通常情况下是两个邻居点，
-	 *                     目前基于拓扑结构的抽样技术中，最好的就是FFS算法，在2006年被提出）。本段代码主要实现基于拓扑结构
-	 *                     的抽样算法，将宽度优先遍历思想和FFS算法的思想结合在一起。
+	 * @Description TODO 临近点抽样技术
 	 * @return  返回JSON字符串，交给前端渲染展示
 	 * @throws Exception  统一异常处理
 	 */
-	@RequestMapping(value = "/TSampling", method = {RequestMethod.POST})
-	public @ResponseBody String topologySampling() throws Exception{
+	@RequestMapping(value = "/RNNSampling", method = {RequestMethod.POST})
+	public @ResponseBody String randomNeighborNodeSampling() throws Exception{
 		//System.out.println("选中了拓扑抽样算法");
-		String topologySampling = sample.topologySampling();
+		String randomNeighborNodeSampling = sample.randomNeighborNodeSampling();
 		//将上述字符串重新解析
-	    Object parse = JSON.parse(topologySampling);
+	    Object parse = JSON.parse(randomNeighborNodeSampling);
 	    String outputString = parse.toString();
 	    //System.out.println("返回的字符串为：" + outputString);
 		return outputString;
 	}
 	
+	@RequestMapping(value = "/RBFSSampling", method = {RequestMethod.POST})
+	public @ResponseBody String randomBreadthFirstSearchSampling() throws Exception{
+		//System.out.println("选中了随机广度优先遍历抽样算法");
+		String randomBreadthFirstSearchSampling = sample.randomBreadthFirstSearchSampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(randomBreadthFirstSearchSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
+	}
 	/**
-	 *
+	 *  Random Breadth First Search Sampling
 	 * @Title  randomWalkSampling  
 	 * @Description TODO 基于随机游走的抽样算法  
 	 * @return

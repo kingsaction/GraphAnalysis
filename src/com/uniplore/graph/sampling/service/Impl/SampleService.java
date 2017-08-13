@@ -388,6 +388,8 @@ public class SampleService implements ISampleService {
 			edgePage2++;
 		}  //边表的抽样完毕
 		
+		System.out.println("抽出点的个数为:" + nodeMap.size());
+		System.out.println("抽取边的个数为:" + edgeList.size());
 		//构造出JSON字符串，并将结果返回给控制器用于展示
 	    StringBuilder jsonString = new StringBuilder();
 		//遍历nodeMap，将所有的数据取出，构造成JSON
@@ -420,7 +422,7 @@ public class SampleService implements ISampleService {
 	 * 基于临近点的抽样算法，每次在抽取出点的同时，将其临近点的一部分也随机抽取出来
 	 */ 
 	@Override
-	public String topologySampling() throws Exception {
+	public String randomNeighborNodeSampling() throws Exception {
 		int nodePage = 1 ;    //标识第几页，从第一页开始
 		int nodePageSize = 1000;  //标识点表每一页包含的记录数，设置为1000
 		long nodeTotal = 0; //保存点表中总的记录数
@@ -676,23 +678,12 @@ public class SampleService implements ISampleService {
 	}
 
 	/**  
-	 * @see com.uniplore.graph.sampling.service.ISampleService#randomPageRankNodeSampling()
-	 * 随机PageRank节点抽样算法实现，对节点进行不等概率抽样，属于有偏抽样的一种
-	 */  
-	
-	@Override
-	public String randomPageRankNodeSampling() throws Exception {
-		
-		return null;
-	}
-
-	/**  
 	 * @see com.uniplore.graph.sampling.service.ISampleService#randomWalkSampling()
 	 * 基于随机游走的抽样算法，在这个过程中实际上使用了宽度优先搜索技术(BFS Breadth First Search)
 	 */  
 	
 	@Override
-	public String randomWalkSampling() throws Exception {
+	public String randomBreadthFirstSearchSampling() throws Exception {
 		int nodePage = 1 ;    //标识第几页，从第一页开始
 		int nodePageSize = 1000;  //标识点表每一页包含的记录数，设置为1000
 		long nodeTotal = 0; //保存点表中总的记录数
@@ -879,6 +870,29 @@ public class SampleService implements ISampleService {
 		
 		String jsonOutput = "[" + jsonString + "]" ;
 		return jsonOutput;
+	}
+	
+	
+	/**  
+	 * @see com.uniplore.graph.sampling.service.ISampleService#randomPageRankNodeSampling()
+	 * 随机PageRank节点抽样算法实现，对节点进行不等概率抽样，属于有偏抽样的一种
+	 */  
+	
+	@Override
+	public String randomPageRankNodeSampling() throws Exception {
+		
+		return null;
+	}
+
+	/**  
+	 * @see com.uniplore.graph.sampling.service.ISampleService#randomWalkSampling()  
+	 * 随机游走抽样算法
+	 */  
+	
+	@Override
+	public String randomWalkSampling() throws Exception {
+		
+		return null;
 	}
 
 	/**  

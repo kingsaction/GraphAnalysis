@@ -251,7 +251,8 @@
 								  <option>Random PageRank Node Sampling</option>
 								  <option>Edge Sampling</option>
 								  <option>Random Neighbor Node Sampling</option>
-								  <option>Random Breadth First Search Sampling</option>
+								  <option>Random Breadth First Sampling</option>
+								  <option>Random Depth First Sampling</option>
 								  <option>Random Walk Sampling</option>
 								  <option>Forest Fire Sampling</option>
 								  <option>ES-i</option>
@@ -1692,11 +1693,75 @@
 		            })
 		            break;
 		        }
-		        case "Random Breadth First Search Sampling":
+		        case "Random Breadth First Sampling":
 		        {
 		            $.ajax({
                         /* async: false, */
-                        url: "/graphanalysis/sampling/RBFSSampling?t=" + (new Date()).getTime(),
+                        url: "/graphanalysis/sampling/RBFSampling?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                        },
+                        success: function (backData) {
+                            /*该算法结束时会将请求的JSON格式的数据返回，此时渲染这些数据即可*/
+                            cy = cytoscape({    //在此声明了一个全局变量cy，在任何地方都能引用该变量
+							  container : $("#main-content-center-footer"),  //jquery获取元素
+							  elements : backData,
+							  style : [ // the stylesheet for the graph
+									{
+										selector : 'node',
+										style : {
+										    'label' : 'data(name)',
+										    /* 'label' : 'data(weight)', */
+											'background-color' : 'red',
+											
+											'width': 2,
+											'opacity': .9,
+											'size': 60,
+											'shape': 'star',
+											'width': 20,
+											'height': 20, 
+										}
+									},
+	
+									{
+										selector : 'edge',
+										style : {
+										    'label': 'data(name)',
+										    'target-arrow-shape' : 'triangle',
+											'width' : 4,
+											'line-color' : '#000',
+											'target-arrow-color' : '#000',
+											'opacity': 2,
+											'curve-style': 'bezier', //设置边到底是有向还是无向边
+											
+										}
+									}
+								],
+							layout : {
+								name : "grid",
+								directed: true,
+								/* padding: 10, */
+								margin: 2,
+							},
+							zoom: 1,
+                            pan: { x: 0, y: 0 },
+                            hideEdgesOnViewport: true,
+                            motionBlur: true,
+                            motionBlurOpacit: 0.5,
+                            wheelSensitivity: 0.5,  /*滚轮滚动时改变图的大小的参数*/
+                            pixelRatio: 'auto',
+						});  //cy结束
+                        }
+		            })
+		            break;
+		        }
+		        
+		        case "Random Depth First Sampling":
+		        {
+		        	$.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/sampling/RDFSampling?t=" + (new Date()).getTime(),
                         type: "POST",
                         dataType: "JSON",
                         data: {

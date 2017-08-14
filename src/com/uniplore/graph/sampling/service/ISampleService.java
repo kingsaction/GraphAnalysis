@@ -87,7 +87,7 @@ public interface ISampleService {
 	 * @Title  forestFireSampling  
 	 * @Description TODO 森林火灾抽样算法
 	 * @return  返回JSON字符串，用于前端渲染
-	 
+	 * @throws Exception  统一异常处理
 	 */ 
 	public String forestFireSampling() throws Exception;
 
@@ -95,7 +95,7 @@ public interface ISampleService {
 	 * @Title  streamingNodeSampling  
 	 * @Description TODO 流式点抽样算法  
 	 * @return   返回JSON字符串，用于前端渲染
-	  * @throws Exception  统一异常处理
+	 * @throws Exception  统一异常处理
 	 */ 
 	public String streamingNodeSampling() throws Exception;
 
@@ -118,8 +118,17 @@ public interface ISampleService {
 	/**  
 	 * @Title  randomBreadthFirstSearchSampling  
 	 * @Description TODO 随机广度优先搜索抽样算法  
-	 * @return   
+	 * @return    返回JSON格式数据，用于前端渲染
+	 * @throws Exception  统一异常处理
 	 */ 
-	public String randomBreadthFirstSearchSampling() throws Exception;
+	public String randomBreadthFirstSampling() throws Exception;
+
+	/**  
+	 * @Title  randomDepthFirstSampling  
+	 * @Description TODO 随机深度优先搜索抽样算法 
+	 * @return   返回JSON格式数据，用于前端渲染
+	 * @throws Exception  统一异常处理
+	 */ 
+	public String randomDepthFirstSampling() throws Exception;
 
 }

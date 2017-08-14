@@ -51,11 +51,13 @@ public interface ISampleService {
 
 	/**  
 	 * @Title  topologySampling  
-	 * @Description TODO 基于拓扑结构的抽样技术
+	 * @Description TODO 随机邻居点抽样算法
 	 * @return  返回JSON字符串，用于前端展示
 	 * @throws Exception  统一异常处理
 	 */ 
-	public String topologySampling() throws Exception;
+	public String randomNeighborNodeSampling() throws Exception;
+	
+	
 
 	/**  
 	 * @Title  randomDegreeNodeSampling  
@@ -112,5 +114,12 @@ public interface ISampleService {
 	 * @return    返回JSON字符串，用于前端渲染
 	 */ 
 	public String streamingTopologySampling() throws Exception;
+
+	/**  
+	 * @Title  randomBreadthFirstSearchSampling  
+	 * @Description TODO 随机广度优先搜索抽样算法  
+	 * @return   
+	 */ 
+	public String randomBreadthFirstSearchSampling() throws Exception;
 
 }

@@ -8,6 +8,8 @@
 */ 
 package com.uniplore.graph.sampling.controller;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -123,8 +125,8 @@ public class SampleController {
 	
 	/**
 	 * 
-	 * @Title  topologySampling  
-	 * @Description TODO 临近点抽样技术
+	 * @Title  randomNeighborNodeSampling 
+	 * @Description TODO 随机临近点抽样技术
 	 * @return  返回JSON字符串，交给前端渲染展示
 	 * @throws Exception  统一异常处理
 	 */
@@ -139,20 +141,46 @@ public class SampleController {
 		return outputString;
 	}
 	
-	@RequestMapping(value = "/RBFSSampling", method = {RequestMethod.POST})
-	public @ResponseBody String randomBreadthFirstSearchSampling() throws Exception{
-		//System.out.println("选中了随机广度优先遍历抽样算法");
-		String randomBreadthFirstSearchSampling = sample.randomBreadthFirstSearchSampling();
-		//将上述字符串重新解析
-	    Object parse = JSON.parse(randomBreadthFirstSearchSampling);
-	    String outputString = parse.toString();
-	    //System.out.println("返回的字符串为：" + outputString);
-		return outputString;
-	}
 	/**
 	 *  Random Breadth First Search Sampling
 	 * @Title  randomWalkSampling  
 	 * @Description TODO 基于随机游走的抽样算法  
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/RBFSampling", method = {RequestMethod.POST})
+	public @ResponseBody String randomBreadthFirstSampling() throws Exception{
+		//System.out.println("选中了随机广度优先遍历抽样算法");
+		String randomBreadthFirstSampling = sample.randomBreadthFirstSampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(randomBreadthFirstSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
+	}
+	
+	/**
+	 * 
+	 * @Title  randomDepthFirstSampling  
+	 * @Description TODO 基于的深度优先搜索的抽样算法  
+	 * @return 返回JSON格式数据，交给前端渲染显示
+	 * @throws Exception 统一异常处理
+	 */
+	@RequestMapping(value = "/RDFSampling" , method = RequestMethod.POST)
+	public @ResponseBody String randomDepthFirstSampling()throws Exception{
+		System.out.println("选中了随机深度优先遍历抽样算法");
+		String randomDepthFirstSampling = sample.randomDepthFirstSampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(randomDepthFirstSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
+	}
+	
+	/**
+	 * 
+	 * @Title  randomWalkSampling  
+	 * @Description TODO 基于随机游走的抽样算法
 	 * @return
 	 * @throws Exception
 	 */

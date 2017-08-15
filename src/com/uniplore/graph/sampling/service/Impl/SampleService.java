@@ -1171,8 +1171,8 @@ public class SampleService implements ISampleService {
 			edgePage++;
 		}  //边表的抽样完毕
 		
-		System.out.println("抽出的点的个数为:" + nodeMap.size());
-		System.out.println("抽出的边的个数为:" + edgeList.size());
+		/*System.out.println("抽出的点的个数为:" + nodeMap.size());
+		System.out.println("抽出的边的个数为:" + edgeList.size());*/
 		
 		//构造出JSON字符串，并将结果返回给控制器用于展示
 	    StringBuilder jsonString = new StringBuilder();

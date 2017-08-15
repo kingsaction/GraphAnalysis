@@ -1089,7 +1089,7 @@ public class SampleService implements ISampleService {
 		long nextLong = ThreadLocalRandom.current().nextLong(nodeTotal);   //从[0,nodeTotal)中随机选择一个数字
 		Nodes node = samplingDao.selectOneNode(nextLong);   //得到该点
 		
-		while(nodeMap.size() < sampleNodeCount){	
+		while(nodeMap.size() < sampleNodeCount){	//核心抽样逻辑开始
 			//如果没有得到抽样的总数 并且nodeMap不包含当前的key
 			nodeMap.put(node.getId(), node);    //将当前点加入到nodeMap中
 			List<Nodes> neighborNode = samplingDao.getNeighborNode(node);  //获取当前点的所有邻居点
@@ -1136,7 +1136,7 @@ public class SampleService implements ISampleService {
 				}
 			   }
 		   }
-		}
+		}   //核心抽样逻辑结束
 		
 		//开始边表的遍历，当sourceNode和targetNode都是上面抽样出来的点时，这条边要被抽出
 		//结合NodeSampling()抽样方法，是的当前的随机游走算法性能更好

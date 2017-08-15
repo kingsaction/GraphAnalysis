@@ -1045,13 +1045,13 @@ public class SampleService implements ISampleService {
 
 	/**  
 	 * @see com.uniplore.graph.sampling.service.ISampleService#mhrwSampling()  
-	 * 基于马尔科夫链蒙特卡洛抽样算法，该算法是随机点抽样算法的改进算法，在该方法中关键是要提出一个概率函数
-	 * 该函数决定下一个点是否要加入到样本中，该函数会随机的给出当前是接收该点还是拒绝该点，该算法会调整了
-	 * 随机点抽样会偏向于high-degree点的性质，使得整个算法性能更好
+	 * 基于markov-chain monte carlo抽样算法，该算法是基于随机游走的随机点抽样算法的改进算法，
+	 * 在该方法中关键是要提出一个概率函数该函数决定下一个点是否要加入到样本中，该函数会随机的
+	 * 给出当前是接收该点还是拒绝该点，该算法会调整了随机点抽样会偏向于high-degree点的弊病，
+	 * 使得整个算法性能更好
 	 * 算法思想：首先随机选择一个点，并且该点的度不为0，当前选中的点被作为种子点seed，定义当前的代价函数为：
 	 * Q(v) = k，其中k表示当前节点v的度；接着从v的邻居点中随机的选择一个节点w，接着从(0,1)的均匀分布中随机
 	 * 生成一个数p，如果p<=Q(v)/Q(w)，则w被加入到样本中，否则仍然待在v点。
-	 * 
 	 * 经过当前的测试来看，该算法的性能确实相当的好
 	 */  
 	
@@ -1110,9 +1110,6 @@ public class SampleService implements ISampleService {
 				if(randomNeighbor <= precision){
 					//说明该点要被加入到抽样节点中
 					nodeMap.put(nodesneighbor.getId(), nodesneighbor);
-					//获取到边的信息，并将边加入到edgeList中
-					
-					//应该将边加入到edgeList中
 					node = nodeArray[nextInt];   //此时node应该转变为当前的邻居点
 					size++;
 					flag = true;

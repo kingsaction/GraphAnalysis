@@ -45,4 +45,9 @@
     <select id="selectOneNode" resultMap="nodeResult" parameterType="Long">
         select * from node limit 1 offset #{nextLong}
     </select>
+    
+    <!-- 根据点的id获取当前点的完整信息，最关键的是获取当前节点的度信息 -->
+    <select id="selectByID" resultMap="nodeResult" parameterType="java.lang.String"> 
+        select * from node where id=#{id}
+    </select>
 </mapper>

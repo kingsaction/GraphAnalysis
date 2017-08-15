@@ -84,6 +84,14 @@ public interface ISampleService {
 	public String randomWalkSampling() throws Exception;
 
 	/**  
+	 * @Title  mhrwSampling  
+	 * @Description TODO 马尔科夫链蒙特卡洛方法
+	 * @return   返回JSON数据，用于前端渲染
+	 * @throws Exception  统一异常处理
+	 */ 
+	public String mhrwSampling() throws Exception;
+	
+	/**  
 	 * @Title  forestFireSampling  
 	 * @Description TODO 森林火灾抽样算法
 	 * @return  返回JSON字符串，用于前端渲染
@@ -130,5 +138,6 @@ public interface ISampleService {
 	 * @throws Exception  统一异常处理
 	 */ 
 	public String randomDepthFirstSampling() throws Exception;
+
 
 }

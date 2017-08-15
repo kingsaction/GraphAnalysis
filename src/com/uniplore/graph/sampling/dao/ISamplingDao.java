@@ -1,7 +1,7 @@
 /**    
 * @Title         ISamplingDao.java  
 * @Package       com.uniplore.graph.sampling.dao  
-* @Description   TODO(用一句话描述该文件做什么)  
+* @Description   TODO 完成抽样功能
 * @author        朱君鹏     
 * @date          2017年8月8日 上午10:05:58  
 * @version       1.0    
@@ -65,10 +65,20 @@ public interface ISamplingDao {
 	/**  
 	 * @Title  selectOneNode  
 	 * @Description TODO 根据指定的随机数，随机选择一个点  
-	 * @param nextLong
-	 * @return   
+	 * @param nextLong  随机数
+	 * @return    返回随机数对应的节点
 	 */ 
 	public Nodes selectOneNode(Long nextLong) throws Exception;
+	
+	/**
+	 * 
+	 * @Title  getNeighborNode  
+	 * @Description TODO 获取到当前点的邻居点  
+	 * @param node 由用户指定的点
+	 * @return  返回所有的邻居点
+	 * @throws Exception  统一异常处理
+	 */
+	public List<Nodes> getNeighborNode(Nodes node) throws Exception;
 		
 
 }

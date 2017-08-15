@@ -125,8 +125,29 @@ public class SampleController {
 	
 	/**
 	 * 
+	 * @Title  edgeISampling  
+	 * @Description TODO 改进后的边抽样算法，该抽样算法是在edgeSampling()算法的基础之上改进的，改进之后的效果
+	 *                     相当的好，其实这个算法首先应用了EdgeSampling()算法的思想，之后有应用了nodeSampling()
+	 *                     算法的思想，这样得出的图保留了更多图本身的属性
+	 * @return 返回JSON字符串，交给前端渲染展示
+	 * @throws Exception  统一异常处理
+	 */
+	@RequestMapping(value = "/EiSampling", method = {RequestMethod.POST})
+	public @ResponseBody String edgeISampling() throws Exception{
+		//System.out.println("改进后的边抽样算法");
+		String edgeISampling = sample.edgeISampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(edgeISampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+	    //System.out.println("整个过程结束");
+		return outputString;
+	}
+	
+	/**
+	 * 
 	 * @Title  randomNeighborNodeSampling 
-	 * @Description TODO 随机临近点抽样技术
+	 * @Description TODO 随机临近点抽样算法
 	 * @return  返回JSON字符串，交给前端渲染展示
 	 * @throws Exception  统一异常处理
 	 */
@@ -168,7 +189,7 @@ public class SampleController {
 	 */
 	@RequestMapping(value = "/RDFSampling" , method = RequestMethod.POST)
 	public @ResponseBody String randomDepthFirstSampling()throws Exception{
-		System.out.println("选中了随机深度优先遍历抽样算法");
+		//System.out.println("选中了随机深度优先遍历抽样算法");
 		String randomDepthFirstSampling = sample.randomDepthFirstSampling();
 		//将上述字符串重新解析
 	    Object parse = JSON.parse(randomDepthFirstSampling);
@@ -181,7 +202,7 @@ public class SampleController {
 	 * 
 	 * @Title  randomWalkSampling  
 	 * @Description TODO 基于随机游走的抽样算法
-	 * @return
+	 * @return  返回JSON字符串，交给前端渲染展示
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/RWSampling" , method = {RequestMethod.POST})
@@ -195,11 +216,21 @@ public class SampleController {
 		return outputString;
 	}
 	
+	@RequestMapping(value = "/MHRWSampling" , method = {RequestMethod.POST})
+	public @ResponseBody String mhrwSampling() throws Exception{
+		//System.out.println("选中了马尔科夫链门特卡罗抽样算法");
+		String mhrwSampling = sample.mhrwSampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(mhrwSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
+	}
 	/**
 	 * 
 	 * @Title  forestFireSampling  森林火灾抽样算法
 	 * @Description TODO 森林火灾抽样算法  
-	 * @return
+	 * @return  返回JSON字符串，交给前端渲染展示
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/FFSampling", method = {RequestMethod.POST})
@@ -210,26 +241,6 @@ public class SampleController {
 	    Object parse = JSON.parse(forestFireSampling);
 	    String outputString = parse.toString();
 	    //System.out.println("返回的字符串为：" + outputString);
-		return outputString;
-	}
-	/**
-	 * 
-	 * @Title  edgeISampling  
-	 * @Description TODO 改进后的边抽样算法，该抽样算法是在edgeSampling()算法的基础之上改进的，改进之后的效果
-	 *                     相当的好，其实这个算法首先应用了EdgeSampling()算法的思想，之后有应用了nodeSampling()
-	 *                     算法的思想，这样得出的图保留了更多图本身的属性
-	 * @return 返回JSON字符串，交给前端渲染展示
-	 * @throws Exception  统一异常处理
-	 */
-	@RequestMapping(value = "/EiSampling", method = {RequestMethod.POST})
-	public @ResponseBody String edgeISampling() throws Exception{
-		//System.out.println("改进后的边抽样算法");
-		String edgeISampling = sample.edgeISampling();
-		//将上述字符串重新解析
-	    Object parse = JSON.parse(edgeISampling);
-	    String outputString = parse.toString();
-	    //System.out.println("返回的字符串为：" + outputString);
-	    //System.out.println("整个过程结束");
 		return outputString;
 	}
 	

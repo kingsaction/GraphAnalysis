@@ -679,7 +679,8 @@ public class SampleService implements ISampleService {
 
 	/**  
 	 * @see com.uniplore.graph.sampling.service.ISampleService#randomBreadthFirstSampling()
-	 * 基于宽度优先遍历的抽样算法
+	 * 基于宽度优先遍历的抽样算法，众所周知，基于BFS的抽样算法是有偏于度较高的点，在BFS中，度较高的点
+	 * 将会被频繁的访问，基于BFS的抽样算法比原始图有更高的聚类系数
 	 */  
 	
 	@Override
@@ -920,7 +921,6 @@ public class SampleService implements ISampleService {
 				}
 				
 				nodeMap.put(node.getId(), node);   //将当前取出的点加入到nodeMap中
-				System.out.println("选出的点为 ： " + node.toString());
 				List<Edges> neighbor = samplingDao.getNeighbor(node);
 			
 				//将List转成Array
@@ -933,13 +933,11 @@ public class SampleService implements ISampleService {
 					Random random = new Random();
 					int nextInt = random.nextInt(neighbor.size());  //生成一个随机数，随机数范围[0,neighbor.size())
 					Edges edge = edgesArray[nextInt];    //取出当前这条边
-				    System.out.println("存在邻居点"+ edge.toString());
 					if (!nodeMap.containsKey(edge.getSourceNodeID()) && nodeMap.size() < sampleNodeCount) {
 						//说明nodeMap中不包含源点，此时源点将是下一个进行深度遍历的点
 						node = new Nodes(edge.getSourceNodeID(),edge.getSourceNodeName());
 						nodeMap.put(node.getId(), node);  //当前node放入到nodeMap中
 						edgeMap.put(edge.getId(), edge);  //将边加入到edgeMap中
-						System.out.println("加入的点为" + node.toString());
 					}
 					
 					if (!nodeMap.containsKey(edge.getTargetNodeID()) && nodeMap.size() < sampleNodeCount) {
@@ -947,16 +945,13 @@ public class SampleService implements ISampleService {
 						node = new Nodes(edge.getTargetNodeID(),edge.getTargetNodeName());
 						nodeMap.put(node.getId(), node);
 						edgeMap.put(edge.getId(), edge);  //将边加入到edgeMap中
-						System.out.println("加入的点为" + node.toString());
 					}
 				}else {   //neighbor.size() == 0 ，说明没有邻居点，此时node = null;
 					//否则说明当前node没有邻居点，则下一个点就为null
 					node = null;
-					System.out.println("执行到空语句");
 				}
 				
 			}
-			System.out.println("当前点的个数为:" + nodeMap.size());
 		}
 		
 		//开始边表的遍历，当sourceNode和targetNode都是上面抽样出来的点时，这条边要被抽出
@@ -1049,6 +1044,168 @@ public class SampleService implements ISampleService {
 	}
 
 	/**  
+	 * @see com.uniplore.graph.sampling.service.ISampleService#mhrwSampling()  
+	 * 基于马尔科夫链蒙特卡洛抽样算法，该算法是随机点抽样算法的改进算法，在该方法中关键是要提出一个概率函数
+	 * 该函数决定下一个点是否要加入到样本中，该函数会随机的给出当前是接收该点还是拒绝该点，该算法会调整了
+	 * 随机点抽样会偏向于high-degree点的性质，使得整个算法性能更好
+	 * 算法思想：首先随机选择一个点，并且该点的度不为0，当前选中的点被作为种子点seed，定义当前的代价函数为：
+	 * Q(v) = k，其中k表示当前节点v的度；接着从v的邻居点中随机的选择一个节点w，接着从(0,1)的均匀分布中随机
+	 * 生成一个数p，如果p<=Q(v)/Q(w)，则w被加入到样本中，否则仍然待在v点。
+	 * 
+	 * 经过当前的测试来看，该算法的性能确实相当的好
+	 */  
+	
+	@Override
+	public String mhrwSampling() throws Exception {
+		int nodePage = 1 ;    //标识第几页，从第一页开始
+		int nodePageSize = 1000;  //标识点表每一页包含的记录数，设置为1000
+		long nodeTotal = 0; //保存点表中总的记录数
+		long nodePageTotalNumber = 1 ; //记录点表分页之后的总页数
+		long sampleNodeCount = 0;   //抽样的点的总数目
+	    double proportion = 0.15;  //代表要取出的点的比例，目前设置为要取出15%的点
+	         
+		while(nodePage <= nodePageTotalNumber){  //如果当前页数小于等于总的页数时，执行循环
+			PageHelper.startPage(nodePage, nodePageSize);   //分页
+			List<Nodes> listNodeAllData = samplingDao.listNodeAllData();
+			
+	        //获取数据库中点表的总记录数，并且在整个循环中，该段代码只在获取第一页时被执行一次即可
+			if(nodePage == 1){   //只有在获取第一页时，才计算总记录数
+				PageInfo<Nodes> pageInfo = new PageInfo<Nodes>(listNodeAllData);
+		        nodeTotal = pageInfo.getTotal(); //获取总记录数
+		        //System.out.println("总记录数为:" + total);
+		        nodePageTotalNumber = nodeTotal/1000 + 1; //总页数要加1，因为可能有不满一页的情况存在
+		        //System.out.println("当前查询的点表总页数为:" + nodePageTotalNumber);
+			}
+			
+			//生成一组随机数，这组随机数表示要取出的点
+		    sampleNodeCount = (long) ((nodeTotal * proportion) + 1) ;
+		    nodePage++;  //加1结束整个while循环
+		} //抽样点的个数统计完毕
+		
+		Map<String, Nodes> nodeMap = new HashMap<String, Nodes>();   //存放抽样的Node
+		List<Edges> edgeList = new ArrayList<Edges>();   //存放edge到List中
+		Map<String, Nodes> outNodeMap = new HashMap<String, Nodes>();  //存放被淘汰的邻居点
+		
+		long nextLong = ThreadLocalRandom.current().nextLong(nodeTotal);   //从[0,nodeTotal)中随机选择一个数字
+		Nodes node = samplingDao.selectOneNode(nextLong);   //得到该点
+		
+		while(nodeMap.size() < sampleNodeCount){	
+			//如果没有得到抽样的总数 并且nodeMap不包含当前的key
+			nodeMap.put(node.getId(), node);    //将当前点加入到nodeMap中
+			List<Nodes> neighborNode = samplingDao.getNeighborNode(node);  //获取当前点的所有邻居点
+		    //将上述List转换为Array，便于在邻居点中随意选择一个点
+			Nodes[] nodes = new Nodes[neighborNode.size()];
+			Nodes[] nodeArray = neighborNode.toArray(nodes);
+			
+			int size = 0 ;
+			boolean flag = false;
+		    //从邻居点中随机获取一个，并且该点的度不为0，也就是存在邻居点
+		   while(neighborNode.size() != 0 && size <= neighborNode.size()){
+				//说明存在邻居点，在邻居点中随便选择一个决定邻居点是否要被加入到nodeMap中
+				Random random = new Random();
+				int nextInt = random.nextInt(neighborNode.size());  //产生[0,neighbor.size)之间的随机数
+				Nodes nodesneighbor = nodeArray[nextInt];   //随机取出其中的一个邻居点
+				double randomNeighbor = Math.random();  //随机产生一个(0,1)之间的随机数
+				double precision = (double)(node.getNodeDegree())/(double)(nodesneighbor.getNodeDegree());
+				if(randomNeighbor <= precision){
+					//说明该点要被加入到抽样节点中
+					nodeMap.put(nodesneighbor.getId(), nodesneighbor);
+					//获取到边的信息，并将边加入到edgeList中
+					
+					//应该将边加入到edgeList中
+					node = nodeArray[nextInt];   //此时node应该转变为当前的邻居点
+					size++;
+					flag = true;
+					break;
+	 			}else {
+					outNodeMap.put(nodesneighbor.getId(), nodesneighbor);
+					size++;
+				}
+			}
+		   
+		   //当判断完邻居点之后，此时应该做处理，究竟node是随机挑选还是上面已经指定好
+		   if(flag){
+			   //说明在上面对node进行了修改，不处理即可
+		   }else {
+			   //System.out.println("重新寻找种子点");
+			   //否则说明我们应该自行生成一个随机的种子点
+			   while(true){
+				   nextLong = ThreadLocalRandom.current().nextLong(nodeTotal);   //从[0,nodeTotal)中随机选择一个数字
+				   node = samplingDao.selectOneNode(nextLong);   //得到该点
+				   if(nodeMap.containsKey(node.getId())){
+					   continue;
+				   }else {
+					   break;
+				}
+			   }
+		   }
+		}
+		
+		//开始边表的遍历，当sourceNode和targetNode都是上面抽样出来的点时，这条边要被抽出
+		//结合NodeSampling()抽样方法，是的当前的随机游走算法性能更好
+		int edgePage = 1;   //标识第几页，从第一页开始
+		int edgePageSize = 1000; //标识边表每一页包含的记录数，初始设置为1000
+		long edgeTotal = 0 ; //保存边表中的总记录数目
+		long edgePageTotalNumber = 1 ; //记录边表分页之后的总页数
+		
+		while(edgePage <= edgePageTotalNumber){  //边表抽样开始
+			PageHelper.startPage(edgePage,edgePageSize);
+			List<Edges> listEdgeAllData = samplingDao.listEdgeAllData();
+			
+			//获取数据库中边表的总记录数，并且在整个循环中，该段代码只在获取第一页时被执行一次即可
+			if(edgePage == 1){   //只有在获取第一页时，才计算总记录数
+				PageInfo<Edges> pageInfo = new PageInfo<Edges>(listEdgeAllData);
+		        edgeTotal = pageInfo.getTotal(); //获取边表中的总记录数
+		        //System.out.println("总记录数为:" + total);
+		        edgePageTotalNumber = edgeTotal/1000 + 1; //总页数要加1，因为可能有不满一页的情况存在
+		        //System.out.println("当前查询的边表总页数为:" + edgePageTotalNumber);
+			}
+			
+			int edgePageSizePer = listEdgeAllData.size();
+			for (int i = 0; i < edgePageSizePer; i++) {
+				Edges edges = listEdgeAllData.get(i);
+				if (nodeMap.containsKey(edges.getSourceNodeID()) && nodeMap.containsKey(edges.getTargetNodeID())) {
+					//此时该条边应该被取出
+					edgeList.add(edges);
+				}else {
+					continue;
+				}
+			}
+			edgePage++;
+		}  //边表的抽样完毕
+		
+		System.out.println("抽出的点的个数为:" + nodeMap.size());
+		System.out.println("抽出的边的个数为:" + edgeList.size());
+		
+		//构造出JSON字符串，并将结果返回给控制器用于展示
+	    StringBuilder jsonString = new StringBuilder();
+		NodeDataVO data1 = null;
+		//遍历nodeMap，将所有的数据取出，构造成JSON
+		Iterator<Entry<String, Nodes>> nodeIterators = nodeMap.entrySet().iterator();
+		while(nodeIterators.hasNext()){
+			Entry<String, Nodes> next = nodeIterators.next();
+			String key = next.getKey();
+			Nodes value = next.getValue();
+			data1 = new NodeDataVO(key,value.getNodeName(),value.getNodeDegree());
+			NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
+			String jsonString1 = JSON.toJSONString(nodeVo1);
+			jsonString.append(jsonString1 + ",");
+		}  //抽样出的点添加完毕
+		
+	    //处理抽样出的边
+		int edgeSize = edgeList.size();
+		for (int i = 0; i < edgeSize ; i++) {
+			Edges edges = edgeList.get(i);
+			EdgeDataVO data3 = new EdgeDataVO(edges.getId(), edges.getSourceNodeID(), edges.getTargetNodeID(), 1);
+			EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
+			String jsonString1 = JSON.toJSONString(edgeVo);
+			jsonString.append(jsonString1 + ",");
+		}
+		String jsonOutput = "[" + jsonString + "]" ;   
+		return jsonOutput;
+	}
+	
+	/**  
 	 * @see com.uniplore.graph.sampling.service.ISampleService#forestFireSampling()
 	 * 森林火灾抽样算法  
 	 */  
@@ -1088,5 +1245,4 @@ public class SampleService implements ISampleService {
 		
 		return null;
 	}
-
 }

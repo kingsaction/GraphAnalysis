@@ -8,6 +8,8 @@
 */ 
 package com.uniplore.graph.sampling.dao.Impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import com.uniplore.graph.sampling.dao.ISamplingDao;
 import com.uniplore.graph.sampling.entity.Edges;
 import com.uniplore.graph.sampling.entity.Nodes;
 import com.uniplore.graph.sampling.mapper.SamplingMapper;
+
+import jdk.nashorn.internal.ir.ReturnNode;
 
 /**     
  * 版权所有  2017-ACMIS Lab  
@@ -75,6 +79,35 @@ public class SamplingDao implements ISamplingDao{
 	@Override
 	public Nodes selectOneNode(Long nextLong) throws Exception {
 		return samplingMapper.selectOneNode(nextLong);
+	}
+	/**  
+	 * @see com.uniplore.graph.sampling.dao.ISamplingDao#getNeighborNode(com.uniplore.graph.sampling.entity.Nodes)  
+	 */  
+	
+	@Override
+	public List<Nodes> getNeighborNode(Nodes node) throws Exception {
+		List<Edges> neighbor = samplingMapper.getNeighbor(node);
+		List<Nodes> nodeList = new ArrayList<Nodes>();
+		//遍历上述neighbor，根据id找到所有的邻居点
+		Iterator<Edges> iterator = neighbor.iterator();
+		while(iterator.hasNext()){
+			//开始遍历取出每一条边
+			Edges next = iterator.next();
+			if (next.getSourceNodeID() != node.getId()) {
+				//说明source点是邻居点
+				//根据sourceID去查找对应点的全部数据
+				Nodes nodeByID = samplingMapper.selectByID(next.getSourceNodeID());
+				nodeList.add(nodeByID);
+			}
+			
+			if (next.getTargetNodeID() != node.getId()) {
+				//说明source点是邻居点
+				//根据sourceID去查找对应点的全部数据
+				Nodes nodeByID = samplingMapper.selectByID(next.getTargetNodeID());
+				nodeList.add(nodeByID);
+			}
+		}
+		return nodeList;
 	}
 
 }

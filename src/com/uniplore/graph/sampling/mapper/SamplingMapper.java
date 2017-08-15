@@ -66,4 +66,14 @@ public interface SamplingMapper {
 	 */  
 	public Nodes selectOneNode(Long nextLong) throws Exception;
 
+	/**
+	 * 
+	 * @Title  selectByID  
+	 * @Description TODO 根据当前节点的ID返回节点的全部信息  
+	 * @param id
+	 * @return 返回当前节点对象
+	 * @throws Exception 统一异常处理
+	 */
+	public Nodes selectByID(String id) throws Exception;
+
 }

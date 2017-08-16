@@ -82,8 +82,22 @@ public class SampleRandom {
 		return randomSet;
 	}
 	
+	//随机数生成 http://www.cs.technion.ac.il/~azlotnik/RandomNumberGenerator.java.html
+	//public static double getRandom(Random r, double geoSeed) { 
+    public static double getRandomGeoDistribution(Random r) {
+        //double p = 1.0 / ((double) geoSeed); 
+        double p = 0.7;   //概率为0.7的几何分布
+        return (int)(Math.ceil(Math.log(r.nextDouble())/Math.log(1.0-p))); 
+    } 
+	
 	public static void main(String[] args) {
-		randomSampling((long)10, (long)100);
-		randomSamplingInt(10, 100);
+		//randomSampling((long)10, (long)100);
+		//randomSamplingInt(10, 100);
+		/*GeometricDistribution geometricDistribution =  new GeometricDistribution(0.7);
+		System.out.println(geometricDistribution.inverseCumulativeProbability(0.7));*/
+		for(int i = 0 ; i < 100 ; i++){
+			System.out.println(getRandomGeoDistribution(new Random()));
+		}
+		
 	}
 }

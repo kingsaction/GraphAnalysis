@@ -139,5 +139,13 @@ public interface ISampleService {
 	 */ 
 	public String randomDepthFirstSampling() throws Exception;
 
+	/**  
+	 * @Title  frontierSampling  
+	 * @Description TODO FS 抽样算法，对RW算法的改进  
+	 * @return   返回JSON格式数据，用于前端渲染
+	 * @throws Exception  统一异常处理
+	 */ 
+	public String frontierSampling() throws Exception;
+
 
 }

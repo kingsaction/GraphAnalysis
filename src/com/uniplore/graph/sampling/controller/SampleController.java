@@ -226,6 +226,17 @@ public class SampleController {
 	    //System.out.println("返回的字符串为：" + outputString);
 		return outputString;
 	}
+	
+	@RequestMapping(value = "/FSampling" , method = {RequestMethod.POST})
+	public @ResponseBody String frontierSampling()throws Exception{
+		//System.out.println("选中了FS抽样算法");
+		String frontierSampling = sample.frontierSampling();
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(frontierSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
+	}
 	/**
 	 * 
 	 * @Title  forestFireSampling  森林火灾抽样算法

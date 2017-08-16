@@ -248,14 +248,14 @@
 								  <option value="" selected>请选择算法</option>
 								  <option>Node Sampling</option>
 								  <option>Random Degree Node Sampling</option>
-								  <option>Random PageRank Node Sampling</option>
+								  <!-- <option>Random PageRank Node Sampling</option> -->
 								  <option>Edge Sampling</option>
 								  <option>Random Neighbor Node Sampling</option>
 								  <option>Random Breadth First Sampling</option>
 								  <option>Random Depth First Sampling</option>
 								  <option>Random Walk Sampling</option>
 								  <option>Markov-Chain Monte Carlo Random Walk Sampling</option>
-								  <option>Frontier Sampling</option>
+								  <!-- <option>Frontier Sampling</option> -->
 								  <option>Forest Fire Sampling</option>
 								  <option>ES-i</option>
 								  <option>Streaming Node Sampling</option>

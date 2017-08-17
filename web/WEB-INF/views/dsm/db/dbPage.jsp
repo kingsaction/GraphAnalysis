@@ -258,9 +258,9 @@
 								  <!-- <option>Frontier Sampling</option> -->
 								  <option>Forest Fire Sampling</option>
 								  <option>ES-i</option>
-								  <option>Streaming Node Sampling</option>
+								  <!-- <option>Streaming Node Sampling</option>
 								  <option>Streaming Edge Sampling</option>
-								  <option>Streaming Topology Sampling</option>
+								  <option>Streaming Topology Sampling</option> -->
 								  <option>MCL Algorithm</option>
 								  <option>Incremental MCL Algorithm</option>
 								  <option>Spectral Cluster Algorithm</option>

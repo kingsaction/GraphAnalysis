@@ -136,5 +136,6 @@ public class EstimationService implements IEstimationService {
 		
 		//计算平均聚类系数
 		System.out.println("平均聚类系数为:" + Toolkit.averageClusteringCoefficient(graph));
+		//graph.display();
 	}
 }

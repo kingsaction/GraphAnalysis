@@ -1,16 +1,14 @@
 /**    
 * @Title         EstimationService.java  
 * @Package       com.uniplore.graph.estimation.service.Impl  
-* @Description   TODO 参数统计
+* @Description   TODO 参数统计，参考资料： http://graphstream-project.org/doc/Tutorials/Getting-Started/
 * @author        朱君鹏     
 * @date          2017年8月19日 上午9:14:49  
 * @version       1.0    
 */ 
 package com.uniplore.graph.estimation.service.Impl;
 
-
 import java.util.List;
-
 import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace :必须与对应接口全类名一致 id: 必须与对应接口的某个对应的方法名一致 -->
+
+<mapper namespace="com.uniplore.graph.estimation.mapper.DegreeDistributionMapper">
+
+    <resultMap type="com.uniplore.graph.estimation.entity.DegreeDistribution"
+		id="degreeDistribution">
+		<result property="degree" column="degree"/> <!-- 节点的度 -->
+		<result property="count" column="count"/>   <!-- 度的个数 -->
+	</resultMap>
+	
+	<insert id="insertDegreeDistribution" parameterType="com.uniplore.graph.estimation.entity.DegreeDistribution">
+	     insert into degree_distribution(degree,count) values(#{degree},#{count})
+	</insert>
+	
+	<delete id="deleteDegree">
+	     delete from degree_distribution
+	</delete>
+</mapper>

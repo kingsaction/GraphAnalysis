@@ -99,6 +99,7 @@
 		      com.uniplore.graph.ms.sign.entity
 		      com.uniplore.graph.dsm.db.entity
 		      com.uniplore.graph.sampling.entity
+		      com.uniplore.graph.estimation.entity
 		  </value>
 		</property>
 		<!-- 
@@ -111,8 +112,23 @@
 		     classpath:com/uniplore/graph/ms/login/mapper/*Mapper.xml
 		     classpath:com/uniplore/graph/dsm/db/mapper/*Mapper.xml
 		     classpath:com/uniplore/graph/sampling/mapper/*Mapper.xml
+		     classpath:com/uniplore/graph/estimation/mapper/*Mapper.xml
 		  </value>
 		</property>
+		
+		<!-- 注意其他配置 -->
+		  <property name="plugins">
+		    <array>
+		      <bean class="com.github.pagehelper.PageInterceptor">
+		        <property name="properties">
+		          <!--使用下面的方式配置参数，一行配置一个 -->
+		          <value>
+		            helperDialect=mysql
+		          </value>
+		        </property>
+		      </bean>
+		    </array>
+		  </property>
     </bean>
     
     <!--
@@ -129,6 +145,7 @@
 				com.uniplore.graph.ms.login.mapper
 				com.uniplore.graph.dsm.db.mapper
 				com.uniplore.graph.sampling.mapper
+				com.uniplore.graph.estimation.mapper
 			</value>
 		</property>
 		

@@ -258,6 +258,7 @@
 								  <!-- <option>Frontier Sampling</option> -->
 								  <option>Forest Fire Sampling</option>
 								  <option>ES-i</option>
+								  <option>Parameter Estimation</option>
 								  <!-- <option>Streaming Node Sampling</option>
 								  <option>Streaming Edge Sampling</option>
 								  <option>Streaming Topology Sampling</option> -->
@@ -2516,6 +2517,17 @@
                             pixelRatio: 'auto',
 						});  //cy结束
                         }
+		            })
+		            break;
+		        }
+		        
+		        case "Parameter Estimation":
+		        {    
+		             $.ajax({
+                        /* async: false, */
+                        url: "/graphanalysis/estimations/ParaEstimation?t=" + (new Date()).getTime(),
+                        type: "POST",
+                        success: function (backData) {}
 		            })
 		            break;
 		        }

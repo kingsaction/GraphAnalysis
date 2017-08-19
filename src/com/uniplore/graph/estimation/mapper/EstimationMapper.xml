@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace :必须与对应接口全类名一致 id: 必须与对应接口的某个对应的方法名一致 -->
+
+<mapper namespace="com.uniplore.graph.estimation.mapper.EstimationMapper">
+
+    <resultMap type="com.uniplore.graph.estimation.entity.NodeEstimation"
+		id="nodeEstimation">
+		<id column="id" property="id"/>  <!-- 主键 -->
+		<result property="nodeName" column="node_name"/> <!-- 节点名字 -->
+		<result property="nodeDegree" column="node_degree"/>  <!-- 节点的度 -->
+		<result property="nodeState" column="node_state"/>  <!-- 节点状态 -->
+	</resultMap>
+	
+	<resultMap type="com.uniplore.graph.estimation.entity.EdgeEstimation" 
+	    id="edgeEstimation">
+	    <id column="id" property="id" />
+	    <result property="sourceNodeID" column="source_node_id"/>
+	    <result property="targetNodeID" column="target_node_id"/>
+	    <result property="sourceNodeName" column="source_node_name"/>
+	    <result property="targetNodeName" column="target_node_name"/>
+	    <result property="edgeState" column="edge_state"/>
+	</resultMap>
+	
+	<!-- 查询node表中所有的点 -->
+	<select id="listNodeAllData" resultMap="nodeEstimation">
+	    select * from node
+	</select>
+	
+	<!-- 查询edge表中所有的边 -->
+	<select id="listEdgeAllData" resultMap="edgeEstimation">
+	    select * from edge
+	</select>
+</mapper>

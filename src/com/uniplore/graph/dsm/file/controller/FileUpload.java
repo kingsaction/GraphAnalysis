@@ -57,6 +57,7 @@ public class FileUpload {
     //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
     FileUtils.copyInputStreamToFile(file.getInputStream(), new File(realPath, saveFileName)); 
 
+    
     //将文件的唯一id(避免文件重名)和原始文件名以JSON形式返回给服务器端
     Map<String, Object> map = new HashMap<String, Object>();
     map.put("id", id);   //将每个文件的唯一id编号传递给客户端

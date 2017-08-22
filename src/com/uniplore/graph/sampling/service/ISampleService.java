@@ -147,5 +147,13 @@ public interface ISampleService {
 	 */ 
 	public String frontierSampling() throws Exception;
 
+	/**  
+	 * @Title  improveNodeSampling  
+	 * @Description TODO 选中了改进点抽样算法
+	 * @return   返回JSON数据，用于前端渲染
+	 * @throws Exception 统一异常处理
+	 */ 
+	public String improveNodeSampling() throws Exception;
+
 
 }

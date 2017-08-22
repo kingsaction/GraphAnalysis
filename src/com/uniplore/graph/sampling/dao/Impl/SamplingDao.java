@@ -109,5 +109,21 @@ public class SamplingDao implements ISamplingDao{
 		}
 		return nodeList;
 	}
+	/**  
+	 * @see com.uniplore.graph.sampling.dao.ISamplingDao#selectDegree(java.lang.Integer)  
+	 */  
+	
+	@Override
+	public Nodes selectHighDegree(Integer degree) throws Exception {
+		return samplingMapper.selectHighDegree(degree);
+	}
+	/**  
+	 * @see com.uniplore.graph.sampling.dao.ISamplingDao#selectDegree(java.lang.Integer)  
+	 */  
+	
+	@Override
+	public List<Nodes> selectDegree(Integer degree) throws Exception {
+		return samplingMapper.selectDegree(degree);
+	}
 
 }

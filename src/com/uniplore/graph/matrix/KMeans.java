@@ -63,7 +63,7 @@ public class KMeans {
 		//LoggingConfiguration.setStatistics();  //日志信息，没有实质性的所用
 		
 		//读取facebook数据，构造数据集
-		File file = new File("F:/Java/抽样算法实验截图/合成抽样算法/test.txt");
+		File file = new File("F:/Java/抽样算法实验截图/合成抽样算法/test1005.txt");
 		FileInputStream inputStream = new FileInputStream(file);
 		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 		BufferedReader reader = new BufferedReader(inputStreamReader);
@@ -143,7 +143,7 @@ public class KMeans {
 	        // Offset within our DBID range: "line number"
 	        final int offset = ids.getOffset(it);
 	        //System.out.print(" " + offset);
-	        System.out.print(" " + array[offset]);   //得到该聚类结果中的所有点
+	        System.out.print(" " + array[offset].intValue());   //得到该聚类结果中的所有点
 	        // Do NOT rely on using "internalGetIndex()" directly!
 	      }
 	      System.out.println();

@@ -47,7 +47,7 @@ public class Dbscan {
 		//LoggingConfiguration.setStatistics();  //日志信息，没有实质性的所用
 		
 		//读取facebook数据，构造数据集
-		File file = new File("F:/Java/抽样算法实验截图/合成抽样算法/test.txt");
+		File file = new File("F:/Java/抽样算法实验截图/合成抽样算法/test730.txt");
 		FileInputStream inputStream = new FileInputStream(file);
 		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 		BufferedReader reader = new BufferedReader(inputStreamReader);

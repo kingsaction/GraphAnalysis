@@ -21,7 +21,32 @@ import com.uniplore.graph.sampling.entity.Edges;
 import com.uniplore.graph.sampling.entity.Nodes;
 import com.uniplore.graph.sampling.service.ISampleService;
 import com.uniplore.graph.util.samplingrandom.SampleRandom;
+
+import de.lmu.ifi.dbs.elki.algorithm.clustering.kmeans.KMeansHamerly;
+import de.lmu.ifi.dbs.elki.algorithm.clustering.kmeans.initialization.RandomlyGeneratedInitialMeans;
+import de.lmu.ifi.dbs.elki.data.Cluster;
+import de.lmu.ifi.dbs.elki.data.Clustering;
+import de.lmu.ifi.dbs.elki.data.NumberVector;
+import de.lmu.ifi.dbs.elki.data.model.KMeansModel;
+import de.lmu.ifi.dbs.elki.data.type.TypeUtil;
+import de.lmu.ifi.dbs.elki.database.Database;
+import de.lmu.ifi.dbs.elki.database.StaticArrayDatabase;
+import de.lmu.ifi.dbs.elki.database.ids.DBIDIter;
+import de.lmu.ifi.dbs.elki.database.ids.DBIDRange;
+import de.lmu.ifi.dbs.elki.database.relation.Relation;
+import de.lmu.ifi.dbs.elki.datasource.ArrayAdapterDatabaseConnection;
+import de.lmu.ifi.dbs.elki.datasource.DatabaseConnection;
+import de.lmu.ifi.dbs.elki.distance.distancefunction.minkowski.SquaredEuclideanDistanceFunction;
+import de.lmu.ifi.dbs.elki.math.random.RandomFactory;
+import gnu.trove.list.array.TIntArrayList;
+import weka.core.parser.java_cup.internal_error;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -177,6 +202,325 @@ public class SampleService implements ISampleService {
 		return jsonOutput;
 	}
 	
+	
+	/**  
+	 * @see com.uniplore.graph.sampling.service.ISampleService#improveNodeSampling() 
+	 * 改进点抽样算法，在抽样之前首先使用kmeans算法对点的度进行聚类，聚类之后结果将会是三个簇
+	 * 这三个簇分别是：high-degree、medium-degree、low-degree三组，采用分组抽样从这三组中
+	 * 分别选择15%的点抽取，最后也相当于对原数据整体做15%的抽样，这样分层之后，每次抽取出的点
+	 * 都会占满度的三种情况。
+	 */  
+	
+	@Override
+	public String improveNodeSampling() throws Exception {
+		
+		int nodePage = 1 ;    //标识第几页，从第一页开始
+		int nodePageSize = 1000;  //标识点表每一页包含的记录数，设置为1000
+		long nodeTotal = 0; //保存点表中总的记录数
+		long nodePageTotalNumber = 1 ; //记录点表分页之后的总页数
+		int sampleNodeCount = 0 ;
+	    double proportion = 0.15;  //代表要取出的点的比例，目前设置为要取出15%的点
+	    List<Integer> degreeList = new ArrayList<Integer>();  //存放节点的度信息
+		while(nodePage <= nodePageTotalNumber){  //如果当前页数小于等于总的页数时，执行循环
+			PageHelper.startPage(nodePage, nodePageSize);   //分页
+			List<Nodes> listNodeAllData = samplingDao.listNodeAllData();
+			
+	        //获取数据库中点表的总记录数，并且在整个循环中，该段代码只在获取第一页时被执行一次即可
+			if(nodePage == 1){   //只有在获取第一页时，才计算总记录数
+				PageInfo<Nodes> pageInfo = new PageInfo<Nodes>(listNodeAllData);
+		        nodeTotal = pageInfo.getTotal(); //获取总记录数
+		        //System.out.println("总记录数为:" + total);
+		        nodePageTotalNumber = nodeTotal/1000 + 1; //总页数要加1，因为可能有不满一页的情况存在
+		        //System.out.println("当前查询的点表总页数为:" + nodePageTotalNumber);
+			}
+			
+			sampleNodeCount = (int)(nodeTotal * proportion) + 1;
+			//处理每一页数据
+			int nodePageSizePer = listNodeAllData.size();   //获取的每一页数据的实际大小
+			for (int i = 0; i < nodePageSizePer; i++) {  //点数据抽样开始
+				degreeList.add(listNodeAllData.get(i).getNodeDegree());
+			}   //点数据抽样完毕	
+			nodePage++;
+		}
+		Integer nodeLength = (int)nodeTotal;    //将long类型数字转成int类型的方法
+		//LoggingConfiguration.setStatistics();  //日志信息，没有实质性的所用
+		/**************************************数据生成****************************************/
+		// 生成一个随机的数据集
+		double[][] data = new double[nodeLength][1];
+		for(int i = 0 ; i < data.length;i++){
+			for(int j = 0 ; j < data[i].length; j++){
+				data[i][j] = degreeList.get(i);
+			}
+	    }
+		
+		//将上述二位数组存放成一个一维数组
+		List<Double> list = new ArrayList<Double>();
+		for (double[] ds : data) {
+			for (double d : ds) {
+				list.add(d);
+			}
+		}
+		
+		//将List转成Array
+		Double[] temp = new Double[list.size()];
+		Double[] array = list.toArray(temp);
+		
+		// 从上面的数组中加载数据
+		DatabaseConnection dbc = new ArrayAdapterDatabaseConnection(data);
+		// 创建一个数据库，这是ELKI的特殊实现
+		Database db = new StaticArrayDatabase(dbc,null);
+		// 从数据库中加载数据
+		db.initialize();
+		
+		
+		/**************************************距离函数****************************************/
+		// kmeans使用的距离函数
+		SquaredEuclideanDistanceFunction dist = SquaredEuclideanDistanceFunction.STATIC;
+		// 生成一个随机数种子
+		RandomlyGeneratedInitialMeans init = new RandomlyGeneratedInitialMeans(RandomFactory.DEFAULT);
+		
+		/**************************************kmeans聚类****************************************/
+		// kmeans聚类算法
+		// 3代表簇的数目，5表示算法的迭代次数
+		//KMeansLloyd<NumberVector> km = new KMeansLloyd<NumberVector>(dist, 3, 0, init);   //实现不是很优秀
+		//KMeansElkan<NumberVector> ke = new KMeansElkan<NumberVector>(dist, 3, 5, init, true);  //聚类结果较为稳定，优秀
+		KMeansHamerly<NumberVector> ks = new KMeansHamerly<NumberVector>(dist, 3, 10, init, false);//该算法3和4聚类结构相对稳定，目前测试优秀
+		//ParallelLloydKMeans<NumberVector> plkm = new ParallelLloydKMeans<NumberVector>(dist, 3, 5,init);   //实现不是很优秀
+
+		// 选择数值关系进行聚类
+		//Clustering<KMeansModel> c = km.run(db);
+		//Clustering<KMeansModel> c = ke.run(db);
+		Clustering<KMeansModel> c = ks.run(db);
+		//Clustering<KMeansModel> c = plkm.run(db);
+		
+		/**************************************产生聚类结果****************************************/
+		System.out.println("---------开始输出聚类结果---------");
+		List<Double> compareDegree = new ArrayList<Double>();   //存储聚类后的三个结果标签
+		List<Integer> highDegreeList =  new ArrayList<Integer>();  //存储high-degree的点
+		List<Integer> mediumDegreeList = new ArrayList<Integer>();   //存储medium-degree的点
+		List<Integer> lowDegreeList = new ArrayList<Integer>();  //存储low-degree的点
+ 		// 包含数字向量的关系
+		Relation<NumberVector> rel = db.getRelation(TypeUtil.NUMBER_VECTOR_FIELD);
+		//System.out.println(rel.toString());
+		// 我们知道ids必须是一个连续的范围
+		DBIDRange ids = (DBIDRange) rel.getDBIDs();
+	    //System.out.println(ids);
+		// 输出所有的聚类结果
+	    int i = 0;
+	    for(Cluster<KMeansModel> clu : c.getAllClusters()) {
+		      // K-means will name all clusters "Cluster" in lack of noise support:
+	    	double degree = Double.parseDouble(clu.getModel().getPrototype().toString()); //将String转成Double，并将其记录到一个三个单元的double数组中
+	    	compareDegree.add(degree);
+	    	++i;
+		      
+	    }
+	    
+	    //讲compareDegree转成数组
+	    Double[] compareDegreeArray = new Double[compareDegree.size()];
+	    Double[] arrayDegree = compareDegree.toArray(compareDegreeArray);
+	    Arrays.sort(arrayDegree);   //对数组进行排序
+	    for(Cluster<KMeansModel> clu : c.getAllClusters()) {
+	      // K-means will name all clusters "Cluster" in lack of noise support:
+	      //System.out.println("#" + i + ": " + clu.getNameAutomatic());
+	      //System.out.println("Size: " + clu.size());
+	      double parseDouble = Double.parseDouble(clu.getModel().getPrototype().toString());
+	      //System.out.println("Center: " + clu.getModel().getPrototype().toString());
+	      if(parseDouble == arrayDegree[2]){
+	    	  //说明为度最大的点
+	    	 // Iterate over objects:
+		      //System.out.print("Objects: ");   //输出执行kmeans后的结果
+		      for(DBIDIter it = clu.getIDs().iter(); it.valid(); it.advance()) {
+		        // To get the vector use:
+		        // NumberVector v = rel.get(it);
+		        // Offset within our DBID range: "line number"
+		        final int offset = ids.getOffset(it);
+		        //System.out.print(" " + offset);
+		        //System.out.print(" " + array[offset].intValue());   //得到该聚类结果中的所有点
+		        highDegreeList.add(array[offset].intValue());
+		        // Do NOT rely on using "internalGetIndex()" directly!
+		      }
+		      System.out.println();
+	      }else if(parseDouble == arrayDegree[0]){
+	    	  //说明此种情况为度最小的点
+	    	  // Iterate over objects:
+		      //System.out.print("Objects: ");   //输出执行kmeans后的结果
+		      for(DBIDIter it = clu.getIDs().iter(); it.valid(); it.advance()) {
+		        // To get the vector use:
+		        // NumberVector v = rel.get(it);
+		        // Offset within our DBID range: "line number"
+		        final int offset = ids.getOffset(it);
+		        //System.out.print(" " + offset);
+		        //System.out.print(" " + array[offset].intValue());   //得到该聚类结果中的所有点
+		        lowDegreeList.add(array[offset].intValue());
+		        // Do NOT rely on using "internalGetIndex()" directly!
+		      }
+		      System.out.println();
+	      }else {
+			  //说明节点度的大小为中间
+	    	  // Iterate over objects:
+		      //System.out.print("Objects: ");   //输出执行kmeans后的结果
+		      for(DBIDIter it = clu.getIDs().iter(); it.valid(); it.advance()) {
+		        // To get the vector use:
+		        // NumberVector v = rel.get(it);
+		        // Offset within our DBID range: "line number"
+		        final int offset = ids.getOffset(it);
+		        //System.out.print(" " + offset);
+		        //System.out.print(" " + array[offset].intValue());   //得到该聚类结果中的所有点
+		        mediumDegreeList.add(array[offset].intValue());
+		        // Do NOT rely on using "internalGetIndex()" directly!
+		      }
+		      //System.out.println();
+		}
+	      ++i;
+	    }
+	    
+	    //遍历三个list，将结果和数组的长度输出
+	   /* Iterator<Integer> highIterator = highDegreeList.iterator();
+	    System.out.print("度最大的点为:" + highDegreeList.size() + " ");
+	    while(highIterator.hasNext()){
+	    	System.out.print(highIterator.next() + " ");
+	    }
+	    System.out.println();
+	    
+	    Iterator<Integer> mediumIterator = mediumDegreeList.iterator();
+	    System.out.print("度在中间的点为:" + mediumDegreeList.size() + " ");
+	    while(mediumIterator.hasNext()){
+	    	System.out.print(mediumIterator.next() + " ");
+	    }
+	    System.out.println();
+	    
+	    Iterator<Integer> lowIterator = lowDegreeList.iterator();
+	    System.out.print("度最小的点为:" + lowDegreeList.size() + " ");
+	    while(lowIterator.hasNext()){
+	    	System.out.print(lowIterator.next() + " ");
+	    }
+	    System.out.println();*/
+	    
+	    /**************************************将上述三组List全部转换为数组****************************************/
+		Integer[] highDegree = new Integer[highDegreeList.size()];
+		Integer[] highDegreeArray = highDegreeList.toArray(highDegree);  //将high-degree转成数组
+		
+		Integer[] mediumDegree = new Integer[mediumDegreeList.size()];
+		Integer[] mediumDegreeArray = mediumDegreeList.toArray(mediumDegree); //将medium-degree转成数组
+		
+		Integer[] lowDegree = new Integer[lowDegreeList.size()];
+		Integer[] lowDegreeArray = lowDegreeList.toArray(lowDegree);  //将low-degree转成数组
+	    
+	    /**************************************根据度的分布进行抽样****************************************/
+		List<Edges> edgeList = new ArrayList<Edges>();   //在其中缓存抽样出来的点数据
+	    Map<String, Nodes> nodeMap = new HashMap<String, Nodes>();  //在其中缓存抽样出来的点数据
+		//在high-degree数组中均匀随机抽出15%的点
+	    int highDegreeSamplingCount = (int)(highDegreeArray.length * proportion) + 1;
+	    HashSet<Integer> randomHighSet = SampleRandom.randomSamplingInt(highDegreeSamplingCount, highDegreeArray.length);
+	    Iterator<Integer> highIterator = randomHighSet.iterator();
+	    while(highIterator.hasNext()){
+	    	Integer next = highIterator.next();
+	    	Integer degree = highDegreeArray[(int)next];
+	    	if(nodeMap.size() < sampleNodeCount){
+	    		Nodes nodeEntity = samplingDao.selectHighDegree(degree);
+		    	nodeMap.put(nodeEntity.getId(), nodeEntity);
+	    	}else {
+				break;
+			}	
+	    }
+	    
+		//在medium-degree数组中均匀随机抽出15%的点
+		int mediumDegreeSamplingCount = (int)(mediumDegreeArray.length * proportion) + 1;
+		HashSet<Integer> randomMediumSet = SampleRandom.randomSamplingInt(mediumDegreeSamplingCount, mediumDegreeArray.length);
+	    Iterator<Integer> mediumIterator = randomMediumSet.iterator();
+		while(mediumIterator.hasNext()){
+			Integer next = mediumIterator.next();
+			Integer degree = mediumDegreeArray[(int)next];
+			List<Nodes> nodeList = samplingDao.selectDegree(degree);
+			Iterator<Nodes> nodeIterator = nodeList.iterator();
+			while(nodeIterator.hasNext() && nodeMap.size() < sampleNodeCount){
+				Nodes node = nodeIterator.next();
+				nodeMap.put(node.getId(), node);
+			}
+		}
+		
+		//在low-degree数组中均匀随机抽出15%的点
+		int lowDegreeSamplingCount = (int)(lowDegreeArray.length * proportion) + 1 ;
+		HashSet<Integer> randomlowSet = SampleRandom.randomSamplingInt(lowDegreeSamplingCount, lowDegreeArray.length);
+		Iterator<Integer> lowIterator = randomlowSet.iterator();
+		while(lowIterator.hasNext()){
+			Integer next = lowIterator.next();
+			Integer degree = lowDegreeArray[(int)next];
+			List<Nodes> nodeList = samplingDao.selectDegree(degree);
+			Iterator<Nodes> nodeIterator = nodeList.iterator();
+			while(nodeIterator.hasNext() && nodeMap.size() < sampleNodeCount){
+				Nodes node = nodeIterator.next();
+				nodeMap.put(node.getId(), node);
+			}
+		}
+		
+	    /**************************************对边表进行抽样****************************************/
+		//开始边表的遍历，当sourceNode和targetNode都是上面抽样出来的点时，这条边要被抽出
+		int edgePage = 1;   //标识第几页，从第一页开始
+		int edgePageSize = 1000; //标识边表每一页包含的记录数，初始设置为1000
+		long edgeTotal = 0 ; //保存边表中的总记录数目
+		long edgePageTotalNumber = 1 ; //记录边表分页之后的总页数
+		
+		
+		while(edgePage <= edgePageTotalNumber){  //边表抽样开始
+			PageHelper.startPage(edgePage,edgePageSize);
+			List<Edges> listEdgeAllData = samplingDao.listEdgeAllData();
+			
+			//获取数据库中边表的总记录数，并且在整个循环中，该段代码只在获取第一页时被执行一次即可
+			if(edgePage == 1){   //只有在获取第一页时，才计算总记录数
+				PageInfo<Edges> pageInfo = new PageInfo<Edges>(listEdgeAllData);
+		        edgeTotal = pageInfo.getTotal(); //获取边表中的总记录数
+		        //System.out.println("总记录数为:" + total);
+		        edgePageTotalNumber = edgeTotal/1000 + 1; //总页数要加1，因为可能有不满一页的情况存在
+		        //System.out.println("当前查询的边表总页数为:" + edgePageTotalNumber);
+			}
+			
+			int edgePageSizePer = listEdgeAllData.size();
+			for (int j = 0; j < edgePageSizePer; j++) {
+				Edges edges = listEdgeAllData.get(j);
+				if (nodeMap.containsKey(edges.getSourceNodeID()) && nodeMap.containsKey(edges.getTargetNodeID())) {
+					//此时该条边应该被取出
+					edgeList.add(edges);
+				}else {
+					continue;
+				}
+			}
+			edgePage++;
+		}  //边表的抽样完毕
+		
+	    /**************************************输出抽样的规模****************************************/
+        System.out.println("改进后的点抽样算法抽出的点数目为：" + nodeMap.size());
+        
+        
+	    /**************************************返回JSON字符串****************************************/
+		//构造出JSON字符串，并将结果返回给控制器用于展示
+	    StringBuilder jsonString = new StringBuilder();
+		NodeDataVO data1 = null;
+		//遍历nodeMap，将所有的数据取出，构造成JSON
+		Iterator<Entry<String, Nodes>> nodeIterator = nodeMap.entrySet().iterator();
+		while(nodeIterator.hasNext()){
+			Entry<String, Nodes> next = nodeIterator.next();
+			String key = next.getKey();
+			Nodes value = next.getValue();
+			data1 = new NodeDataVO(key,value.getNodeName(),value.getNodeDegree());
+			NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
+			String jsonString1 = JSON.toJSONString(nodeVo1);
+			jsonString.append(jsonString1 + ",");
+		}  //抽样出的点添加完毕
+		
+	    //处理抽样出的边
+		int edgeSize = edgeList.size();
+		for (int k = 0; k < edgeSize ; k++) {
+			Edges edges = edgeList.get(k);
+			EdgeDataVO data3 = new EdgeDataVO(edges.getId(), edges.getSourceNodeID(), edges.getTargetNodeID(), 1);
+			EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
+			String jsonString1 = JSON.toJSONString(edgeVo);
+			jsonString.append(jsonString1 + ",");
+		}
+		String jsonOutput = "[" + jsonString + "]" ;   
+		return jsonOutput;
+	}
+
 	/**  
 	 * @see com.uniplore.graph.sampling.service.ISampleService#edgeSampling() 均匀随机边抽样算法
 	 * 该抽样算法的实现针对static graph 和 large graph，数据刚开始全部存放在数据库中

@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.apache.commons.math3.distribution.ZipfDistribution;
+
 /**     
  * 版权所有  2017-ACMIS Lab  
  * 项目名称  graphanalysis       
@@ -95,9 +97,15 @@ public class SampleRandom {
 		//randomSamplingInt(10, 100);
 		/*GeometricDistribution geometricDistribution =  new GeometricDistribution(0.7);
 		System.out.println(geometricDistribution.inverseCumulativeProbability(0.7));*/
-		for(int i = 0 ; i < 100 ; i++){
+		/*for(int i = 0 ; i < 100 ; i++){
 			System.out.println(getRandomGeoDistribution(new Random()));
-		}
+		}*/
+		
+		/*ZipfDistribution zf = new ZipfDistribution(10, 2);
+		for (int i = 0; i < 100; i++) {
+			int sample = zf.sample();
+			System.out.println(sample);
+		}*/
 		
 	}
 }

@@ -62,6 +62,17 @@ public class SampleController {
 		return outputString;
 	}
 	
+	@RequestMapping(value = "/INSampling" , method = {RequestMethod.POST})
+	public @ResponseBody String improveNodeSampling() throws Exception{
+		//System.out.println("选中了改进点抽样算法");
+		String improveNodeSampling = sample.improveNodeSampling();
+		
+		//将上述字符串重新解析
+	    Object parse = JSON.parse(improveNodeSampling);
+	    String outputString = parse.toString();
+	    //System.out.println("返回的字符串为：" + outputString);
+		return outputString;
+	}
 	/**
 	 * 
 	 * @Title  randomPageRankNodeSampling  

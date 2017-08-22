@@ -1,7 +1,7 @@
 /**    
 * @Title         EM.java  
 * @Package       com.uniplore.graph.vectorclustering  
-* @Description   TODO(用一句话描述该文件做什么)  
+* @Description   TODO EM聚类算法，和KMEANS一样好用
 * @author        朱君鹏     
 * @date          2017年8月22日 下午9:19:40  
 * @version       1.0    

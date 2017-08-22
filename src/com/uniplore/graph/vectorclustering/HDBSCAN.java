@@ -1,7 +1,7 @@
 /**    
 * @Title         HDBSCAN.java  
 * @Package       com.uniplore.graph.vectorclustering  
-* @Description   TODO(用一句话描述该文件做什么)  
+* @Description   TODO 层次聚类算法，在目前我的需求总用起来不方便  
 * @author        朱君鹏     
 * @date          2017年8月22日 下午9:44:32  
 * @version       1.0    

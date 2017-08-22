@@ -1,6 +1,6 @@
 /**    
 * @Title         JblasTest.java  
-* @Package       com.uniplore.graph.matrix  
+* @Package       com.uniplore.graph.vectorclustering  
 * @Description   测试Java中能够使用的矩阵工具  http://jblas.org/javadoc/index.html  
 * @author        朱君鹏     
 * @date          2017年8月7日 上午9:17:01  
@@ -17,7 +17,7 @@
  * Geometry(按照矩阵的行或者列进行规范化，规范化是指每一行或列都是单位长度),该类非常有用,
  * MatrixFunction(求绝对值、平方、取近似值等函数都在这个包中)
  */
-package com.uniplore.graph.matrix;
+package com.uniplore.graph.vectorclustering;
 
 import java.io.IOException;
 
@@ -29,7 +29,7 @@ import com.pivotal.jdbc.greenplumbase.dddt.a;
  * 版权所有  2017-ACMIS Lab  
  * 项目名称  graphanalysis       
  * 类描述    该部分主要用于测试jblas的使用
- * 类名称    com.uniplore.graph.matrix.JblasTest       
+ * 类名称    com.uniplore.graph.vectorclustering.JblasTest       
  * 创建人    朱君鹏
  * 创建时间  2017年8月7日 上午9:17:01     
  * 修改人  

@@ -79,6 +79,24 @@ public interface ISamplingDao {
 	 * @throws Exception  统一异常处理
 	 */
 	public List<Nodes> getNeighborNode(Nodes node) throws Exception;
+
+	/**  
+	 * @Title  selectDegree  
+	 * @Description TODO 根据节点的度最大的选择相应的节点
+	 * @param degree   节点的度
+	 * @return 返回指定度的节点
+	 * @throws Exception 统一异常处理
+	 */ 
+	public Nodes selectHighDegree(Integer degree) throws Exception;
+
+	/**  
+	 * @Title  selectDegree  
+	 * @Description TODO  选择其他点(度相对小的点)
+	 * @param degree  指定的度
+	 * @return   返回指定的节点
+	 * @throws Exception 统一异常处理
+	 */ 
+	public List<Nodes> selectDegree(Integer degree) throws Exception;
 		
 
 }

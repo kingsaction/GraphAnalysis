@@ -76,4 +76,22 @@ public interface SamplingMapper {
 	 */
 	public Nodes selectByID(String id) throws Exception;
 
+	/**  
+	 * @Title  selectDegree  
+	 * @Description TODO 选出指定度的点  
+	 * @param degree  指定的度
+	 * @return   返回指定度的所有节点
+	 * @throws Exception 统一异常处理
+	 */ 
+	public Nodes selectHighDegree(Integer degree) throws Exception;
+
+	/**  
+	 * @Title  selectDegree  
+	 * @Description TODO 选出度较小的点 
+	 * @param degree  指定的度
+	 * @return   返回所有的节点
+	 * @throws Exception 统一异常处理
+	 */ 
+	public List<Nodes> selectDegree(Integer degree) throws Exception;
+
 }

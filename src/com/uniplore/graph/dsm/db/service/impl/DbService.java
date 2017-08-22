@@ -345,6 +345,7 @@ public class DbService implements IDbService {
           jedis.hset("node", nodeKey, nodeID1); //将NodeID1加入到redis缓存中
           stringBuilder.append(jsonString1 + ";");   //将该数据追加到输出中
         }
+        System.out.println("构造节点1完成 " + countNode);
       }
       //***************************************节点二处理.******************************************
       
@@ -430,6 +431,7 @@ public class DbService implements IDbService {
           jedis.hset("node", nodeKey, nodeID2);
           stringBuilder.append(jsonString2 + ";");  //将该数据追加到输出中
         }
+        System.out.println("构造节点2完成 " + countNode);
       }
       //***************************************边处理.******************************************
       if (node1 == null || node2 == null) {   //如果有一个点的没有值，即为空，则不会构造边，因为此时至多只有一个点
@@ -449,8 +451,10 @@ public class DbService implements IDbService {
         String jsonString3 = JSON.toJSONString(edgeVo);
         stringBuilder.append(jsonString3 + ",");  //将该数据追加到输出中
       }
+      System.out.println("构造边完成 " + countEdge);
     }
     
+    System.out.println("构建图完成，开始把node和edge数据写入到数据库中");
     //构建边和点完成之后，应该将上述的数据全部写回到中间数据库层中
     //遍历nodeMap，将数据插入到数据库中，隐藏的中间层
     Iterator<Entry<String, Node>> nodeIterator = nodeMap.entrySet().iterator();

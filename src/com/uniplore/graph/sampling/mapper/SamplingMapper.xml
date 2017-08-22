@@ -50,4 +50,14 @@
     <select id="selectByID" resultMap="nodeResult" parameterType="java.lang.String"> 
         select * from node where id=#{id}
     </select>
+    
+    <!-- 根据执行的度返回相应的节点 -->
+    <select id="selectHighDegree" parameterType="java.lang.Integer" resultMap="nodeResult">
+        select * from node where node_degree=#{nodeDegree} limit 1
+    </select>
+    
+    <!-- 查询所有的度较小的点 -->
+    <select id="selectDegree" parameterType="java.lang.Integer" resultMap="nodeResult">
+        select * from node where node_degree=#{nodeDegree}
+    </select>
 </mapper>

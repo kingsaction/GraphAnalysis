@@ -406,7 +406,7 @@ public class SampleService implements ISampleService {
 		Integer[] lowDegree = new Integer[lowDegreeList.size()];
 		Integer[] lowDegreeArray = lowDegreeList.toArray(lowDegree);  //将low-degree转成数组
 	    
-	    /**************************************根据度的分布进行抽样****************************************/
+	    /**************************************改进方案一：根据度的分布进行抽样，该方案是从样本中各抽取15%****************************************/
 		List<Edges> edgeList = new ArrayList<Edges>();   //在其中缓存抽样出来的点数据
 	    Map<String, Nodes> nodeMap = new HashMap<String, Nodes>();  //在其中缓存抽样出来的点数据
 		//在high-degree数组中均匀随机抽出15%的点
@@ -453,7 +453,46 @@ public class SampleService implements ISampleService {
 				nodeMap.put(node.getId(), node);
 			}
 		}
-		
+	    /**************************************改进方案二：根据度的分布进行抽样，均匀随机的生成一个数****************************************/
+        /**
+         * 均匀的生成一个随机数，如果该随机数小于等于0.2，那么抽取high-degree的点
+         * 如果生成的随机数大于.2，那么随机抽取medium-degree和low-degree的点
+         * 2017/8/23 该程序的随机性还是很差
+         */
+		/*while(nodeMap.size() < sampleNodeCount){
+			double random = Math.random();   //生成一个(0,1)之间的随机数
+			if(random <= 0.2){
+				//抽取high-degree点
+				//随机生成一个数，范围在[0,highDegreeArray.length)之间
+				Random randomHighDegree = new Random();
+				int nextInt = randomHighDegree.nextInt(highDegreeArray.length);
+				Integer degree = highDegreeArray[nextInt];  //得到相应的度
+				Nodes nodeEntity = samplingDao.selectHighDegree(degree);
+		    	nodeMap.put(nodeEntity.getId(), nodeEntity);
+			}else{
+				//从medium-degree中抽取点
+				Random randomMediumDegree = new Random();
+				int nextInt = randomMediumDegree.nextInt(mediumDegreeArray.length);
+				Integer degree = mediumDegreeArray[nextInt];
+				List<Nodes> nodeList = samplingDao.selectDegree(degree);
+				Iterator<Nodes> nodeIterator = nodeList.iterator();
+				while(nodeIterator.hasNext() && nodeMap.size() < sampleNodeCount){
+					Nodes node = nodeIterator.next();
+					nodeMap.put(node.getId(), node);
+				}
+				
+				//从low-degreex中抽取点
+				Random randomLowDegree = new Random();
+				int nextInt2 = randomLowDegree.nextInt(lowDegreeArray.length);
+				degree = lowDegreeArray[nextInt2];
+				nodeList = samplingDao.selectDegree(degree);
+				nodeIterator = nodeList.iterator();
+				while(nodeIterator.hasNext() && nodeMap.size() < sampleNodeCount){
+					Nodes node = nodeIterator.next();
+					nodeMap.put(node.getId(), node);
+				}
+			}
+		}*/
 	    /**************************************对边表进行抽样****************************************/
 		//开始边表的遍历，当sourceNode和targetNode都是上面抽样出来的点时，这条边要被抽出
 		int edgePage = 1;   //标识第几页，从第一页开始

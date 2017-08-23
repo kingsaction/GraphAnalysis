@@ -14,6 +14,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.math3.distribution.ZipfDistribution;
 
+import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
+
 /**     
  * 版权所有  2017-ACMIS Lab  
  * 项目名称  graphanalysis       
@@ -106,6 +108,9 @@ public class SampleRandom {
 			int sample = zf.sample();
 			System.out.println(sample);
 		}*/
-		
+		/*for(int i = 0 ; i < 100; i++){
+			double random = Math.random();
+			System.out.println(random);
+		}*/
 	}
 }

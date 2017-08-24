@@ -458,6 +458,7 @@ public class SampleService implements ISampleService {
          * 均匀的生成一个随机数，如果该随机数小于等于0.2，那么抽取high-degree的点
          * 如果生成的随机数大于.2，那么随机抽取medium-degree和low-degree的点
          * 2017/8/23 该程序的随机性还是很差
+         * @author 朱君鹏
          */
 		/*while(nodeMap.size() < sampleNodeCount){
 			double random = Math.random();   //生成一个(0,1)之间的随机数

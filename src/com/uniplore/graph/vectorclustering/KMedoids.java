@@ -94,7 +94,7 @@ public class KMedoids {
 		RandomFactory factory = new RandomFactory(new Date().getTime());
 		KMeansPlusPlusInitialMeans kpp = new KMeansPlusPlusInitialMeans<NumberVector>(factory);
 		/**************************************KMedoids聚类****************************************/
-        KMedoidsEM<NumberVector> kem = new KMedoidsEM<NumberVector>(dist, 3, 5, kpp);
+        KMedoidsEM<NumberVector> kem = new KMedoidsEM<NumberVector>(dist, 3, 10, kpp);
         Clustering<MedoidModel> c = kem.run(db);
         /**************************************输出聚类结果****************************************/
 		System.out.println("---------开始输出聚类结果---------");

@@ -12,6 +12,8 @@ import java.util.List;
 
 import com.uniplore.graph.sampling.entity.Edges;
 import com.uniplore.graph.sampling.entity.Nodes;
+import com.uniplore.graph.sampling.entity.SamplingEdges;
+import com.uniplore.graph.sampling.entity.SamplingNodes;
 
 /**     
  * 版权所有  2017-ACMIS Lab  
@@ -97,6 +99,34 @@ public interface ISamplingDao {
 	 * @throws Exception 统一异常处理
 	 */ 
 	public List<Nodes> selectDegree(Integer degree) throws Exception;
+
+	/**  
+	 * @Title  insertSamplingNode  
+	 * @Description TODO 将抽样的结果插入到数据库中  
+	 * @param value  指定的点
+	 * @throws Exception 统一异常处理
+	 */ 
+	public void insertSamplingNode(SamplingNodes value) throws Exception;
+
+	/**  
+	 * @Title  insertSamplingEdge  
+	 * @Description TODO 将抽样的结果插入到数据库中  
+	 * @param spEdges   
+	 * @throws Exception 统一异常处理
+	 */ 
+	public void insertSamplingEdge(SamplingEdges spEdges) throws Exception;
+
+	/**  
+	 * @Title  deleteSamplingNodes  
+	 * @Description TODO 清空抽样表   
+	 */ 
+	public void deleteSamplingNodes() throws Exception;
+
+	/**  
+	 * @Title  deleteSamplingEdges  
+	 * @Description TODO  清空抽样表    
+	 */ 
+	public void deleteSamplingEdges() throws Exception;
 		
 
 }

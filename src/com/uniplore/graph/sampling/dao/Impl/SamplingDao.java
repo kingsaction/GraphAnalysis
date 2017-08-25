@@ -18,6 +18,8 @@ import org.springframework.stereotype.Repository;
 import com.uniplore.graph.sampling.dao.ISamplingDao;
 import com.uniplore.graph.sampling.entity.Edges;
 import com.uniplore.graph.sampling.entity.Nodes;
+import com.uniplore.graph.sampling.entity.SamplingEdges;
+import com.uniplore.graph.sampling.entity.SamplingNodes;
 import com.uniplore.graph.sampling.mapper.SamplingMapper;
 
 import jdk.nashorn.internal.ir.ReturnNode;
@@ -124,6 +126,38 @@ public class SamplingDao implements ISamplingDao{
 	@Override
 	public List<Nodes> selectDegree(Integer degree) throws Exception {
 		return samplingMapper.selectDegree(degree);
+	}
+	/**  
+	 * @see com.uniplore.graph.sampling.dao.ISamplingDao#insertSamplingNode(com.uniplore.graph.sampling.entity.Nodes)  
+	 */  
+	
+	@Override
+	public void insertSamplingNode(SamplingNodes value) throws Exception {
+		samplingMapper.insertSamplingNode(value);
+	}
+	/**  
+	 * @see com.uniplore.graph.sampling.dao.ISamplingDao#insertSamplingEdge(com.uniplore.graph.sampling.entity.SamplingEdges)  
+	 */  
+	
+	@Override
+	public void insertSamplingEdge(SamplingEdges spEdges) throws Exception {
+		samplingMapper.insertSamplingEdge(spEdges);
+	}
+	/**  
+	 * @see com.uniplore.graph.sampling.dao.ISamplingDao#deleteSamplingNodes()  
+	 */  
+	
+	@Override
+	public void deleteSamplingNodes() throws Exception {
+		samplingMapper.deleteSamplingNodes();
+	}
+	/**  
+	 * @see com.uniplore.graph.sampling.dao.ISamplingDao#deleteSamplingEdges()  
+	 */  
+	
+	@Override
+	public void deleteSamplingEdges() throws Exception {
+		samplingMapper.deleteSamplingEdges();
 	}
 
 }

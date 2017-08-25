@@ -13,6 +13,8 @@ import java.util.List;
 import com.uniplore.graph.estimation.entity.DegreeDistribution;
 import com.uniplore.graph.estimation.entity.EdgeEstimation;
 import com.uniplore.graph.estimation.entity.NodeEstimation;
+import com.uniplore.graph.sampling.entity.SamplingEdges;
+import com.uniplore.graph.sampling.entity.SamplingNodes;
 
 /**     
  * 版权所有  2017-ACMIS Lab  
@@ -58,5 +60,32 @@ public interface IEstimationDao {
 	 * @throws Exception 统一异常处理
 	 */ 
 	public void deleteDegree() throws Exception;
+
+	/**  
+	 * @Title  listSamplingNodeAllData  
+	 * @Description TODO 取出抽样后的点数据
+	 * @return   
+	 */ 
+	public List<SamplingNodes> listSamplingNodeAllData() throws Exception;
+
+	/**  
+	 * @Title  listSamplingEdgeAllData  
+	 * @Description TODO 列出所有抽样后的边数据  
+	 * @return   
+	 */ 
+	public List<SamplingEdges> listSamplingEdgeAllData() throws Exception;
+
+	/**  
+	 * @Title  insertSamplingDegreeDistribution  
+	 * @Description TODO 将抽样后的节点的度信息插入到数据库中 
+	 * @param degree   
+	 */ 
+	public void insertSamplingDegreeDistribution(DegreeDistribution degree) throws Exception;
+
+	/**  
+	 * @Title  deleteSamplingDegree  
+	 * @Description TODO 删除抽样后的度表中的数据    
+	 */ 
+	public void deleteSamplingDegree() throws Exception;
 
 }

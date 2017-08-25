@@ -19,6 +19,8 @@ import com.uniplore.graph.estimation.entity.EdgeEstimation;
 import com.uniplore.graph.estimation.entity.NodeEstimation;
 import com.uniplore.graph.estimation.mapper.DegreeDistributionMapper;
 import com.uniplore.graph.estimation.mapper.EstimationMapper;
+import com.uniplore.graph.sampling.entity.SamplingEdges;
+import com.uniplore.graph.sampling.entity.SamplingNodes;
 
 /**     
  * 版权所有  2017-ACMIS Lab  
@@ -71,6 +73,38 @@ public class EstimationDao implements IEstimationDao {
 	@Override
 	public void deleteDegree() throws Exception {
 		degreeDistributionMapper.deleteDegree();
+	}
+	/**  
+	 * @see com.uniplore.graph.estimation.dao.IEstimationDao#listSamplingNodeAllData()  
+	 */  
+	
+	@Override
+	public List<SamplingNodes> listSamplingNodeAllData() throws Exception {
+		return estimationMapper.listSamplingNodeAllData();
+	}
+	/**  
+	 * @see com.uniplore.graph.estimation.dao.IEstimationDao#listSamplingEdgeAllData()  
+	 */  
+	
+	@Override
+	public List<SamplingEdges> listSamplingEdgeAllData() throws Exception {
+		return estimationMapper.listSamplingEdgeAllData();
+	}
+	/**  
+	 * @see com.uniplore.graph.estimation.dao.IEstimationDao#insertSamplingDegreeDistribution(com.uniplore.graph.estimation.entity.DegreeDistribution)  
+	 */  
+	
+	@Override
+	public void insertSamplingDegreeDistribution(DegreeDistribution degree) throws Exception {
+		degreeDistributionMapper.insertSamplingDegreeDistribution(degree);
+	}
+	/**  
+	 * @see com.uniplore.graph.estimation.dao.IEstimationDao#deleteSamplingDegree()  
+	 */  
+	
+	@Override
+	public void deleteSamplingDegree() throws Exception {
+		degreeDistributionMapper.deleteSamplingDegree();
 	}
 
 }

@@ -19,6 +19,8 @@ import com.uniplore.graph.dsm.db.entity.NodeVO;
 import com.uniplore.graph.sampling.dao.ISamplingDao;
 import com.uniplore.graph.sampling.entity.Edges;
 import com.uniplore.graph.sampling.entity.Nodes;
+import com.uniplore.graph.sampling.entity.SamplingEdges;
+import com.uniplore.graph.sampling.entity.SamplingNodes;
 import com.uniplore.graph.sampling.service.ISampleService;
 import com.uniplore.graph.util.samplingrandom.SampleRandom;
 
@@ -171,18 +173,25 @@ public class SampleService implements ISampleService {
 			edgePage++;
 		}  //边表的抽样完毕
 		
-		//System.out.println("点表抽取出来的记录数为:" + nodeMap.size());  //逻辑正确
-		//System.out.println("边表抽取出来的记录数为:" + edgeList.size());   //逻辑正确
+		System.out.println("改进前点抽样算法抽取出来的记录数为:" + nodeMap.size());  //逻辑正确
+		System.out.println("改进前点抽样算法抽取出来的记录数为:" + edgeList.size());   //逻辑正确
 		
 		//构造出JSON字符串，并将结果返回给控制器用于展示
 	    StringBuilder jsonString = new StringBuilder();
 		NodeDataVO data1 = null;
 		//遍历nodeMap，将所有的数据取出，构造成JSON
 		Iterator<Entry<String, Nodes>> nodeIterator = nodeMap.entrySet().iterator();
+		samplingDao.deleteSamplingNodes();    //清空抽样点表
+		samplingDao.deleteSamplingEdges();    //清空抽样边表
 		while(nodeIterator.hasNext()){
 			Entry<String, Nodes> next = nodeIterator.next();
 			String key = next.getKey();
 			Nodes value = next.getValue();
+			
+			SamplingNodes spNodes = new SamplingNodes(value.getId(), value.getNodeName());
+			samplingDao.insertSamplingNode(spNodes);
+			
+			
 			data1 = new NodeDataVO(key,value.getNodeName(),value.getNodeDegree());
 			NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
 			String jsonString1 = JSON.toJSONString(nodeVo1);
@@ -193,6 +202,10 @@ public class SampleService implements ISampleService {
 		int edgeSize = edgeList.size();
 		for (int i = 0; i < edgeSize ; i++) {
 			Edges edges = edgeList.get(i);
+			
+			SamplingEdges spEdges = new SamplingEdges(edges.getId(),edges.getSourceNodeID() ,edges.getSourceNodeName(), edges.getTargetNodeID(), edges.getTargetNodeName());
+			samplingDao.insertSamplingEdge(spEdges);
+			
 			EdgeDataVO data3 = new EdgeDataVO(edges.getId(), edges.getSourceNodeID(), edges.getTargetNodeID(), 1);
 			EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
 			String jsonString1 = JSON.toJSONString(edgeVo);
@@ -374,7 +387,7 @@ public class SampleService implements ISampleService {
 	      ++i;
 	    }
 	    
-	    //遍历三个list，将结果和数组的长度输出
+	    //遍历三个list，将聚类结果和数组的长度输出
 	   /* Iterator<Integer> highIterator = highDegreeList.iterator();
 	    System.out.print("度最大的点为:" + highDegreeList.size() + " ");
 	    while(highIterator.hasNext()){
@@ -406,10 +419,52 @@ public class SampleService implements ISampleService {
 		Integer[] lowDegree = new Integer[lowDegreeList.size()];
 		Integer[] lowDegreeArray = lowDegreeList.toArray(lowDegree);  //将low-degree转成数组
 	    
-	    /**************************************改进方案一：根据度的分布进行抽样，该方案是从样本中各抽取15%****************************************/
+	    /**************************************改进方案一：根据度的分布进行抽样，均匀随机的生成一个数****************************************/
+        /**
+         * 均匀的生成一个随机数，如果该随机数小于等于0.2，那么抽取high-degree的点
+         * 如果生成的随机数大于.2，那么随机抽取medium-degree和low-degree的点
+         * 2017/8/25 该方案的度分布不如方案一的拟合程度好
+         * @author 朱君鹏
+         */
+		/*while(nodeMap.size() < sampleNodeCount){
+			double random = Math.random();   //生成一个(0,1)之间的随机数
+			if(random <= 0.2){
+				//抽取high-degree点
+				//随机生成一个数，范围在[0,highDegreeArray.length)之间
+				Random randomHighDegree = new Random();
+				int nextInt = randomHighDegree.nextInt(highDegreeArray.length);
+				Integer degree = highDegreeArray[nextInt];  //得到相应的度
+				Nodes nodeEntity = samplingDao.selectHighDegree(degree);
+		    	nodeMap.put(nodeEntity.getId(), nodeEntity);
+			}else{
+				//从medium-degree中抽取点
+				Random randomMediumDegree = new Random();
+				int nextInt = randomMediumDegree.nextInt(mediumDegreeArray.length);
+				Integer degree = mediumDegreeArray[nextInt];
+				List<Nodes> nodeList = samplingDao.selectDegree(degree);
+				Iterator<Nodes> nodeIterator = nodeList.iterator();
+				while(nodeIterator.hasNext() && nodeMap.size() < sampleNodeCount){
+					Nodes node = nodeIterator.next();
+					nodeMap.put(node.getId(), node);
+				}
+				
+				//从low-degreex中抽取点
+				Random randomLowDegree = new Random();
+				int nextInt2 = randomLowDegree.nextInt(lowDegreeArray.length);
+				degree = lowDegreeArray[nextInt2];
+				nodeList = samplingDao.selectDegree(degree);
+				nodeIterator = nodeList.iterator();
+				while(nodeIterator.hasNext() && nodeMap.size() < sampleNodeCount){
+					Nodes node = nodeIterator.next();
+					nodeMap.put(node.getId(), node);
+				}
+			}
+		}*/
+		
+		 /**************************************改进方案二：根据度的分布进行抽样，该方案是从样本中各抽取15%****************************************/
 		List<Edges> edgeList = new ArrayList<Edges>();   //在其中缓存抽样出来的点数据
 	    Map<String, Nodes> nodeMap = new HashMap<String, Nodes>();  //在其中缓存抽样出来的点数据
-		//在high-degree数组中均匀随机抽出15%的点
+	    //在high-degree数组中均匀随机抽出15%的点
 	    int highDegreeSamplingCount = (int)(highDegreeArray.length * proportion) + 1;
 	    HashSet<Integer> randomHighSet = SampleRandom.randomSamplingInt(highDegreeSamplingCount, highDegreeArray.length);
 	    Iterator<Integer> highIterator = randomHighSet.iterator();
@@ -453,47 +508,6 @@ public class SampleService implements ISampleService {
 				nodeMap.put(node.getId(), node);
 			}
 		}
-	    /**************************************改进方案二：根据度的分布进行抽样，均匀随机的生成一个数****************************************/
-        /**
-         * 均匀的生成一个随机数，如果该随机数小于等于0.2，那么抽取high-degree的点
-         * 如果生成的随机数大于.2，那么随机抽取medium-degree和low-degree的点
-         * 2017/8/23 该程序的随机性还是很差
-         * @author 朱君鹏
-         */
-		/*while(nodeMap.size() < sampleNodeCount){
-			double random = Math.random();   //生成一个(0,1)之间的随机数
-			if(random <= 0.2){
-				//抽取high-degree点
-				//随机生成一个数，范围在[0,highDegreeArray.length)之间
-				Random randomHighDegree = new Random();
-				int nextInt = randomHighDegree.nextInt(highDegreeArray.length);
-				Integer degree = highDegreeArray[nextInt];  //得到相应的度
-				Nodes nodeEntity = samplingDao.selectHighDegree(degree);
-		    	nodeMap.put(nodeEntity.getId(), nodeEntity);
-			}else{
-				//从medium-degree中抽取点
-				Random randomMediumDegree = new Random();
-				int nextInt = randomMediumDegree.nextInt(mediumDegreeArray.length);
-				Integer degree = mediumDegreeArray[nextInt];
-				List<Nodes> nodeList = samplingDao.selectDegree(degree);
-				Iterator<Nodes> nodeIterator = nodeList.iterator();
-				while(nodeIterator.hasNext() && nodeMap.size() < sampleNodeCount){
-					Nodes node = nodeIterator.next();
-					nodeMap.put(node.getId(), node);
-				}
-				
-				//从low-degreex中抽取点
-				Random randomLowDegree = new Random();
-				int nextInt2 = randomLowDegree.nextInt(lowDegreeArray.length);
-				degree = lowDegreeArray[nextInt2];
-				nodeList = samplingDao.selectDegree(degree);
-				nodeIterator = nodeList.iterator();
-				while(nodeIterator.hasNext() && nodeMap.size() < sampleNodeCount){
-					Nodes node = nodeIterator.next();
-					nodeMap.put(node.getId(), node);
-				}
-			}
-		}*/
 	    /**************************************对边表进行抽样****************************************/
 		//开始边表的遍历，当sourceNode和targetNode都是上面抽样出来的点时，这条边要被抽出
 		int edgePage = 1;   //标识第几页，从第一页开始
@@ -529,19 +543,28 @@ public class SampleService implements ISampleService {
 		}  //边表的抽样完毕
 		
 	    /**************************************输出抽样的规模****************************************/
-        System.out.println("改进后的点抽样算法抽出的点数目为：" + nodeMap.size());
+        System.out.println("改进后的点抽样算法抽出的点的数目为：" + nodeMap.size());
+        System.out.println("改进后的点抽样算法抽出的边的数目为：" + edgeList.size());
         
         
-	    /**************************************返回JSON字符串****************************************/
+	    /**************************************返回JSON字符串，同时将边点数据存储到数据库中****************************************/
 		//构造出JSON字符串，并将结果返回给控制器用于展示
 	    StringBuilder jsonString = new StringBuilder();
 		NodeDataVO data1 = null;
+		
 		//遍历nodeMap，将所有的数据取出，构造成JSON
 		Iterator<Entry<String, Nodes>> nodeIterator = nodeMap.entrySet().iterator();
+		//在遍历点表和边表时，首先应该清空表，之后在插入数据
+		samplingDao.deleteSamplingNodes();    //清空抽样点表
+		samplingDao.deleteSamplingEdges();    //清空抽样边表
 		while(nodeIterator.hasNext()){
 			Entry<String, Nodes> next = nodeIterator.next();
 			String key = next.getKey();
 			Nodes value = next.getValue();
+			SamplingNodes spNodes = new SamplingNodes(value.getId(), value.getNodeName());
+			samplingDao.insertSamplingNode(spNodes);
+			
+			//将value插入到sampling_nodes数据库中
 			data1 = new NodeDataVO(key,value.getNodeName(),value.getNodeDegree());
 			NodeVO nodeVo1 = new NodeVO(data1, "nodes",false,false,true,false,false,true,"");
 			String jsonString1 = JSON.toJSONString(nodeVo1);
@@ -552,6 +575,9 @@ public class SampleService implements ISampleService {
 		int edgeSize = edgeList.size();
 		for (int k = 0; k < edgeSize ; k++) {
 			Edges edges = edgeList.get(k);
+			SamplingEdges spEdges = new SamplingEdges(edges.getId(),edges.getSourceNodeID() ,edges.getSourceNodeName(), edges.getTargetNodeID(), edges.getTargetNodeName());
+			samplingDao.insertSamplingEdge(spEdges);
+			
 			EdgeDataVO data3 = new EdgeDataVO(edges.getId(), edges.getSourceNodeID(), edges.getTargetNodeID(), 1);
 			EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
 			String jsonString1 = JSON.toJSONString(edgeVo);

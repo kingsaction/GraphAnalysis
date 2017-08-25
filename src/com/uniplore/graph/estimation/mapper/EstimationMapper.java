@@ -10,8 +10,11 @@ package com.uniplore.graph.estimation.mapper;
 
 import java.util.List;
 
+import com.uniplore.graph.estimation.entity.DegreeDistribution;
 import com.uniplore.graph.estimation.entity.EdgeEstimation;
 import com.uniplore.graph.estimation.entity.NodeEstimation;
+import com.uniplore.graph.sampling.entity.SamplingEdges;
+import com.uniplore.graph.sampling.entity.SamplingNodes;
 
 /**     
  * 版权所有  2017-ACMIS Lab  
@@ -43,4 +46,18 @@ public interface EstimationMapper {
 	 * throws Exception 统一异常处理
 	 */ 
 	public List<EdgeEstimation> listEdgeAllData() throws Exception;
+
+	/**  
+	 * @Title  listSamplingNodeAllData  
+	 * @Description TODO 抽样出来的数据  
+	 * @return    返回点数据
+	 */ 
+	public List<SamplingNodes> listSamplingNodeAllData() throws Exception;
+
+	/**  
+	 * @Title  listSamplingEdgeAllData  
+	 * @Description TODO(这里用一句话描述这个方法的作用)  
+	 * @return   
+	 */ 
+	public List<SamplingEdges> listSamplingEdgeAllData() throws Exception;
 }

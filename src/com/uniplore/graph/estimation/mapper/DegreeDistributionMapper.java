@@ -39,4 +39,17 @@ public interface DegreeDistributionMapper {
 	 */ 
 	public void deleteDegree() throws Exception;
 
+	/**  
+	 * @Title  deleteSamplingDegree  
+	 * @Description TODO 删除抽样后的degree数据    
+	 */ 
+	public void deleteSamplingDegree() throws Exception;
+
+	/**  
+	 * @Title  insertSamplingDegreeDistribution  
+	 * @Description TODO 插入抽样后数据的度分布  
+	 * @param degree   
+	 */ 
+	public void insertSamplingDegreeDistribution(DegreeDistribution degree) throws Exception;
+
 }

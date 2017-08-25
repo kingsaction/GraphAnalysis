@@ -18,4 +18,12 @@
 	<delete id="deleteDegree">
 	     delete from degree_distribution
 	</delete>
+	
+	<insert id="insertSamplingDegreeDistribution" parameterType="com.uniplore.graph.estimation.entity.DegreeDistribution">
+	     insert into sampling_degree_distribution(degree,count) values(#{degree},#{count})
+	</insert>
+	
+	<delete id="deleteSamplingDegree">
+	    delete from sampling_degree_distribution
+	</delete>
 </mapper>

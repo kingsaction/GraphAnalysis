@@ -23,6 +23,21 @@
 	    <result property="edgeState" column="edge_state"/>
 	</resultMap>
 	
+	<resultMap type="com.uniplore.graph.sampling.entity.SamplingNodes" 
+	    id="samplingNodeEstimation"> 
+	    <result property="id" column="id"/>
+	    <result property="nodeName" column="node_name"/>
+	</resultMap>
+	
+	<resultMap type="com.uniplore.graph.sampling.entity.SamplingEdges" 
+	    id="samplingEdgeEstimation">
+        <result property="id" column="id"/>
+	    <result property="sourceNodeID" column="source_node_id"/>
+	    <result property="targetNodeID" column="target_node_id"/>
+	    <result property="sourceNodeName" column="source_node_name"/>
+	    <result property="targetNodeName" column="target_node_name"/>
+	</resultMap>
+	
 	<!-- 查询node表中所有的点 -->
 	<select id="listNodeAllData" resultMap="nodeEstimation">
 	    select * from node
@@ -31,5 +46,15 @@
 	<!-- 查询edge表中所有的边 -->
 	<select id="listEdgeAllData" resultMap="edgeEstimation">
 	    select * from edge
+	</select>
+	
+	<!-- 查询抽样表中的所有的点数据 -->
+	<select id="listSamplingNodeAllData" resultMap="samplingNodeEstimation">
+	    select * from sampling_nodes
+	</select>
+	
+	<!-- 查询抽样表中所有的边数据 -->
+	<select id="listSamplingEdgeAllData" resultMap="samplingEdgeEstimation">
+	    select * from sampling_edges
 	</select>
 </mapper>

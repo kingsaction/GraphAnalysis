@@ -21,6 +21,21 @@
 	    <result property="targetNodeName" column="target_node_name"/>
 	</resultMap>
 	
+	<resultMap type="com.uniplore.graph.sampling.entity.SamplingNodes" 
+	    id="samplingNode"> 
+	    <result property="id" column="id"/>
+	    <result property="nodeName" column="node_name"/>
+	</resultMap>
+	
+	<resultMap type="com.uniplore.graph.sampling.entity.SamplingEdges" 
+	    id="samplingEdge">
+        <result property="id" column="id"/>
+	    <result property="sourceNodeID" column="source_node_id"/>
+	    <result property="targetNodeID" column="target_node_id"/>
+	    <result property="sourceNodeName" column="source_node_name"/>
+	    <result property="targetNodeName" column="target_node_name"/>
+	</resultMap>
+	
 	<!-- 查询点表中总数据量，并同时获取每一条记录 -->
 	<select id="listNodeAllData" resultMap="nodeResult">
 	    select * from node
@@ -60,4 +75,25 @@
     <select id="selectDegree" parameterType="java.lang.Integer" resultMap="nodeResult">
         select * from node where node_degree=#{nodeDegree}
     </select>
+    
+    <!-- 将抽样后的数据插入到抽样结果表中 -->
+    <insert id="insertSamplingNode" parameterType="com.uniplore.graph.sampling.entity.SamplingNodes">
+        insert into sampling_nodes(id,node_name) values(#{id},#{nodeName})
+    </insert>
+    
+    <!-- 将抽样后的数据插入到抽样的结果表中 -->
+    <insert id="insertSamplingEdge" parameterType="com.uniplore.graph.sampling.entity.SamplingEdges">
+        insert into sampling_edges(id,source_node_id,source_node_name,target_node_id,target_node_name)
+                         values(#{id},#{sourceNodeID},#{sourceNodeName},#{targetNodeID},#{targetNodeName})
+    </insert>
+    
+    <!-- 清空抽样点表 -->
+    <delete id="deleteSamplingNodes">
+        delete from sampling_nodes
+    </delete>
+    
+    <!-- 清空抽样边表 -->
+    <delete id="deleteSamplingEdges">
+        delete from sampling_edges
+    </delete>
 </mapper>

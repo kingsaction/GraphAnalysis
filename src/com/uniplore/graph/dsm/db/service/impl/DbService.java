@@ -16,6 +16,7 @@ import com.uniplore.graph.dsm.db.service.IDbService;
 //import com.uniplore.graph.util.jdbcutils.JDBCUtils;   //不再采用JDBC连接
 import com.uniplore.graph.util.mybatisutils.MybatisUtils;
 
+import java.io.File;
 //import java.io.File;
 //import java.io.FileWriter;
 import java.sql.Connection;
@@ -454,6 +455,24 @@ public class DbService implements IDbService {
       System.out.println("构造边完成 " + countEdge);
     }
     
+    String jsonContent = stringBuilder.toString();
+    //拼接成最后的结果
+    //System.out.println("------拼接最好的结果------");
+    String jsonContentOutput = jsonContent.replace(";", ",");   //替换;为,
+    connection.close();
+    String outString = "[" + jsonContentOutput + "]" ;
+    System.out.println(outString);
+    //将结果缓存起来
+    String outStringCache = dbPo.getIpAddress() + ":" + sql;
+    jedis.hset("outStringCache", outStringCache, outString);
+    
+    //System.out.println("点的总数为:" + countNode);
+    //System.out.println("边的总数为:" + countEdge);
+    //File file = new File("F:/test.json");
+    //FileWriter fileWriter = new FileWriter(file);
+    //fileWriter.write(outString);
+    System.out.println("构造JSON字符串结束");   
+    
     System.out.println("构建图完成，开始把node和edge数据写入到数据库中");
     //构建边和点完成之后，应该将上述的数据全部写回到中间数据库层中
     //遍历nodeMap，将数据插入到数据库中，隐藏的中间层
@@ -472,24 +491,7 @@ public class DbService implements IDbService {
         bufferEdgeDao.insertEdgeData(edge);
     }
     
-    
-    String jsonContent = stringBuilder.toString();
-    //拼接成最后的结果
-    //System.out.println("------拼接最好的结果------");
-    String jsonContentOutput = jsonContent.replace(";", ",");   //替换;为,
-    connection.close();
-    String outString = "[" + jsonContentOutput + "]" ;
-    System.out.println(outString);
-    //将结果缓存起来
-    String outStringCache = dbPo.getIpAddress() + ":" + sql;
-    jedis.hset("outStringCache", outStringCache, outString);
-    
-    //System.out.println("点的总数为:" + countNode);
-    //System.out.println("边的总数为:" + countEdge);
-    //File file = new File("F:/test.json");
-    //FileWriter fileWriter = new FileWriter(file);
-    //fileWriter.write(outString);
-    System.out.println("构造JSON字符串结束");
+    System.out.println("点、边数据写入数据库完成");
     return outString;
   }
   

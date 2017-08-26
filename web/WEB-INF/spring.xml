@@ -121,7 +121,7 @@
 		  </value>
 		</property>
 		
-		<!-- 注意其他配置 -->
+		<!-- 注意其他配置，分页插件pageHelper配置 -->
 		  <property name="plugins">
 		    <array>
 		      <bean class="com.github.pagehelper.PageInterceptor">

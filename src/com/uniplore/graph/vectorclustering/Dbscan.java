@@ -28,6 +28,7 @@ import de.lmu.ifi.dbs.elki.database.relation.Relation;
 import de.lmu.ifi.dbs.elki.datasource.ArrayAdapterDatabaseConnection;
 import de.lmu.ifi.dbs.elki.datasource.DatabaseConnection;
 import de.lmu.ifi.dbs.elki.distance.distancefunction.minkowski.SquaredEuclideanDistanceFunction;
+import de.lmu.ifi.dbs.elki.logging.LoggingConfiguration;
 
 /**     
  * 版权所有  2017-ACMIS Lab  
@@ -44,10 +45,10 @@ import de.lmu.ifi.dbs.elki.distance.distancefunction.minkowski.SquaredEuclideanD
 
 public class Dbscan {
 	public static void main(String[] args) throws Exception{
-		//LoggingConfiguration.setStatistics();  //日志信息，没有实质性的所用
+		LoggingConfiguration.setStatistics();  //日志信息，没有实质性的所用
 		
 		//读取facebook数据，构造数据集
-		File file = new File("F:/Java/抽样算法实验截图/合成抽样算法/test730.txt");
+		File file = new File("F:/Java/抽样算法实验截图/算法测试数据集/facebook_combined.txt/degree.txt");
 		FileInputStream inputStream = new FileInputStream(file);
 		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 		BufferedReader reader = new BufferedReader(inputStreamReader);

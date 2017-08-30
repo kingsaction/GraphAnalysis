@@ -31,6 +31,7 @@ import de.lmu.ifi.dbs.elki.database.relation.Relation;
 import de.lmu.ifi.dbs.elki.datasource.ArrayAdapterDatabaseConnection;
 import de.lmu.ifi.dbs.elki.datasource.DatabaseConnection;
 import de.lmu.ifi.dbs.elki.distance.distancefunction.minkowski.SquaredEuclideanDistanceFunction;
+import de.lmu.ifi.dbs.elki.logging.LoggingConfiguration;
 import de.lmu.ifi.dbs.elki.math.random.RandomFactory;
 
 /**     
@@ -48,16 +49,16 @@ import de.lmu.ifi.dbs.elki.math.random.RandomFactory;
 
 public class KMedoids {
 	public static void main(String[] args) throws Exception{
-		//LoggingConfiguration.setStatistics();  //日志信息，没有实质性的所用
+		LoggingConfiguration.setStatistics();  //日志信息，没有实质性的所用
 		
 		//读取facebook数据，构造数据集
-		File file = new File("F:/Java/抽样算法实验截图/合成抽样算法/test1005.txt");
+		File file = new File("F:/Java/抽样算法实验截图/算法测试数据集/facebook_combined.txt/degree.txt");
 		FileInputStream inputStream = new FileInputStream(file);
 		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 		BufferedReader reader = new BufferedReader(inputStreamReader);
 		/**************************************数据生成****************************************/
 		// 生成一个随机的数据集
-		double[][] data = new double[730][1];
+		double[][] data = new double[4039][1];
 		for(int i = 0 ; i < data.length;i++){
 			for(int j = 0 ; j < data[i].length; j++){
 				String readLine = reader.readLine();

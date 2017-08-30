@@ -100,10 +100,10 @@ public class SampleService implements ISampleService {
 		int nodePageSize = 1000;  //标识点表每一页包含的记录数，设置为1000
 		long nodeTotal = 0; //保存点表中总的记录数
 		long nodePageTotalNumber = 1 ; //记录点表分页之后的总页数
-		
-	    double proportion = 0.15;  //代表要取出的点的比例，目前设置为要取出15%的点
+		Long sampleNodeCount =(long)0 ;
+	    double proportion = 0.25;  //代表要取出的点的比例，目前设置为要取出15%的点
 	    long nodeCount = 0 ; //取出点的连续计数，也就是说给所有的记录一个统一的计数
-	    
+	    HashSet<Long> randomSet = null;
 	    Map<String, Nodes> nodeMap = new HashMap<String, Nodes>();  //在其中缓存抽样出来的点数据
 	    List<Edges> edgeList = new ArrayList<Edges>();   //在其中缓存抽样出来的点数据
 	    
@@ -119,27 +119,22 @@ public class SampleService implements ISampleService {
 		        nodePageTotalNumber = nodeTotal/1000 + 1; //总页数要加1，因为可能有不满一页的情况存在
 		        //System.out.println("当前查询的点表总页数为:" + nodePageTotalNumber);
 			}
-			
+			//System.out.println("点总数目为:" + nodeTotal);
 			//生成一组随机数，这组随机数表示要取出的点
-			Long sampleNodeCount = (long) ((nodeTotal * proportion) + 1) ;
-			HashSet<Long> randomSet = SampleRandom.randomSampling(sampleNodeCount, nodeTotal);  //数组中包含一组满足均匀分布的数
-			
-			//处理每一页数据
-			int nodePageSizePer = listNodeAllData.size();   //获取的每一页数据的实际大小
-			for (int i = 0; i < nodePageSizePer; i++) {  //点数据抽样开始
-				if(randomSet.contains(nodeCount)){
-					Nodes nodes = listNodeAllData.get(i);   //说明这组数据应该被取出得到数据
-					nodeMap.put(nodes.getId(),nodes);
-					nodeCount++;   //总的计数在任何情况下都要增加
-				}else{
-					nodeCount++;
-					continue;
-				}
-				
-			}   //点数据抽样完毕	
+			sampleNodeCount = (long) ((nodeTotal * proportion) + 1) ;
+			randomSet = SampleRandom.randomSampling(sampleNodeCount, nodeTotal);  //数组中包含一组满足均匀分布的数
+			//System.out.println("抽样的总数为:" + randomSet.size());
 			nodePage++;
 		}
 		
+		//抽样点数据
+		//遍历hashSet
+		Iterator<Long> iterator = randomSet.iterator();
+		while(iterator.hasNext()){
+			Long next = iterator.next();
+			Nodes node = samplingDao.selectOneNode(next);
+			nodeMap.put(node.getId(), node);
+		}
 		//开始边表的遍历，当sourceNode和targetNode都是上面抽样出来的点时，这条边要被抽出
 		int edgePage = 1;   //标识第几页，从第一页开始
 		int edgePageSize = 1000; //标识边表每一页包含的记录数，初始设置为1000
@@ -232,7 +227,7 @@ public class SampleService implements ISampleService {
 		long nodeTotal = 0; //保存点表中总的记录数
 		long nodePageTotalNumber = 1 ; //记录点表分页之后的总页数
 		int sampleNodeCount = 0 ;
-	    double proportion = 0.15;  //代表要取出的点的比例，目前设置为要取出15%的点
+	    double proportion = 0.25;  //代表要取出的点的比例，目前设置为要取出15%的点
 	    List<Integer> degreeList = new ArrayList<Integer>();  //存放节点的度信息
 		while(nodePage <= nodePageTotalNumber){  //如果当前页数小于等于总的页数时，执行循环
 			PageHelper.startPage(nodePage, nodePageSize);   //分页
@@ -423,9 +418,11 @@ public class SampleService implements ISampleService {
         /**
          * 均匀的生成一个随机数，如果该随机数小于等于0.2，那么抽取high-degree的点
          * 如果生成的随机数大于.2，那么随机抽取medium-degree和low-degree的点
-         * 2017/8/25 该方案的度分布不如方案一的拟合程度好
+         * 2017/8/25
          * @author 朱君鹏
          */
+		List<Edges> edgeList = new ArrayList<Edges>();   //在其中缓存抽样出来的点数据
+	    Map<String, Nodes> nodeMap = new HashMap<String, Nodes>();  //在其中缓存抽样出来的点数据
 		/*while(nodeMap.size() < sampleNodeCount){
 			double random = Math.random();   //生成一个(0,1)之间的随机数
 			if(random <= 0.2){
@@ -462,8 +459,7 @@ public class SampleService implements ISampleService {
 		}*/
 		
 		 /**************************************改进方案二：根据度的分布进行抽样，该方案是从样本中各抽取15%****************************************/
-		List<Edges> edgeList = new ArrayList<Edges>();   //在其中缓存抽样出来的点数据
-	    Map<String, Nodes> nodeMap = new HashMap<String, Nodes>();  //在其中缓存抽样出来的点数据
+		
 	    //在high-degree数组中均匀随机抽出15%的点
 	    int highDegreeSamplingCount = (int)(highDegreeArray.length * proportion) + 1;
 	    HashSet<Integer> randomHighSet = SampleRandom.randomSamplingInt(highDegreeSamplingCount, highDegreeArray.length);
@@ -649,28 +645,34 @@ public class SampleService implements ISampleService {
 		}  //边总数统计完毕
 		  
 		while(true){   //开始抽样
-			if(nodeMap.size() == sampleNodeCount || edgeMap.size() == edgeTotal){
-				//如果抽取出来的点的总数等于需要抽样的规模 或者 抽样出来的边的总数已经等于本身边表的大小
-				//此时整个抽样的工作都需要结束
-				break;
-			}else {
+			if(nodeMap.size() < sampleNodeCount){
 				//完成抽样的逻辑
-				long nextLong = ThreadLocalRandom.current().nextLong(edgeTotal); //从[0,edgeTotal)中随机的抽出一条边
-			    Edges edges = samplingDao.selectOneEdge(nextLong);  //根据边的编号选出相应的边
+				//long nextLong = ThreadLocalRandom.current().nextLong(edgeTotal); //从[0,edgeTotal)中随机的抽出一条边
+			    Random random = new Random();
+			    int nextInt = random.nextInt((int)(long)edgeTotal);
+				Edges edges = samplingDao.selectOneEdge(nextInt);  //根据边的编号选出相应的边
 			    edgeMap.put(edges.getId(), edges); //将edges放入到抽样出来的边表中
 			    nodeMap.put(edges.getSourceNodeID(),new Nodes(edges.getSourceNodeID(), edges.getSourceNodeName())); //保存源点
 			    nodeMap.put(edges.getTargetNodeID(),new Nodes(edges.getTargetNodeID(), edges.getTargetNodeName())); //保存目标点
-			}
+			}else
+				break;
 		}
-		
+		System.out.println("抽取出的点数为:" + nodeMap.size());
+		System.out.println("抽取出的边数为:" + edgeMap.size());
 		//构造出JSON字符串，并将结果返回给控制器用于展示
 	    StringBuilder jsonString = new StringBuilder();
 		//遍历nodeMap，将所有的数据取出，构造成JSON
 		Iterator<Entry<String, Nodes>> nodeIterator = nodeMap.entrySet().iterator();
+		samplingDao.deleteSamplingNodes();    //清空抽样点表
+		samplingDao.deleteSamplingEdges();    //清空抽样边表
 		while(nodeIterator.hasNext()){
 			Entry<String, Nodes> entryNode = nodeIterator.next();
 			String key = entryNode.getKey();
 			Nodes value = entryNode.getValue();
+			
+			SamplingNodes spNodes = new SamplingNodes(value.getId(), value.getNodeName());
+			samplingDao.insertSamplingNode(spNodes);
+			
 			NodeDataVO data = new NodeDataVO(key,value.getNodeName(),value.getNodeDegree());
 			NodeVO nodeVo1 = new NodeVO(data, "nodes",false,false,true,false,false,true,"");
 			String jsonString1 = JSON.toJSONString(nodeVo1);
@@ -681,9 +683,12 @@ public class SampleService implements ISampleService {
 		while(edgeIterator.hasNext()){
 			Entry<String, Edges> entryEdge = edgeIterator.next();
 			String key = entryEdge.getKey();
-			Edges value = entryEdge.getValue();
+			Edges edges = entryEdge.getValue();
 			
-			EdgeDataVO data = new EdgeDataVO(value.getId(), value.getSourceNodeID(), value.getTargetNodeID(), 1);
+			SamplingEdges spEdges = new SamplingEdges(edges.getId(),edges.getSourceNodeID() ,edges.getSourceNodeName(), edges.getTargetNodeID(), edges.getTargetNodeName());
+			samplingDao.insertSamplingEdge(spEdges);
+			
+			EdgeDataVO data = new EdgeDataVO(edges.getId(), edges.getSourceNodeID(), edges.getTargetNodeID(), 1);
 			EdgeVO edgeVo = new EdgeVO(data, "edges",false,false,true,false,false,true,"");
 			String jsonString1 = JSON.toJSONString(edgeVo);
 			jsonString.append(jsonString1 + ",");
@@ -757,8 +762,9 @@ public class SampleService implements ISampleService {
 				break;
 			}else {
 				//完成抽样的逻辑
-				long nextLong = ThreadLocalRandom.current().nextLong(edgeTotal); //从[0,edgeTotal)中随机的抽出一条边
-			    Edges edges = samplingDao.selectOneEdge(nextLong);  //根据边的编号选出相应的边
+				Random random = new Random();
+				int nextInt = random.nextInt((int)(long)edgeTotal);
+				Edges edges = samplingDao.selectOneEdge(nextInt);  //根据边的编号选出相应的边
 			    edgeMap.put(edges.getId(), edges); //将edges放入到抽样出来的边表中
 			    nodeMap.put(edges.getSourceNodeID(),new Nodes(edges.getSourceNodeID(), edges.getSourceNodeName())); //保存源点
 			    nodeMap.put(edges.getTargetNodeID(),new Nodes(edges.getTargetNodeID(), edges.getTargetNodeName())); //保存目标点
@@ -804,10 +810,16 @@ public class SampleService implements ISampleService {
 	    StringBuilder jsonString = new StringBuilder();
 		//遍历nodeMap，将所有的数据取出，构造成JSON
 		Iterator<Entry<String, Nodes>> nodeIterator = nodeMap.entrySet().iterator();
+		samplingDao.deleteSamplingNodes();    //清空抽样点表
+		samplingDao.deleteSamplingEdges();    //清空抽样边表
 		while(nodeIterator.hasNext()){
 			Entry<String, Nodes> next = nodeIterator.next();
 			String key = next.getKey();
 			Nodes value = next.getValue();
+			
+			SamplingNodes spNodes = new SamplingNodes(value.getId(), value.getNodeName());
+			samplingDao.insertSamplingNode(spNodes);
+			
 			NodeDataVO data = new NodeDataVO(key,value.getNodeName(),value.getNodeDegree());
 			NodeVO nodeVo1 = new NodeVO(data, "nodes",false,false,true,false,false,true,"");
 			String jsonString1 = JSON.toJSONString(nodeVo1);
@@ -818,6 +830,10 @@ public class SampleService implements ISampleService {
 		int edgeSize = edgeList.size();
 		for (int i = 0; i < edgeSize ; i++) {
 			Edges edges = edgeList.get(i);
+			
+			SamplingEdges spEdges = new SamplingEdges(edges.getId(),edges.getSourceNodeID() ,edges.getSourceNodeName(), edges.getTargetNodeID(), edges.getTargetNodeName());
+			samplingDao.insertSamplingEdge(spEdges);
+			
 			EdgeDataVO data3 = new EdgeDataVO(edges.getId(), edges.getSourceNodeID(), edges.getTargetNodeID(), 1);
 			EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
 			String jsonString1 = JSON.toJSONString(edgeVo);
@@ -1760,8 +1776,7 @@ public class SampleService implements ISampleService {
 	 * 森林火灾抽样算法  
 	 * 算法思想：首先随机的选择一个点，接着生成一个服从几何分布的数，并选择相应个数的点，放入队列中
 	 * 分别对上述选出的点再次执行上述步骤，直到点满足抽样的数目后算法停止，该算法从本质上来说：基于BFS
-	 * 算法，疑惑是不知道为什么要采用集合分布
-	 * 
+	 * 算法，疑惑是不知道为什么要采用几何分布
 	 * 注： 几何分布的产生见SampleRandom.java文件
 	 */  
 	

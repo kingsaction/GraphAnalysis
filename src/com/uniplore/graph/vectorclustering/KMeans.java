@@ -60,7 +60,7 @@ import de.lmu.ifi.dbs.elki.math.random.RandomFactory;
 
 public class KMeans {
 	public static void main(String[] args) throws Exception{
-		//LoggingConfiguration.setStatistics();  //日志信息，没有实质性的所用
+		LoggingConfiguration.setStatistics();  //日志信息，没有实质性的所用
 		
 		//读取facebook数据，构造数据集
 		File file = new File("F:/Java/抽样算法实验截图/算法测试数据集/facebook_combined.txt/degree.txt");

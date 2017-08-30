@@ -23,6 +23,7 @@ import com.uniplore.graph.sampling.entity.SamplingNodes;
 import com.uniplore.graph.sampling.mapper.SamplingMapper;
 
 import jdk.nashorn.internal.ir.ReturnNode;
+import weka.core.parser.java_cup.internal_error;
 
 /**     
  * 版权所有  2017-ACMIS Lab  
@@ -63,8 +64,8 @@ public class SamplingDao implements ISamplingDao{
 	 */  
 	
 	@Override
-	public Edges selectOneEdge(Long nextLong) throws Exception {
-		return samplingMapper.selectOneEdge(nextLong);
+	public Edges selectOneEdge(Integer nextInt) throws Exception {
+		return samplingMapper.selectOneEdge(nextInt);
 	}
 	/**  
 	 * @see com.uniplore.graph.sampling.dao.ISamplingDao#getNeighbor(com.uniplore.graph.sampling.entity.Nodes)  
@@ -159,5 +160,4 @@ public class SamplingDao implements ISamplingDao{
 	public void deleteSamplingEdges() throws Exception {
 		samplingMapper.deleteSamplingEdges();
 	}
-
 }

@@ -52,7 +52,7 @@ public interface ISamplingDao {
 	 * @param nextLong
 	 * @return   
 	 */ 
-	public Edges selectOneEdge(Long nextLong) throws Exception;
+	public Edges selectOneEdge(Integer nextInt) throws Exception;
 	
 	/**
 	 * 
@@ -127,6 +127,4 @@ public interface ISamplingDao {
 	 * @Description TODO  清空抽样表    
 	 */ 
 	public void deleteSamplingEdges() throws Exception;
-		
-
 }

@@ -29,6 +29,11 @@
 	    <result property="nodeName" column="node_name"/>
 	</resultMap>
 	
+	<resultMap type="com.uniplore.graph.estimation.entity.ClusteringCoefficient"
+	    id="clustering">
+	    <result property="coefficient" column="clustering_coefficient"/>
+	</resultMap>
+	
 	<resultMap type="com.uniplore.graph.sampling.entity.SamplingEdges" 
 	    id="samplingEdgeEstimation">
         <result property="id" column="id"/>
@@ -57,4 +62,20 @@
 	<select id="listSamplingEdgeAllData" resultMap="samplingEdgeEstimation">
 	    select * from sampling_edges
 	</select>
+	
+	<insert id="insertClusteringCoefficient">
+	    insert into cluster_coefficient(cluster_coefficient) values(#{coefficient})
+	</insert>
+	
+	<insert id="insertSamplingClusteringCoefficient" >
+	    insert into sampling_cluster_coefficient(cluster_coefficient) values(#{coefficient})
+	</insert>
+	
+	<delete id="deleteCoefficient">
+	    delete from cluster_coefficient
+	</delete>
+	
+	<delete id="deleteSamplingCoefficient">
+	    delete from sampling_cluster_coefficient
+	</delete>
 </mapper>

@@ -106,5 +106,37 @@ public class EstimationDao implements IEstimationDao {
 	public void deleteSamplingDegree() throws Exception {
 		degreeDistributionMapper.deleteSamplingDegree();
 	}
+	/**  
+	 * @see com.uniplore.graph.estimation.dao.IEstimationDao#insertClusteringCoefficient(double)  
+	 */  
+	
+	@Override
+	public void insertClusteringCoefficient(double d) throws Exception {
+		estimationMapper.insertClusteringCoefficient(d);
+	}
+	/**  
+	 * @see com.uniplore.graph.estimation.dao.IEstimationDao#insertSamplingClusteringCoefficient(double)  
+	 */  
+	
+	@Override
+	public void insertSamplingClusteringCoefficient(double d) throws Exception {
+		estimationMapper.insertSamplingClusteringCoefficient(d);
+	}
+	/**  
+	 * @see com.uniplore.graph.estimation.dao.IEstimationDao#deleteCoefficient()  
+	 */  
+	
+	@Override
+	public void deleteCoefficient() throws Exception {
+		estimationMapper.deleteCoefficient();
+	}
+	/**  
+	 * @see com.uniplore.graph.estimation.dao.IEstimationDao#deleteSamplingCoefficient()  
+	 */  
+	
+	@Override
+	public void deleteSamplingCoefficient() throws Exception {
+		estimationMapper.deleteSamplingCoefficient();
+	}
 
 }

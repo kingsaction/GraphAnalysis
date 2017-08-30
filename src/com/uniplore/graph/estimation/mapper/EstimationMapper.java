@@ -60,4 +60,30 @@ public interface EstimationMapper {
 	 * @return   
 	 */ 
 	public List<SamplingEdges> listSamplingEdgeAllData() throws Exception;
+
+	/**  
+	 * @Title  insertClusteringCoefficient  
+	 * @Description TODO(这里用一句话描述这个方法的作用)  
+	 * @param d   
+	 */ 
+	public void insertClusteringCoefficient(double d) throws Exception;
+
+	/**  
+	 * @Title  insertSamplingClusteringCoefficient  
+	 * @Description TODO(这里用一句话描述这个方法的作用)  
+	 * @param d   
+	 */ 
+	public void insertSamplingClusteringCoefficient(double d) throws Exception;
+
+	/**  
+	 * @Title  deleteCoefficient  
+	 * @Description TODO(这里用一句话描述这个方法的作用)     
+	 */ 
+	public void deleteCoefficient() throws Exception;
+
+	/**  
+	 * @Title  deleteSamplingCoefficient  
+	 * @Description TODO(这里用一句话描述这个方法的作用)     
+	 */ 
+	public void deleteSamplingCoefficient() throws Exception;
 }

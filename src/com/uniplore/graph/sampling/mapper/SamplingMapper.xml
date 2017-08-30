@@ -47,8 +47,8 @@
 	</select>
 	
 	<!-- 随机抽取边表中的一条记录 -->
-	<select id="selectOneEdge" resultMap="edgeResult" parameterType="java.lang.Long">
-	    select * from edge limit 1 offset #{nextLong}
+	<select id="selectOneEdge" resultMap="edgeResult" parameterType="java.lang.Integer">
+	    select * from edge limit 1 offset #{nextInt}
 	</select>
 	
 	<!-- 获取某个指定点的所有邻居点 -->

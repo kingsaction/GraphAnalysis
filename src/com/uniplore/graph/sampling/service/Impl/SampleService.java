@@ -101,7 +101,7 @@ public class SampleService implements ISampleService {
 		long nodeTotal = 0; //保存点表中总的记录数
 		long nodePageTotalNumber = 1 ; //记录点表分页之后的总页数
 		Long sampleNodeCount =(long)0 ;
-	    double proportion = 0.25;  //代表要取出的点的比例，目前设置为要取出15%的点
+	    double proportion = 0.15;  //代表要取出的点的比例，目前设置为要取出15%的点
 	    long nodeCount = 0 ; //取出点的连续计数，也就是说给所有的记录一个统一的计数
 	    HashSet<Long> randomSet = null;
 	    Map<String, Nodes> nodeMap = new HashMap<String, Nodes>();  //在其中缓存抽样出来的点数据

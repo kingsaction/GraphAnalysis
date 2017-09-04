@@ -101,7 +101,7 @@ public class SampleService implements ISampleService {
 		long nodeTotal = 0; //保存点表中总的记录数
 		long nodePageTotalNumber = 1 ; //记录点表分页之后的总页数
 		Long sampleNodeCount =(long)0 ;
-	    double proportion = 0.15;  //代表要取出的点的比例，目前设置为要取出15%的点
+	    double proportion = 0.05;  //代表要取出的点的比例，目前设置为要取出15%的点
 	    long nodeCount = 0 ; //取出点的连续计数，也就是说给所有的记录一个统一的计数
 	    HashSet<Long> randomSet = null;
 	    Map<String, Nodes> nodeMap = new HashMap<String, Nodes>();  //在其中缓存抽样出来的点数据
@@ -227,7 +227,7 @@ public class SampleService implements ISampleService {
 		long nodeTotal = 0; //保存点表中总的记录数
 		long nodePageTotalNumber = 1 ; //记录点表分页之后的总页数
 		int sampleNodeCount = 0 ;
-	    double proportion = 0.25;  //代表要取出的点的比例，目前设置为要取出15%的点
+	    double proportion = 0.15;  //代表要取出的点的比例，目前设置为要取出15%的点
 	    List<Integer> degreeList = new ArrayList<Integer>();  //存放节点的度信息
 		while(nodePage <= nodePageTotalNumber){  //如果当前页数小于等于总的页数时，执行循环
 			PageHelper.startPage(nodePage, nodePageSize);   //分页
@@ -1884,6 +1884,10 @@ public class SampleService implements ISampleService {
 		}  //边表的抽样完毕
 
 	    
+		System.out.println("抽取出来的点数为:" + nodeMap.size());
+		System.out.println("抽取出来的边数为:" + edgeList.size());
+		samplingDao.deleteSamplingNodes();    //清空抽样点表
+		samplingDao.deleteSamplingEdges();    //清空抽样边表
 	    //构造出JSON字符串，并将结果返回给控制器用于展示
 	    StringBuilder jsonString = new StringBuilder();
 		//遍历nodeMap，将所有的数据取出，构造成JSON
@@ -1892,6 +1896,10 @@ public class SampleService implements ISampleService {
 			Entry<String, Nodes> entryNode = nodeIterator.next();
 			String key = entryNode.getKey();
 			Nodes value = entryNode.getValue();
+			
+			SamplingNodes spNodes = new SamplingNodes(value.getId(), value.getNodeName());
+			samplingDao.insertSamplingNode(spNodes);
+			
 			NodeDataVO data = new NodeDataVO(key,value.getNodeName(),value.getNodeDegree());
 			NodeVO nodeVo1 = new NodeVO(data, "nodes",false,false,true,false,false,true,"");
 			String jsonString1 = JSON.toJSONString(nodeVo1);
@@ -1901,12 +1909,16 @@ public class SampleService implements ISampleService {
 		int edgeSize = edgeList.size();
 		for (int i = 0; i < edgeSize ; i++) {
 			Edges edges = edgeList.get(i);
+			
+			SamplingEdges spEdges = new SamplingEdges(edges.getId(),edges.getSourceNodeID() ,edges.getSourceNodeName(), edges.getTargetNodeID(), edges.getTargetNodeName());
+			samplingDao.insertSamplingEdge(spEdges);
+			
 			EdgeDataVO data3 = new EdgeDataVO(edges.getId(), edges.getSourceNodeID(), edges.getTargetNodeID(), 1);
 			EdgeVO edgeVo = new EdgeVO(data3, "edges",false,false,true,false,false,true,"");
 			String jsonString1 = JSON.toJSONString(edgeVo);
 			jsonString.append(jsonString1 + ",");
 		}
-		String jsonOutput = "[" + jsonString + "]" ;   
+		String jsonOutput = "[" + jsonString + "]" ; 
 		return jsonOutput;
 	}
 

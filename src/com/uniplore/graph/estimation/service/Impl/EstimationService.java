@@ -9,6 +9,10 @@
 package com.uniplore.graph.estimation.service.Impl;
 
 import java.util.List;
+
+import org.graphstream.algorithm.ConnectedComponents;
+import org.graphstream.algorithm.ConnectedComponents.ConnectedComponent;
+import org.graphstream.algorithm.TarjanStronglyConnectedComponents;
 import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
@@ -58,7 +62,7 @@ public class EstimationService implements IEstimationService {
 		 * 将最后的评估结果存储到文件中
 		 */
 		
-		/*System.out.println("*********************未抽样之前参数评估*********************");
+		System.out.println("*********************未抽样之前参数评估*********************");
 		Graph graph = new MultiGraph("Origin Graph");
 		
 		//开始遍历点表，并将点表按照当前GraphStream的要求生成对应的Graph
@@ -147,13 +151,24 @@ public class EstimationService implements IEstimationService {
 		
 		//计算平均聚类系数
 		System.out.println("抽样前平均聚类系数为:" + Toolkit.averageClusteringCoefficient(graph));
+		
+		//计算连通组件数目
+		ConnectedComponents cc = new ConnectedComponents();
+		cc.init(graph);
+		System.out.println("连通组件的数目为:" + cc.getConnectedComponentsCount());
+		
+		//计算强连通组件数目
+		TarjanStronglyConnectedComponents tscc = new TarjanStronglyConnectedComponents();
+		tscc.init(graph);
+		tscc.compute();
+		
 		//graph.display();
-*/		
+		
 		/**
 		 * 抽样之后的参数评估
 		 */
 		
-		System.out.println("*********************抽样之后参数评估*********************");
+		/*System.out.println("*********************抽样之后参数评估*********************");
         Graph graphSampling = new MultiGraph("Sampling Graph");
 		
 		//开始遍历点表，并将点表按照当前GraphStream的要求生成对应的Graph
@@ -241,6 +256,6 @@ public class EstimationService implements IEstimationService {
 		}
 		
 		//计算平均聚类系数
-		System.out.println("抽样后平均聚类系数为:" + Toolkit.averageClusteringCoefficient(graphSampling));
+		System.out.println("抽样后平均聚类系数为:" + Toolkit.averageClusteringCoefficient(graphSampling));*/
 	}
 }
